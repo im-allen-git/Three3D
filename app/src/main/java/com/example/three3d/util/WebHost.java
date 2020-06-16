@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Random;
 
 public class WebHost {
@@ -74,7 +75,7 @@ public class WebHost {
                     stlGcode.setRealStlFile(tempFileAllPath);
                     stlGcode.setSourceStlFile(fileName);
                     stlGcode.setSrStlZipFile(tempFileAllPath + ".zip");
-                    stlGcode.setCreateTime(LocalDateTime.now());
+                    stlGcode.setCreateTime(new Date().toString());
                     StlUtil.stlMap.put(tempFileAllPath, stlGcode);
                     isSu = true;
                     msg.what = 1;

@@ -19,7 +19,7 @@ public class StlGcode {
     // 本地解压文件
     private String localGcodeFile;
 
-    private LocalDateTime createTime;
+    private String createTime;
 
     public String getSourceStlFile() {
         return sourceStlFile;
@@ -61,11 +61,11 @@ public class StlGcode {
         this.localGcodeFile = localGcodeFile;
     }
 
-    public LocalDateTime getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 }
