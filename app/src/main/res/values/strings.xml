@@ -3,9 +3,47 @@
     <string name="click_button">处理文件</string>
     <string name="up_button">上传文件</string>
     <string name="file_text_show">上传文件名称</string>
-    <string name="down_button">下载文件</string>
-
     <string name="file_text_name">file</string>
-
-
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="login_title">Login</string>
+    <string name="todo">TODO</string>
+    <string name="register_btn">Register</string>
+    <string name="forget_btn">ForgetPassword</string>
+    <string name="accept_btn">I have read and agree to the user agreement and privacy policy</string>
+    <string name="welcome_to_page">儿童体态检测APP</string>
+    <string name="next_btn">Next</string>
+    <string name="module_list">模型库</string>
+    <string name="my_module_list">我的模型</string>
+    <string name="_3d_printer">3D打印机</string>
+    <string name="_btn_print">打印</string>
+    <string name="pintthismodule">pintThisModule</string>
+    <string name="new_module">创建模型</string>
+    <string name="module_param">模型参数</string>
+    <string name="printer_title">3D打印机</string>
+    <string name="printer_statue_uncon">● 未连接</string>
+    <string name="printer_statue_conn">已连接</string>
+    <string name="printer_model">型号：</string>
+    <string name="printer_work_space">工作空间：</string>
+    <string name="printer_material">打印耗材：</string>
+    <string name="connect_req1">1.保持手机蓝牙开启状态</string>
+    <string name="connect_req2">2.保持3D打印机启用状态</string>
+    <string name="connect_req3">3.手机搜索3D打印机设备型号</string>
+    <string name="connect_req4">4.连接3D打印机，连接时请勿断开蓝牙</string>
+    <string name="connect_req5">5.连接成功后就可以打印模型拉</string>
+    <string name="status_title">雕花雕塑一角</string>
+    <string name="status_waiting">等待打印</string>
+    <string name="big_button">放大</string>
+    <string name="lit_button">下载</string>
+    <string name="down_button">下载文件</string>
+    <string name="down_text_show">...</string>
+    <string name="jump_button">处理文件</string>
+    <string name="view_button">预览</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.three3d.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -9,6 +10,8 @@ import android.webkit.JavascriptInterface;
 import androidx.annotation.RequiresApi;
 
 import com.example.three3d.StlGcode;
+import com.example.three3d.activity.GenGcodeActivity;
+import com.example.three3d.activity.IndexActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,6 +21,10 @@ import java.util.Date;
 import java.util.Random;
 
 public class WebHost {
+    private static final String INDEX_HTML = "http://192.168.1.163:8080/examples/src/index3D.html";
+    private static final String SHOP_HTML = "http://192.168.1.163:8080/examples/src/shopping.html";
+
+
     public Context context;
     private Handler myHandler;
 
@@ -125,4 +132,16 @@ public class WebHost {
     }
 
 
+    @JavascriptInterface
+    public void changeActive(String code) {
+        if ("1".equalsIgnoreCase(code)) {
+            Intent it = new Intent(this.context.getApplicationContext(), IndexActivity.class);
+            it.putExtra("url", INDEX_HTML);
+            this.context.startActivity(it);
+        } else if ("2".equalsIgnoreCase(code)) {
+            Intent it = new Intent(this.context.getApplicationContext(), IndexActivity.class);
+            it.putExtra("url", SHOP_HTML);
+            this.context.startActivity(it);
+        }
+    }
 }

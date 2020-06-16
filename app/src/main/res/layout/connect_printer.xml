@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:orientation="vertical">
+            <!--顶部三按钮-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#0D9CFF"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/imageButtonModuleParam"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="#00FFFFFF"
+                    android:contentDescription="@string/pintthismodule"
+                    android:scaleType="fitStart"
+                    app:srcCompat="@android:drawable/presence_online"
+                    tools:srcCompat="?attr/homeAsUpIndicator" />
+
+                <Button
+                    android:id="@+id/button2"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/printer_title"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/button3"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/printer_statue_uncon"
+                    android:textColor="#FF5722" />
+            </LinearLayout>
+            <!--顶部三按钮 end-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@drawable/background_radius"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingLeft="25dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/parinter_img" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingLeft="25dp"
+                    android:paddingTop="50dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/modelTypeTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/printer_model"
+                            android:textColor="#FFFFFF" />
+
+                        <TextView
+                            android:id="@+id/modelType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="adsadfsadf"
+                            android:textColor="#FFFFFF" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/modelSpaceTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/printer_work_space"
+                            android:textColor="#FFFFFF" />
+
+                        <TextView
+                            android:id="@+id/modelSpace"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="200*202"
+                            android:textColor="#FFFFFF" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/modelMaterialTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/printer_material"
+                            android:textColor="#FFFFFF" />
+
+                        <TextView
+                            android:id="@+id/modelMaterial"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="200*202"
+                            android:textColor="#FFFFFF" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/imageButtonPrint"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:contentDescription="@string/pintthismodule"
+                android:scaleType="fitCenter"
+                app:srcCompat="@android:drawable/presence_online"
+                tools:srcCompat="@drawable/btn_connect" />
+
+            <TextView
+                android:id="@+id/connect_req1"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="#00FFFFFF"
+                android:paddingLeft="30dp"
+                android:text="@string/connect_req1"
+                android:textColor="#426A8D"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/connect_req2"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="#00FFFFFF"
+                android:paddingLeft="30dp"
+                android:text="@string/connect_req2"
+                android:textColor="#426A8D"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/connect_req3"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="#00FFFFFF"
+                android:paddingLeft="30dp"
+                android:text="@string/connect_req3"
+                android:textColor="#426A8D"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/connect_req4"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="#00FFFFFF"
+                android:paddingLeft="30dp"
+                android:text="@string/connect_req4"
+                android:textColor="#426A8D"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/connect_req5"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="#00FFFFFF"
+                android:paddingLeft="30dp"
+                android:text="@string/connect_req5"
+                android:textColor="#426A8D"
+                android:textSize="15sp" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0D9CFF">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <!--顶部三按钮-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button1"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/_3d_printer"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/button2"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/module_list"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/button3"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif"
+                android:text="@string/my_module_list"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+        <!--顶部三按钮 end-->
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="517dp">
+
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="160dp"
+                android:layout_gravity="right"
+                android:baselineAligned="false"
+                android:orientation="vertical"
+                android:paddingRight="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/imageButtonModuleParam"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true"
+                        android:background="#00FFFFFF"
+                        android:contentDescription="@string/pintthismodule"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@android:drawable/presence_online"
+                        tools:srcCompat="@drawable/new_module" />
+
+                    <TextView
+                        android:id="@+id/textViewNewModule"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:background="#00050505"
+                        android:gravity="center_horizontal"
+                        android:paddingLeft="10dp"
+                        android:text="@string/new_module"
+                        android:textColor="#ffffff"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/imageButtonNewModule"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="#00FFFFFF"
+                        android:contentDescription="@string/pintthismodule"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@android:drawable/presence_online"
+                        tools:srcCompat="@drawable/module_param" />
+
+                    <TextView
+                        android:id="@+id/textViewParam"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:background="#00050505"
+                        android:gravity="center_horizontal"
+                        android:paddingLeft="10dp"
+                        android:text="@string/module_param"
+                        android:textColor="#ffffff"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="50dp"
+                android:paddingBottom="20dp"
+                tools:ignore="MissingConstraints">
+
+                <ImageButton
+                    android:id="@+id/imageButtonPre"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="#00FFFFFF"
+                    android:scaleType="center"
+                    app:srcCompat="@drawable/btn_pre" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp">
+
+                    <ImageView
+                        android:id="@+id/imageViewBackground"
+                        android:layout_width="wrap_content"
+                        android:layout_height="400dp"
+                        android:layout_marginTop="-40dp"
+                        android:layout_weight="1"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/module_bg" />
+
+                    <ImageView
+                        android:id="@+id/imageViewModule"
+                        android:layout_width="wrap_content"
+                        android:layout_height="320dp"
+                        android:layout_weight="1"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp"
+                        app:srcCompat="@drawable/module_example" />
+                </FrameLayout>
+
+                <ImageButton
+                    android:id="@+id/imageButtonNext"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="#00FFFFFF"
+                    android:scaleType="center"
+                    app:srcCompat="@drawable/btn_next" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <!--打印按钮-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="vertical"
+            tools:ignore="MissingConstraints">
+
+            <ImageButton
+                android:id="@+id/imageButtonPrint"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:contentDescription="@string/pintthismodule"
+                android:scaleType="fitCenter"
+                app:srcCompat="@android:drawable/presence_online"
+                tools:srcCompat="@drawable/btn_print" />
+        </LinearLayout>
+        <!--打印按钮 end-->
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
