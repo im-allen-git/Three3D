@@ -21,9 +21,6 @@ import java.util.Date;
 import java.util.Random;
 
 public class WebHost {
-    private static final String INDEX_HTML = "http://192.168.1.163:8080/examples/src/index3D.html";
-    private static final String SHOP_HTML = "http://192.168.1.163:8080/examples/src/shopping.html";
-
 
     public Context context;
     private Handler myHandler;
@@ -136,11 +133,19 @@ public class WebHost {
     public void changeActive(String code) {
         if ("1".equalsIgnoreCase(code)) {
             Intent it = new Intent(this.context.getApplicationContext(), IndexActivity.class);
-            it.putExtra("url", INDEX_HTML);
+            it.putExtra("url", HtmlUtil.MYMODULE_HTML);
             this.context.startActivity(it);
         } else if ("2".equalsIgnoreCase(code)) {
             Intent it = new Intent(this.context.getApplicationContext(), IndexActivity.class);
-            it.putExtra("url", SHOP_HTML);
+            it.putExtra("url", HtmlUtil.SHOP_HTML);
+            this.context.startActivity(it);
+        }else if ("3".equalsIgnoreCase(code)) {
+            Intent it = new Intent(this.context.getApplicationContext(), IndexActivity.class);
+            it.putExtra("url", HtmlUtil.SHOP_HTML);
+            this.context.startActivity(it);
+        }else if ("4".equalsIgnoreCase(code)) {
+            Intent it = new Intent(this.context.getApplicationContext(), IndexActivity.class);
+            it.putExtra("url", HtmlUtil.SHOP_HTML);
             this.context.startActivity(it);
         }
     }
