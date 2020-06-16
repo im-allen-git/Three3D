@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Three3D</string>
     <string name="click_button">处理文件</string>
-    <string name="up_button">上传文件</string>
+    <string name="up_button">一键处理文件</string>
     <string name="file_text_show">上传文件名称</string>
     <string name="file_text_name">file</string>
     <!-- Strings related to login -->

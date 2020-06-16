@@ -83,13 +83,13 @@ public class GenGcodeActivity extends AppCompatActivity {
             switch (msg.what) {
                 case UPLOAD_COMPLETED:
                     // 上传完成
-                    downBtn.setVisibility(View.VISIBLE);
+                    //downBtn.setVisibility(View.VISIBLE);
                     fileText.setText(msg.obj.toString());
                     //upProgress.setVisibility(View.INVISIBLE);
                     break;
                 case UPLOAD_ERROR:
                     // 上传失败
-                    downBtn.setVisibility(View.INVISIBLE);
+                    // downBtn.setVisibility(View.INVISIBLE);
                     fileText.setText(msg.obj.toString());
                     break;
                 case DOWN_COMPLETED:
@@ -133,16 +133,17 @@ public class GenGcodeActivity extends AppCompatActivity {
 
         //downText.setVisibility(View.INVISIBLE);
         upBtn = findViewById(R.id.up_button);
+        // upBtn.setVisibility(View.INVISIBLE);
 
 
         dwProgress = findViewById(R.id.progress_bar_dw);
         //dwProgress.setVisibility(View.INVISIBLE);
         downBtn = findViewById(R.id.down_button);
-        //downBtn.setVisibility(View.INVISIBLE);
+        downBtn.setVisibility(View.INVISIBLE);
 
 
         addUpBtnListener();
-        addDwBtnListener();
+        // addDwBtnListener();
     }
 
     // 上传文件响应
@@ -173,6 +174,7 @@ public class GenGcodeActivity extends AppCompatActivity {
                 Thread upThread = new Thread(() -> {
                     File stlFile = new File(zipFile);
                     postProgress(FILE_UPLOAD_URL, stlFile, new HashMap<>());
+                    downFile();
                 });
                 upThread.start();
             }
@@ -238,7 +240,8 @@ public class GenGcodeActivity extends AppCompatActivity {
                 });
                 dwThread.start();
             } else {
-                System.err.println("currentFileName:" + currentFileName + ", 没有gcode");
+                sendMessage(DOWN_ERROR, currentFileName + ", 没有gcode");
+                // System.err.println("currentFileName:" + currentFileName + ", 没有gcode");
             }
         }
     }
