@@ -22,7 +22,7 @@ import androidx.core.content.ContextCompat;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.three3d.R;
-import com.example.three3d.StlGcode;
+import com.example.three3d.pojo.StlGcode;
 import com.example.three3d.util.HttpsTrustManager;
 import com.example.three3d.util.IOUtil;
 import com.example.three3d.util.ProgressResponseBody;

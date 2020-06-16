@@ -9,14 +9,14 @@ import android.webkit.JavascriptInterface;
 
 import androidx.annotation.RequiresApi;
 
-import com.example.three3d.StlGcode;
-import com.example.three3d.activity.GenGcodeActivity;
-import com.example.three3d.activity.IndexActivity;
+import com.example.three3d.IndexActivity;
+import com.example.three3d.activity.BulidModuleActivity;
+import com.example.three3d.activity.MyAccountActivity;
+import com.example.three3d.pojo.StlGcode;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Random;
 
@@ -132,20 +132,24 @@ public class WebHost {
     @JavascriptInterface
     public void changeActive(String code) {
         if ("1".equalsIgnoreCase(code)) {
-            Intent it = new Intent(this.context.getApplicationContext(), IndexActivity.class);
+            // 我的模型
+            Intent it = new Intent(this.context.getApplicationContext(), MyAccountActivity.class);
             it.putExtra("url", HtmlUtil.MYMODULE_HTML);
             this.context.startActivity(it);
         } else if ("2".equalsIgnoreCase(code)) {
-            Intent it = new Intent(this.context.getApplicationContext(), IndexActivity.class);
+            // 购物商城
+            Intent it = new Intent(this.context.getApplicationContext(), MyAccountActivity.class);
             it.putExtra("url", HtmlUtil.SHOP_HTML);
             this.context.startActivity(it);
-        }else if ("3".equalsIgnoreCase(code)) {
+        } else if ("3".equalsIgnoreCase(code)) {
+            // 模型库首页
             Intent it = new Intent(this.context.getApplicationContext(), IndexActivity.class);
-            it.putExtra("url", HtmlUtil.SHOP_HTML);
+            // it.putExtra("url", HtmlUtil.SHOP_HTML);
             this.context.startActivity(it);
-        }else if ("4".equalsIgnoreCase(code)) {
-            Intent it = new Intent(this.context.getApplicationContext(), IndexActivity.class);
-            it.putExtra("url", HtmlUtil.SHOP_HTML);
+        } else if ("4".equalsIgnoreCase(code)) {
+            // 创建模型
+            Intent it = new Intent(this.context.getApplicationContext(), BulidModuleActivity.class);
+            // it.putExtra("url", HtmlUtil.SHOP_HTML);
             this.context.startActivity(it);
         }
     }

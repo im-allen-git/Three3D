@@ -15,11 +15,12 @@ import android.webkit.WebViewClient;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.three3d.R;
+import com.example.three3d.util.HtmlUtil;
 import com.example.three3d.util.WebHost;
 
 import java.util.Objects;
 
-public class IndexActivity extends AppCompatActivity {
+public class MyAccountActivity extends AppCompatActivity {
 
     private String WEB_URL;
     private WebHost webHost;
@@ -29,7 +30,7 @@ public class IndexActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.my_module);
+        setContentView(R.layout.my_account);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);// 隐藏状态栏
         Objects.requireNonNull(getSupportActionBar()).hide();// 隐藏标题栏
@@ -58,7 +59,9 @@ public class IndexActivity extends AppCompatActivity {
         Intent intent = getIntent();
         // 获取到传递参数
         WEB_URL = intent.getStringExtra("url");
-
+        if (WEB_URL == null || WEB_URL.length() == 0) {
+            WEB_URL = HtmlUtil.MYMODULE_HTML;
+        }
         webView.loadUrl(WEB_URL);
 
     }
@@ -77,6 +80,7 @@ public class IndexActivity extends AppCompatActivity {
 
         }
     }
+
     @SuppressLint("HandlerLeak")
     private Handler mainHandler = new Handler() {
         @Override

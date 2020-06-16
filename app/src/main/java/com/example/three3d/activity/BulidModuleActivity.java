@@ -1,4 +1,4 @@
-package com.example.three3d;
+package com.example.three3d.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -23,14 +23,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.three3d.activity.GenGcodeActivity;
+import com.example.three3d.R;
+import com.example.three3d.util.HtmlUtil;
 import com.example.three3d.util.StlUtil;
 import com.example.three3d.util.WebHost;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
-    private static final String WEB_URL = "http://192.168.1.163:8080/examples/src/3DPrinting.html";
+public class BulidModuleActivity extends AppCompatActivity {
+
 
     private static final int WRITE_REQ = 1001;
     private static final int READ_REQ = 1002;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         checkIsPermission();
-        setContentView(R.layout.index);
+        setContentView(R.layout.bulid_module);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);// 隐藏状态栏
         Objects.requireNonNull(getSupportActionBar()).hide();// 隐藏标题栏
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         // 复写WebViewClient类的shouldOverrideUrlLoading方法
         webView.setWebViewClient(new MyWebViewClient());
         webView.setWebChromeClient(new GoogleClient());
-        webView.loadUrl(WEB_URL);
+        webView.loadUrl(HtmlUtil.BULID_MODULE_URL);
 
 
         textView = findViewById(R.id.file_text_name);

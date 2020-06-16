@@ -22,7 +22,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button1"
+                android:id="@+id/printer_load"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
                 android:textColor="#FFFFFF" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/local_module"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
                 android:textColor="#FFFFFF" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/my_account"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                     android:orientation="vertical">
 
                     <ImageButton
-                        android:id="@+id/imageButtonModuleParam"
+                        android:id="@+id/image_button_new_module"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
@@ -82,7 +82,7 @@
                         tools:srcCompat="@drawable/new_module" />
 
                     <TextView
-                        android:id="@+id/textViewNewModule"
+                        android:id="@+id/text_view_new_module"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
@@ -101,7 +101,7 @@
                     android:orientation="vertical">
 
                     <ImageButton
-                        android:id="@+id/imageButtonNewModule"
+                        android:id="@+id/image_button_module_param"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
@@ -112,7 +112,7 @@
                         tools:srcCompat="@drawable/module_param" />
 
                     <TextView
-                        android:id="@+id/textViewParam"
+                        android:id="@+id/text_view_param"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
@@ -136,7 +136,7 @@
                 tools:ignore="MissingConstraints">
 
                 <ImageButton
-                    android:id="@+id/imageButtonPre"
+                    android:id="@+id/image_button_pre"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_weight="1"
@@ -190,7 +190,7 @@
             tools:ignore="MissingConstraints">
 
             <ImageButton
-                android:id="@+id/imageButtonPrint"
+                android:id="@+id/image_button_print"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
