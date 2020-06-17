@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi;
 import com.example.three3d.IndexActivity;
 import com.example.three3d.activity.BulidModuleActivity;
 import com.example.three3d.activity.MyAccountActivity;
+import com.example.three3d.activity.ShoppingActivity;
 import com.example.three3d.pojo.StlGcode;
 
 import java.io.File;
@@ -138,7 +139,7 @@ public class WebHost {
             this.context.startActivity(it);
         } else if ("2".equalsIgnoreCase(code)) {
             // 购物商城
-            Intent it = new Intent(this.context.getApplicationContext(), MyAccountActivity.class);
+            Intent it = new Intent(this.context.getApplicationContext(), ShoppingActivity.class);
             it.putExtra("url", HtmlUtil.SHOP_HTML);
             this.context.startActivity(it);
         } else if ("3".equalsIgnoreCase(code)) {
@@ -151,6 +152,11 @@ public class WebHost {
             Intent it = new Intent(this.context.getApplicationContext(), BulidModuleActivity.class);
             // it.putExtra("url", HtmlUtil.SHOP_HTML);
             this.context.startActivity(it);
+        }else if ("5".equalsIgnoreCase(code)) {
+            Message message = new Message();
+            message.what = 5;
+            message.obj = "back";
+            myHandler.sendMessage(message);
         }
     }
 }

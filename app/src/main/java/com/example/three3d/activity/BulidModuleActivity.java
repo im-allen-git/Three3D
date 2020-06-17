@@ -86,8 +86,8 @@ public class BulidModuleActivity extends AppCompatActivity {
         // 复写WebViewClient类的shouldOverrideUrlLoading方法
         webView.setWebViewClient(new MyWebViewClient());
         webView.setWebChromeClient(new GoogleClient());
-        webView.loadUrl(HtmlUtil.BULID_MODULE_URL);
-
+//        webView.loadUrl(HtmlUtil.BULID_MODULE_URL);
+        webView.loadUrl("file:///android_asset/src/3DPrinting.html");
 
         textView = findViewById(R.id.file_text_name);
         textView.setVisibility(View.INVISIBLE);

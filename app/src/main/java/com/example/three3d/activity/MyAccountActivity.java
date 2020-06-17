@@ -1,16 +1,19 @@
 package com.example.three3d.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Instrumentation;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -63,7 +66,6 @@ public class MyAccountActivity extends AppCompatActivity {
             WEB_URL = HtmlUtil.MYMODULE_HTML;
         }
         webView.loadUrl(WEB_URL);
-
     }
 
     public class MyWebViewClient extends WebViewClient {
@@ -85,8 +87,28 @@ public class MyAccountActivity extends AppCompatActivity {
     private Handler mainHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-
+            switch (msg.what){
+                case 5:
+                    actionKey(KeyEvent.KEYCODE_BACK);
+                    break;
+            }
         }
     };
+
+    /**
+     * 模拟键盘事件方法
+     * @param keyCode
+     */
+    public void actionKey(final int keyCode) {
+        new Thread () {
+            public void run () {
+                try {
+                    Instrumentation inst=new Instrumentation();
+                    inst.sendKeyDownUpSync(keyCode);
+                } catch(Exception e) {
+                    e.printStackTrace();                    }
+            }
+        }.start();
+    }
 
 }
