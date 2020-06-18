@@ -75,7 +75,7 @@ var lDrawGuiData = {
 var currentModule = 0; //0:基础模型 1：lego
 $( function () {
 	listModule();
-
+	getLocalAppSTL();
 	shapesMain.addEventListener( "touchstart", function ( e ) {
 		$( ".zoom_options,.color_wrapper" ).hide();//隐藏子窗口
 	} );
@@ -133,9 +133,11 @@ $( function () {
 			if (selectedDragObjFlag) {
 				var code = Number( $( selectedDragObj ).parents( ".module" ).find( ".this_code" ).val() );
 				var type = Number( $( selectedDragObj ).parents( ".module" ).find( ".this_module" ).val() );
+				var url = Number( $( selectedDragObj ).parents( ".module" ).find( ".this_url" ).val() );
 			} else if (selectedDragObjFlag == false) {
 				var code = Number( $( selectedDragObj ).find( ".this_code" ).val() );
 				var type = Number( $( selectedDragObj ).find( ".this_module" ).val() );
+				var url = Number( $( selectedDragObj ).find( ".this_url" ).val() );
 			}
 			if (type == 0) {
 				changeShapes( code );
@@ -143,6 +145,8 @@ $( function () {
 				loadSTL( code );
 			} else if (type == 2) {
 				showInput( 0 );
+			} else if(type == 3){
+				loadLocalSTL(url)
 			}
 			$( dragObj ).remove();
 			setTimeout( function () {
@@ -294,6 +298,29 @@ function listModule( type ) {
 
 }
 
+function getLocalAppSTL(){
+	var stlList = js.getStlList() || null;
+	if(stlList) {
+		var stlListIndex = 100;
+		var stlListHTML = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>我的模型</div>';
+		for (var i in stlList) {
+			stlListHTML += '';
+			stlListHTML += '<div class="module lego drag">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
+			stlListHTML += '<input class="this_code" type="hidden" value="' + stlListIndex + '">';
+			stlListHTML += '<input class="this_module" type="hidden" value="3">';
+			stlListHTML += '<input class="this_url" type="hidden" value="' + stlList[i].realStlName + '">';
+			// stlListHTML += '<div class="drag sprint sprint_' + stlList[i].title + ' sprintY"></div>';
+			stlListHTML += '<div class="img_wrapper"><img src="' + stlList[i].realStlName + '.png" alt="' + listSTL[i].title + '" class="drag"></div>';
+			stlListHTML += '<div class="name drag">' + stlList[i].sourceStlName + '</div>';
+			stlListHTML += '<div class="color_change">';
+			stlListHTML += '<div class="color_option color_yellow color_circle" onclick="changeColorBeforeShoot(1,this)"></div>';
+			stlListHTML += '<div class="color_option color_white color_circle" onclick="changeColorBeforeShoot(0,this)"></div>';
+			stlListHTML += '</div>';
+			stlListHTML += '</div>';
+			stlListIndex ++;
+		}
+	}
+}
 function getTimeStr() {
 	var date = new Date();
 	var Y = date.getFullYear();
@@ -462,6 +489,7 @@ function init() {
 	// dirLightHeper = new THREE.DirectionalLightHelper( directionalLight, 215 );//光源辅助线
 	// scene.add( dirLightHeper );
 	scene.add( directionalLight );
+
 
 	// outline
 	composer = new THREE.EffectComposer( renderer );
@@ -1495,9 +1523,6 @@ async function loadSTL( thisSTL, obj ) {
 	enabledLego( 1 );
 	$( "#loading_data" ).show();
 	shootedFlag = false;
-	/*if(controls){
-		controls.dispose();
-	}*/
 	var file;
 	switch (thisSTL) {
 		case 0:
@@ -1552,18 +1577,25 @@ async function loadSTL( thisSTL, obj ) {
 			file = '../models/stl/ascii/3dPrinting/tyrannosaurusRex.stl';
 	}
 	var loader = new THREE.STLLoader();
-	/*await Promise.all( [
-		loader.loadAsync( file, function ( geometry ) {
-			currentObj = geometry;
-			$( "#loading_data" ).hide();
-		} )
-	] );*/
 	await loader.load( file, function ( geometry ) {
 		currentObj = geometry;
 		$( "#loading_data" ).hide();
 	} );
 }
-
+async function loadLocalSTL( thisSTL) {
+	stlGeoFlag = 1;//0 geo; 1 stl
+	showInput( 1 );
+	$( ".active_shape" ).removeClass( "active_shape" );
+	currentModule = 0; //编辑模式，各种基础模型
+	enabledLego( 1 );
+	$( "#loading_data" ).show();
+	shootedFlag = false;
+	var loader = new THREE.STLLoader();
+	await loader.load( thisSTL, function ( geometry ) {
+		currentObj = geometry;
+		$( "#loading_data" ).hide();
+	} );
+}
 //Lego
 function askDialog( type, index ) {
 	if (currentModule == 0) {
