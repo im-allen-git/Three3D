@@ -21,6 +21,7 @@ import com.example.three3d.activity.BulidModuleActivity;
 import com.example.three3d.activity.MyAccountActivity;
 import com.example.three3d.activity.PrinterActivity;
 import com.example.three3d.activity.PrinterStartActivity;
+import com.example.three3d.util.StlUtil;
 
 import java.util.Objects;
 
@@ -32,7 +33,6 @@ public class IndexActivity extends AppCompatActivity {
     private static final int READ_REQ = 1002;
     private static boolean isReadPermissions = false;
     private static boolean isWritePermissions = false;
-
 
     @SuppressLint({"SourceLockedOrientationActivity", "AddJavascriptInterface", "SetJavaScriptEnabled"})
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -50,7 +50,12 @@ public class IndexActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         context = this;
+        initDataBase();
         initView();
+    }
+
+    private void initDataBase() {
+        StlUtil.getModuleDataBase(this);
     }
 
 

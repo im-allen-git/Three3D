@@ -18,10 +18,15 @@ import com.example.three3d.pojo.StlGcode;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class WebHost {
+
+    List<StlGcode> stlGcodeList = new ArrayList<>();
 
     public Context context;
     private Handler myHandler;
@@ -39,6 +44,8 @@ public class WebHost {
         this.myHandler = myHandler;
         this.filePrePath = context.getApplicationContext().getFilesDir().getAbsolutePath()
                 .replace("\\", "/");
+
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -55,7 +62,7 @@ public class WebHost {
         String realFileName = filePrePath + "/" + System.currentTimeMillis() + "_" + nextInt + endSuffix;
         File file = new File(realFileName);
         Message msg = new Message();
-        if (file.exists() && !file.isDirectory()) {
+        if (StlUtil.stlMap.containsKey(fileName) || (file.exists() && !file.isDirectory())) {
             System.err.println("已经存在此文件");
             msg.what = 10;
             msg.obj = fileName + ",已经存在此文件";
@@ -77,9 +84,9 @@ public class WebHost {
                     this.currentFileName = tempFileAllPath;
 
                     StlGcode stlGcode = new StlGcode();
-                    stlGcode.setRealStlFile(tempFileAllPath);
-                    stlGcode.setSourceStlFile(fileName);
-                    stlGcode.setSrStlZipFile(tempFileAllPath + ".zip");
+                    stlGcode.setRealStlName(tempFileAllPath);
+                    stlGcode.setSourceStlName(fileName);
+                    stlGcode.setSourceZipStlName(tempFileAllPath + ".zip");
                     stlGcode.setCreateTime(new Date().toString());
                     StlUtil.stlMap.put(tempFileAllPath, stlGcode);
                     isSu = true;
@@ -152,11 +159,20 @@ public class WebHost {
             Intent it = new Intent(this.context.getApplicationContext(), BulidModuleActivity.class);
             // it.putExtra("url", HtmlUtil.SHOP_HTML);
             this.context.startActivity(it);
-        }else if ("5".equalsIgnoreCase(code)) {
+        } else if ("5".equalsIgnoreCase(code)) {
             Message message = new Message();
             message.what = 5;
             message.obj = "back";
             myHandler.sendMessage(message);
         }
+    }
+
+    @JavascriptInterface
+    public List<StlGcode> getStlList() {
+        stlGcodeList.clear();
+        for (Map.Entry<String, StlGcode> fileEntry : StlUtil.stlDataBaseMap.entrySet()) {
+            stlGcodeList.add(fileEntry.getValue());
+        }
+        return stlGcodeList;
     }
 }

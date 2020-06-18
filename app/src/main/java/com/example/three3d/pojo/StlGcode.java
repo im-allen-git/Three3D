@@ -2,61 +2,86 @@ package com.example.three3d.pojo;
 
 public class StlGcode {
 
+    private int id;
+
     // stl原始文件名称
-    private String sourceStlFile;
+    private String sourceStlName;
 
     // 真实文件名称
-    private String realStlFile;
+    private String realStlName;
 
     // stl压缩文件名称
-    private String srStlZipFile;
+    private String sourceZipStlName;
 
     // 服务器返回文件
-    private String serverGcodeZipFile;
+    private String serverZipGcodeName;
 
     // 本地解压文件
-    private String localGcodeFile;
+    private String localGcodeName;
 
     private String createTime;
 
-    public String getSourceStlFile() {
-        return sourceStlFile;
+
+    public StlGcode() {
     }
 
-    public void setSourceStlFile(String sourceStlFile) {
-        this.sourceStlFile = sourceStlFile;
+    public StlGcode(int id, String sourceStlName, String realStlName, String sourceZipStlName, String serverZipGcodeName, String localGcodeName, String createTime) {
+        this.id = id;
+        this.sourceStlName = sourceStlName;
+        this.realStlName = realStlName;
+        this.sourceZipStlName = sourceZipStlName;
+        this.serverZipGcodeName = serverZipGcodeName;
+        this.localGcodeName = localGcodeName;
+        this.createTime = createTime;
     }
 
-    public String getSrStlZipFile() {
-        return srStlZipFile;
+
+    public int getId() {
+        return id;
     }
 
-    public String getRealStlFile() {
-        return realStlFile;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setRealStlFile(String realStlFile) {
-        this.realStlFile = realStlFile;
+    public String getSourceStlName() {
+        return sourceStlName;
     }
 
-    public void setSrStlZipFile(String srStlZipFile) {
-        this.srStlZipFile = srStlZipFile;
+    public void setSourceStlName(String sourceStlName) {
+        this.sourceStlName = sourceStlName;
     }
 
-    public String getServerGcodeZipFile() {
-        return serverGcodeZipFile;
+    public String getRealStlName() {
+        return realStlName;
     }
 
-    public void setServerGcodeZipFile(String serverGcodeZipFile) {
-        this.serverGcodeZipFile = serverGcodeZipFile;
+    public void setRealStlName(String realStlName) {
+        this.realStlName = realStlName;
     }
 
-    public String getLocalGcodeFile() {
-        return localGcodeFile;
+    public String getSourceZipStlName() {
+        return sourceZipStlName;
     }
 
-    public void setLocalGcodeFile(String localGcodeFile) {
-        this.localGcodeFile = localGcodeFile;
+    public void setSourceZipStlName(String sourceZipStlName) {
+        this.sourceZipStlName = sourceZipStlName;
+    }
+
+    public String getServerZipGcodeName() {
+        return serverZipGcodeName;
+    }
+
+    public void setServerZipGcodeName(String serverZipGcodeName) {
+        this.serverZipGcodeName = serverZipGcodeName;
+    }
+
+    public String getLocalGcodeName() {
+        return localGcodeName;
+    }
+
+    public void setLocalGcodeName(String localGcodeName) {
+        this.localGcodeName = localGcodeName;
     }
 
     public String getCreateTime() {
@@ -65,5 +90,18 @@ public class StlGcode {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    @Override
+    public String toString() {
+        return "StlGcode{" +
+                "id=" + id +
+                ", sourceStlName='" + sourceStlName + '\'' +
+                ", realStlName='" + realStlName + '\'' +
+                ", sourceZipStlName='" + sourceZipStlName + '\'' +
+                ", serverZipGcodeName='" + serverZipGcodeName + '\'' +
+                ", localGcodeName='" + localGcodeName + '\'' +
+                ", createTime='" + createTime + '\'' +
+                '}';
     }
 }

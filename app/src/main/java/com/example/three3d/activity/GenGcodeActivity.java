@@ -2,6 +2,7 @@ package com.example.three3d.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -11,7 +12,9 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ProgressBar;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,6 +39,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -70,10 +74,13 @@ public class GenGcodeActivity extends AppCompatActivity {
 
     private StlGcode stlGcode;
 
+    private Context context;
 
-    private Button upBtn, downBtn;
+
+    private Button upBtn, downBtn, listBtn;
     private ProgressBar dwProgress;
     private TextView fileText;
+    private SimpleAdapter sim_adapter;
 
 
     @SuppressLint("HandlerLeak")
@@ -117,6 +124,8 @@ public class GenGcodeActivity extends AppCompatActivity {
 
         checkIsPermission();
 
+        context = this;
+
         Intent intent = getIntent();
         // 获取到传递参数
         currentFileName = intent.getStringExtra("fileName");
@@ -128,12 +137,16 @@ public class GenGcodeActivity extends AppCompatActivity {
             return;
         }
         fileText = findViewById(R.id.file_text_show);
-        fileText.setText(stlGcode.getSourceStlFile());
+        fileText.setText(stlGcode.getSourceStlName());
 
 
         //downText.setVisibility(View.INVISIBLE);
         upBtn = findViewById(R.id.up_button);
         // upBtn.setVisibility(View.INVISIBLE);
+
+
+        listBtn = findViewById(R.id.show_list_button);
+        listBtn.setVisibility(View.INVISIBLE);
 
 
         dwProgress = findViewById(R.id.progress_bar_dw);
@@ -144,7 +157,25 @@ public class GenGcodeActivity extends AppCompatActivity {
 
         addUpBtnListener();
         // addDwBtnListener();
+
+        showListListener();
     }
+
+    private void initGrid() {
+
+        List<Map<String, Object>> data_list = StlUtil.getDataList();
+        //新建适配器
+        String[] from = {"id", "sourceStlName", "realStlName", "createTime"};
+        int[] to = {1, 2, 3, 4};
+
+        GridView gv = findViewById(R.id.stl_list_grid);
+
+        sim_adapter = new SimpleAdapter(this, data_list, R.layout.grid_item, from, to);
+        //配置适配器
+        gv.setAdapter(sim_adapter);
+
+    }
+
 
     // 上传文件响应
     private void addUpBtnListener() {
@@ -165,9 +196,17 @@ public class GenGcodeActivity extends AppCompatActivity {
         });
     }
 
+    // 显示文件
+    private void showListListener() {
+        listBtn.setOnClickListener(v -> {
+
+
+        });
+    }
+
 
     private void doUpload() {
-        String zipFile = stlGcode.getSrStlZipFile();
+        String zipFile = stlGcode.getSourceZipStlName();
         if (null != zipFile && zipFile.length() > 1) {
             if (null != zipFile && zipFile.length() > 0) {
                 fileText.setText("正在上传");
@@ -209,7 +248,7 @@ public class GenGcodeActivity extends AppCompatActivity {
                     String currentGcode = "";
                     if (null != jsonObject && 200 == jsonObject.getIntValue("code")) {
                         currentGcode = jsonObject.getString("data");
-                        stlGcode.setServerGcodeZipFile(currentGcode);
+                        stlGcode.setServerZipGcodeName(currentGcode);
                         sendMessage(UPLOAD_COMPLETED, currentGcode);
                     } else {
                         sendMessage(UPLOAD_ERROR, "上传失败，请重试");
@@ -232,7 +271,7 @@ public class GenGcodeActivity extends AppCompatActivity {
 
     private void downFile() {
         if (isReadPermissions && isWritePermissions) {
-            String currentGcodeZip = stlGcode.getServerGcodeZipFile();
+            String currentGcodeZip = stlGcode.getServerZipGcodeName();
             if (null != currentGcodeZip && currentGcodeZip.length() > 0) {
                 Thread dwThread = new Thread(() -> {
                     String outFileName = currentFileName.replace("stl", "gcode") + ".zip";
@@ -298,14 +337,18 @@ public class GenGcodeActivity extends AppCompatActivity {
                                     sendMessage(DOWN_COMPLETED, "下载成功," + gcodeFile.getName());
                                     System.err.println(gcodeFile.getAbsolutePath() + ",result:" + b);
 
-                                    stlGcode.setServerGcodeZipFile(gcodeFile.getAbsolutePath());
+                                    stlGcode.setServerZipGcodeName(gcodeFile.getAbsolutePath());
                                     // 解压zip文件
                                     String unGcodeZipPath = gcodeFile.getAbsolutePath().replace(".zip", "");
                                     ZipFileUtil.upZipFile(tempFile, tempFile.getParentFile().getAbsolutePath().replace("\\", "/"));
 
                                     File unGcodeZip = new File(unGcodeZipPath);
                                     if (unGcodeZip.exists() && unGcodeZip.isFile()) {
-                                        stlGcode.setLocalGcodeFile(unGcodeZipPath);
+                                        stlGcode.setLocalGcodeName(unGcodeZipPath);
+
+                                        StlUtil.stlMap.put(stlGcode.getRealStlName(), stlGcode);
+                                        // 保存到数据库
+                                        StlUtil.updateModuleDataBase(context, stlGcode.getRealStlName());
                                         System.err.println(unGcodeZipPath + ",解压成功");
                                     } else {
                                         System.err.println(unGcodeZipPath + ",解压失败");
