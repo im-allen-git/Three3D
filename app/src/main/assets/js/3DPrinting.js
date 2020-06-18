@@ -229,73 +229,61 @@ function hideModule( obj ) {
 }
 
 function listModule( type ) {
-	$.ajax( {
-		type: "GET",
-		url: "../static/moduleList.json",
-		dataType: "JSON",
-		cache: false,
-		beforeSend: function () {
-		},
-		success: function ( res ) {
-			var shapesHtml = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>基础模型</div>';
-			var shapesIndex = 0;
-			listShapes = res.data.shapes;
-			for (var i in listShapes) {
-				if (listShapes[i].module == "shape") {
-					shapesHtml += '<div class="module shapes drag ' + listShapes[i].title + '" >';
-					shapesHtml += '<input class="this_module" type="hidden" value="0">';
-				} else if (listShapes[i].module == "stl") {
-					shapesHtml += '<div class="module shapes drag ' + listShapes[i].title + '">'; // onclick="loadSTL(11,this)"
-					shapesHtml += '<input class="this_module" type="hidden" value="1">';
-				} else if (listShapes[i].module == "text") {
-					shapesHtml += '<div class="module shapes drag ' + listShapes[i].title + '">'; // onclick="showInput(0,this)"
-					shapesHtml += '<input class="this_module" type="hidden" value="2">';
+    var data = ja.getModuleList();
+    if(data){
+        var shapesHtml = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>基础模型</div>';
+        var shapesIndex = 0;
+        listShapes = data.shapes;
+        for (var i in listShapes) {
+            if (listShapes[i].module == "shape") {
+                shapesHtml += '<div class="module shapes drag ' + listShapes[i].title + '" >';
+                shapesHtml += '<input class="this_module" type="hidden" value="0">';
+            } else if (listShapes[i].module == "stl") {
+                shapesHtml += '<div class="module shapes drag ' + listShapes[i].title + '">'; // onclick="loadSTL(11,this)"
+                shapesHtml += '<input class="this_module" type="hidden" value="1">';
+            } else if (listShapes[i].module == "text") {
+                shapesHtml += '<div class="module shapes drag ' + listShapes[i].title + '">'; // onclick="showInput(0,this)"
+                shapesHtml += '<input class="this_module" type="hidden" value="2">';
 
-				}
-				shapesHtml += '<input class="this_code" type="hidden" value="' + listShapes[i].code + '">';
-				// shapesHtml += '<img src="' + listShapes[i].url + '" alt="Doughnut" class="drag">';
-				shapesHtml += '<div class="drag sprint sprint_' + listShapes[i].title + '"></div>';
-				shapesHtml += '<div class="name drag">' + listShapes[i].name + '</div>';
-				shapesHtml += '<div class="color_change">';
-				if (i != listShapes.length - 1) {
-					shapesHtml += '<div class="color_option color_yellow color_circle" onclick="changeColorBeforeShoot(1,this)"></div>';
-					shapesHtml += '<div class="color_option color_white color_circle" onclick="changeColorBeforeShoot(0,this)"></div>';
-				} else {
-					shapesHtml += '<div class="color_option color_yellow color_circle" onclick="changeTextColor(1,this)"></div>';
-					shapesHtml += '<div class="color_option color_white color_circle" onclick="changeTextColor(0,this)"></div>';
-				}
-				shapesHtml += '</div>';
-				shapesHtml += '</div>';
-				shapesIndex ++;
-			}
-			$( ".normal_wrapper" ).html( shapesHtml );
+            }
+            shapesHtml += '<input class="this_code" type="hidden" value="' + listShapes[i].code + '">';
+            // shapesHtml += '<img src="' + listShapes[i].url + '" alt="Doughnut" class="drag">';
+            shapesHtml += '<div class="drag sprint sprint_' + listShapes[i].title + '"></div>';
+            shapesHtml += '<div class="name drag">' + listShapes[i].name + '</div>';
+            shapesHtml += '<div class="color_change">';
+            if (i != listShapes.length - 1) {
+                shapesHtml += '<div class="color_option color_yellow color_circle" onclick="changeColorBeforeShoot(1,this)"></div>';
+                shapesHtml += '<div class="color_option color_white color_circle" onclick="changeColorBeforeShoot(0,this)"></div>';
+            } else {
+                shapesHtml += '<div class="color_option color_yellow color_circle" onclick="changeTextColor(1,this)"></div>';
+                shapesHtml += '<div class="color_option color_white color_circle" onclick="changeTextColor(0,this)"></div>';
+            }
+            shapesHtml += '</div>';
+            shapesHtml += '</div>';
+            shapesIndex ++;
+        }
+        $( ".normal_wrapper" ).html( shapesHtml );
 
-			var cartoonHtml = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>卡通模型</div>';
-			var cartoonIndex = 0;
-			listSTL = res.data.stl;
-			for (var i in listSTL) {
-				cartoonHtml += '<div class="module lego drag ' + listSTL[i].title + '">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
-				cartoonHtml += '<input class="this_code" type="hidden" value="' + cartoonIndex + '">';
-				cartoonHtml += '<input class="this_module" type="hidden" value="1">';
-				cartoonHtml += '<div class="drag sprint sprint_' + listSTL[i].title + ' sprintY"></div>';
-				// cartoonHtml += '<div class="img_wrapper"><img src="../img/3dPrinting/sprint_' + listSTL[i].title + '.png" alt="' + listSTL[i].title + '" class="drag"></div>';
-				cartoonHtml += '<div class="name drag">' + listSTL[i].name + '</div>';
-				cartoonHtml += '<div class="color_change">';
-				cartoonHtml += '<div class="color_option color_yellow color_circle" onclick="changeColorBeforeShoot(1,this)"></div>';
-				cartoonHtml += '<div class="color_option color_white color_circle" onclick="changeColorBeforeShoot(0,this)"></div>';
-				cartoonHtml += '</div>';
-				cartoonHtml += '</div>';
-				cartoonIndex ++;
-			}
-			cartoonHtml += '<div class="go_shopping" onclick="goShop() ">购买模型</div>';
-			$( ".cartoon_wrapper" ).html( cartoonHtml );
-
-		},
-		error: function ( res ) {
-			console.log( res );
-		}
-	} );
-
+        var cartoonHtml = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>卡通模型</div>';
+        var cartoonIndex = 0;
+        listSTL = data.stl;
+        for (var i in listSTL) {
+            cartoonHtml += '<div class="module lego drag ' + listSTL[i].title + '">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
+            cartoonHtml += '<input class="this_code" type="hidden" value="' + cartoonIndex + '">';
+            cartoonHtml += '<input class="this_module" type="hidden" value="1">';
+            cartoonHtml += '<div class="drag sprint sprint_' + listSTL[i].title + ' sprintY"></div>';
+            // cartoonHtml += '<div class="img_wrapper"><img src="../img/3dPrinting/sprint_' + listSTL[i].title + '.png" alt="' + listSTL[i].title + '" class="drag"></div>';
+            cartoonHtml += '<div class="name drag">' + listSTL[i].name + '</div>';
+            cartoonHtml += '<div class="color_change">';
+            cartoonHtml += '<div class="color_option color_yellow color_circle" onclick="changeColorBeforeShoot(1,this)"></div>';
+            cartoonHtml += '<div class="color_option color_white color_circle" onclick="changeColorBeforeShoot(0,this)"></div>';
+            cartoonHtml += '</div>';
+            cartoonHtml += '</div>';
+            cartoonIndex ++;
+        }
+        cartoonHtml += '<div class="go_shopping" onclick="goShop() ">购买模型</div>';
+        $( ".cartoon_wrapper" ).html( cartoonHtml );
+    }
 }
 
 function getLocalAppSTL(){
