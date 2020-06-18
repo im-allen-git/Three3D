@@ -146,7 +146,7 @@ public class GenGcodeActivity extends AppCompatActivity {
 
 
         listBtn = findViewById(R.id.show_list_button);
-        listBtn.setVisibility(View.INVISIBLE);
+//        listBtn.setVisibility(View.INVISIBLE);
 
 
         dwProgress = findViewById(R.id.progress_bar_dw);

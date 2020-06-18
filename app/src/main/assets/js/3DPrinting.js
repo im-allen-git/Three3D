@@ -229,11 +229,13 @@ function hideModule( obj ) {
 }
 
 function listModule( type ) {
-    var data = ja.getModuleList();
+    var data = js.getModuleList();
     if(data){
+        data = eval('('+data+')')
+        console.log(JSON.stringify(data))
         var shapesHtml = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>基础模型</div>';
         var shapesIndex = 0;
-        listShapes = data.shapes;
+        listShapes = data.data.shapes;
         for (var i in listShapes) {
             if (listShapes[i].module == "shape") {
                 shapesHtml += '<div class="module shapes drag ' + listShapes[i].title + '" >';
@@ -266,7 +268,7 @@ function listModule( type ) {
 
         var cartoonHtml = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>卡通模型</div>';
         var cartoonIndex = 0;
-        listSTL = data.stl;
+        listSTL = data.data.stl;
         for (var i in listSTL) {
             cartoonHtml += '<div class="module lego drag ' + listSTL[i].title + '">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
             cartoonHtml += '<input class="this_code" type="hidden" value="' + cartoonIndex + '">';
