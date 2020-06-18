@@ -171,7 +171,7 @@ public class GenGcodeActivity extends AppCompatActivity {
         List<Map<String, Object>> data_list = StlUtil.getDataList();
         //新建适配器
         String[] from = {"id", "sourceStlName", "realStlName", "createTime"};
-        int[] to = {1, 2, 3, 4};
+        int[] to = {R.id.text_id, R.id.text_file_name, R.id.text_real_name, R.id.text_create_time};
 
         GridView gv = findViewById(R.id.stl_list_grid);
 

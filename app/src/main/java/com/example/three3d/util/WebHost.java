@@ -11,6 +11,7 @@ import android.webkit.JavascriptInterface;
 
 import androidx.annotation.RequiresApi;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.three3d.IndexActivity;
 import com.example.three3d.activity.BulidModuleActivity;
 import com.example.three3d.activity.MyAccountActivity;
@@ -172,12 +173,12 @@ public class WebHost {
     }
 
     @JavascriptInterface
-    public List<StlGcode> getStlList() {
+    public String getStlList() {
         stlGcodeList.clear();
         for (Map.Entry<String, StlGcode> fileEntry : StlUtil.stlDataBaseMap.entrySet()) {
             stlGcodeList.add(fileEntry.getValue());
         }
-        return stlGcodeList;
+        return JSONObject.toJSONString(stlGcodeList);
     }
 
     @JavascriptInterface

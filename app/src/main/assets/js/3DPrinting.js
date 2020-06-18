@@ -217,7 +217,7 @@ function showModule( type ) {//type 0: 标准模型    1:卡通模型 2: lego �
 	} else if (type == 1) {
 		$( ".cartoon_wrapper" ).show();
 	} else if (type == 2) {
-		$( ".buymodule_wrapper" ).show();
+		$( ".mymodule_wrapper" ).show();
 	} else if (type == 3) {
 		alert( "购买跳转" );
 	}
@@ -289,7 +289,9 @@ function listModule( type ) {
 }
 
 function getLocalAppSTL(){
-	var stlList = js.getStlList() || null;
+	var data = js.getStlList() || null;
+	var stlList = eval("(" + data+")");
+
 	if(stlList) {
 		var stlListIndex = 100;
 		var stlListHTML = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>我的模型</div>';
@@ -300,7 +302,7 @@ function getLocalAppSTL(){
 			stlListHTML += '<input class="this_module" type="hidden" value="3">';
 			stlListHTML += '<input class="this_url" type="hidden" value="' + stlList[i].realStlName + '">';
 			// stlListHTML += '<div class="drag sprint sprint_' + stlList[i].title + ' sprintY"></div>';
-			stlListHTML += '<div class="img_wrapper"><img src="' + stlList[i].realStlName + '.png" alt="' + listSTL[i].title + '" class="drag"></div>';
+			stlListHTML += '<div class="img_wrapper"><img src="' + stlList[i].realStlName + '.png" alt="' + stlList[i].realStlName + '" class="drag"></div>';
 			stlListHTML += '<div class="name drag">' + stlList[i].sourceStlName + '</div>';
 			stlListHTML += '<div class="color_change">';
 			stlListHTML += '<div class="color_option color_yellow color_circle" onclick="changeColorBeforeShoot(1,this)"></div>';
@@ -310,6 +312,11 @@ function getLocalAppSTL(){
 			stlListIndex ++;
 		}
 	}
+	else{
+	    var stlListHTML = '<div class="module shapes no_module"><div class="name">无</div></div>';
+	}
+	console.log(JSON.stringify(stlListHTML))
+	$(".mymodule_wrapper").html(stlListHTML)
 }
 function getTimeStr() {
 	var date = new Date();
