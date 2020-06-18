@@ -2,9 +2,11 @@ package com.example.three3d.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 import androidx.annotation.RequiresApi;
@@ -15,9 +17,11 @@ import com.example.three3d.activity.MyAccountActivity;
 import com.example.three3d.activity.ShoppingActivity;
 import com.example.three3d.pojo.StlGcode;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -174,5 +178,30 @@ public class WebHost {
             stlGcodeList.add(fileEntry.getValue());
         }
         return stlGcodeList;
+    }
+
+    @JavascriptInterface
+    public String getModuleList() {
+        BufferedReader bf = null;
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            AssetManager assets = context.getAssets();
+            bf = new BufferedReader(new InputStreamReader(
+                    assets.open("static/moduleList.json")));
+            String line;
+            while ((line = bf.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            Log.e("TAG", "getModuleList: error", e);
+        } finally {
+            try {
+                bf.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return "";
     }
 }
