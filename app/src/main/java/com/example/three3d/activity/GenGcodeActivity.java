@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -114,6 +115,7 @@ public class GenGcodeActivity extends AppCompatActivity {
         }
     };
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -123,6 +125,9 @@ public class GenGcodeActivity extends AppCompatActivity {
         setContentView(R.layout.gen_gcode);
 
         checkIsPermission();
+
+        //设置Activity竖屏显示
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         context = this;
 
@@ -200,7 +205,7 @@ public class GenGcodeActivity extends AppCompatActivity {
     private void showListListener() {
         listBtn.setOnClickListener(v -> {
 
-
+            initGrid();
         });
     }
 
@@ -318,7 +323,45 @@ public class GenGcodeActivity extends AppCompatActivity {
                         }).build();
                 //发送响应
                 Call call = client.newCall(request);
-                call.enqueue(new Callback() {
+                // 同步
+                Response response = call.execute();
+                if (response.isSuccessful()) {
+                    File gcodeFile = new File(outfileName);
+                    writeToFile(response, gcodeFile);
+
+                    // 下载完成
+                    File tempFile = new File(gcodeFile.getAbsolutePath());
+                    boolean b = tempFile.exists() && !tempFile.isDirectory();
+                    if (b) {
+                        sendMessage(DOWN_COMPLETED, "下载成功," + gcodeFile.getName());
+                        System.err.println(gcodeFile.getAbsolutePath() + ",result:" + b);
+
+                        stlGcode.setServerZipGcodeName(gcodeFile.getAbsolutePath());
+                        // 解压zip文件
+                        String unGcodeZipPath = gcodeFile.getAbsolutePath().replace(".zip", "");
+                        ZipFileUtil.upZipFile(tempFile, tempFile.getParentFile().getAbsolutePath().replace("\\", "/"));
+
+                        File unGcodeZip = new File(unGcodeZipPath);
+                        if (unGcodeZip.exists() && unGcodeZip.isFile()) {
+                            stlGcode.setLocalGcodeName(unGcodeZipPath);
+
+                            // StlUtil.stlMap.put(stlGcode.getRealStlName(), stlGcode);
+                            // 保存到数据库
+                            StlGcode tempCode = StlUtil.stlMap.get(currentFileName);
+                            StlUtil.updateModuleDataBase(context, currentFileName);
+                            sendMessage(DOWN_COMPLETED, "解压成功");
+                        } else {
+                            System.err.println(unGcodeZipPath + ",解压失败");
+                            sendMessage(DOWN_COMPLETED, "解压失败");
+                        }
+                    }
+                    System.err.println(gcodeFile.getAbsolutePath() + ",result:" + b);
+                } else{
+                    sendMessage(DOWN_COMPLETED, "下载失败," + outfileName);
+                }
+
+                // 异步
+                /*call.enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         sendMessage(DOWN_ERROR, "下载失败，请重试");
@@ -330,41 +373,16 @@ public class GenGcodeActivity extends AppCompatActivity {
                             long length = response.body().contentLength();
                             File gcodeFile = new File(outfileName);
                             if (length == 0) {
-                                // 下载完成
-                                File tempFile = new File(gcodeFile.getAbsolutePath());
-                                boolean b = tempFile.exists() && !tempFile.isDirectory();
-                                if (b) {
-                                    sendMessage(DOWN_COMPLETED, "下载成功," + gcodeFile.getName());
-                                    System.err.println(gcodeFile.getAbsolutePath() + ",result:" + b);
 
-                                    stlGcode.setServerZipGcodeName(gcodeFile.getAbsolutePath());
-                                    // 解压zip文件
-                                    String unGcodeZipPath = gcodeFile.getAbsolutePath().replace(".zip", "");
-                                    ZipFileUtil.upZipFile(tempFile, tempFile.getParentFile().getAbsolutePath().replace("\\", "/"));
-
-                                    File unGcodeZip = new File(unGcodeZipPath);
-                                    if (unGcodeZip.exists() && unGcodeZip.isFile()) {
-                                        stlGcode.setLocalGcodeName(unGcodeZipPath);
-
-                                        StlUtil.stlMap.put(stlGcode.getRealStlName(), stlGcode);
-                                        // 保存到数据库
-                                        StlUtil.updateModuleDataBase(context, stlGcode.getRealStlName());
-                                        System.err.println(unGcodeZipPath + ",解压成功");
-                                    } else {
-                                        System.err.println(unGcodeZipPath + ",解压失败");
-                                    }
-                                }
-                                System.err.println(gcodeFile.getAbsolutePath() + ",result:" + b);
                             }
                             //从响应体读取字节流
-
                             writeToFile(response, gcodeFile);
-                            sendMessage(DOWN_COMPLETED, "下载成功");
+
                         } else {
                             sendMessage(DOWN_ERROR, "下载失败，请重试");
                         }
                     }
-                });
+                });*/
             } catch (Exception e) {
                 e.printStackTrace();
                 System.err.println("execute download[ " + url + "] error:" + e.getMessage());

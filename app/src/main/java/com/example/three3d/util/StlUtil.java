@@ -58,7 +58,7 @@ public class StlUtil {
             values.put(ThreeEntry.COLUMN_LOCAL_GCODE_NAME, stlGcode.getLocalGcodeName());
             values.put(ThreeEntry.COLUMN_SERVER_ZIP_GCODE_NAME, stlGcode.getServerZipGcodeName());
             values.put(ThreeEntry.COLUMN_CREATE_TIME, stlGcode.getCreateTime());
-            String whereClause = ThreeEntry._ID + " id = ?";
+            String whereClause = ThreeEntry._ID + " = ?";
             String[] whereArgs = new String[]{String.valueOf(stlGcode.getId())};
             db.update(ThreeEntry.TABLE_NAME, values, whereClause, whereArgs);
             stlDataBaseMap.put(realStlName, stlGcode);
@@ -79,7 +79,7 @@ public class StlUtil {
         ContentValues values = new ContentValues();
         values.put(ThreeEntry.COLUMN_SOURCE_STL_NAME, webHost.getCurrentFileName());
         values.put(ThreeEntry.COLUMN_REAL_STL_NAME, stlGcode.getRealStlName());
-        values.put(ThreeEntry.COLUMN_SOURCE_ZIP_STL_NAME, "");
+        values.put(ThreeEntry.COLUMN_SOURCE_ZIP_STL_NAME, stlGcode.getSourceZipStlName());
         values.put(ThreeEntry.COLUMN_LOCAL_GCODE_NAME, "");
         values.put(ThreeEntry.COLUMN_SERVER_ZIP_GCODE_NAME, "");
         values.put(ThreeEntry.COLUMN_CREATE_TIME, stlGcode.getCreateTime());
