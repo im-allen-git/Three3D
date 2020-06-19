@@ -73,7 +73,9 @@ public class BulidModuleActivity extends AppCompatActivity {
         WebSettings settings = webView.getSettings();
         // settings.setAppCacheEnabled(true); // 开启缓存
         settings.setJavaScriptEnabled(true); // 开启javascript支持
-
+        settings.setAllowUniversalAccessFromFileURLs(true);
+        settings.setAllowFileAccess(true);
+        settings.setAllowFileAccessFromFileURLs(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
 
         webHost = new WebHost(this, mainHandler);

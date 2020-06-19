@@ -301,7 +301,7 @@ function listModule( type ) {
 	var data = js.getModuleList();
 	if(data){
 		data = eval('('+data+')')
-		console.log(JSON.stringify(data))
+//		console.log(JSON.stringify(data))
 		var shapesHtml = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>基础模型</div>';
 		var shapesIndex = 0;
 		listShapes = data.data.shapes;
@@ -363,14 +363,14 @@ function getLocalAppSTL(){
 		var stlListIndex = 100;
 		var stlListHTML = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>我的模型</div>';
 		for (var i in stlList) {
-		console.log(stlList[i])
 			stlListHTML += '';
 			stlListHTML += '<div class="module lego drag">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
 			stlListHTML += '<input class="this_code" type="hidden" value="' + stlListIndex + '">';
 			stlListHTML += '<input class="this_module" type="hidden" value="3">';
 			stlListHTML += '<input class="this_url" type="hidden" value="' + stlList[i].realStlName + '">';
 			// stlListHTML += '<div class="drag sprint sprint_' + stlList[i].title + ' sprintY"></div>';
-			stlListHTML += '<div class="img_wrapper"><img src="' + stlList[i].localImg + '.png" alt="' + listSTL[i].localImg + '" class="drag"></div>';
+			console.log(stlList[i].localImg)
+			stlListHTML += '<div class="img_wrapper"><img src="file://' + stlList[i].localImg + '" alt="' + listSTL[i].localImg + '" class="drag"></div>';
 			stlListHTML += '<div class="name drag">' + stlList[i].sourceStlName + '</div>';
 			stlListHTML += '<div class="color_change">';
 			stlListHTML += '<div class="color_option color_yellow color_circle" onclick="changeColorBeforeShoot(1,this)"></div>';
@@ -379,6 +379,7 @@ function getLocalAppSTL(){
 			stlListHTML += '</div>';
 			stlListIndex ++;
 		}
+		$(".mymodule_wrapper").html(stlListHTML)
 	}
 }
 function getTimeStr() {
@@ -1482,37 +1483,7 @@ function saveAsImage(nameStr,result) {
     		var strMime = "image/png";
     		imgData = renderer.domElement.toDataURL( strMime, 1 );
 
-    		/*var img = document.getElementById("save_img");
-    		img.src = imgData;
-    		img.style.width="80px";
-    		img.style.height="auto";
-    		// img.style = "display:none;width:80px;height:auto";
-
-            var isCl =false;
-            var startTime = new Date().getTime() + 1500;
-            while(!isCl){
-                isCl = new Date().getTime() < startTime;
-            }
-
-
-    		var img3 = document.getElementById("save_img");
-            imgData = getBase64Image(img3);
-
-
-            console.log("img3:" + img3);
-            console.log("imgData:" + imgData);*/
-            // saveFile( imgData.replace( strMime, strDownloadMime ), filename);
-
-            console.log("imgData:" + imgData);
-            /*var successFlag = js.saveImg(imgData.split(",")[1]);
-
-            if(successFlag){
-                successFlag = js.saveStl( result, nameStr + '.stl');
-            }*/
-
             var successFlag = js.saveStl( result, nameStr + '.stl', imgData.split(",")[1]);
-
-            // var successFlag = js.saveStl( result, nameStr + '.stl');
 
             if(successFlag){
                 afterSTLImg()
@@ -1524,9 +1495,6 @@ function saveAsImage(nameStr,result) {
                 }, 1500 );
             }
 
-    		/*setTimeout(function(){
-
-    		},200);*/
     	} catch (e) {
     		console.log( e );
             $( ".save_name_verify" ).text( "保存失败，请重试" ).show();
