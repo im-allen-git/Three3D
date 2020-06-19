@@ -217,7 +217,7 @@ function showModule( type ) {//type 0: 标准模型    1:卡通模型 2: lego �
 	} else if (type == 1) {
 		$( ".cartoon_wrapper" ).show();
 	} else if (type == 2) {
-		$( ".mymodule_wrapper" ).show();
+		$( ".buymodule_wrapper" ).show();
 	} else if (type == 3) {
 		alert( "购买跳转" );
 	}
@@ -228,70 +228,136 @@ function hideModule( obj ) {
 	$( obj ).parents( ".child_wrapper" ).hide();
 }
 
+/*function listModule( type ) {
+	$.ajax( {
+		type: "GET",
+		url: "../static/moduleList.json",
+		dataType: "JSON",
+		cache: false,
+		beforeSend: function () {
+		},
+		success: function ( res ) {
+			var shapesHtml = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>基础模型</div>';
+			var shapesIndex = 0;
+			listShapes = res.data.shapes;
+			for (var i in listShapes) {
+				if (listShapes[i].module == "shape") {
+					shapesHtml += '<div class="module shapes drag ' + listShapes[i].title + '" >';
+					shapesHtml += '<input class="this_module" type="hidden" value="0">';
+				} else if (listShapes[i].module == "stl") {
+					shapesHtml += '<div class="module shapes drag ' + listShapes[i].title + '">'; // onclick="loadSTL(11,this)"
+					shapesHtml += '<input class="this_module" type="hidden" value="1">';
+				} else if (listShapes[i].module == "text") {
+					shapesHtml += '<div class="module shapes drag ' + listShapes[i].title + '">'; // onclick="showInput(0,this)"
+					shapesHtml += '<input class="this_module" type="hidden" value="2">';
+
+				}
+				shapesHtml += '<input class="this_code" type="hidden" value="' + listShapes[i].code + '">';
+				// shapesHtml += '<img src="' + listShapes[i].url + '" alt="Doughnut" class="drag">';
+				shapesHtml += '<div class="drag sprint sprint_' + listShapes[i].title + '"></div>';
+				shapesHtml += '<div class="name drag">' + listShapes[i].name + '</div>';
+				shapesHtml += '<div class="color_change">';
+				if (i != listShapes.length - 1) {
+					shapesHtml += '<div class="color_option color_yellow color_circle" onclick="changeColorBeforeShoot(1,this)"></div>';
+					shapesHtml += '<div class="color_option color_white color_circle" onclick="changeColorBeforeShoot(0,this)"></div>';
+				} else {
+					shapesHtml += '<div class="color_option color_yellow color_circle" onclick="changeTextColor(1,this)"></div>';
+					shapesHtml += '<div class="color_option color_white color_circle" onclick="changeTextColor(0,this)"></div>';
+				}
+				shapesHtml += '</div>';
+				shapesHtml += '</div>';
+				shapesIndex ++;
+			}
+			$( ".normal_wrapper" ).html( shapesHtml );
+
+			var cartoonHtml = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>卡通模型</div>';
+			var cartoonIndex = 0;
+			listSTL = res.data.stl;
+			for (var i in listSTL) {
+				cartoonHtml += '<div class="module lego drag ' + listSTL[i].title + '">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
+				cartoonHtml += '<input class="this_code" type="hidden" value="' + cartoonIndex + '">';
+				cartoonHtml += '<input class="this_module" type="hidden" value="1">';
+				cartoonHtml += '<div class="drag sprint sprint_' + listSTL[i].title + ' sprintY"></div>';
+				// cartoonHtml += '<div class="img_wrapper"><img src="../img/3dPrinting/sprint_' + listSTL[i].title + '.png" alt="' + listSTL[i].title + '" class="drag"></div>';
+				cartoonHtml += '<div class="name drag">' + listSTL[i].name + '</div>';
+				cartoonHtml += '<div class="color_change">';
+				cartoonHtml += '<div class="color_option color_yellow color_circle" onclick="changeColorBeforeShoot(1,this)"></div>';
+				cartoonHtml += '<div class="color_option color_white color_circle" onclick="changeColorBeforeShoot(0,this)"></div>';
+				cartoonHtml += '</div>';
+				cartoonHtml += '</div>';
+				cartoonIndex ++;
+			}
+			cartoonHtml += '<div class="go_shopping" onclick="goShop() ">购买模型</div>';
+			$( ".cartoon_wrapper" ).html( cartoonHtml );
+
+		},
+		error: function ( res ) {
+			console.log( res );
+		}
+	} );
+
+}*/
 function listModule( type ) {
-    var data = js.getModuleList();
-    if(data){
-        data = eval('('+data+')')
-        console.log(JSON.stringify(data))
-        var shapesHtml = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>基础模型</div>';
-        var shapesIndex = 0;
-        listShapes = data.data.shapes;
-        for (var i in listShapes) {
-            if (listShapes[i].module == "shape") {
-                shapesHtml += '<div class="module shapes drag ' + listShapes[i].title + '" >';
-                shapesHtml += '<input class="this_module" type="hidden" value="0">';
-            } else if (listShapes[i].module == "stl") {
-                shapesHtml += '<div class="module shapes drag ' + listShapes[i].title + '">'; // onclick="loadSTL(11,this)"
-                shapesHtml += '<input class="this_module" type="hidden" value="1">';
-            } else if (listShapes[i].module == "text") {
-                shapesHtml += '<div class="module shapes drag ' + listShapes[i].title + '">'; // onclick="showInput(0,this)"
-                shapesHtml += '<input class="this_module" type="hidden" value="2">';
+	var data = js.getModuleList();
+	if(data){
+		data = eval('('+data+')')
+		console.log(JSON.stringify(data))
+		var shapesHtml = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>基础模型</div>';
+		var shapesIndex = 0;
+		listShapes = data.data.shapes;
+		for (var i in listShapes) {
+			if (listShapes[i].module == "shape") {
+				shapesHtml += '<div class="module shapes drag ' + listShapes[i].title + '" >';
+				shapesHtml += '<input class="this_module" type="hidden" value="0">';
+			} else if (listShapes[i].module == "stl") {
+				shapesHtml += '<div class="module shapes drag ' + listShapes[i].title + '">'; // onclick="loadSTL(11,this)"
+				shapesHtml += '<input class="this_module" type="hidden" value="1">';
+			} else if (listShapes[i].module == "text") {
+				shapesHtml += '<div class="module shapes drag ' + listShapes[i].title + '">'; // onclick="showInput(0,this)"
+				shapesHtml += '<input class="this_module" type="hidden" value="2">';
 
-            }
-            shapesHtml += '<input class="this_code" type="hidden" value="' + listShapes[i].code + '">';
-            // shapesHtml += '<img src="' + listShapes[i].url + '" alt="Doughnut" class="drag">';
-            shapesHtml += '<div class="drag sprint sprint_' + listShapes[i].title + '"></div>';
-            shapesHtml += '<div class="name drag">' + listShapes[i].name + '</div>';
-            shapesHtml += '<div class="color_change">';
-            if (i != listShapes.length - 1) {
-                shapesHtml += '<div class="color_option color_yellow color_circle" onclick="changeColorBeforeShoot(1,this)"></div>';
-                shapesHtml += '<div class="color_option color_white color_circle" onclick="changeColorBeforeShoot(0,this)"></div>';
-            } else {
-                shapesHtml += '<div class="color_option color_yellow color_circle" onclick="changeTextColor(1,this)"></div>';
-                shapesHtml += '<div class="color_option color_white color_circle" onclick="changeTextColor(0,this)"></div>';
-            }
-            shapesHtml += '</div>';
-            shapesHtml += '</div>';
-            shapesIndex ++;
-        }
-        $( ".normal_wrapper" ).html( shapesHtml );
+			}
+			shapesHtml += '<input class="this_code" type="hidden" value="' + listShapes[i].code + '">';
+			// shapesHtml += '<img src="' + listShapes[i].url + '" alt="Doughnut" class="drag">';
+			shapesHtml += '<div class="drag sprint sprint_' + listShapes[i].title + '"></div>';
+			shapesHtml += '<div class="name drag">' + listShapes[i].name + '</div>';
+			shapesHtml += '<div class="color_change">';
+			if (i != listShapes.length - 1) {
+				shapesHtml += '<div class="color_option color_yellow color_circle" onclick="changeColorBeforeShoot(1,this)"></div>';
+				shapesHtml += '<div class="color_option color_white color_circle" onclick="changeColorBeforeShoot(0,this)"></div>';
+			} else {
+				shapesHtml += '<div class="color_option color_yellow color_circle" onclick="changeTextColor(1,this)"></div>';
+				shapesHtml += '<div class="color_option color_white color_circle" onclick="changeTextColor(0,this)"></div>';
+			}
+			shapesHtml += '</div>';
+			shapesHtml += '</div>';
+			shapesIndex ++;
+		}
+		$( ".normal_wrapper" ).html( shapesHtml );
 
-        var cartoonHtml = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>卡通模型</div>';
-        var cartoonIndex = 0;
-        listSTL = data.data.stl;
-        for (var i in listSTL) {
-            cartoonHtml += '<div class="module lego drag ' + listSTL[i].title + '">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
-            cartoonHtml += '<input class="this_code" type="hidden" value="' + cartoonIndex + '">';
-            cartoonHtml += '<input class="this_module" type="hidden" value="1">';
-            cartoonHtml += '<div class="drag sprint sprint_' + listSTL[i].title + ' sprintY"></div>';
-            // cartoonHtml += '<div class="img_wrapper"><img src="../img/3dPrinting/sprint_' + listSTL[i].title + '.png" alt="' + listSTL[i].title + '" class="drag"></div>';
-            cartoonHtml += '<div class="name drag">' + listSTL[i].name + '</div>';
-            cartoonHtml += '<div class="color_change">';
-            cartoonHtml += '<div class="color_option color_yellow color_circle" onclick="changeColorBeforeShoot(1,this)"></div>';
-            cartoonHtml += '<div class="color_option color_white color_circle" onclick="changeColorBeforeShoot(0,this)"></div>';
-            cartoonHtml += '</div>';
-            cartoonHtml += '</div>';
-            cartoonIndex ++;
-        }
-        cartoonHtml += '<div class="go_shopping" onclick="goShop() ">购买模型</div>';
-        $( ".cartoon_wrapper" ).html( cartoonHtml );
-    }
+		var cartoonHtml = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>卡通模型</div>';
+		var cartoonIndex = 0;
+		listSTL = data.data.stl;
+		for (var i in listSTL) {
+			cartoonHtml += '<div class="module lego drag ' + listSTL[i].title + '">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
+			cartoonHtml += '<input class="this_code" type="hidden" value="' + cartoonIndex + '">';
+			cartoonHtml += '<input class="this_module" type="hidden" value="1">';
+			cartoonHtml += '<div class="drag sprint sprint_' + listSTL[i].title + ' sprintY"></div>';
+			// cartoonHtml += '<div class="img_wrapper"><img src="../img/3dPrinting/sprint_' + listSTL[i].title + '.png" alt="' + listSTL[i].title + '" class="drag"></div>';
+			cartoonHtml += '<div class="name drag">' + listSTL[i].name + '</div>';
+			cartoonHtml += '<div class="color_change">';
+			cartoonHtml += '<div class="color_option color_yellow color_circle" onclick="changeColorBeforeShoot(1,this)"></div>';
+			cartoonHtml += '<div class="color_option color_white color_circle" onclick="changeColorBeforeShoot(0,this)"></div>';
+			cartoonHtml += '</div>';
+			cartoonHtml += '</div>';
+			cartoonIndex ++;
+		}
+		cartoonHtml += '<div class="go_shopping" onclick="goShop() ">购买模型</div>';
+		$( ".cartoon_wrapper" ).html( cartoonHtml );
+	}
 }
-
 function getLocalAppSTL(){
-	var data = js.getStlList() || null;
-	var stlList = eval("(" + data+")");
-
+	var stlList = js.getStlList() || null;
 	if(stlList) {
 		var stlListIndex = 100;
 		var stlListHTML = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>我的模型</div>';
@@ -302,7 +368,7 @@ function getLocalAppSTL(){
 			stlListHTML += '<input class="this_module" type="hidden" value="3">';
 			stlListHTML += '<input class="this_url" type="hidden" value="' + stlList[i].realStlName + '">';
 			// stlListHTML += '<div class="drag sprint sprint_' + stlList[i].title + ' sprintY"></div>';
-			stlListHTML += '<div class="img_wrapper"><img src="' + stlList[i].realStlName + '.png" alt="' + stlList[i].realStlName + '" class="drag"></div>';
+			stlListHTML += '<div class="img_wrapper"><img src="' + stlList[i].realStlName + '.png" alt="' + listSTL[i].title + '" class="drag"></div>';
 			stlListHTML += '<div class="name drag">' + stlList[i].sourceStlName + '</div>';
 			stlListHTML += '<div class="color_change">';
 			stlListHTML += '<div class="color_option color_yellow color_circle" onclick="changeColorBeforeShoot(1,this)"></div>';
@@ -312,11 +378,6 @@ function getLocalAppSTL(){
 			stlListIndex ++;
 		}
 	}
-	else{
-	    var stlListHTML = '<div class="module shapes no_module"><div class="name">无</div></div>';
-	}
-	console.log(JSON.stringify(stlListHTML))
-	$(".mymodule_wrapper").html(stlListHTML)
 }
 function getTimeStr() {
 	var date = new Date();
@@ -414,7 +475,7 @@ function zoomView( zoomIndex ) {
 
 //main
 function init() {
-	renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
+	renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true, preserveDrawingBuffer: true} );
 	// renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setPixelRatio( ( window.devicePixelRatio ) ? window.devicePixelRatio : 1 );
 	renderer.setSize( window.innerWidth, window.innerHeight );
@@ -1344,8 +1405,10 @@ function exportMoudle( type ) { //type 0: ASCII 1: GLTF
 		clearCache( plane );
 		scene.remove( plane );
 		outlinePass.selectedObjects = [];
+		camera.position.set( 170, 145, 255 ); //45°
+		camera.lookAt( 0, 0, 0 );
 		// scene.rotateOnAxis( new THREE.Vector3( 1, 0, 0 ), -90 * ( Math.PI / 180 ) );
-
+		animate();
 		var nameStr = $( "#save_name" ).val();
 		var successFlag;
 		if (nameStr) {
@@ -1378,16 +1441,7 @@ function exportMoudle( type ) { //type 0: ASCII 1: GLTF
 		}
 
 		if (successFlag) {
-			saveModuleShow( 1 );
-			// 保存成功，清空当前项目
-			objects.forEach( function ( d ) {
-				clearCache( d );
-				scene.remove( d );
-			} );
-			objects = [];
-			objects.push( plane );
-			transformControl.detach();
-			$( ".save_stl" ).addClass( "noActive_save" );
+			saveAsImage(nameStr + '.png' );
 			// 保存成功，清空当前项目 end
 		} else {
 			$( ".save_name_verify" ).text( "保存失败，请重试" ).show();
@@ -1403,8 +1457,7 @@ function exportMoudle( type ) { //type 0: ASCII 1: GLTF
 		scene.add( gradGroundMesh );
 		scene.add( gradGroundMesh1 );
 		scene.add( plane );
-		camera.position.set( 170, 145, 255 ); //45°
-		camera.lookAt( 0, 0, 0 );
+
 	}
 }
 
@@ -1428,6 +1481,73 @@ function saveString( text, filename ) {
 
 }
 
+function saveAsImage(filename) {
+	var imgData;
+	var strDownloadMime = "image/octet-stream";
+	try {
+		var strMime = "image/png";
+		imgData = renderer.domElement.toDataURL( strMime, 1 );
+		var img = document.createElement("img");
+		img.src = imgData;
+		img.id = "canImg";
+		img.style = "display:none;width:80px;height:auto";
+		document.body.append(img);
+		setTimeout(function(){
+			var img3 = document.getElementById("canImg");
+			imgData = getBase64Image(img3);
+			// saveFile( imgData.replace( strMime, strDownloadMime ), filename);
+			var isSuccFalge = js.saveImg(imgData);
+			if(isSuccFalge){
+				afterSTLImg()
+			}
+			else{
+				$( ".save_name_verify" ).text( "保存失败，请重试" ).show();
+				setTimeout( function () {
+					$( ".save_name_verify" ).text( "请输入模型名称" ).hide();
+				}, 1500 );
+			}
+		},200)
+	} catch (e) {
+		console.log( e );
+		return;
+	}
+
+}
+function getBase64Image(img) {
+	var canvas = document.createElement("canvas");
+	canvas.width = img.width;
+	canvas.height = img.height;
+	var ctx = canvas.getContext("2d");
+	ctx.drawImage(img, 0, 0, img.width, img.height);
+	var dataURL = canvas.toDataURL("image/png");
+	return dataURL
+}
+var saveFile = function (strData, filename) {
+	var link = document.createElement('a');
+	if (typeof link.download === 'string') {
+		document.body.appendChild(link); //Firefox requires the link to be in the body
+		link.download = filename;
+		link.href = strData;
+		link.click();
+		document.body.removeChild(link); //remove the link when done
+	} else {
+		location.replace(uri);
+	}
+}
+
+function afterSTLImg(){
+	saveModuleShow( 1 );
+	// 保存成功，清空当前项目
+	objects.forEach( function ( d ) {
+		clearCache( d );
+		scene.remove( d );
+	} );
+	objects = [];
+	objects.push( plane );
+	transformControl.detach();
+	$( ".save_stl" ).addClass( "noActive_save" );
+	$("#canImg").remove();//保存当前图片后，删除
+}
 // 导出相关 end
 //camera 方向
 
