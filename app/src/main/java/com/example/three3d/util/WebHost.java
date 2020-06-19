@@ -3,13 +3,13 @@ package com.example.three3d.util;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.os.Build;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Base64;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
-
-import androidx.annotation.RequiresApi;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.three3d.IndexActivity;
@@ -19,6 +19,7 @@ import com.example.three3d.activity.ShoppingActivity;
 import com.example.three3d.pojo.StlGcode;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -36,9 +37,17 @@ public class WebHost {
     public Context context;
     private Handler myHandler;
 
+    // APP缓存路径
     private String filePrePath;
 
+    // 文件全路径
+    private String fileAllPath;
+
+    // 保存的stl文件全路径
     private String currentFileName;
+
+    // 保存的img文件全路径
+    private String currentImg;
 
     public String getCurrentFileName() {
         return this.currentFileName;
@@ -53,18 +62,21 @@ public class WebHost {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     @JavascriptInterface
-    public boolean saveStl(String fileTxt, String fileName) {
+    public boolean saveStl(String fileTxt, String fileName, String imgData) {
 
         boolean isSu = false;
 
-        Random random = new Random();
-        int nextInt = random.nextInt(9999);
+        isSu = saveImg(imgData);
+        if (!isSu) {
+            return isSu;
+        }
 
+        // setPath();
         String endSuffix = fileName.substring(fileName.lastIndexOf("."));
 
-        String realFileName = filePrePath + "/" + System.currentTimeMillis() + "_" + nextInt + endSuffix;
+        String realFileName = fileAllPath + endSuffix;
         File file = new File(realFileName);
         Message msg = new Message();
         if (StlUtil.stlMap.containsKey(fileName) || (file.exists() && !file.isDirectory())) {
@@ -93,8 +105,12 @@ public class WebHost {
                     stlGcode.setSourceStlName(fileName);
                     stlGcode.setSourceZipStlName(tempFileAllPath + ".zip");
                     stlGcode.setCreateTime(new Date().toString());
+                    stlGcode.setLocalImg(currentImg);
                     StlUtil.stlMap.put(tempFileAllPath, stlGcode);
                     isSu = true;
+
+                    StlUtil.saveModuleDataBase(context, stlGcode);
+
                     msg.what = 1;
                     msg.obj = fileName;
                     System.err.println("zipfile:" + file.getAbsolutePath() + ", success");
@@ -204,5 +220,102 @@ public class WebHost {
             }
         }
         return "";
+    }
+
+
+    private boolean saveImg(String fileTxt) {
+
+        setPath();
+
+        String localImg = fileAllPath + ".png";
+
+        byte[] buffer = Base64.decode(fileTxt, Base64.DEFAULT);
+        FileOutputStream out = null;
+        try {
+
+            out = new FileOutputStream(localImg);
+            out.write(buffer);
+            out.flush();
+            System.err.println("imgFile:" + localImg + ", success");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        File file = new File(localImg);
+        if (file.exists() && file.isFile()) {
+            currentImg = localImg;
+            // return samplingRateCompress(localImg, fileAllPath + ".png");
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * 5.采样率压缩（设置图片的采样率，降低图片像素）
+     *
+     * @param filePath
+     * @param newFilePath
+     */
+    private boolean samplingRateCompress(String filePath, String newFilePath) {
+
+        Bitmap orBitmap = BitmapFactory.decodeFile(filePath);
+        int width = orBitmap.getWidth();
+
+        // 数值越高，图片像素越低
+        int inSampleSize = width / 80;
+
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = false;
+        // options.inJustDecodeBounds = true;//为true的时候不会真正加载图片，而是得到图片的宽高信息。
+        //采样率
+        options.inSampleSize = inSampleSize;
+
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        FileOutputStream fos = null;
+
+        File file = new File(newFilePath);
+        try {
+            Bitmap newBitmap = BitmapFactory.decodeFile(filePath, options);
+            // 把压缩后的数据存放到baos中
+            newBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            if (file.exists()) {
+                file.delete();
+            } else {
+                file.createNewFile();
+            }
+            fos = new FileOutputStream(file);
+            fos.write(baos.toByteArray());
+            fos.flush();
+            fos.close();
+            baos.flush();
+            baos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            IOUtil.closeAll(null, fos, baos);
+        }
+        File tempFile = new File(newFilePath);
+        if (tempFile.exists() && tempFile.isFile()) {
+            currentImg = newFilePath;
+            System.err.println("imgFile:" + newFilePath + ", success");
+        }
+        return tempFile.exists() && tempFile.isFile();
+    }
+
+
+    private void setPath() {
+        Random random = new Random();
+        int nextInt = random.nextInt(9999);
+        fileAllPath = filePrePath + "/" + System.currentTimeMillis() + "_" + nextInt;
     }
 }

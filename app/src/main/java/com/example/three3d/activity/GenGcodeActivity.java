@@ -211,17 +211,30 @@ public class GenGcodeActivity extends AppCompatActivity {
 
 
     private void doUpload() {
+
+        /*String imgFilePath = stlGcode.getLocalImg();
+        if (null != imgFilePath && imgFilePath.length() > 1) {
+            fileText.setText("正在上传");
+            Thread upThread = new Thread(() -> {
+                File imgFile = new File(imgFilePath);
+                postProgress(FILE_UPLOAD_URL, imgFile, new HashMap<>());
+                downFile();
+            });
+            upThread.start();
+        } else {
+            sendMessage(UPLOAD_ERROR, "获取文件失败");
+        }*/
+
+
         String zipFile = stlGcode.getSourceZipStlName();
-        if (null != zipFile && zipFile.length() > 1) {
-            if (null != zipFile && zipFile.length() > 0) {
-                fileText.setText("正在上传");
-                Thread upThread = new Thread(() -> {
-                    File stlFile = new File(zipFile);
-                    postProgress(FILE_UPLOAD_URL, stlFile, new HashMap<>());
-                    downFile();
-                });
-                upThread.start();
-            }
+        if (null != zipFile && zipFile.length() > 0) {
+            fileText.setText("正在上传");
+            Thread upThread = new Thread(() -> {
+                File stlFile = new File(zipFile);
+                postProgress(FILE_UPLOAD_URL, stlFile, new HashMap<>());
+                downFile();
+            });
+            upThread.start();
         } else {
             sendMessage(UPLOAD_ERROR, "获取文件失败");
         }

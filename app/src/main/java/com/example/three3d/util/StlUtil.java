@@ -35,7 +35,11 @@ public class StlUtil {
             stlMap.put("sourceStlName", stlGcodeEntry.getValue().getSourceStlName());
             stlMap.put("realStlName", stlGcodeEntry.getValue().getRealStlName());
             stlMap.put("createTime", stlGcodeEntry.getValue().getCreateTime());
+            stlMap.put("localImg", stlGcodeEntry.getValue().getLocalImg());
             data_list.add(stlMap);
+        }
+        if (data_list.size() == 0) {
+            return null;
         }
         return data_list;
     }
@@ -58,6 +62,7 @@ public class StlUtil {
             values.put(ThreeEntry.COLUMN_LOCAL_GCODE_NAME, stlGcode.getLocalGcodeName());
             values.put(ThreeEntry.COLUMN_SERVER_ZIP_GCODE_NAME, stlGcode.getServerZipGcodeName());
             values.put(ThreeEntry.COLUMN_CREATE_TIME, stlGcode.getCreateTime());
+            values.put(ThreeEntry.COLUMN_LOCAL_IMG, stlGcode.getLocalImg());
             String whereClause = ThreeEntry._ID + " = ?";
             String[] whereArgs = new String[]{String.valueOf(stlGcode.getId())};
             db.update(ThreeEntry.TABLE_NAME, values, whereClause, whereArgs);
@@ -69,20 +74,20 @@ public class StlUtil {
      * 保存模型数据
      *
      * @param context
-     * @param webHost
+     * @param stlGcode
      * @return
      */
-    public static long saveModuleDataBase(Context context, WebHost webHost) {
+    public static long saveModuleDataBase(Context context, StlGcode stlGcode) {
         SQLiteDatabase db = getDbByContext(context);
-        StlGcode stlGcode = stlMap.get(webHost.getCurrentFileName());
 
         ContentValues values = new ContentValues();
-        values.put(ThreeEntry.COLUMN_SOURCE_STL_NAME, webHost.getCurrentFileName());
+        values.put(ThreeEntry.COLUMN_SOURCE_STL_NAME, stlGcode.getSourceStlName());
         values.put(ThreeEntry.COLUMN_REAL_STL_NAME, stlGcode.getRealStlName());
         values.put(ThreeEntry.COLUMN_SOURCE_ZIP_STL_NAME, stlGcode.getSourceZipStlName());
         values.put(ThreeEntry.COLUMN_LOCAL_GCODE_NAME, "");
         values.put(ThreeEntry.COLUMN_SERVER_ZIP_GCODE_NAME, "");
         values.put(ThreeEntry.COLUMN_CREATE_TIME, stlGcode.getCreateTime());
+        values.put(ThreeEntry.COLUMN_LOCAL_IMG, stlGcode.getLocalImg());
         long newRowId = db.insert(ThreeEntry.TABLE_NAME, null, values);
         stlDataBaseMap.put(stlGcode.getRealStlName(), stlGcode);
 
@@ -106,6 +111,7 @@ public class StlUtil {
         int serverZipGcodeNameIndex = cursor.getColumnIndex(ThreeEntry.COLUMN_SERVER_ZIP_GCODE_NAME);
         int localGcodeNameIndex = cursor.getColumnIndex(ThreeEntry.COLUMN_LOCAL_GCODE_NAME);
         int createTimeIndex = cursor.getColumnIndex(ThreeEntry.COLUMN_CREATE_TIME);
+        int localImgIndex = cursor.getColumnIndex(ThreeEntry.COLUMN_LOCAL_IMG);
         while (cursor.moveToNext()) {
             int id = cursor.getInt(idIndex);
             String sourceStlName = cursor.getString(sourceStlNameIndex);
@@ -114,7 +120,9 @@ public class StlUtil {
             String serverZipGcodeName = cursor.getString(serverZipGcodeNameIndex);
             String localGcodeName = cursor.getString(localGcodeNameIndex);
             String createTime = cursor.getString(createTimeIndex);
-            StlGcode stlGcode = new StlGcode(id, sourceStlName, realStlName, sourceZipStlName, serverZipGcodeName, localGcodeName, createTime);
+            String localImg = cursor.getString(localImgIndex);
+            StlGcode stlGcode = new StlGcode(id, sourceStlName, realStlName, sourceZipStlName,
+                    serverZipGcodeName, localGcodeName, createTime, localImg);
             stlDataBaseMap.put(stlGcode.getRealStlName(), stlGcode);
         }
     }

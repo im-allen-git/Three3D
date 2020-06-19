@@ -28,4 +28,7 @@ public class StlGcode {
 
     private String createTime;
 
+    // 本地缩略图
+    private String localImg;
+
 }

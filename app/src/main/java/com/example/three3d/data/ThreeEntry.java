@@ -18,5 +18,6 @@ public final class ThreeEntry implements BaseColumns {
     public final static String COLUMN_LOCAL_GCODE_NAME ="local_gcode";
     public final static String COLUMN_SERVER_ZIP_GCODE_NAME ="server_zip_gcode";
     public final static String COLUMN_CREATE_TIME ="create_time";
+    public final static String COLUMN_LOCAL_IMG ="local_img";
 
 }

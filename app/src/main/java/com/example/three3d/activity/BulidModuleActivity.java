@@ -2,7 +2,6 @@ package com.example.three3d.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -25,7 +24,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.three3d.R;
-import com.example.three3d.util.StlUtil;
 import com.example.three3d.util.WebHost;
 
 import java.util.Objects;
@@ -41,7 +39,6 @@ public class BulidModuleActivity extends AppCompatActivity {
     private Button clickBtn;
     private TextView textView;
     private WebHost webHost;
-    private Context context;
 
     @SuppressLint("HandlerLeak")
     private Handler mainHandler = new Handler() {
@@ -50,9 +47,8 @@ public class BulidModuleActivity extends AppCompatActivity {
             textView.setVisibility(View.VISIBLE);
             if (msg.what == 1) {
                 clickBtn.setVisibility(View.VISIBLE);
-                StlUtil.saveModuleDataBase(context, webHost);
+                textView.setText(msg.obj.toString());
             }
-            textView.setText(msg.obj.toString());
         }
     };
 
@@ -69,8 +65,6 @@ public class BulidModuleActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();// 隐藏标题栏
         //设置Activity横屏显示
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
-        context = this;
 
         // 拿到webView组件
         WebView webView = findViewById(R.id.children);

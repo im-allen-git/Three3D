@@ -217,7 +217,7 @@ function showModule( type ) {//type 0: 标准模型    1:卡通模型 2: lego �
 	} else if (type == 1) {
 		$( ".cartoon_wrapper" ).show();
 	} else if (type == 2) {
-		$( ".buymodule_wrapper" ).show();
+		$( ".mymodule_wrapper" ).show();
 	} else if (type == 3) {
 		alert( "购买跳转" );
 	}
@@ -357,18 +357,20 @@ function listModule( type ) {
 	}
 }
 function getLocalAppSTL(){
-	var stlList = js.getStlList() || null;
-	if(stlList) {
+	var data = js.getStlList() || null;
+	if(data) {
+	    var stlList = eval('('+data+')')
 		var stlListIndex = 100;
 		var stlListHTML = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>我的模型</div>';
 		for (var i in stlList) {
+		console.log(stlList[i])
 			stlListHTML += '';
 			stlListHTML += '<div class="module lego drag">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
 			stlListHTML += '<input class="this_code" type="hidden" value="' + stlListIndex + '">';
 			stlListHTML += '<input class="this_module" type="hidden" value="3">';
 			stlListHTML += '<input class="this_url" type="hidden" value="' + stlList[i].realStlName + '">';
 			// stlListHTML += '<div class="drag sprint sprint_' + stlList[i].title + ' sprintY"></div>';
-			stlListHTML += '<div class="img_wrapper"><img src="' + stlList[i].realStlName + '.png" alt="' + listSTL[i].title + '" class="drag"></div>';
+			stlListHTML += '<div class="img_wrapper"><img src="' + stlList[i].localImg + '.png" alt="' + listSTL[i].localImg + '" class="drag"></div>';
 			stlListHTML += '<div class="name drag">' + stlList[i].sourceStlName + '</div>';
 			stlListHTML += '<div class="color_change">';
 			stlListHTML += '<div class="color_option color_yellow color_circle" onclick="changeColorBeforeShoot(1,this)"></div>';
@@ -1418,7 +1420,7 @@ function exportMoudle( type ) { //type 0: ASCII 1: GLTF
 				var result = exporter.parse( scene );
 				var date = Date.parse( new Date() );
 				// saveString( result, nameStr + '.stl' );
-				successFlag = js.saveStl( result, nameStr + '.stl' );
+                saveAsImage(nameStr,result );
 				// successFlag = true;
 			} else {
 				var input = scene;
@@ -1440,15 +1442,7 @@ function exportMoudle( type ) { //type 0: ASCII 1: GLTF
 			}
 		}
 
-		if (successFlag) {
-			saveAsImage(nameStr + '.png' );
-			// 保存成功，清空当前项目 end
-		} else {
-			$( ".save_name_verify" ).text( "保存失败，请重试" ).show();
-			setTimeout( function () {
-				$( ".save_name_verify" ).text( "请输入模型名称" ).hide();
-			}, 1500 );
-		}
+
 		if (! mobile) {
 			scene.add( mouseHelper );
 		}
@@ -1481,36 +1475,66 @@ function saveString( text, filename ) {
 
 }
 
-function saveAsImage(filename) {
+function saveAsImage(nameStr,result) {
 	var imgData;
-	var strDownloadMime = "image/octet-stream";
-	try {
-		var strMime = "image/png";
-		imgData = renderer.domElement.toDataURL( strMime, 1 );
-		var img = document.createElement("img");
-		img.src = imgData;
-		img.id = "canImg";
-		img.style = "display:none;width:80px;height:auto";
-		document.body.append(img);
-		setTimeout(function(){
-			var img3 = document.getElementById("canImg");
-			imgData = getBase64Image(img3);
-			// saveFile( imgData.replace( strMime, strDownloadMime ), filename);
-			var isSuccFalge = js.saveImg(imgData);
-			if(isSuccFalge){
-				afterSTLImg()
-			}
-			else{
-				$( ".save_name_verify" ).text( "保存失败，请重试" ).show();
-				setTimeout( function () {
-					$( ".save_name_verify" ).text( "请输入模型名称" ).hide();
-				}, 1500 );
-			}
-		},200)
-	} catch (e) {
-		console.log( e );
-		return;
-	}
+    	var strDownloadMime = "image/octet-stream";
+    	try {
+    		var strMime = "image/png";
+    		imgData = renderer.domElement.toDataURL( strMime, 1 );
+
+    		/*var img = document.getElementById("save_img");
+    		img.src = imgData;
+    		img.style.width="80px";
+    		img.style.height="auto";
+    		// img.style = "display:none;width:80px;height:auto";
+
+            var isCl =false;
+            var startTime = new Date().getTime() + 1500;
+            while(!isCl){
+                isCl = new Date().getTime() < startTime;
+            }
+
+
+    		var img3 = document.getElementById("save_img");
+            imgData = getBase64Image(img3);
+
+
+            console.log("img3:" + img3);
+            console.log("imgData:" + imgData);*/
+            // saveFile( imgData.replace( strMime, strDownloadMime ), filename);
+
+            console.log("imgData:" + imgData);
+            /*var successFlag = js.saveImg(imgData.split(",")[1]);
+
+            if(successFlag){
+                successFlag = js.saveStl( result, nameStr + '.stl');
+            }*/
+
+            var successFlag = js.saveStl( result, nameStr + '.stl', imgData.split(",")[1]);
+
+            // var successFlag = js.saveStl( result, nameStr + '.stl');
+
+            if(successFlag){
+                afterSTLImg()
+            }
+            else{
+                $( ".save_name_verify" ).text( "保存失败，请重试" ).show();
+                setTimeout( function () {
+                    $( ".save_name_verify" ).text( "请输入模型名称" ).hide();
+                }, 1500 );
+            }
+
+    		/*setTimeout(function(){
+
+    		},200);*/
+    	} catch (e) {
+    		console.log( e );
+            $( ".save_name_verify" ).text( "保存失败，请重试" ).show();
+            setTimeout( function () {
+                $( ".save_name_verify" ).text( "请输入模型名称" ).hide();
+            }, 1500 );
+    		return;
+    	}
 
 }
 function getBase64Image(img) {

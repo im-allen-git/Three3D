@@ -22,7 +22,8 @@ public class ThreeDbHelper extends SQLiteOpenHelper {
                 + ThreeEntry.COLUMN_SOURCE_ZIP_STL_NAME + " TEXT , "
                 + ThreeEntry.COLUMN_LOCAL_GCODE_NAME + " TEXT , "
                 + ThreeEntry.COLUMN_SERVER_ZIP_GCODE_NAME + " TEXT , "
-                + ThreeEntry.COLUMN_CREATE_TIME + " TEXT NOT NULL);";
+                + ThreeEntry.COLUMN_CREATE_TIME + " TEXT , "
+                + ThreeEntry.COLUMN_LOCAL_IMG + " TEXT);";
 
         // Execute the SQL statement
         db.execSQL(SQL_CREATE_PETS_TABLE);
