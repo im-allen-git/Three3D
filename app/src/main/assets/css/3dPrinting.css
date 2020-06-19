@@ -109,7 +109,7 @@ a, button, input, select {
 .active_shape{background: rgba(118,174,234,.3)!important;}
 .go_shopping { position: fixed; bottom: 0; right: 0; width: 1rem; text-align: center; background:#F0F7FF;color:#FFE548;
     border-top: 1px solid #FFE548;}
-.img_wrapper { margin: auto; width: 1rem; height:1rem;text-align: center;background:#EEE; }
+.img_wrapper { margin: auto; width: .8rem; height:.8rem;text-align: center;}
 .mymodule_wrapper .img_wrapper img {margin:.1rem auto 0; max-width: 100%; max-height: 100%;}
 .module.shapes.no_module .name { height: 100%; width: 1rem; margin: auto; color: #333; line-height: 2rem; z-index: 3; }
 .cartoon_wrapper .module:last-of-type{ margin-bottom: .25rem;}
