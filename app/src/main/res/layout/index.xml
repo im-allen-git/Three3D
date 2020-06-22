@@ -56,7 +56,7 @@
             android:layout_height="517dp">
 
             <LinearLayout
-                android:layout_width="80dp"
+                android:layout_width="100dp"
                 android:layout_height="160dp"
                 android:layout_gravity="right"
                 android:baselineAligned="false"
@@ -78,8 +78,7 @@
                         android:background="#00FFFFFF"
                         android:contentDescription="@string/pintthismodule"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@android:drawable/presence_online"
-                        tools:srcCompat="@drawable/new_module" />
+                        android:src="@drawable/new_module" />
 
                     <TextView
                         android:id="@+id/text_view_new_module"
@@ -108,8 +107,7 @@
                         android:background="#00FFFFFF"
                         android:contentDescription="@string/pintthismodule"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@android:drawable/presence_online"
-                        tools:srcCompat="@drawable/module_param" />
+                        android:src="@drawable/module_param" />
 
                     <TextView
                         android:id="@+id/text_view_param"
@@ -142,7 +140,7 @@
                     android:layout_weight="1"
                     android:background="#00FFFFFF"
                     android:scaleType="center"
-                    app:srcCompat="@drawable/btn_pre" />
+                    android:src="@drawable/btn_pre" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -157,7 +155,7 @@
                         android:layout_marginTop="-40dp"
                         android:layout_weight="1"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/module_bg" />
+                        android:src="@drawable/module_bg" />
 
                     <ImageView
                         android:id="@+id/imageViewModule"
@@ -166,7 +164,7 @@
                         android:layout_weight="1"
                         android:paddingTop="20dp"
                         android:paddingBottom="20dp"
-                        app:srcCompat="@drawable/module_example" />
+                        android:src="@drawable/module_example" />
                 </FrameLayout>
 
                 <ImageButton
@@ -176,7 +174,7 @@
                     android:layout_weight="1"
                     android:background="#00FFFFFF"
                     android:scaleType="center"
-                    app:srcCompat="@drawable/btn_next" />
+                    android:src="@drawable/btn_next" />
 
             </LinearLayout>
 
@@ -197,8 +195,8 @@
                 android:background="#00FFFFFF"
                 android:contentDescription="@string/pintthismodule"
                 android:scaleType="fitCenter"
-                app:srcCompat="@android:drawable/presence_online"
-                tools:srcCompat="@drawable/btn_print" />
+                android:src="@drawable/btn_print"
+                />
         </LinearLayout>
         <!--打印按钮 end-->
     </LinearLayout>

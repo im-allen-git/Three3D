@@ -35,9 +35,9 @@
                     android:adjustViewBounds="true"
                     android:background="#00FFFFFF"
                     android:contentDescription="@string/pintthismodule"
+                    android:padding="10dp"
                     android:scaleType="fitStart"
-                    app:srcCompat="@android:drawable/presence_online"
-                    tools:srcCompat="?attr/homeAsUpIndicator" />
+                    android:src="@drawable/abc_vector_test" />
 
                 <Button
                     android:id="@+id/button2"
@@ -73,7 +73,7 @@
                     android:layout_weight="1"
                     android:paddingLeft="25dp"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/parinter_img" />
+                    android:src="@drawable/parinter_img" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -165,8 +165,7 @@
                 android:background="#00FFFFFF"
                 android:contentDescription="@string/pintthismodule"
                 android:scaleType="fitCenter"
-                app:srcCompat="@android:drawable/presence_online"
-                tools:srcCompat="@drawable/btn_connect" />
+                android:src="@drawable/btn_connect" />
 
             <TextView
                 android:id="@+id/connect_req1"

@@ -36,8 +36,8 @@
                     android:background="#00FFFFFF"
                     android:contentDescription="@string/pintthismodule"
                     android:scaleType="fitStart"
-                    app:srcCompat="@android:drawable/presence_online"
-                    tools:srcCompat="?attr/homeAsUpIndicator" />
+                    android:padding="10dp"
+                    android:src="?attr/homeAsUpIndicator" />
 
                 <Button
                     android:id="@+id/button2"
@@ -74,7 +74,7 @@
                     android:paddingStart="5dp"
                     android:paddingLeft="5dp"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/module_example" />
+                    android:src="@drawable/module_example" />
 
                 <TextView
                     android:id="@+id/status_waiting"
@@ -99,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="300dp"
                 android:layout_margin="50dp"
-                app:srcCompat="@drawable/module_example" />
+              android:src="@drawable/module_example" />
 
             <TextView
                 android:id="@+id/textView"
@@ -118,7 +118,7 @@
                 android:layout_marginTop="20dp"
                 android:background="#00FFFFFF"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/btn_pause" />
+                android:src="@drawable/btn_pause" />
 
             <TextView
                 android:id="@+id/textViewTimer"
