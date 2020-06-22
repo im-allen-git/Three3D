@@ -777,7 +777,7 @@ THREE.TransformControlsGizmo = function () {
 		depthTest: false,
 		depthWrite: false,
 		transparent: true,
-		linewidth: 1,
+		linewidth: 8,
 		fog: false
 	} );
 
@@ -916,13 +916,13 @@ THREE.TransformControlsGizmo = function () {
 
 	var pickerTranslate = {
 		X: [
-			[ new THREE.Mesh( new THREE.CylinderBufferGeometry( 0.2, 0, 1, 4, 1, false ), matInvisible ), [ 0.6, 0, 0 ], [ 0, 0, - Math.PI / 2 ]]
+			[ new THREE.Mesh( new THREE.CylinderBufferGeometry( 0.2, 0.2, 1, 4, 1, false ), matInvisible ), [ 0.6, 0, 0 ], [ 0, 0, - Math.PI / 2 ]]
 		],
 		Y: [
-			[ new THREE.Mesh( new THREE.CylinderBufferGeometry( 0.2, 0, 1, 4, 1, false ), matInvisible ), [ 0, 0.6, 0 ]]
+			[ new THREE.Mesh( new THREE.CylinderBufferGeometry( 0.2, 0.2, 1, 4, 1, false ), matInvisible ), [ 0, 0.6, 0 ]]
 		],
 		Z: [
-			[ new THREE.Mesh( new THREE.CylinderBufferGeometry( 0.2, 0, 1, 4, 1, false ), matInvisible ), [ 0, 0, 0.6 ], [ Math.PI / 2, 0, 0 ]]
+			[ new THREE.Mesh( new THREE.CylinderBufferGeometry( 0.2, 0.2, 1, 4, 1, false ), matInvisible ), [ 0, 0, 0.6 ], [ Math.PI / 2, 0, 0 ]]
 		]/*,
 		XYZ: [
 			[ new THREE.Mesh( new THREE.OctahedronBufferGeometry( 0.2, 0 ), matInvisible ) ]
@@ -961,27 +961,27 @@ THREE.TransformControlsGizmo = function () {
 
 	var gizmoRotate = {
 		X: [
-			[ new THREE.Line( CircleGeometry( 1, 0.5 ), matLineRed ) ],
-			[ new THREE.Mesh( new THREE.OctahedronBufferGeometry( 0.04, 2 ), matRed ), [ 0, 0, 0.99 ], null, [ 1, 3, 1 ]],
+			[ new THREE.Line( CircleGeometry( 1, 1 ), matLineRed ) ],
+			[ new THREE.Mesh( new THREE.OctahedronBufferGeometry( 0.05, 3 ), matRed ), [ 0, 0, 0.99 ], null, [ 1, 3, 1 ]],
 		],
 		Y: [
-			[ new THREE.Line( CircleGeometry( 1, 0.5 ), matLineGreen ), null, [ 0, 0, - Math.PI / 2 ]],
-			[ new THREE.Mesh( new THREE.OctahedronBufferGeometry( 0.04, 2 ), matGreen ), [ 0, 0, 0.99 ], null, [ 3, 1, 1 ]],
+			[ new THREE.Line( CircleGeometry( 1, 1 ), matLineGreen ), null, [ 0, 0, - Math.PI / 2 ]],
+			[ new THREE.Mesh( new THREE.OctahedronBufferGeometry( 0.05, 3 ), matGreen ), [ 0, 0, 0.99 ], null, [ 3, 1, 1 ]],
 		],
 		Z: [
-			[ new THREE.Line( CircleGeometry( 1, 0.5 ), matLineBlue ), null, [ 0, Math.PI / 2, 0 ]],
-			[ new THREE.Mesh( new THREE.OctahedronBufferGeometry( 0.04, 2 ), matBlue ), [ 0.99, 0, 0 ], null, [ 1, 3, 1 ]],
+			[ new THREE.Line( CircleGeometry( 1, 1 ), matLineBlue ), null, [ 0, Math.PI / 2, 0 ]],
+			[ new THREE.Mesh( new THREE.OctahedronBufferGeometry( 0.05, 3 ), matBlue ), [ 0.99, 0, 0 ], null, [ 1, 3, 1 ]],
 		],
-		E: [
+		/*E: [
 			[ new THREE.Line( CircleGeometry( 1.25, 1 ), matLineYellowTransparent ), null, [ 0, Math.PI / 2, 0 ]],
 			[ new THREE.Mesh( new THREE.CylinderBufferGeometry( 0.03, 0, 0.15, 4, 1, false ), matLineYellowTransparent ), [ 1.17, 0, 0 ], [ 0, 0, - Math.PI / 2 ], [ 1, 1, 0.001 ]],
 			[ new THREE.Mesh( new THREE.CylinderBufferGeometry( 0.03, 0, 0.15, 4, 1, false ), matLineYellowTransparent ), [ - 1.17, 0, 0 ], [ 0, 0, Math.PI / 2 ], [ 1, 1, 0.001 ]],
 			[ new THREE.Mesh( new THREE.CylinderBufferGeometry( 0.03, 0, 0.15, 4, 1, false ), matLineYellowTransparent ), [ 0, - 1.17, 0 ], [ Math.PI, 0, 0 ], [ 1, 1, 0.001 ]],
 			[ new THREE.Mesh( new THREE.CylinderBufferGeometry( 0.03, 0, 0.15, 4, 1, false ), matLineYellowTransparent ), [ 0, 1.17, 0 ], [ 0, 0, 0 ], [ 1, 1, 0.001 ]],
-		],
-		XYZE: [
+		],*/
+		/*XYZE: [
 			[ new THREE.Line( CircleGeometry( 1, 1 ), matLineGray ), null, [ 0, Math.PI / 2, 0 ]]
-		]
+		]*/
 	};
 
 	var helperRotate = {
@@ -1000,12 +1000,12 @@ THREE.TransformControlsGizmo = function () {
 		Z: [
 			[ new THREE.Mesh( new THREE.TorusBufferGeometry( 1, 0.1, 4, 24 ), matInvisible ), [ 0, 0, 0 ], [ 0, 0, - Math.PI / 2 ]],
 		],
-		E: [
+		/*E: [
 			[ new THREE.Mesh( new THREE.TorusBufferGeometry( 1.25, 0.1, 2, 24 ), matInvisible ) ]
 		],
 		XYZE: [
 			[ new THREE.Mesh( new THREE.SphereBufferGeometry( 0.7, 10, 8 ), matInvisible ) ]
-		]
+		]*/
 	};
 
 	var gizmoScale = {
