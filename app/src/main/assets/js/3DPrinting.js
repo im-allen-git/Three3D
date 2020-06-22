@@ -358,10 +358,10 @@ function listModule( type ) {
 }
 function getLocalAppSTL(){
 	var data = js.getStlList() || null;
+	var stlListHTML = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>我的模型</div>';
 	if(data) {
 	    var stlList = eval('('+data+')')
 		var stlListIndex = 100;
-		var stlListHTML = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>我的模型</div>';
 		for (var i in stlList) {
 			stlListHTML += '';
 			stlListHTML += '<div class="module lego drag">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
@@ -379,8 +379,12 @@ function getLocalAppSTL(){
 			stlListHTML += '</div>';
 			stlListIndex ++;
 		}
-		$(".mymodule_wrapper").html(stlListHTML)
 	}
+	else{
+        stlListHTML+='<div class="module shapes no_module"><div class="name">无</div></div>'
+	}
+	$(".mymodule_wrapper").html(stlListHTML)
+
 }
 function getTimeStr() {
 	var date = new Date();
