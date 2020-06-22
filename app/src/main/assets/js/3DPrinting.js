@@ -1539,6 +1539,7 @@ function afterSTLImg(){
 	transformControl.detach();
 	$( ".save_stl" ).addClass( "noActive_save" );
 	$("#canImg").remove();//保存当前图片后，删除
+	getLocalAppSTL();
 }
 // 导出相关 end
 //camera 方向
