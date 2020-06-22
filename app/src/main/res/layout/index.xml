@@ -53,7 +53,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="517dp">
+            android:layout_height="450dp">
 
             <LinearLayout
                 android:layout_width="100dp"
@@ -144,14 +144,14 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="350dp"
+                    android:layout_height="300dp"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp">
 
                     <ImageView
                         android:id="@+id/imageViewBackground"
                         android:layout_width="wrap_content"
-                        android:layout_height="400dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="-40dp"
                         android:layout_weight="1"
                         android:scaleType="fitCenter"
@@ -160,7 +160,7 @@
                     <ImageView
                         android:id="@+id/imageViewModule"
                         android:layout_width="wrap_content"
-                        android:layout_height="320dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingTop="20dp"
                         android:paddingBottom="20dp"
