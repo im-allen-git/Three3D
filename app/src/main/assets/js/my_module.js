@@ -71,7 +71,7 @@ function getLocalAppSTL(){
 			stlListHTML += '</div></div>';
 			stlListHTML += '<div class="col-xs-3" onclick="thisParamInfo(0,this)"><div class="img_wrapper showHide first_child"><img src="../img/3dPrinting/btn_print.png" alt=""></div></div>';
 			stlListHTML += '</div>';
-			stlListHTML += '<div class="swiper-slide delete_slide" onclick="thisParamInfo(0,this)"><div class="delete">删除</div></div>';
+			stlListHTML += '<div class="swiper-slide delete_slide" onclick="deleteThisModule(this)"><div class="delete">删除</div></div>';
 			stlListHTML += '</div></div></div>';
 		}
 	}
@@ -87,4 +87,34 @@ function getLocalAppSTL(){
     		resistance:true,
     	});
 
+}
+
+function deleteThisModule(obj){
+	var e = event || window.event || arguments.callee.caller.arguments[0];
+	if ( e && e.stopPropagation ){
+		e.stopPropagation();
+	}else{ //ie
+		window.event.cancelBubble = true;
+	}
+
+	var allModule = $(obj).parents(".module_content");
+	var allModuleLength = $(obj).parents(".module_content").find(".each_module");
+	var eachModule = $(obj).parents(".each_module");
+
+	if(allModuleLength.length>1){
+		eachModule.remove();
+	}
+	else{
+		if(allModule.hasClass("mine_content")){
+			var stlListHTML='<div class="no_module">您还没有创建模型哦<br><span onclick=" goPage(4) ">点击这里创建模型</span></div>'
+			$(".mine_content").html(stlListHTML);
+		} else if(allModule.hasClass("mine_content")){
+			var stlListHTML='<div class="no_module">您还没有购买哦，<span onclick=" goPage(2) ">点击这里浏览</span></div>'
+			$(".bought_content").html(stlListHTML);
+		}
+	 	else if(allModule.hasClass("local_content")){
+			var stlListHTML='<div class="no_module">您还没有本地模型哦<br><span onclick=" goPage(4) ">点击这里创建模型</span></div>'
+			$(".bought_content").html(stlListHTML);
+		}
+	}
 }
