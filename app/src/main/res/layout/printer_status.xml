@@ -35,9 +35,9 @@
                     android:adjustViewBounds="true"
                     android:background="#00FFFFFF"
                     android:contentDescription="@string/pintthismodule"
-                    android:scaleType="fitStart"
                     android:padding="10dp"
-                    android:src="?attr/homeAsUpIndicator" />
+                    android:scaleType="fitStart"
+                    android:src="@drawable/return_black" />
 
                 <Button
                     android:id="@+id/button2"
@@ -45,8 +45,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/hkfyw7gb"
                     android:text="@string/status_title"
-                    android:textColor="#426A8D" />
+                    android:textColor="#000" />
 
                 <Button
                     android:id="@+id/button3"
@@ -54,9 +55,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="sans-serif"
+                    android:fontFamily="@font/hkfyw7gb"
                     android:text="@string/_3d_printer"
-                    android:textColor="#426A8D" />
+                    android:textColor="#000" />
             </LinearLayout>
             <!--顶部三按钮 end-->
 
@@ -83,9 +84,10 @@
                     android:layout_weight="1"
                     android:background="#00FFFFFF"
                     android:gravity="center_vertical|left"
+                    android:fontFamily="@font/hkfyw7gb"
                     android:paddingLeft="5dp"
                     android:text="@string/status_waiting"
-                    android:textColor="#8DB3D4"
+                    android:textColor="#999999"
                     android:textSize="15sp" />
             </LinearLayout>
         </LinearLayout>
@@ -106,6 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="92%"
+                android:fontFamily="@font/hkfyw7gb"
                 android:textColor="#FEAC1E"
                 android:textSize="50sp"
                 android:textStyle="bold"
@@ -125,8 +128,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="剩余: 00:00:11"
-                android:textColor="#A7C3DC"
+                android:textColor="#999999"
                 android:textSize="20sp"
+                android:fontFamily="@font/hkfyw7gb"
                 android:gravity="center_vertical|center"/>
 
 

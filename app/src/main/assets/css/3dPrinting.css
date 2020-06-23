@@ -111,7 +111,7 @@ a, button, input, select {
 .img_wrapper { margin: auto; width: 100%; text-align: center; }
 .mymodule_wrapper .img_wrapper img {margin:.1rem auto 0; max-width: 80%; max-height: 80%;}
 .module.shapes.no_module .name { height: 100%; width: 1rem; margin: auto; color: #333; line-height: 2rem; z-index: 3; }
-.cartoon_wrapper .module:last-of-type{ margin-bottom: .25rem;}
+.cartoon_wrapper .module:last-of-type,.totodile{ margin-bottom: .25rem;}
 /*.
 active_shape .color_change{display: block;line-height: .55rem;}
 .active_shape .color_change .color_circle { display: inline-block; margin: 0 .08rem; }

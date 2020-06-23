@@ -1,6 +1,7 @@
 body{background:#4E92EF; font-size:.17rem;color:#FFFFFF}
 .top_menu{border-bottom:1px solid #92CCFFFF}
 .top_menu .top_menu_btn{padding-top: .14rem; padding-bottom: .14rem; font-size:.17rem;}
+.main_wrapper .top_menu .back { font-size: .25rem; line-height: .45rem; padding-top: 0; padding-bottom: 0; }
 .top_menu_btn a { color: #fff; }
 .title { padding: 15px; }
 .good_wrapper,.each_module_wrapper { background: #FFF; border-radius: 5px; padding: 5px; }

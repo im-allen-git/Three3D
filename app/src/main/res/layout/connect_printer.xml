@@ -37,7 +37,7 @@
                     android:contentDescription="@string/pintthismodule"
                     android:padding="10dp"
                     android:scaleType="fitStart"
-                    android:src="@drawable/abc_vector_test" />
+                    android:src="@drawable/return_btn" />
 
                 <Button
                     android:id="@+id/button2"
@@ -45,6 +45,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/hkfyw7gb"
                     android:text="@string/printer_title"
                     android:textColor="#FFFFFF" />
 
@@ -54,7 +55,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="sans-serif"
+                    android:fontFamily="@font/hkfyw7gb"
                     android:text="@string/printer_statue_uncon"
                     android:textColor="#FF5722" />
             </LinearLayout>
@@ -92,6 +93,7 @@
                             android:id="@+id/modelTypeTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/hkfyw7gb"
                             android:text="@string/printer_model"
                             android:textColor="#FFFFFF" />
 
@@ -99,6 +101,7 @@
                             android:id="@+id/modelType"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/hkfyw7gb"
                             android:text="adsadfsadf"
                             android:textColor="#FFFFFF" />
 
@@ -113,6 +116,7 @@
                             android:id="@+id/modelSpaceTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/hkfyw7gb"
                             android:text="@string/printer_work_space"
                             android:textColor="#FFFFFF" />
 
@@ -120,6 +124,7 @@
                             android:id="@+id/modelSpace"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/hkfyw7gb"
                             android:text="200*202"
                             android:textColor="#FFFFFF" />
 
@@ -134,6 +139,7 @@
                             android:id="@+id/modelMaterialTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/hkfyw7gb"
                             android:text="@string/printer_material"
                             android:textColor="#FFFFFF" />
 
@@ -141,6 +147,7 @@
                             android:id="@+id/modelMaterial"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/hkfyw7gb"
                             android:text="200*202"
                             android:textColor="#FFFFFF" />
 
@@ -163,6 +170,7 @@
                 android:layout_marginBottom="20dp"
                 android:layout_weight="1"
                 android:background="#00FFFFFF"
+                android:fontFamily="@font/hkfyw7gb"
                 android:contentDescription="@string/pintthismodule"
                 android:scaleType="fitCenter"
                 android:src="@drawable/btn_connect" />
@@ -173,6 +181,7 @@
                 android:layout_height="30dp"
                 android:background="#00FFFFFF"
                 android:paddingLeft="30dp"
+                android:fontFamily="@font/hkfyw7gb"
                 android:text="@string/connect_req1"
                 android:textColor="#426A8D"
                 android:textSize="15sp" />
@@ -183,6 +192,7 @@
                 android:layout_height="30dp"
                 android:background="#00FFFFFF"
                 android:paddingLeft="30dp"
+                android:fontFamily="@font/hkfyw7gb"
                 android:text="@string/connect_req2"
                 android:textColor="#426A8D"
                 android:textSize="15sp" />
@@ -193,6 +203,7 @@
                 android:layout_height="30dp"
                 android:background="#00FFFFFF"
                 android:paddingLeft="30dp"
+                android:fontFamily="@font/hkfyw7gb"
                 android:text="@string/connect_req3"
                 android:textColor="#426A8D"
                 android:textSize="15sp" />
@@ -203,6 +214,7 @@
                 android:layout_height="30dp"
                 android:background="#00FFFFFF"
                 android:paddingLeft="30dp"
+                android:fontFamily="@font/hkfyw7gb"
                 android:text="@string/connect_req4"
                 android:textColor="#426A8D"
                 android:textSize="15sp" />
@@ -213,6 +225,7 @@
                 android:layout_height="30dp"
                 android:background="#00FFFFFF"
                 android:paddingLeft="30dp"
+                android:fontFamily="@font/hkfyw7gb"
                 android:text="@string/connect_req5"
                 android:textColor="#426A8D"
                 android:textSize="15sp" />

@@ -135,11 +135,11 @@ $( function () {
 			if (selectedDragObjFlag) {
 				var code = Number( $( selectedDragObj ).parents( ".module" ).find( ".this_code" ).val() );
 				var type = Number( $( selectedDragObj ).parents( ".module" ).find( ".this_module" ).val() );
-				var url = Number( $( selectedDragObj ).parents( ".module" ).find( ".this_url" ).val() );
+				var url =$( selectedDragObj ).parents( ".module" ).find( ".this_url" ).val();
 			} else if (selectedDragObjFlag == false) {
 				var code = Number( $( selectedDragObj ).find( ".this_code" ).val() );
 				var type = Number( $( selectedDragObj ).find( ".this_module" ).val() );
-				var url = Number( $( selectedDragObj ).find( ".this_url" ).val() );
+				var url = $( selectedDragObj ).find( ".this_url" ).val();
 			}
 			if (type == 0) {
 				changeShapes( code );
@@ -369,9 +369,10 @@ function getLocalAppSTL(){
 			stlListHTML += '<div class="module lego drag">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
 			stlListHTML += '<input class="this_code" type="hidden" value="' + stlListIndex + '">';
 			stlListHTML += '<input class="this_module" type="hidden" value="3">';
+			console.log(stlList[i].realStlName )
 			stlListHTML += '<input class="this_url" type="hidden" value="' + stlList[i].realStlName + '">';
 			// stlListHTML += '<div class="drag sprint sprint_' + stlList[i].title + ' sprintY"></div>';
-			stlListHTML += '<div class="img_wrapper"><img src="file://' + stlList[i].localImg + '" alt="' + listSTL[i].localImg + '" class="drag"></div>';
+			stlListHTML += '<div class="img_wrapper"><img src="file://' + stlList[i].localImg + '" alt="' + listSTL[i].localImg + '" class="drag sprint"></div>';
 			stlListHTML += '<div class="name drag">' + stlList[i].sourceStlName + '</div>';
 			stlListHTML += '<div class="color_change">';
 			stlListHTML += '<div class="color_option color_yellow color_circle" onclick="changeColorBeforeShoot(1,this)"></div>';
@@ -838,7 +839,7 @@ function onDocumentMouseDown( event ) {
 		shootedFlag = true;
 	}*/
 	if (! shootedFlag) {
-		event.preventDefault();
+//		event.preventDefault();
 		var controlBoardWidth = $( "#shapes" ).hasClass( "shapes_close" ); //left decal side width
 		if (controlBoardWidth) {
 			if (event.type == "touchend") {
@@ -1706,6 +1707,7 @@ async function loadSTL( thisSTL, obj ) {
 	} );
 }
 async function loadLocalSTL( thisSTL) {
+console.log(thisSTL)
 	stlGeoFlag = 1;//0 geo; 1 stl
 	showInput( 1 );
 	$( ".active_shape" ).removeClass( "active_shape" );
