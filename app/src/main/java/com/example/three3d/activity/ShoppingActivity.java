@@ -68,14 +68,6 @@ public class ShoppingActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-
-        super.onResume();
-        // this.onCreate(null);
-        this.recreate();
-    }
-
     public class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {

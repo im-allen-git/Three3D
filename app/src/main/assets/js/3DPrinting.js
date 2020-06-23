@@ -303,7 +303,6 @@ function listModule( type ) {
 	var data = js.getModuleList();
 	if(data){
 		data = eval('('+data+')')
-//		console.log(JSON.stringify(data))
 		var shapesHtml = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>基础模型</div>';
 		var shapesIndex = 0;
 		listShapes = data.data.shapes;
@@ -369,7 +368,6 @@ function getLocalAppSTL(){
 			stlListHTML += '<div class="module lego drag">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
 			stlListHTML += '<input class="this_code" type="hidden" value="' + stlListIndex + '">';
 			stlListHTML += '<input class="this_module" type="hidden" value="3">';
-			console.log(stlList[i].realStlName )
 			stlListHTML += '<input class="this_url" type="hidden" value="' + stlList[i].realStlName + '">';
 			// stlListHTML += '<div class="drag sprint sprint_' + stlList[i].title + ' sprintY"></div>';
 			stlListHTML += '<div class="img_wrapper"><img src="file://' + stlList[i].localImg + '" alt="' + listSTL[i].localImg + '" class="drag sprint"></div>';
@@ -636,7 +634,6 @@ function init() {
 			controls.enabled = ! event.value;
 			transformDragFlag = ! event.value;
 		}
-		// console.log('dragging-changed')
 		transformControlMove = true;
 	}, false );
 	transformControl.addEventListener( 'change', function () {
@@ -912,9 +909,6 @@ function onDocumentMouseDown( event ) {
 					resetSomeThing();
                     $( "#loading_data" ).hide();
 				}
-				/*else {
-					console.log( "The max shapes are 10." );
-				}*/
 			}
 			shootedFlag = true;
 			render();
@@ -1238,7 +1232,6 @@ function redoUndo( type ) { //type 0: undo 1: redo
 						redoProcess( thisObj[thisObj.length - 1] );
 					}
 					eachObjSetps( eachObjectInfo[operationL.uuid].pop(), 1 );
-					console.log( "transform" );
 				}
 			}
 			allOperation.pop();
@@ -1447,7 +1440,6 @@ function exportMoudle( type ) { //type 0: ASCII 1: GLTF
 				};
 				gltfExporter.parse( input, function ( result ) {
 					var output = JSON.stringify( result, null, 2 );
-					console.log( output );
 					var date = Date.parse( new Date() );
 					saveString( output, nameStr + '.gltf' );
 				}, options );
@@ -1718,7 +1710,6 @@ async function loadSTL( thisSTL, obj ) {
 	} );
 }
 async function loadLocalSTL( thisSTL) {
-console.log(thisSTL)
 	stlGeoFlag = 1;//0 geo; 1 stl
 	showInput( 1 );
 	$( ".active_shape" ).removeClass( "active_shape" );
@@ -2102,7 +2093,6 @@ function onAnimationStep() { //检测scale，使其永远在0.1- LIMIT_SIZE 之�
 						currentObj.position.y = ( WORK_SPACE_SIZE ) - ( ( SHAPE_SIZE * currentObj.scale.y ) / 2 );
 					} else if (currentObj.name == "stl") {
 						if (currentObj.position.y < ( currentObj.geometry.boundingSphere.radius * currentObj.scale.y )) {
-							console.log( currentObj.position.y, currentObj.geometry.boundingSphere.radius * currentObj.scale.y );
 							currentObj.position.y = ( SHAPE_SIZE * currentObj.scale.y );
 						}
 					} else if (currentObj.position.y < ( SHAPE_SIZE * currentObj.scale.y ) / 2) {
@@ -2133,9 +2123,7 @@ function checkAxis( type, obj ) { // 改变大小的时候，价差坐标，不�
 		if (obj.position.y >= 0 && obj.position.y <= ( ( SHAPE_SIZE * obj.scale.y ) / 2 )) {
 			obj.position.y = ( SHAPE_SIZE * obj.scale.y ) / 2;
 		} else if (obj.position.y >= 0 && tcScaleYPositionFlag) {
-			console.log( "if y 2" );
 			if (obj.name == "stl") {
-				// console.log("stl",tcScaleYPosition,((obj.geometry.boundingSphere.radius* obj.scale.y )/2));
 				if (obj.geometry.boundingSphere) {
 					if (tcScaleYPosition == ( ( obj.geometry.boundingSphere.radius * obj.scale.y ) / 2 )) {
 						obj.position.y = obj.geometry.boundingSphere.radius * obj.scale.y;

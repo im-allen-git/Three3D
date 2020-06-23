@@ -217,6 +217,7 @@ public class WebHost {
                 StlUtil.stlDataBaseMap.remove(fileName);
             }
             StlUtil.stlMap.remove(fileName);
+            return true;
         }
         return false;
     }

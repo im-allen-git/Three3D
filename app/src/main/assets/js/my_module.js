@@ -55,7 +55,6 @@ function thisParamInfo( type ) {
 }
 function getLocalAppSTL(){
 	var data = js.getStlList() || null;
-	console.log(data)
 	var stlListHTML = '';
 	if(data) {
 		var stlList = eval('('+data+')');
@@ -66,13 +65,12 @@ function getLocalAppSTL(){
 			stlListHTML += '<div class="col-xs-6"><div class="row clearfix">';
 			var name  =stlList[i].sourceStlName.split(".stl")[0];
 			stlListHTML += '<div class="col-xs-12 module_name">'+name+'</div>';
-			stlListHTML += '<input type="hidden value='+stlList[i].sourceStlName+' class="thisName>';
 			stlListHTML += '<div class="col-xs-12 module_time"><div class="info">创建时间: <span class="this_createTime">'+stlList[i].createTime+'</span></div></div>';
 			stlListHTML += '<div class="col-xs-12 module_size"><div class="info">打印尺寸(mm): <span class="this_createTime">X:15 Y:25 Z:30</span></div></div>';
 			stlListHTML += '</div></div>';
 			stlListHTML += '<div class="col-xs-3" onclick="thisParamInfo(0,this)"><div class="img_wrapper showHide first_child"><img src="../img/3dPrinting/btn_print.png" alt=""></div></div>';
 			stlListHTML += '</div>';
-			stlListHTML += '<div class="swiper-slide delete_slide" onclick="deleteThisModule(this)"><div class="delete">删除</div></div>';
+			stlListHTML += '<div class="swiper-slide delete_slide" onclick="deleteThisModule(this,\''+stlList[i].realStlName+'\')"><div class="delete">删除</div></div>';
 			stlListHTML += '</div></div></div>';
 		}
 	}
@@ -90,7 +88,7 @@ function getLocalAppSTL(){
 
 }
 
-function deleteThisModule(obj){
+function deleteThisModule(obj,name){
 	var e = event || window.event || arguments.callee.caller.arguments[0];
 	if ( e && e.stopPropagation ){
 		e.stopPropagation();
@@ -101,10 +99,8 @@ function deleteThisModule(obj){
 	var allModule = $(obj).parents(".module_content");
 	var allModuleLength = $(obj).parents(".module_content").find(".each_module");
 	var eachModule = $(obj).parents(".each_module");
-    var deleteName = eachModule.find(".thisName").val();
-
     $("#loading_data").show();
-    var deletedSuccFlag = js.deleteStl(deleteName);
+    var deletedSuccFlag = js.deleteStl(name);
     if(deletedSuccFlag){
         if(allModuleLength.length>1){
             eachModule.remove();

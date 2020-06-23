@@ -68,15 +68,6 @@ public class MyAccountActivity extends AppCompatActivity {
         webView.loadUrl(WEB_URL);
     }
 
-    @Override
-    protected void onResume() {
-
-        super.onResume();
-        // this.onCreate(null);
-        this.recreate();
-    }
-
-
     public class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {

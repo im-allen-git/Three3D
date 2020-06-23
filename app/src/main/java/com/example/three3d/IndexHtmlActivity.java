@@ -99,14 +99,6 @@ public class IndexHtmlActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-
-        super.onResume();
-        // this.onCreate(null);
-        this.recreate();
-    }
-
     @SuppressLint("HandlerLeak")
     private Handler mainHandler = new Handler() {
         @Override

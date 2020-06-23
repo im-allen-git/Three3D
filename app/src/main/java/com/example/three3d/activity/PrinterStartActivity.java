@@ -34,14 +34,6 @@ public class PrinterStartActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-
-        super.onResume();
-        // this.onCreate(null);
-        this.recreate();
-    }
-
     /**
      * 模拟键盘事件方法
      *
