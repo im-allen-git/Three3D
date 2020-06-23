@@ -33,18 +33,29 @@ public class PrinterStartActivity extends AppCompatActivity {
             actionKey(KeyEvent.KEYCODE_BACK);
         });
     }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        // this.onCreate(null);
+        this.recreate();
+    }
+
     /**
      * 模拟键盘事件方法
+     *
      * @param keyCode
      */
     public void actionKey(final int keyCode) {
-        new Thread () {
-            public void run () {
+        new Thread() {
+            public void run() {
                 try {
-                    Instrumentation inst=new Instrumentation();
+                    Instrumentation inst = new Instrumentation();
                     inst.sendKeyDownUpSync(keyCode);
-                } catch(Exception e) {
-                    e.printStackTrace();                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }.start();
     }

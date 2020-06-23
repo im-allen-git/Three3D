@@ -17,21 +17,13 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
-import android.widget.ImageButton;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.three3d.activity.BulidModuleActivity;
-import com.example.three3d.activity.MyAccountActivity;
-import com.example.three3d.activity.PrinterActivity;
-import com.example.three3d.activity.PrinterStartActivity;
-import com.example.three3d.activity.ShoppingActivity;
 import com.example.three3d.util.HtmlUtil;
-import com.example.three3d.util.StlUtil;
 import com.example.three3d.util.WebHost;
 
 import java.util.Objects;
@@ -107,11 +99,19 @@ public class IndexHtmlActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        // this.onCreate(null);
+        this.recreate();
+    }
+
     @SuppressLint("HandlerLeak")
     private Handler mainHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case 5:
                     actionKey(KeyEvent.KEYCODE_BACK);
                     break;
@@ -121,16 +121,18 @@ public class IndexHtmlActivity extends AppCompatActivity {
 
     /**
      * 模拟键盘事件方法
+     *
      * @param keyCode
      */
     public void actionKey(final int keyCode) {
-        new Thread () {
-            public void run () {
+        new Thread() {
+            public void run() {
                 try {
-                    Instrumentation inst=new Instrumentation();
+                    Instrumentation inst = new Instrumentation();
                     inst.sendKeyDownUpSync(keyCode);
-                } catch(Exception e) {
-                    e.printStackTrace();                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }.start();
     }
