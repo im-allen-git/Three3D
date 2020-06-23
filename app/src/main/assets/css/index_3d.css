@@ -10,7 +10,7 @@ body,.container{height: 100%;}
 .swiper-wrapper,.swiper-slide{min-height: 3rem;}
 .swiper-button-next,.swiper-button-prev{ transform: rotateZ(90deg); left: 50%;color: #fff; width: calc(var(--swiper-navigation-size)/ 44);}
 .swiper-button-next{ bottom: -18%; top: initial;}
-.swiper-button-prev { top:0;background-image: url(../img/3dPrinting/3d_prev_arrow.png); }
+.swiper-button-prev { top:0;}
 .swiper-button-next:after, .swiper-button-prev:after{font-size:x-large;}
 .img_wrapper { position: relative; width: 70%; height: inherit; margin: auto; }
 .img_wrapper img{position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto; max-width: 100%; max-height: 100%;}
