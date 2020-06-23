@@ -76,7 +76,7 @@ function getLocalAppSTL(){
 		}
 	}
 	else{
-		stlListHTML+='<div class="no_module">您还没有创建模型哦，<span onclick=" goPage(4) ">点击这里创建模型</span></div>'
+		stlListHTML+='<div class="no_module">您还没有创建模型哦<br><span onclick=" goPage(4) ">点击这里创建模型</span></div>'
 	}
 	$(".mine_content").html(stlListHTML)
 	var swiper = new Swiper('.swiper-container', {
