@@ -35,7 +35,10 @@
                     android:adjustViewBounds="true"
                     android:background="#00FFFFFF"
                     android:contentDescription="@string/pintthismodule"
-                    android:padding="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="15dp"
                     android:scaleType="fitStart"
                     android:src="@drawable/return_btn" />
 
@@ -47,6 +50,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/hkfyw7gb"
                     android:text="@string/printer_title"
+                    android:textSize="17sp"
                     android:textColor="#FFFFFF" />
 
                 <Button
@@ -57,6 +61,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/hkfyw7gb"
                     android:text="@string/printer_statue_uncon"
+                    android:textSize="13sp"
                     android:textColor="#FF5722" />
             </LinearLayout>
             <!--顶部三按钮 end-->
@@ -95,6 +100,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/hkfyw7gb"
                             android:text="@string/printer_model"
+                            android:textSize="13sp"
                             android:textColor="#FFFFFF" />
 
                         <TextView
@@ -103,6 +109,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/hkfyw7gb"
                             android:text="adsadfsadf"
+                            android:textSize="13sp"
                             android:textColor="#FFFFFF" />
 
                     </LinearLayout>
@@ -118,6 +125,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/hkfyw7gb"
                             android:text="@string/printer_work_space"
+                            android:textSize="13sp"
                             android:textColor="#FFFFFF" />
 
                         <TextView
@@ -126,6 +134,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/hkfyw7gb"
                             android:text="200*202"
+                            android:textSize="13sp"
                             android:textColor="#FFFFFF" />
 
                     </LinearLayout>
@@ -141,6 +150,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/hkfyw7gb"
                             android:text="@string/printer_material"
+                            android:textSize="13sp"
                             android:textColor="#FFFFFF" />
 
                         <TextView
@@ -149,6 +159,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/hkfyw7gb"
                             android:text="200*202"
+                            android:textSize="13sp"
                             android:textColor="#FFFFFF" />
 
                     </LinearLayout>

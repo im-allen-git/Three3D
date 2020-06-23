@@ -106,8 +106,9 @@ a, button, input, select {
 .child_wrapper{display: none;height:100%;max-width: 1rem;overflow: auto;background: #F0F7FF;position: fixed;top:0;right: 0;z-index: 3;}
 .child_title { font-size: .14rem; position: fixed; top: 0; right: 0; z-index: 2; width: 1rem; background: #F0F7FF;text-align: left; line-height: 0.3rem;  }
 .active_shape{background: rgba(118,174,234,.3)!important;}
-.go_shopping { position: fixed; bottom: 0; right: 0; width: 1rem; text-align: center; background:#F0F7FF;color:#FFE548;
-    border-top: 1px solid #FFE548;}
+.go_shopping { position: fixed; bottom: 0; right: 0; width: 1rem; text-align: center; background:#F0F7FF;color:#FF9829;
+    border-top: 1px solid #FF9829;}
+.go_shopping .iconfont{color: #FF9829;}
 .img_wrapper { margin: auto; width: 100%; text-align: center; }
 .mymodule_wrapper .img_wrapper img {margin:.1rem auto 0; max-width: 80%; max-height: 80%;}
 .module.shapes.no_module .name { height: 100%; width: 1rem; margin: auto; color: #333; line-height: 2rem; z-index: 3; }
@@ -170,8 +171,8 @@ active_shape .color_change{display: block;line-height: .55rem;}
 .module_btn_name{font-size: .12rem; color: #FFFFFF; text-align: center;}
 .save_module{left:.5rem}
 .save_module.noActive_save {opacity: .3}
-.save_name_module_bg {display:none;position: fixed;top: 0;right: 0;left: 0;bottom:0;background: #000; opacity: .3;z-index: 2;}
-.save_name_module,.save_ask { display: none; position: absolute; top: 23%; left: 24%; z-index: 3; background: #fff; border-radius: .35rem; width: 3.15rem; height: 1.92rem; text-align: center; background: rgba(255,251,230,1);box-shadow:0px 0px 0.21rem 0px rgba(145,96,34,0.2), 0px 0px 1rem 0px rgba(240,221,56,1) inset; }
+.save_name_module_bg {display:none;position: fixed;top: 0;right: 0;left: 0;bottom:0;background: #000; opacity: .3;z-index: 3;}
+.save_name_module,.save_ask { display: none; position: absolute; top: 23%; left: 24%; z-index: 4; background: #fff; border-radius: .35rem; width: 3.15rem; height: 1.92rem; text-align: center; background: rgba(255,251,230,1);box-shadow:0px 0px 0.21rem 0px rgba(145,96,34,0.2), 0px 0px 1rem 0px rgba(240,221,56,1) inset; }
 .save_name_module .save_name_title,.save_ask .save_name_title { width: 1.47rem; height: .33rem; background: linear-gradient(0deg,rgba(255,247,208,1) 0%,rgba(255,193,25,1) 100%); border-radius: 0 0 .15rem .15rem; line-height: .33rem; margin: auto; font-size: .18rem;    color: #323232;}
 .save_name_tip{margin: .15rem 0;}
 .save_ask .save_name_title{color:#fff}

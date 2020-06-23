@@ -175,6 +175,7 @@ THREE.TransformControls = function ( camera, domElement ) {
 			this.object = object;
 			this.visible = true;
 			focusedTransformObj = object;
+			deleteObjFlag = false;
 			$(".color_control_wrapper").show();
 			$(".active_control").removeClass("active_control");
 			setTimeout(function () {

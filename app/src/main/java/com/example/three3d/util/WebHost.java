@@ -16,6 +16,7 @@ import com.example.three3d.IndexHtmlActivity;
 import com.example.three3d.activity.BulidModuleActivity;
 import com.example.three3d.activity.MyAccountActivity;
 import com.example.three3d.activity.PrinterActivity;
+import com.example.three3d.activity.PrinterStartActivity;
 import com.example.three3d.activity.ShoppingActivity;
 import com.example.three3d.pojo.StlGcode;
 
@@ -189,7 +190,11 @@ public class WebHost {
         } else if ("6".equalsIgnoreCase(code)) {
             // 3d打印机
             Intent it = new Intent(this.context.getApplicationContext(), PrinterActivity.class);
-//             it.putExtra("url", HtmlUtil.INDEX_HTML);
+            this.context.startActivity(it);
+        }
+        else if ("7".equalsIgnoreCase(code)) {
+            // 3d打印机 状态页 status
+            Intent it = new Intent(this.context.getApplicationContext(), PrinterStartActivity.class);
             this.context.startActivity(it);
         }
     }
