@@ -2262,7 +2262,7 @@ function createText( word ) {
 	geometry.computeBoundingBox();
 
 	xMid = - 0.5 * ( geometry.boundingBox.max.x - geometry.boundingBox.min.x ); //位置，使其居中
-	geometry.translate( xMid, 0, 0 );
+	geometry.translate( xMid, -25, 0 );
 	geometry.rotateX( - ( Math.PI / 2 ) ); //文字为横卧在工作台上
 	// make shape ( N.B. edge view not visible )
 	var matLite = new THREE.MeshPhongMaterial( { color: wordColor, flatShading: true } );

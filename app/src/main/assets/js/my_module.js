@@ -113,7 +113,7 @@ function deleteThisModule(obj){
 			$(".bought_content").html(stlListHTML);
 		}
 	 	else if(allModule.hasClass("local_content")){
-			var stlListHTML='<div class="no_module">您还没有本地模型哦<br><span onclick=" goPage(4) ">点击这里创建模型</span></div>'
+			var stlListHTML='<div class="no_module">您还没有本地模型哦</div>'
 			$(".bought_content").html(stlListHTML);
 		}
 	}
