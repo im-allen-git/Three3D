@@ -66,6 +66,7 @@ function getLocalAppSTL(){
 			stlListHTML += '<div class="col-xs-6"><div class="row clearfix">';
 			var name  =stlList[i].sourceStlName.split(".stl")[0];
 			stlListHTML += '<div class="col-xs-12 module_name">'+name+'</div>';
+			stlListHTML += '<input type="hidden value='+stlList[i].sourceStlName+' class="thisName>';
 			stlListHTML += '<div class="col-xs-12 module_time"><div class="info">创建时间: <span class="this_createTime">'+stlList[i].createTime+'</span></div></div>';
 			stlListHTML += '<div class="col-xs-12 module_size"><div class="info">打印尺寸(mm): <span class="this_createTime">X:15 Y:25 Z:30</span></div></div>';
 			stlListHTML += '</div></div>';
@@ -100,21 +101,33 @@ function deleteThisModule(obj){
 	var allModule = $(obj).parents(".module_content");
 	var allModuleLength = $(obj).parents(".module_content").find(".each_module");
 	var eachModule = $(obj).parents(".each_module");
+    var deleteName = eachModule.find(".thisName").val();
 
-	if(allModuleLength.length>1){
-		eachModule.remove();
+    $("#loading_data").show();
+    var deletedSuccFlag = js.deleteStl(deleteName);
+    if(deletedSuccFlag){
+        if(allModuleLength.length>1){
+            eachModule.remove();
+        }
+        else{
+            if(allModule.hasClass("mine_content")){
+                var stlListHTML='<div class="no_module">您还没有创建模型哦<br><span onclick=" goPage(4) ">点击这里创建模型</span></div>'
+                $(".mine_content").html(stlListHTML);
+            } else if(allModule.hasClass("mine_content")){
+                var stlListHTML='<div class="no_module">您还没有购买哦，<span onclick=" goPage(2) ">点击这里浏览</span></div>'
+                $(".bought_content").html(stlListHTML);
+            }
+            else if(allModule.hasClass("local_content")){
+                var stlListHTML='<div class="no_module">您还没有本地模型哦</div>'
+                $(".bought_content").html(stlListHTML);
+            }
+        }
 	}
 	else{
-		if(allModule.hasClass("mine_content")){
-			var stlListHTML='<div class="no_module">您还没有创建模型哦<br><span onclick=" goPage(4) ">点击这里创建模型</span></div>'
-			$(".mine_content").html(stlListHTML);
-		} else if(allModule.hasClass("mine_content")){
-			var stlListHTML='<div class="no_module">您还没有购买哦，<span onclick=" goPage(2) ">点击这里浏览</span></div>'
-			$(".bought_content").html(stlListHTML);
-		}
-	 	else if(allModule.hasClass("local_content")){
-			var stlListHTML='<div class="no_module">您还没有本地模型哦</div>'
-			$(".bought_content").html(stlListHTML);
-		}
+	    $(".note_error").show();
+        setTimeout(function(){
+            $(".note_error").hide();
+        },1500)
 	}
+	$("#loading_data").hide();
 }
