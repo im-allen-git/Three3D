@@ -1451,6 +1451,7 @@ function exportMoudle( type ) { //type 0: ASCII 1: GLTF
 			scene.add( mouseHelper );
 		}
 		scene.add( transformControl );
+        transformControl.detach();//隐藏控制控件
 		scene.add( gridHelper );
 		scene.add( gradGroundMesh );
 		scene.add( gradGroundMesh1 );

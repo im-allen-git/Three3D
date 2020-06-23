@@ -1,9 +1,12 @@
 package com.example.three3d.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Instrumentation;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,6 +28,24 @@ public class PrinterStartActivity extends AppCompatActivity {
         //设置Activity竖屏显示
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-
+        ImageButton ModuleParamBtn = findViewById(R.id.imageButtonModuleParam);
+        ModuleParamBtn.setOnClickListener(v -> {
+            actionKey(KeyEvent.KEYCODE_BACK);
+        });
+    }
+    /**
+     * 模拟键盘事件方法
+     * @param keyCode
+     */
+    public void actionKey(final int keyCode) {
+        new Thread () {
+            public void run () {
+                try {
+                    Instrumentation inst=new Instrumentation();
+                    inst.sendKeyDownUpSync(keyCode);
+                } catch(Exception e) {
+                    e.printStackTrace();                    }
+            }
+        }.start();
     }
 }

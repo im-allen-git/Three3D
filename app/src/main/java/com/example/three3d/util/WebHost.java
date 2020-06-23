@@ -13,8 +13,10 @@ import android.webkit.JavascriptInterface;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.three3d.IndexActivity;
+import com.example.three3d.IndexHtmlActivity;
 import com.example.three3d.activity.BulidModuleActivity;
 import com.example.three3d.activity.MyAccountActivity;
+import com.example.three3d.activity.PrinterActivity;
 import com.example.three3d.activity.ShoppingActivity;
 import com.example.three3d.pojo.StlGcode;
 
@@ -185,6 +187,12 @@ public class WebHost {
             message.what = 5;
             message.obj = "back";
             myHandler.sendMessage(message);
+        }
+         else if ("6".equalsIgnoreCase(code)) {
+            // 3d打印机
+            Intent it = new Intent(this.context.getApplicationContext(), PrinterActivity.class);
+//             it.putExtra("url", HtmlUtil.INDEX_HTML);
+            this.context.startActivity(it);
         }
     }
 
