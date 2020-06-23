@@ -216,6 +216,32 @@ public class WebHost {
                 StlUtil.deleteModuleDataBase(context, fileName);
                 StlUtil.stlDataBaseMap.remove(fileName);
             }
+
+            StlGcode stlGcode = StlUtil.stlMap.get(fileName);
+            File tempFile;
+
+            if(stlGcode.getSourceZipStlName() != null && stlGcode.getSourceZipStlName().length() > 0){
+                tempFile = new File(stlGcode.getSourceZipStlName());
+                tempFile.deleteOnExit();
+            }
+            if(stlGcode.getServerZipGcodeName() != null && stlGcode.getServerZipGcodeName().length() > 0){
+                tempFile = new File(stlGcode.getServerZipGcodeName());
+                tempFile.deleteOnExit();
+            }
+
+            if(stlGcode.getLocalGcodeName() != null && stlGcode.getLocalGcodeName().length() > 0){
+                tempFile = new File(stlGcode.getLocalGcodeName());
+                tempFile.deleteOnExit();
+            }
+
+            if(stlGcode.getLocalImg() != null && stlGcode.getLocalImg().length() > 0){
+                tempFile = new File(stlGcode.getLocalImg());
+                tempFile.deleteOnExit();
+            }
+
+            tempFile = new File(fileName);
+            tempFile.deleteOnExit();
+
             StlUtil.stlMap.remove(fileName);
             return true;
         }
