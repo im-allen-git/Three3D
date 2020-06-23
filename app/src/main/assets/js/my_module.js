@@ -5,15 +5,7 @@ var DLETET_LEFT = 83;
 var Xflag =false;
 var Yflag =false;
 $( function () {
-	var swiper = new Swiper('.swiper-container', {
-		slidesPerView: 'auto',
-		spaceBetween: 0,
-		freeMode: false,
-		freeModeSticky : true,
-		resistance:true,
-	});
-
-    getLocalAppSTL();
+	getLocalAppSTL();
 } );
 function goPage(type) {//type 1,我的模型 2 商城 3 模型库首页 4 创建模型 5 返回上一页
 	if(type==1) {
@@ -87,4 +79,12 @@ function getLocalAppSTL(){
 		stlListHTML+='<div class="no_module">您还没有创建模型哦，<span onclick=" goPage(4) ">点击这里创建模型</span></div>'
 	}
 	$(".mine_content").html(stlListHTML)
+	var swiper = new Swiper('.swiper-container', {
+    		slidesPerView: 'auto',
+    		spaceBetween: 0,
+    		freeMode: false,
+    		freeModeSticky : true,
+    		resistance:true,
+    	});
+
 }
