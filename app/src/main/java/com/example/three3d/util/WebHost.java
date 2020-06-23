@@ -106,7 +106,7 @@ public class WebHost {
                     stlGcode.setRealStlName(tempFileAllPath);
                     stlGcode.setSourceStlName(fileName);
                     stlGcode.setSourceZipStlName(tempFileAllPath + ".zip");
-                    stlGcode.setCreateTime(new Date().toString());
+                    stlGcode.setCreateTime(StlUtil.getFormatTime(new Date()));
                     stlGcode.setLocalImg(currentImg);
                     StlUtil.stlMap.put(tempFileAllPath, stlGcode);
                     isSu = true;
@@ -207,6 +207,20 @@ public class WebHost {
         }
         return stlGcodeList.size() == 0 ? null : JSONObject.toJSONString(stlGcodeList);
     }
+
+
+    @JavascriptInterface
+    public boolean deleteStl(String fileName) {
+        if(StlUtil.stlMap.containsKey(fileName)){
+            if(StlUtil.stlDataBaseMap.containsKey(fileName)){
+                StlUtil.deleteModuleDataBase(context, fileName);
+                StlUtil.stlDataBaseMap.remove(fileName);
+            }
+            StlUtil.stlMap.remove(fileName);
+        }
+        return false;
+    }
+
 
     @JavascriptInterface
     public String getModuleList() {

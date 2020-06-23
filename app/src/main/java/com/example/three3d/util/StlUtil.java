@@ -1,5 +1,6 @@
 package com.example.three3d.util;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,7 +10,9 @@ import com.example.three3d.data.ThreeDbHelper;
 import com.example.three3d.data.ThreeEntry;
 import com.example.three3d.pojo.StlGcode;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +80,7 @@ public class StlUtil {
      * @param stlGcode
      * @return
      */
-    public static long saveModuleDataBase(Context context, StlGcode stlGcode) {
+    static long saveModuleDataBase(Context context, StlGcode stlGcode) {
         SQLiteDatabase db = getDbByContext(context);
 
         ContentValues values = new ContentValues();
@@ -92,6 +95,14 @@ public class StlUtil {
         stlDataBaseMap.put(stlGcode.getRealStlName(), stlGcode);
 
         return newRowId;
+    }
+
+
+    public static void deleteModuleDataBase(Context context, String fileName) {
+        SQLiteDatabase db = getDbByContext(context);
+        String whereClause = ThreeEntry.COLUMN_REAL_STL_NAME + " = ?";
+        String[] whereArgs = {fileName};
+        db.delete(ThreeEntry.TABLE_NAME, whereClause, whereArgs);
     }
 
 
@@ -132,5 +143,12 @@ public class StlUtil {
         ThreeDbHelper mDbHelper = new ThreeDbHelper(context);
         return mDbHelper.getReadableDatabase();
     }
+
+
+    public static String getFormatTime(Date date){
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        return df.format(date);
+    }
+
 
 }
