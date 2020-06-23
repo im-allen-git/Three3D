@@ -2,11 +2,8 @@ package com.example.three3d.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Instrumentation;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -36,18 +33,28 @@ public class PrinterActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        // this.onCreate(null);
+        this.recreate();
+    }
+
     /**
      * 模拟键盘事件方法
+     *
      * @param keyCode
      */
     public void actionKey(final int keyCode) {
-        new Thread () {
-            public void run () {
+        new Thread() {
+            public void run() {
                 try {
-                    Instrumentation inst=new Instrumentation();
+                    Instrumentation inst = new Instrumentation();
                     inst.sendKeyDownUpSync(keyCode);
-                } catch(Exception e) {
-                    e.printStackTrace();                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }.start();
     }

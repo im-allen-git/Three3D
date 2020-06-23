@@ -45,7 +45,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -369,7 +368,7 @@ public class GenGcodeActivity extends AppCompatActivity {
                         }
                     }
                     System.err.println(gcodeFile.getAbsolutePath() + ",result:" + b);
-                } else{
+                } else {
                     sendMessage(DOWN_COMPLETED, "下载失败," + outfileName);
                 }
 
