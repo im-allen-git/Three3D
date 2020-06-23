@@ -12,7 +12,6 @@ import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.three3d.IndexActivity;
 import com.example.three3d.IndexHtmlActivity;
 import com.example.three3d.activity.BulidModuleActivity;
 import com.example.three3d.activity.MyAccountActivity;
@@ -174,7 +173,7 @@ public class WebHost {
             this.context.startActivity(it);
         } else if ("3".equalsIgnoreCase(code)) {
             // 模型库首页
-            Intent it = new Intent(this.context.getApplicationContext(), IndexActivity.class);
+            Intent it = new Intent(this.context.getApplicationContext(), IndexHtmlActivity.class);
             // it.putExtra("url", HtmlUtil.SHOP_HTML);
             this.context.startActivity(it);
         } else if ("4".equalsIgnoreCase(code)) {
@@ -187,8 +186,7 @@ public class WebHost {
             message.what = 5;
             message.obj = "back";
             myHandler.sendMessage(message);
-        }
-         else if ("6".equalsIgnoreCase(code)) {
+        } else if ("6".equalsIgnoreCase(code)) {
             // 3d打印机
             Intent it = new Intent(this.context.getApplicationContext(), PrinterActivity.class);
 //             it.putExtra("url", HtmlUtil.INDEX_HTML);
