@@ -73,6 +73,8 @@ var lDrawGuiData = {
 };
 //LDraw  end
 var currentModule = 0; //0:基础模型 1：lego
+var goHomeFlag = false;//是否是点击首页
+var deleteObjFlag = false;//是否点击了删除
 $( function () {
 	listModule();
 	getLocalAppSTL();
@@ -158,13 +160,13 @@ $( function () {
 		dragedFlag = false;
 		$( ".active_shape" ).removeClass( "active_shape" );
 	}, false );
-	window.addEventListener( "touchmove", function ( event ) {
+	/*window.addEventListener( "touchmove", function ( event ) {
 			if (event.scale !== 1) {
 				event.preventDefault();
 			}
 		},
 		{ passive: false }
-	);
+	);*/
 //input标签 软键盘打开和收起
 	$( "#save_name" ).focus( function () {
 		$( ".save_name_module" ).css( { "top": "-.85rem" } );
@@ -434,6 +436,7 @@ function goHomePage() {
 		if (saveFlag) {
 			js.changeActive( "3" );//1,我的模型 2 商城 3 模型库首页 4 创建模型
 		} else {
+		    goHomeFlag = true;
 			$( ".save_ask,.save_name_module_bg" ).show();
 		}
 	} else {
@@ -577,6 +580,7 @@ function init() {
 	controls.minDistance = 10; //设置相机距离原点的最近距离 min distance of camera to coordinate origin
 	controls.maxDistance = 1300;//设置相机距离原点的最远距离 max distance of camera to coordinate origin
 	controls.enableKeys = true;
+	controls.rotateSpeed  = .1;
 	controls.keys = {
 		LEFT: 65, //left arrow
 		UP: 87, // up arrow
@@ -997,7 +1001,7 @@ function changeShapes( geo ) {//geo: 当前类型
 		case 3:
 			// 球形
 			currentShapeType = 3;
-			currentObj = new THREE.SphereBufferGeometry( SHAPE_SIZE / 2, SHAPE_SIZE / 2, 50 );//SphereBufferGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer, phiStart : Float, phiLength : Float, thetaStart : Float, thetaLength : Float)
+			currentObj = new THREE.SphereBufferGeometry( SHAPE_SIZE / 2, 32,32 );//SphereBufferGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer, phiStart : Float, phiLength : Float, thetaStart : Float, thetaLength : Float)
 			$( ".ball" ).addClass( "active_shape" );
 			break;
 		case 4:
@@ -1119,6 +1123,7 @@ function removeAllShapes() {
 }
 
 function createObjForOperation( meshObj, type ) {
+	deleteObjFlag = false;
 	if (allOperation.length >= 5) {
 		allOperation.shift();
 	}
@@ -1543,6 +1548,10 @@ function afterSTLImg(){
 	transformControl.detach();
 	$( ".save_stl" ).addClass( "noActive_save" );
 	$("#canImg").remove();//保存当前图片后，删除
+	if(goHomeFlag){
+        goHomeFlag = false;
+        js.changeActive( "3" );//1,我的模型 2 商城 3 模型库首页 4 创建模型
+    }
 	getLocalAppSTL();
 }
 // 导出相关 end
@@ -1888,6 +1897,7 @@ function enabledLego( type ) { //type 0:enable 1:disable
 //Lego end
 
 function changeControls( type, obj ) {
+    if(deleteObjFlag){return}
 	$( ".zoom_options,.color_wrapper" ).hide();//隐藏子窗口
 	if (transformControlModeType == 0 && type == 0) {
 		$( obj ).toggleClass( "active_control" );
@@ -1939,6 +1949,9 @@ function deletedSelected() {
 		eachObjSetps( transformControl.object, 0 );
 		scene.remove( transformControl.object );
 		objects.splice( objects.indexOf( transformControl.object ), 1 );
+        $( ".active_control" ).removeClass( "active_control" );
+        $( ".color_control_wrapper" ).hide();
+        deleteObjFlag = true;
 	}
 	transformControl.detach();
 	// $(".active_control").removeClass("active_control");
@@ -1949,7 +1962,6 @@ function deletedSelected() {
 	} else {
 		$( ".save_stl" ).removeClass( "noActive_save" ).addClass( "noActive_save" );
 	}
-
 }
 
 function shapesController( type ) {//type 0: normal

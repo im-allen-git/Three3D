@@ -54,3 +54,11 @@ function showCurrentModule(type){
 	}
 	$("#contentModule").html();
 }
+
+function thisParamInfo( type ) {
+	if (type == 0) {
+		$( ".module_param,.module_param_bg" ).show();
+	} else {
+		$( ".module_param,.module_param_bg" ).hide();
+	}
+}

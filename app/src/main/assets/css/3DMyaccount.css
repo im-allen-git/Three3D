@@ -31,3 +31,17 @@ body{background:#4E92EF; font-size:.17rem;color:#FFFFFF}
 
 .each_module:nth-child(2n+1) {padding-right: 5px;}
 .each_module:nth-child(2n) {padding-left: 5px;}
+
+
+.module_param_bg {display:none;position: fixed;top: 0;right: 0;left: 0;bottom:0;background: #000; opacity: .3;z-index: 10;}
+.module_param {  display: none;  position: fixed; top: 0; bottom: 0; right: 0; left: 0; height: 385px; width: 315px; margin: auto; border-radius: 15px; font-size: .14rem; text-align: center; z-index: 11; background: rgba(185,239,255,1); box-shadow: 0px 0px 10px 0px rgba(33,86,145,0.2), 0px 0px 125px 0px rgba(56,153,240,1) inset; }
+.param_top_title {  width: 2.08rem; height: .32rem; background:linear-gradient(0deg,rgba(85,181,227,1) 0%,rgba(53,129,227,1) 100%); border-radius: 0 0 .15rem .15rem; line-height: .32rem; margin: auto; font-size: .18rem; color: #fff;margin-bottom: .4rem;}
+.each_param { width: 2.65rem; height: .3rem; line-height: .3rem; background: rgba(255,255,255,1); box-shadow: 0px 0px 2px 0px rgba(33,86,145,0.2); opacity: 0.8; border-radius: .15rem; margin: .15rem auto; text-align: left;padding: 0 10px; color:#617D8F;    font-size: .12rem;}
+.each_param div.param_title{float: left;}
+.each_param div.param_detail{float: right;color: #3379D9;}
+.each_param div.param_detail.param_time{font-size:.15rem}
+.module_param .print_btn{margin-top: .3rem;}
+.note{color:#3379D9;font-size:.13rem;margin-top: .15rem;}
+.note em{color:#FF7F0E;}
+img.imgBtn.param_close { position: absolute; top: -.1rem; right: -.1rem; width: .45rem; }
+.print_btn { background-image: url(../img/3dPrinting/btn_print.png); background-repeat: no-repeat; background-size: contain; width: 1.2rem; height: .65rem; margin: auto; }

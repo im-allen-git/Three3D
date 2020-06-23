@@ -12,7 +12,11 @@ body{background:#4E92EF; font-size:.17rem;color:#FFFFFF}
 .good_buy { background-image: url(../img/3dPrinting/btn_shop_buy.png); background-size: contain; background-repeat: no-repeat; height: .44rem; }
 .each_good { margin-bottom: 10px; }
 
-.module .img_wrapper{width: 150px;height: 150px;margin: auto;}
+.module .img_wrapper{width: 100%;margin: auto;}
 .module .each_module:nth-child(2n){padding-left: 5px;}
 .module .each_module:nth-child(2n+1){padding-right: 5px;}
 .module .good_buy { background-position: center; }
+
+@media only screen and (max-width: 369px) {
+    .good_wrapper .col-xs-8{width:59%;}
+}

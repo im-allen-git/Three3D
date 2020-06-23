@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>模型库</title>
+	<meta name="viewport"
+		  content="width=device-width, user-scalable=no, minimum-scale=1, maximum-scale=1, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=11,chrome=1">
+	<link type="text/css" rel="stylesheet" href="../css/common.css">
+	<link type="text/css" rel="stylesheet" href="../css/swiper.min.css">
+	<link type="text/css" rel="stylesheet" href="../css/index_3d.css">
+</head>
+<body>
+<div class="main_wrapper ">
+	<div class="container">
+		<div class="top_menu row clearfix">
+			<div class="top_menu_btn printer col-xs-4 text-left" onclick=" goPage(6) ">3D打印机</div>
+			<div class="top_menu_btn modules col-xs-4 text-center">模型库</div>
+			<div class="top_menu_btn mymodule col-xs-4 text-right" onclick=" goPage(1) ">我的模型</div>
+		</div>
+		<div class="row clearfix modules_slides">
+			<!-- Add Arrows -->
+			<div class="swiper-button-prev"></div>
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide">
+						<div class="img_wrapper">
+							<img src="../img/3dPrinting/module_example.png" alt="">
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="img_wrapper">
+							<img src="../img/3dPrinting/module_example.png" alt="">
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="img_wrapper">
+							<img src="../img/3dPrinting/module_example.png" alt="">
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="img_wrapper">
+							<img src="../img/3dPrinting/module_example.png" alt="">
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Add Arrows -->
+			<div class="swiper-button-next"></div>
+
+			<div class="buttons_right">
+				<div class="btn_create_module btn_right" onclick=" goPage(4) "><span>创建模型</span></div>
+				<div class="btn_module_param btn_right" onclick="thisParamInfo(0) "><span>模型参数</span></div>
+			</div>
+		</div>
+		<div class="print_btn"></div>
+	</div>
+</div>
+<div class="module_param_bg" onclick="thisParamInfo(1)"></div>
+<div class="module_param">
+	<div class="param_top_title">模型数据</div>
+	<div class="each_param clearfix">
+		<div class="param_title">打印尺寸(MM)</div>
+		<div class="param_detail">X:52.5 Y:39.4 Z:54.1</div>
+	</div>
+	<div class="each_param clearfix">
+		<div class="param_title">切片大小</div>
+		<div class="param_detail">8.54MB</div>
+	</div>
+	<div class="each_param clearfix">
+		<div class="param_title">消耗材料</div>
+		<div class="param_detail">10m</div>
+	</div>
+	<div class="each_param clearfix">
+		<div class="param_title">总打印时间</div>
+		<div class="param_detail param_time">01:56:10</div>
+	</div>
+	<div class="print_btn"></div>
+	<div class="note">打印尺寸已优化，<em>恢复原尺寸</em></div>
+	<img src="../img/3dPrinting/btn_close.png" class="imgBtn param_close" onclick="thisParamInfo(1)">
+</div>
+</body>
+<script src='../js/jquery.min.js'></script>
+<script src='../js/swiper.min.js'></script>
+<script src='../js/index_3d.js'></script>
+<script>
+	var swiper = new Swiper( '.swiper-container', {
+		spaceBetween: 0,
+		freeMode: false,
+		freeModeSticky: true,
+		direction: 'vertical',
+		navigation: {
+			nextEl: '.swiper-button-next',
+			prevEl: '.swiper-button-prev',
+		},
+
+	} );
+</script>
+</html>

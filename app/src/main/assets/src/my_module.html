@@ -7,7 +7,7 @@
 		  content="width=device-width, user-scalable=no, minimum-scale=1, maximum-scale=1, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=11,chrome=1">
 	<link type="text/css" rel="stylesheet" href="../css/common.css">
-	<link type="text/css" rel="stylesheet" href="../css/swiper-3.3.1.min.css">
+	<link type="text/css" rel="stylesheet" href="../css/swiper.min.css">
 	<!--	<link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css">-->
 	<link type="text/css" rel="stylesheet" href="../css/3DMyaccount.css">
 </head>
@@ -17,7 +17,7 @@
 	<div class="top_menu row clearfix">
 		<div class="top_menu_btn mine col-xs-4 text-left" onclick=" goPage(3) ">模型库</div>
 		<div class="top_menu_btn bought col-xs-4 text-center">我的模型</div>
-		<div class="top_menu_btn local col-xs-4 text-right" onclick=" goPage(4) ">创造模型</div>
+		<div class="top_menu_btn local col-xs-4 text-right" onclick=" goPage(4) ">创建模型</div>
 	</div>
 	<div class="main_wrapper">
 		<div class="container">
@@ -55,12 +55,12 @@
 											</div>
 										</div>
 									</div>
-									<div class="col-xs-3">
+									<div class="col-xs-3" onclick="thisParamInfo(0,this)">
 										<div class="img_wrapper showHide first_child"><img
 											src="../img/3dPrinting/btn_print.png" alt=""></div>
 									</div>
 								</div>
-								<div class="swiper-slide delete_slide">
+								<div class="swiper-slide delete_slide" onclick="thisParamInfo(0,this)">
 									<div class="delete">删除</div>
 								</div>
 							</div>
@@ -87,7 +87,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="col-xs-3">
+									<div class="col-xs-3" onclick="thisParamInfo(0,this)">
 										<div class="img_wrapper showHide first_child"><img
 											src="../img/3dPrinting/btn_print.png" alt=""></div>
 									</div>
@@ -124,7 +124,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="col-xs-3">
+									<div class="col-xs-3" onclick="thisParamInfo(0,this)">
 										<div class="img_wrapper showHide first_child"><img
 											src="../img/3dPrinting/btn_print.png" alt=""></div>
 									</div>
@@ -156,7 +156,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-xs-3">
+								<div class="col-xs-3" onclick="thisParamInfo(0,this)">
 									<div class="img_wrapper showHide first_child"><img
 										src="../img/3dPrinting/btn_print.png" alt=""></div>
 								</div>
@@ -172,8 +172,31 @@
 		</div>
 	</div>
 </div>
+<div class="module_param_bg" onclick="thisParamInfo(1)"></div>
+<div class="module_param">
+	<div class="param_top_title">模型数据</div>
+	<div class="each_param clearfix">
+		<div class="param_title">打印尺寸(MM)</div>
+		<div class="param_detail">X:52.5 Y:39.4 Z:54.1</div>
+	</div>
+	<div class="each_param clearfix">
+		<div class="param_title">切片大小</div>
+		<div class="param_detail">8.54MB</div>
+	</div>
+	<div class="each_param clearfix">
+		<div class="param_title">消耗材料</div>
+		<div class="param_detail">10m</div>
+	</div>
+	<div class="each_param clearfix">
+		<div class="param_title">总打印时间</div>
+		<div class="param_detail param_time">01:56:10</div>
+	</div>
+	<div class="print_btn"></div>
+	<div class="note">打印尺寸已优化，<em>恢复原尺寸</em></div>
+	<img src="../img/3dPrinting/btn_close.png" class="imgBtn param_close" onclick="thisParamInfo(1)">
+</div>
 </body>
 <script src='../js/jquery.min.js'></script>
-<script src='../js/swiper-3.3.1.min.js'></script>
+<script src='../js/swiper.min.js'></script>
 <script src='../js/my_module.js'></script>
 </html>

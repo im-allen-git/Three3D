@@ -24,6 +24,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.three3d.R;
+import com.example.three3d.util.HtmlUtil;
 import com.example.three3d.util.WebHost;
 
 import java.util.Objects;
@@ -39,6 +40,7 @@ public class BulidModuleActivity extends AppCompatActivity {
     private Button clickBtn;
     private TextView textView;
     private WebHost webHost;
+    private String WEB_URL;
 
     @SuppressLint("HandlerLeak")
     private Handler mainHandler = new Handler() {
@@ -86,7 +88,13 @@ public class BulidModuleActivity extends AppCompatActivity {
         webView.setWebViewClient(new MyWebViewClient());
         webView.setWebChromeClient(new GoogleClient());
 //        webView.loadUrl(HtmlUtil.BULID_MODULE_URL);
-        webView.loadUrl("file:///android_asset/src/3DPrinting.html");
+        Intent intent = getIntent();
+        // 获取到传递参数
+        WEB_URL = intent.getStringExtra("url");
+        if (WEB_URL == null || WEB_URL.length() == 0) {
+            WEB_URL = HtmlUtil.BULID_MODULE_URL;
+        }
+        webView.loadUrl(WEB_URL);
 
         textView = findViewById(R.id.file_text_name);
         textView.setVisibility(View.INVISIBLE);
