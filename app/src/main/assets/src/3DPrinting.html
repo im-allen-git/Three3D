@@ -119,7 +119,7 @@
 	<div class="save_name_title">命名</div>
 	<div class="save_name_tip">模型还没有名字，取个名字吧</div>
 	<input type="text" placeholder="请输入模型名称" maxlength="14" id="save_name" oninput="saveModuleName(this,'oninput')"
-		   onblur="saveModuleName(this,'onblur')" onFocus="saveModuleName(this,'onFocus')"
+		   onblur="saveModuleName(this,'onblur')" onFocus="saveModuleName(this,'onFocus')" onkeyup="this.value=this.value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g ,'')"
 		   blur="saveModuleName(this,'blur')">
 	<div class="save_name_verify">请输入模型名称</div>
 	<div class="btn_wrapper clearfix">

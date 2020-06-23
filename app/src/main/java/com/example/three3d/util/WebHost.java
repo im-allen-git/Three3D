@@ -200,7 +200,7 @@ public class WebHost {
         for (Map.Entry<String, StlGcode> fileEntry : StlUtil.stlDataBaseMap.entrySet()) {
             stlGcodeList.add(fileEntry.getValue());
         }
-        return JSONObject.toJSONString(stlGcodeList);
+        return stlGcodeList.size() == 0 ? null : JSONObject.toJSONString(stlGcodeList);
     }
 
     @JavascriptInterface
