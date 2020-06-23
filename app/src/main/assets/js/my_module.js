@@ -72,7 +72,7 @@ function getLocalAppSTL(){
 			stlListHTML += '<div class="swiper-slide">';
 			stlListHTML += '<div class="col-xs-3"><img src="'+stlList[i].localImg+'" alt=""></div>';
 			stlListHTML += '<div class="col-xs-6"><div class="row clearfix">';
-			var name  =sourceStlName.split(".stl")[0];
+			var name  =stlList[i].sourceStlName.split(".stl")[0];
 			stlListHTML += '<div class="col-xs-12 module_name">'+name+'</div>';
 			stlListHTML += '<div class="col-xs-12 module_time"><div class="info">创建时间: <span class="this_createTime">'+stlList[i].createTime+'</span></div></div>';
 			stlListHTML += '<div class="col-xs-12 module_size"><div class="info">打印尺寸(mm): <span class="this_createTime">X:15 Y:25 Z:30</span></div></div>';
