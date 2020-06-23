@@ -178,7 +178,7 @@ active_shape .color_change{display: block;line-height: .55rem;}
  .save_ask .save_name_tip { margin: .3rem .3rem .1rem; text-align: left; line-height: 0.25rem;color:#426A8D; }
 input#save_name { width: 90%;margin-top: .1rem; padding: 0 .1rem; font-size: .12rem; height: .4rem; line-height: .4rem; border-radius: .1rem; background: rgba(255,255,255,1); box-shadow: 3px 2px 2px 0px rgba(204,161,57,0.64) inset; border: none; outline: none;color: #323232;}
 .save_name_cancle {position: absolute; top: -.14rem; right: -.1rem; width: .45rem;}
-img.save_name_ok,img.go_home_ok { width: .9rem; height: auto; margin-top: .12rem; }
+img.save_name_ok,img.go_home_ok { width: .9rem; height: auto; margin: .12rem .2rem 0 .2rem; }
 .save_name_verify{display:none;color:red;position: absolute;bottom: .62rem; left: .23rem; background: #fff;}
 .open_save_name{}
 /*lego*/

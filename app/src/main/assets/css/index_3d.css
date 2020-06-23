@@ -1,10 +1,10 @@
-body{background: #4E92EF;}
+body{background: #4E92EF;overflow: hidden}
 body,.container{height: 100%;}
 .container *{color:#fff}
 .top_menu{border-bottom:1px solid #92CCFFFF}
 .top_menu .top_menu_btn{padding-top: .14rem; padding-bottom: .14rem; font-size:.17rem;}
 .top_menu_btn a { color: #fff; }
-.modules_slides { height: 3.60rem; margin: .70rem 0;position: relative}
+.modules_slides { height: 3rem; margin: .60rem 0;position: relative}
 
 .swiper-container { background-image: url(../img/3dPrinting/module_bg.png); background-size: contain; background-repeat: no-repeat; max-height: 115%; background-position: center;margin: auto; }
 .swiper-wrapper,.swiper-slide{min-height: 3rem;}
@@ -24,7 +24,7 @@ body,.container{height: 100%;}
 .print_btn { background-image: url(../img/3dPrinting/btn_print.png); background-repeat: no-repeat; background-size: contain; width: 1.2rem; height: .65rem; margin: auto; }
 
 .module_param_bg {display:none;position: fixed;top: 0;right: 0;left: 0;bottom:0;background: #000; opacity: .3;z-index: 10;}
-.module_param {  display: none;  position: fixed; top: 0; bottom: 0; right: 0; left: 0; height: 385px; width: 315px; margin: auto; border-radius: 15px; font-size: .14rem; text-align: center; z-index: 11; background: rgba(185,239,255,1); box-shadow: 0px 0px 10px 0px rgba(33,86,145,0.2), 0px 0px 125px 0px rgba(56,153,240,1) inset; }
+.module_param {  display: none;  position: fixed; top: 0; bottom: 0; right: 0; left: 0; height: 345px; width: 315px; margin: auto; border-radius: 15px; font-size: .14rem; text-align: center; z-index: 11; background: rgba(185,239,255,1); box-shadow: 0px 0px 10px 0px rgba(33,86,145,0.2), 0px 0px 125px 0px rgba(56,153,240,1) inset; }
 .param_top_title {  width: 2.08rem; height: .32rem; background:linear-gradient(0deg,rgba(85,181,227,1) 0%,rgba(53,129,227,1) 100%); border-radius: 0 0 .15rem .15rem; line-height: .32rem; margin: auto; font-size: .18rem; color: #fff;margin-bottom: .4rem;}
 .each_param { width: 2.65rem; height: .3rem; line-height: .3rem; background: rgba(255,255,255,1); box-shadow: 0px 0px 2px 0px rgba(33,86,145,0.2); opacity: 0.8; border-radius: .15rem; margin: .15rem auto; text-align: left;padding: 0 10px; color:#617D8F;    font-size: .12rem;}
 .each_param div.param_title{float: left;}
