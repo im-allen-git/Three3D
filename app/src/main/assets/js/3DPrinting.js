@@ -153,7 +153,7 @@ $( function () {
 			$( dragObj ).remove();
 			setTimeout( function () {
 				onDocumentMouseDown( e );
-			}, 100 );
+			}, 200 );
 		} else {
 			$( dragObj ).remove();
 		}
@@ -910,6 +910,7 @@ function onDocumentMouseDown( event ) {
 					cleanSelectedObject( voxel );
 					showCurrentColor();
 					resetSomeThing();
+                    $( "#loading_data" ).hide();
 				}
 				/*else {
 					console.log( "The max shapes are 10." );
@@ -1714,7 +1715,6 @@ async function loadSTL( thisSTL, obj ) {
 	var loader = new THREE.STLLoader();
 	await loader.load( file, function ( geometry ) {
 		currentObj = geometry;
-		$( "#loading_data" ).hide();
 	} );
 }
 async function loadLocalSTL( thisSTL) {
@@ -1729,7 +1729,6 @@ console.log(thisSTL)
 	var loader = new THREE.STLLoader();
 	await loader.load( thisSTL, function ( geometry ) {
 		currentObj = geometry;
-		$( "#loading_data" ).hide();
 	} );
 }
 //Lego
