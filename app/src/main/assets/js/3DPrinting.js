@@ -370,7 +370,11 @@ function getLocalAppSTL(){
 		var stlListIndex = 100;
 		for (var i in stlList) {
 			stlListHTML += '';
-			stlListHTML += '<div class="module lego drag">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
+			if(stlListIndex == 100){
+			    stlListHTML += '<div class="module lego drag" style="margin-top:.32rem">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
+			}else{
+			    stlListHTML += '<div class="module lego drag">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
+			}
 			stlListHTML += '<input class="this_code" type="hidden" value="' + stlListIndex + '">';
 			stlListHTML += '<input class="this_module" type="hidden" value="3">';
 			stlListHTML += '<input class="this_url" type="hidden" value="' + stlList[i].realStlName + '">';
@@ -1502,19 +1506,38 @@ function saveAsImage(nameStr,result) {
     	try {
     		var strMime = "image/png";
     		imgData = renderer.domElement.toDataURL( strMime, 1 );
+            var canvas1 = document.createElement("canvas")
+            var cxt1 = canvas1.getContext("2d")
+            var img = new Image();
+            img.src = imgData;
+            img.onload = function(){
+                canvas1.width = img.width;
+                canvas1.height = img.height;
+                // 为原图添加图片
+                cxt1.drawImage(img,0,0,img.width,img.height)
+                var canvas2 = document.createElement("canvas");
+                var cxt2 = canvas2.getContext("2d");
+                canvas2.width = img.height;
+                canvas2.height = img.height;
+                // 根据坐标和宽高 截取图片
+                var dataImg = cxt1.getImageData(img.width*0.15, 0,img.width-10,img.width-10) //画框的坐标宽高
+                // 把截取的cavens图 放入临时容器
+                cxt2.putImageData(dataImg,0,0,0,0,canvas2.height, canvas2.width)
+                // 把整个临时图片容器转成 base64字符
+                var img2 = canvas2.toDataURL("image/png");
 
-            var successFlag = js.saveStl( result, nameStr + '.stl', imgData.split(",")[1]);
-
-            if(successFlag){
-                afterSTLImg()
-            }
-            else{
-                $( ".save_name_verify" ).text( "保存失败，请重试" ).show();
-                setTimeout( function () {
-                    $( ".save_name_verify" ).text( "请输入模型名称" ).hide();
-                }, 1500 );
-                goHomeFlag = false;
-                saveFlag = false;
+                var successFlag = js.saveStl( result, nameStr + '.stl', img2.split(",")[1]);
+                if(successFlag){
+                    afterSTLImg()
+                }
+                else{
+                    $( ".save_name_verify" ).text( "保存失败，请重试" ).show();
+                    setTimeout( function () {
+                        $( ".save_name_verify" ).text( "请输入模型名称" ).hide();
+                    }, 1500 );
+                    goHomeFlag = false;
+                    saveFlag = false;
+                }
             }
 
     	} catch (e) {
