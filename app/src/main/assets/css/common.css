@@ -99,7 +99,12 @@ body {  font-family: Helvetica,Verdana,sans-serif,'Microsoft Yahei'}
 
 * { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;font-family:Microsoft YaHei; }
 .clearfix:after{content:'.';display:block;clear:both;visibility:hidden;line-height:0;height:0;font-size:0}
-
+* {
+    -webkit-touch-callout:none;
+    -moz-touch-callout:none;
+    -ms-touch-callout:none;
+      touch-callout:none;
+ }
 *, input{font-family: "HKFYTW7"}
 #loading_data {display:none;position: fixed;top: 0;right: 0;left: 0;bottom:0;background:#FFF;opacity: .7;z-index: 999;}
 #loading_data img{position: absolute;top: 48%;left: 48%;}

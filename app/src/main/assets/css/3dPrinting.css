@@ -206,7 +206,7 @@ div#shapes.closeShapes{display: none;}
     -webkit-transform:rotate(180deg); !* Safari 和 Chrome *!
     -o-transform:rotate(180deg); 	!* Opera *!}*/
 .show_more{width:.15rem;height:.6rem;background:#F0F7FF;border-radius: .1rem 0 0 .1rem;position: fixed;right:99px;top: 44%;}
-.show_more img { position: absolute; left: 4px; top: 25px; cursor: pointer;width:.05rem;height:.1rem;-ms-transform:rotate(180deg); 	/* IE 9 */-moz-transform:rotate(180deg); 	/* Firefox */-webkit-transform:rotate(180deg); /* Safari 和 Chrome */-o-transform:rotate(180deg); 	/* Opera */}
+.show_more img { position: absolute; left: 4px; top: 25px; cursor: pointer;width:.05rem;height:.1rem;}
 .show_more.show_more_close{right:0;}
 .show_more.show_more_close img{transform:rotate(180deg);
     -ms-transform:rotate(0deg); 	/* IE 9 */

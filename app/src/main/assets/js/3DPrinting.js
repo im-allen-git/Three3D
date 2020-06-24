@@ -589,7 +589,7 @@ function init() {
 	controls.minDistance = 10; //设置相机距离原点的最近距离 min distance of camera to coordinate origin
 	controls.maxDistance = 1300;//设置相机距离原点的最远距离 max distance of camera to coordinate origin
 	controls.enableKeys = true;
-	controls.rotateSpeed  = .1;
+	controls.rotateSpeed  = .3;
 	controls.keys = {
 		LEFT: 65, //left arrow
 		UP: 87, // up arrow
