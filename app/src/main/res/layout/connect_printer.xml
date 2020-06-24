@@ -35,7 +35,7 @@
                     android:adjustViewBounds="true"
                     android:background="#00FFFFFF"
                     android:contentDescription="@string/pintthismodule"
-                    android:paddingLeft="20dp"
+                    android:paddingLeft="15dp"
                     android:paddingTop="15dp"
                     android:paddingRight="10dp"
                     android:paddingBottom="15dp"
@@ -62,6 +62,7 @@
                     android:fontFamily="@font/hkfyw7gb"
                     android:text="@string/printer_statue_uncon"
                     android:textSize="13sp"
+                    android:gravity="center_vertical|right"
                     android:textColor="#FF5722" />
             </LinearLayout>
             <!--顶部三按钮 end-->

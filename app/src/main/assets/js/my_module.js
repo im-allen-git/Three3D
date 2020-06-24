@@ -60,18 +60,17 @@ function getLocalAppSTL(){
 		var stlList = eval('('+data+')');
 		for (var i in stlList) {
 			stlListHTML += '<div class="each_module "><div class="each_module_wrapper clearfix swiper-container"><div class="swiper-wrapper">';
-			stlListHTML += '<div class="swiper-slide">';
-			stlListHTML += '<div class="col-xs-3"><img src="'+stlList[i].localImg+'" alt=""></div>';
-			stlListHTML += '<div class="col-xs-6"><div class="row clearfix">';
-			var name  =stlList[i].sourceStlName.split(".stl")[0];
-			stlListHTML += '<div class="col-xs-12 module_name">'+name+'</div>';
-			stlListHTML += '<div class="col-xs-12 module_time"><div class="info">创建时间: <span class="this_createTime">'+stlList[i].createTime+'</span></div></div>';
-			stlListHTML += '<div class="col-xs-12 module_size"><div class="info">打印尺寸(mm): <span class="this_createTime">X:15 Y:25 Z:30</span></div></div>';
-			stlListHTML += '</div></div>';
-			stlListHTML += '<div class="col-xs-3" onclick="thisParamInfo(0,this)"><div class="img_wrapper showHide first_child"><img src="../img/3dPrinting/btn_print.png" alt=""></div></div>';
-			stlListHTML += '</div>';
-			stlListHTML += '<div class="swiper-slide delete_slide" onclick="deleteThisModule(this,\''+stlList[i].realStlName+'\')"><div class="delete">删除</div></div>';
-			stlListHTML += '</div></div></div>';
+            stlListHTML += '<div class="swiper-slide">';
+            stlListHTML += '<div class="col-xs-3"><img src="'+stlList[i].localImg+'" alt=""></div>';
+            stlListHTML += '<div class="col-xs-9">';
+            var name  =stlList[i].sourceStlName.split(".stl")[0];
+            stlListHTML += '<div class="module_name">'+name+'</div>';
+            stlListHTML += '<div class="module_time"><div class="info">创建时间: <span class="this_createTime">'+stlList[i].createTime+'</span></div></div>';
+            stlListHTML += '<div class="module_size"><div class="info">打印尺寸(mm): <span class="this_createTime">X:15 Y:25 Z:30</span></div></div>';
+            stlListHTML += '<div class="img_wrapper showHide first_child"><img src="../img/3dPrinting/btn_print.png" alt=""></div>';
+            stlListHTML += '</div></div>';
+            stlListHTML += '<div class="swiper-slide delete_slide" onclick="deleteThisModule(this)"><div class="delete">删除</div></div>';
+            stlListHTML += '</div></div></div>';
 		}
 	}
 	else{
@@ -79,13 +78,12 @@ function getLocalAppSTL(){
 	}
 	$(".mine_content").html(stlListHTML)
 	var swiper = new Swiper('.swiper-container', {
-    		slidesPerView: 'auto',
-    		spaceBetween: 0,
-    		freeMode: false,
-    		freeModeSticky : true,
-    		resistance:true,
-    	});
-
+        slidesPerView: 'auto',
+        spaceBetween: 0,
+        freeMode: false,
+        freeModeSticky : true,
+        resistance:true,
+    });
 }
 
 function deleteThisModule(obj,name){
