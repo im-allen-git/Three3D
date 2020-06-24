@@ -61,7 +61,7 @@ var eachRedoObjectInfo = {};//每一个对象的每一个步骤；
 var shootedFlag = false;
 
 var orientationControls = new THREE.OrientationControls( 50 ); //右上角三视图
-var stlGeoFlag = 0; //0 geo; 1 stl
+var stlGeoFlag = 0; //0 geo; 1 stl 2, localStl
 //LDraw
 var lDrawModul;
 var lDrawModulGUI;
@@ -151,9 +151,14 @@ $( function () {
 				loadLocalSTL(url)
 			}
 			$( dragObj ).remove();
-			setTimeout( function () {
-				onDocumentMouseDown( e );
-			}, 200 );
+			if(type == 0){
+			    onDocumentMouseDown( e );
+			}
+			else if (type == 1 || type == 3){
+                setTimeout( function () {
+                    onDocumentMouseDown( e );
+                }, 1000 );
+			}
 		} else {
 			$( dragObj ).remove();
 		}
@@ -371,7 +376,8 @@ function getLocalAppSTL(){
 			stlListHTML += '<input class="this_url" type="hidden" value="' + stlList[i].realStlName + '">';
 			// stlListHTML += '<div class="drag sprint sprint_' + stlList[i].title + ' sprintY"></div>';
 			stlListHTML += '<div class="img_wrapper"><img src="file://' + stlList[i].localImg + '" alt="' + listSTL[i].localImg + '" class="drag sprint"></div>';
-			stlListHTML += '<div class="name drag">' + stlList[i].sourceStlName + '</div>';
+			var name  =stlList[i].sourceStlName.split(".stl")[0];
+			stlListHTML += '<div class="name drag">' + name + '</div>';
 			stlListHTML += '<div class="color_change">';
 			stlListHTML += '<div class="color_option color_yellow color_circle" onclick="changeColorBeforeShoot(1,this)"></div>';
 			stlListHTML += '<div class="color_option color_white color_circle" onclick="changeColorBeforeShoot(0,this)"></div>';
@@ -882,13 +888,17 @@ function onDocumentMouseDown( event ) {
 					var voxel = new THREE.Mesh( currentObj, voxelMaterial );
 					voxel.position.copy( intersect.point ).add( intersect.face.normal );
 					// voxel.position.divideScalar( 50 ).floor().multiplyScalar( 50 ).addScalar(25 );
-					if (stlGeoFlag == 0) {
+					if (stlGeoFlag == 0) {//0 geo; 1 stl 2, localStl
 						voxel.position.divideScalar( SHAPE_SIZE ).floor().multiplyScalar( SHAPE_SIZE ).addScalar( SHAPE_SIZE / 2 );
 						voxel.name = "shapes";
 					} else if (stlGeoFlag == 1) {
 						voxel.position.divideScalar( 50 ).floor().multiplyScalar( 50 ).addScalar( 25 );
 						voxel.name = "stl";
-					}
+					} else if (stlGeoFlag == 2){
+                        voxel.position.divideScalar( 50 ).floor().multiplyScalar( 50 ).addScalar( 25 );
+                        voxel.name = "stl";
+                        voxel.rotation.set( -Math.PI / 2, 0, 0 );
+                    }
 					voxel.receiveShadow = true;
 					voxel.castShadow = true;
 					scene.add( voxel );
@@ -1414,7 +1424,10 @@ function exportMoudle( type ) { //type 0: ASCII 1: GLTF
 		outlinePass.selectedObjects = [];
 		camera.position.set( 170, 145, 255 ); //45°
 		camera.lookAt( 0, 0, 0 );
-		// scene.rotateOnAxis( new THREE.Vector3( 1, 0, 0 ), -90 * ( Math.PI / 180 ) );
+		//threejs Y-up, 别的事Z-up,所以到处之前要旋转
+        scene.rotation.set( Math.PI / 2, 0, 0 );
+        scene.updateMatrixWorld();
+        //end
 		animate();
 		var nameStr = $( "#save_name" ).val();
 		var successFlag;
@@ -1456,7 +1469,10 @@ function exportMoudle( type ) { //type 0: ASCII 1: GLTF
 		scene.add( gradGroundMesh );
 		scene.add( gradGroundMesh1 );
 		scene.add( plane );
-
+        //threejs Y-up, 别的事Z-up,所以到处之前要旋转
+        scene.rotation.set( 0, 0, 0 );
+        scene.updateMatrixWorld();
+        //end
 	}
 }
 
@@ -1643,6 +1659,7 @@ function resetZoom() {
 }
 
 async function loadSTL( thisSTL, obj ) {
+    currentObj = '';
 	stlGeoFlag = 1;//0 geo; 1 stl
 	showInput( 1 );
 	$( ".active_shape" ).removeClass( "active_shape" );
@@ -1710,7 +1727,7 @@ async function loadSTL( thisSTL, obj ) {
 	} );
 }
 async function loadLocalSTL( thisSTL) {
-	stlGeoFlag = 1;//0 geo; 1 stl
+	stlGeoFlag = 2;//0 geo; 1 stl 2, localStl
 	showInput( 1 );
 	$( ".active_shape" ).removeClass( "active_shape" );
 	currentModule = 0; //编辑模式，各种基础模型
