@@ -895,8 +895,8 @@ function onDocumentMouseDown( event ) {
 						voxel.position.divideScalar( 50 ).floor().multiplyScalar( 50 ).addScalar( 25 );
 						voxel.name = "stl";
 					} else if (stlGeoFlag == 2){
-                        voxel.position.divideScalar( 50 ).floor().multiplyScalar( 50 ).addScalar( 25 );
-                        voxel.name = "stl";
+                        voxel.position.divideScalar( 50 ).floor().multiplyScalar( 50 );
+                        voxel.name = "stlLocal";
                         voxel.rotation.set( -Math.PI / 2, 0, 0 );
                     }
 					voxel.receiveShadow = true;
@@ -1364,7 +1364,7 @@ function checkIntersection( event ) {
 
 		var sceneChilds = raycaster.intersectObjects( scene.children ); //get all objects in the current position of your mouse;
 		if (sceneChilds.length > 1) {
-			if (sceneChilds && ( sceneChilds[0].object.name == "shapes" || sceneChilds[0].object.name == "stl" )) {
+			if (sceneChilds && ( sceneChilds[0].object.name == "shapes" || sceneChilds[0].object.name == "stl"  || sceneChilds[0].object.name == "stlLocal" )) {
 				transformControl.detach( transformControl.object );
 				transformControl.attach( sceneChilds[0].object );
 			} else if (sceneChilds[0].object.name == "plane") {
@@ -1380,7 +1380,7 @@ function checkIntersection( event ) {
 
 		var sceneChilds = raycaster.intersectObjects( scene.children ); //get all objects in the current position of your mouse;
 		if (sceneChilds.length > 0) {
-			if (sceneChilds && ( sceneChilds[0].object.name == "shapes" || sceneChilds[0].object.name == "stl" )) {
+			if (sceneChilds && ( sceneChilds[0].object.name == "shapes" || sceneChilds[0].object.name == "stl"  || sceneChilds[0].object.name == "stlLocal" )) {
 				transformControl.detach( transformControl.object );
 				transformControl.attach( sceneChilds[0].object );
 			} else if (sceneChilds[0].object.name == "plane") {
@@ -2112,7 +2112,12 @@ function onAnimationStep() { //检测scale，使其永远在0.1- LIMIT_SIZE 之�
 						if (currentObj.position.y < ( currentObj.geometry.boundingSphere.radius * currentObj.scale.y )) {
 							currentObj.position.y = ( SHAPE_SIZE * currentObj.scale.y );
 						}
-					} else if (currentObj.position.y < ( SHAPE_SIZE * currentObj.scale.y ) / 2) {
+					} else if (currentObj.name == "stlLocal") {
+                        if (currentObj.position.y < 0) {
+                            currentObj.position.y = 0;
+                        }
+                    }
+                    else if (currentObj.position.y < ( SHAPE_SIZE * currentObj.scale.y ) / 2) {
 						currentObj.position.y = ( SHAPE_SIZE * currentObj.scale.y ) / 2;
 					}
 				}

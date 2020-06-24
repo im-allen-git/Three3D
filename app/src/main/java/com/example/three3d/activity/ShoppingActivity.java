@@ -26,6 +26,7 @@ public class ShoppingActivity extends AppCompatActivity {
 
     private String WEB_URL;
     private WebHost webHost;
+    WebView webView;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -41,7 +42,7 @@ public class ShoppingActivity extends AppCompatActivity {
 
 
         // 拿到webView组件
-        WebView webView = findViewById(R.id.shopping_view);
+       webView = findViewById(R.id.shopping_view);
 
         // 拿到webView的设置对象
         WebSettings settings = webView.getSettings();
@@ -81,6 +82,12 @@ public class ShoppingActivity extends AppCompatActivity {
             super.onProgressChanged(view, newProgress);
 
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        webView.loadUrl(WEB_URL);
     }
 
     @SuppressLint("HandlerLeak")
