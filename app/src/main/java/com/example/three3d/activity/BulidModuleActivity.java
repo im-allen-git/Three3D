@@ -100,7 +100,7 @@ public class BulidModuleActivity extends AppCompatActivity {
         textView.setVisibility(View.INVISIBLE);
 
         clickBtn = findViewById(R.id.click_button);
-        // clickBtn.setVisibility(View.INVISIBLE);
+        clickBtn.setVisibility(View.INVISIBLE);
 
         clickBtn.setOnClickListener(v -> {
             // intent.putExtra("name", et_name.getText()+"");
