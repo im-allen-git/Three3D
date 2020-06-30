@@ -14,11 +14,12 @@ import android.webkit.JavascriptInterface;
 import com.alibaba.fastjson.JSONObject;
 import com.example.three3d.IndexHtmlActivity;
 import com.example.three3d.activity.BulidModuleActivity;
+import com.example.three3d.activity.Esp8266Activity;
 import com.example.three3d.activity.MyAccountActivity;
-import com.example.three3d.activity.PrinterActivity;
 import com.example.three3d.activity.PrinterStartActivity;
 import com.example.three3d.activity.ShoppingActivity;
 import com.example.three3d.pojo.StlGcode;
+import com.example.three3d.touchv1.EspTouchActivity;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -189,10 +190,20 @@ public class WebHost {
             myHandler.sendMessage(message);
         } else if ("6".equalsIgnoreCase(code)) {
             // 3d打印机
-            Intent it = new Intent(this.context.getApplicationContext(), PrinterActivity.class);
-            this.context.startActivity(it);
-        }
-        else if ("7".equalsIgnoreCase(code)) {
+            if (StlUtil.ESP_8266_URL != null && StlUtil.ESP_8266_URL.length() > 0) {
+                Intent it = new Intent(this.context.getApplicationContext(), Esp8266Activity.class);
+                it.putExtra("esp8266url", StlUtil.ESP_8266_URL);
+                this.context.startActivity(it);
+            } else {
+                Intent it = new Intent(this.context.getApplicationContext(), EspTouchActivity.class);
+                this.context.startActivity(it);
+            }
+            // Intent it = new Intent(this.context.getApplicationContext(), PrinterActivity.class);
+
+            /*Intent it = new Intent(this.context.getApplicationContext(), Esp8266Activity.class);
+            this.context.startActivity(it);*/
+
+        } else if ("7".equalsIgnoreCase(code)) {
             // 3d打印机 状态页 status
             Intent it = new Intent(this.context.getApplicationContext(), PrinterStartActivity.class);
             this.context.startActivity(it);
@@ -211,8 +222,8 @@ public class WebHost {
 
     @JavascriptInterface
     public boolean deleteStl(String fileName) {
-        if(StlUtil.stlMap.containsKey(fileName)){
-            if(StlUtil.stlDataBaseMap.containsKey(fileName)){
+        if (StlUtil.stlMap.containsKey(fileName)) {
+            if (StlUtil.stlDataBaseMap.containsKey(fileName)) {
                 StlUtil.deleteModuleDataBase(context, fileName);
                 StlUtil.stlDataBaseMap.remove(fileName);
             }
@@ -220,21 +231,21 @@ public class WebHost {
             StlGcode stlGcode = StlUtil.stlMap.get(fileName);
             File tempFile;
 
-            if(stlGcode.getSourceZipStlName() != null && stlGcode.getSourceZipStlName().length() > 0){
+            if (stlGcode.getSourceZipStlName() != null && stlGcode.getSourceZipStlName().length() > 0) {
                 tempFile = new File(stlGcode.getSourceZipStlName());
                 tempFile.deleteOnExit();
             }
-            if(stlGcode.getServerZipGcodeName() != null && stlGcode.getServerZipGcodeName().length() > 0){
+            if (stlGcode.getServerZipGcodeName() != null && stlGcode.getServerZipGcodeName().length() > 0) {
                 tempFile = new File(stlGcode.getServerZipGcodeName());
                 tempFile.deleteOnExit();
             }
 
-            if(stlGcode.getLocalGcodeName() != null && stlGcode.getLocalGcodeName().length() > 0){
+            if (stlGcode.getLocalGcodeName() != null && stlGcode.getLocalGcodeName().length() > 0) {
                 tempFile = new File(stlGcode.getLocalGcodeName());
                 tempFile.deleteOnExit();
             }
 
-            if(stlGcode.getLocalImg() != null && stlGcode.getLocalImg().length() > 0){
+            if (stlGcode.getLocalImg() != null && stlGcode.getLocalImg().length() > 0) {
                 tempFile = new File(stlGcode.getLocalImg());
                 tempFile.deleteOnExit();
             }

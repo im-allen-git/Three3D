@@ -1,2 +1,3 @@
 rootProject.name='Three3D'
 include ':app'
+include ':esptouch'

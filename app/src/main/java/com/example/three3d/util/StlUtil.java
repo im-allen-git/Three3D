@@ -18,6 +18,10 @@ import java.util.List;
 import java.util.Map;
 
 public class StlUtil {
+
+
+    public static volatile String ESP_8266_URL = null;
+
     /**
      * 原始保存的stl数据
      */
