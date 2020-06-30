@@ -9,25 +9,35 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.View;
+import android.util.Log;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.three3d.R;
+import com.example.three3d.pojo.StlGcode;
 import com.example.three3d.util.HtmlUtil;
+import com.example.three3d.util.OkHttpUtil;
+import com.example.three3d.util.StlUtil;
 import com.example.three3d.util.WebHost;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class BulidModuleActivity extends AppCompatActivity {
 
@@ -37,19 +47,17 @@ public class BulidModuleActivity extends AppCompatActivity {
     private static boolean isReadPermissions = false;
     private static boolean isWritePermissions = false;
 
-    private Button clickBtn;
-    private TextView textView;
     private WebHost webHost;
     private String WEB_URL;
+
+    private static final String TAG = BulidModuleActivity.class.getSimpleName();
 
     @SuppressLint("HandlerLeak")
     private Handler mainHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            textView.setVisibility(View.VISIBLE);
             if (msg.what == 1) {
-                clickBtn.setVisibility(View.VISIBLE);
-                textView.setText(msg.obj.toString());
+                dealStl();
             }
         }
     };
@@ -70,7 +78,6 @@ public class BulidModuleActivity extends AppCompatActivity {
 
         // 拿到webView组件
         WebView webView = findViewById(R.id.children);
-
         // 拿到webView的设置对象
         WebSettings settings = webView.getSettings();
         // settings.setAppCacheEnabled(true); // 开启缓存
@@ -96,39 +103,119 @@ public class BulidModuleActivity extends AppCompatActivity {
         }
         webView.loadUrl(WEB_URL);
 
-        textView = findViewById(R.id.file_text_name);
-        textView.setVisibility(View.INVISIBLE);
-
-        clickBtn = findViewById(R.id.click_button);
-        clickBtn.setVisibility(View.INVISIBLE);
-
-        clickBtn.setOnClickListener(v -> {
-            // intent.putExtra("name", et_name.getText()+"");
-            // System.err.println(StlUtil.stlMap.size());
-            if (null == webHost.getCurrentFileName() || webHost.getCurrentFileName().length() == 0) {
-                System.err.println("没有保存文件");
-            } else {
-                Thread myThread = new Thread(() -> {
-                    try {
-                        Intent it = new Intent(getApplicationContext(), GenGcodeActivity.class);
-                        it.putExtra("fileName", webHost.getCurrentFileName());
-                        startActivity(it);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
-                myThread.start();
-            }
-        });
     }
 
 
-    private class MyWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            return super.shouldOverrideUrlLoading(view, url);
+    private void dealStl() {
+        // 保存成功后，自动执行上传文件命令
+        StlGcode stlGcode = StlUtil.stlMap.get(webHost.getCurrentFileName());
+        if (stlGcode != null && stlGcode.getRealStlName() != null) {
+            OkHttpUtil.getThreadPoolExecutor().execute(() -> {
+                boolean isSu = false;
+                int count = 0;
+                while (!isSu && count < 4) {
+                    isSu = doUpload(stlGcode);
+                    if (!isSu) {
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        count++;
+                    }
+                }
+            });
         }
     }
+
+
+    private boolean doUpload(StlGcode stlGcode) {
+        boolean isSu = false;
+        String zipFile = stlGcode.getSourceZipStlName();
+        if (null != zipFile && zipFile.length() > 0) {
+            System.out.println("...正在上传...");
+            File stlFile = new File(zipFile);
+            if (postProgress(OkHttpUtil.FILE_UPLOAD_URL, stlFile, new HashMap<>(), stlGcode)) {
+                isSu = downFile(stlGcode);
+            }
+        } else {
+            System.err.println("!!!获取文件失败!!!");
+            Log.e(TAG, "!!!获取文件失败!!!");
+        }
+        return isSu;
+    }
+
+
+    // okhttps 上传文件
+    public boolean postProgress(String url, File file, Map<String, String> commandLineMap, StlGcode stlGcode) {
+        boolean isSu = false;
+        if (isReadPermissions) {
+
+            Request request = OkHttpUtil.getRequestByBody(file, commandLineMap, url);
+            OkHttpClient client = OkHttpUtil.getClient();
+            try {
+                Response response = client.newCall(request).execute();
+                if (response.isSuccessful()) {
+                    JSONObject jsonObject = JSONObject.parseObject(response.body().string());
+                    System.err.println(jsonObject);
+                    String currentGcode = "";
+                    if (null != jsonObject && 200 == jsonObject.getIntValue("code")) {
+                        currentGcode = jsonObject.getString("data");
+                        stlGcode.setServerZipGcodeName(currentGcode);
+                        System.out.println("...上传成功...");
+                        isSu = true;
+                    } else {
+                        System.err.println("!!!上传失败，请重试!!!");
+                        Log.e(TAG, "!!!上传失败，请重试!!!");
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e(TAG, "postProgress,error:", e);
+            }
+        }
+        return isSu;
+    }
+
+
+    private boolean downFile(StlGcode stlGcode) {
+        boolean isSu = false;
+        if (isReadPermissions && isWritePermissions) {
+            String currentGcodeZip = stlGcode.getServerZipGcodeName();
+            if (null != currentGcodeZip && currentGcodeZip.length() > 0) {
+                String outFileName = stlGcode.getRealStlName().replace("stl", "gcode") + ".zip";
+                isSu = downloadProgress(OkHttpUtil.FILE_DOWN_URL + currentGcodeZip, outFileName);
+            } else {
+                System.err.println("!!!currentFileName:" + stlGcode.getRealStlName() + ", 没有gcode!!!");
+                Log.e(TAG, "!!!currentFileName:" + stlGcode.getRealStlName() + ", 没有gcode!!!");
+            }
+        }
+        return isSu;
+    }
+
+    private boolean downloadProgress(String url, String outfileName) {
+        boolean isSu = false;
+        if (isReadPermissions && isWritePermissions) {
+            try {
+                //构建一个请求
+                Request request = OkHttpUtil.getRequest(url);
+                //创建一个OkHttpClient，并添加网络拦截器
+                OkHttpClient client = OkHttpUtil.getClient();
+                Response response = client.newCall(request).execute();
+                if (response.isSuccessful()) {
+                    OkHttpUtil.writeToFile(response, new File(outfileName));
+                }
+                File tempFile = new File(outfileName);
+                isSu = tempFile.exists() && tempFile.isFile();
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.err.println("!!!execute download[ " + url + "] error:" + e.getMessage() + "!!!");
+                Log.e(TAG, "execute download[ " + url + "],error:", e);
+            }
+        }
+        return isSu;
+    }
+
 
     /**
      * 检查读取和写入权限
@@ -157,6 +244,13 @@ public class BulidModuleActivity extends AppCompatActivity {
         }
     }
 
+
+    private class MyWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            return super.shouldOverrideUrlLoading(view, url);
+        }
+    }
 
     public class GoogleClient extends WebChromeClient {
         @Override

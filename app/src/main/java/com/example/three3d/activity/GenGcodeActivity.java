@@ -28,34 +28,24 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.three3d.R;
 import com.example.three3d.pojo.StlGcode;
 import com.example.three3d.util.HttpsTrustManager;
-import com.example.three3d.util.IOUtil;
+import com.example.three3d.util.OkHttpUtil;
 import com.example.three3d.util.ProgressResponseBody;
 import com.example.three3d.util.StlUtil;
 import com.example.three3d.util.ZipFileUtil;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class GenGcodeActivity extends AppCompatActivity {
-
-    private static final String FILE_UPLOAD_URL = "https://192.168.1.67:448/file/uploadFileAndGenGcode";
-    private static final String FILE_DOWN_URL = "https://192.168.1.67:448/file/downloadFile?fileName=";
 
     private String currentFileName;
 
@@ -230,7 +220,7 @@ public class GenGcodeActivity extends AppCompatActivity {
             fileText.setText("正在上传");
             Thread upThread = new Thread(() -> {
                 File stlFile = new File(zipFile);
-                postProgress(FILE_UPLOAD_URL, stlFile, new HashMap<>());
+                postProgress(OkHttpUtil.FILE_UPLOAD_URL, stlFile, new HashMap<>());
                 downFile();
             });
             upThread.start();
@@ -243,19 +233,9 @@ public class GenGcodeActivity extends AppCompatActivity {
     public void postProgress(String url, File file, Map<String, String> commandLineMap) {
         if (isReadPermissions) {
             sendMessage(UPLOAD_PROGRESS, "0");
-            String multipartStr = "multipart/form-data";
-            RequestBody formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                    .addFormDataPart("file", file.getName(),
-                            RequestBody.create(MediaType.parse(multipartStr), file))
-                    .addFormDataPart("commandLineMap", commandLineMap.toString()).build();
-            Request request = new Request.Builder().url(url).post(formBody).build();
+            Request request = OkHttpUtil.getRequestByBody(file, commandLineMap, url);
 
-            OkHttpClient client = new OkHttpClient.Builder()
-                    .sslSocketFactory(HttpsTrustManager.createSSLSocketFactory(), new HttpsTrustManager())
-                    .hostnameVerifier(new HttpsTrustManager.TrustAllHostnameVerifier())
-                    .readTimeout(600, TimeUnit.SECONDS)
-                    .writeTimeout(600, TimeUnit.SECONDS)
-                    .connectTimeout(1200, TimeUnit.SECONDS).build();
+            OkHttpClient client = OkHttpUtil.getClient();
 
             try {
                 Response response = client.newCall(request).execute();
@@ -292,7 +272,7 @@ public class GenGcodeActivity extends AppCompatActivity {
             if (null != currentGcodeZip && currentGcodeZip.length() > 0) {
                 Thread dwThread = new Thread(() -> {
                     String outFileName = currentFileName.replace("stl", "gcode") + ".zip";
-                    downloadProgress(FILE_DOWN_URL + currentGcodeZip, outFileName);
+                    downloadProgress(OkHttpUtil.FILE_DOWN_URL + currentGcodeZip, outFileName);
                 });
                 dwThread.start();
             } else {
@@ -307,10 +287,7 @@ public class GenGcodeActivity extends AppCompatActivity {
             sendMessage(DOWN_PROGRESS, "0");
             try {
                 //构建一个请求
-                Request request = new Request.Builder().addHeader("Connection", "close")
-                        .addHeader("Accept", "*/*")
-                        .addHeader("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:0.9.4)")
-                        .get().url(url).build();
+                Request request = OkHttpUtil.getRequest(url);
 
                 //构建我们的进度监听器
                 final ProgressResponseBody.ProgressListener listener = (bytesRead, contentLength, done) -> {
@@ -339,7 +316,7 @@ public class GenGcodeActivity extends AppCompatActivity {
                 Response response = call.execute();
                 if (response.isSuccessful()) {
                     File gcodeFile = new File(outfileName);
-                    writeToFile(response, gcodeFile);
+                    OkHttpUtil.writeToFile(response, gcodeFile);
 
                     // 下载完成
                     File tempFile = new File(gcodeFile.getAbsolutePath());
@@ -371,30 +348,6 @@ public class GenGcodeActivity extends AppCompatActivity {
                 } else {
                     sendMessage(DOWN_COMPLETED, "下载失败," + outfileName);
                 }
-
-                // 异步
-                /*call.enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        sendMessage(DOWN_ERROR, "下载失败，请重试");
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        if (response.isSuccessful()) {
-                            long length = response.body().contentLength();
-                            File gcodeFile = new File(outfileName);
-                            if (length == 0) {
-
-                            }
-                            //从响应体读取字节流
-                            writeToFile(response, gcodeFile);
-
-                        } else {
-                            sendMessage(DOWN_ERROR, "下载失败，请重试");
-                        }
-                    }
-                });*/
             } catch (Exception e) {
                 e.printStackTrace();
                 System.err.println("execute download[ " + url + "] error:" + e.getMessage());
@@ -403,36 +356,6 @@ public class GenGcodeActivity extends AppCompatActivity {
         }
     }
 
-    private void writeToFile(Response response, File gcodeFile) {
-        InputStream inputStream = null;
-        FileOutputStream fileOutputStream = null;
-        ByteArrayOutputStream output = null;
-
-        try {
-            inputStream = response.body().byteStream();
-            fileOutputStream = new FileOutputStream(gcodeFile);
-            output = new ByteArrayOutputStream();
-
-            byte[] buffer = new byte[1024];
-            int length;
-
-            while ((length = inputStream.read(buffer)) > 0) {
-                output.write(buffer, 0, length);
-            }
-            fileOutputStream.write(output.toByteArray());
-            output.flush();
-            output.close();
-            fileOutputStream.flush();
-            fileOutputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            IOUtil.closeAll(inputStream, fileOutputStream, output);
-        }
-
-    }
 
     /**
      * 检查读取和写入权限
