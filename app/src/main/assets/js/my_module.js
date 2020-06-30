@@ -69,7 +69,7 @@ function getLocalAppSTL(){
             stlListHTML += '<div class="module_size"><div class="info">打印尺寸(mm): <span class="this_createTime">X:15 Y:25 Z:30</span></div></div>';
             stlListHTML += '<div class="img_wrapper showHide first_child"><img src="../img/3dPrinting/btn_print.png" alt=""></div>';
             stlListHTML += '</div></div>';
-            stlListHTML += '<div class="swiper-slide delete_slide" onclick="deleteThisModule(this)"><div class="delete">删除</div></div>';
+            stlListHTML += '<div class="swiper-slide delete_slide" onclick="deleteThisModule(this,\''+stlList[i].realStlName+'\')"><div class="delete">删除</div></div>';
             stlListHTML += '</div></div></div>';
 		}
 	}
