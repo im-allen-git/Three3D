@@ -2,6 +2,7 @@ package com.example.three3d.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -28,6 +29,7 @@ import com.example.three3d.util.HtmlUtil;
 import com.example.three3d.util.OkHttpUtil;
 import com.example.three3d.util.StlUtil;
 import com.example.three3d.util.WebHost;
+import com.example.three3d.util.ZipFileUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,6 +50,7 @@ public class BulidModuleActivity extends AppCompatActivity {
     private static boolean isWritePermissions = false;
 
     private WebHost webHost;
+    private Context context;
     private String WEB_URL;
 
     private static final String TAG = BulidModuleActivity.class.getSimpleName();
@@ -70,6 +73,8 @@ public class BulidModuleActivity extends AppCompatActivity {
 
         checkIsPermission();
         setContentView(R.layout.bulid_module);
+
+        context = this;
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);// 隐藏状态栏
         Objects.requireNonNull(getSupportActionBar()).hide();// 隐藏标题栏
@@ -184,7 +189,7 @@ public class BulidModuleActivity extends AppCompatActivity {
             String currentGcodeZip = stlGcode.getServerZipGcodeName();
             if (null != currentGcodeZip && currentGcodeZip.length() > 0) {
                 String outFileName = stlGcode.getRealStlName().replace("stl", "gcode") + ".zip";
-                isSu = downloadProgress(OkHttpUtil.FILE_DOWN_URL + currentGcodeZip, outFileName);
+                isSu = downloadProgress(OkHttpUtil.FILE_DOWN_URL + currentGcodeZip, outFileName, stlGcode);
             } else {
                 System.err.println("!!!currentFileName:" + stlGcode.getRealStlName() + ", 没有gcode!!!");
                 Log.e(TAG, "!!!currentFileName:" + stlGcode.getRealStlName() + ", 没有gcode!!!");
@@ -193,7 +198,7 @@ public class BulidModuleActivity extends AppCompatActivity {
         return isSu;
     }
 
-    private boolean downloadProgress(String url, String outfileName) {
+    private boolean downloadProgress(String url, String outfileName, StlGcode stlGcode) {
         boolean isSu = false;
         if (isReadPermissions && isWritePermissions) {
             try {
@@ -207,6 +212,27 @@ public class BulidModuleActivity extends AppCompatActivity {
                 }
                 File tempFile = new File(outfileName);
                 isSu = tempFile.exists() && tempFile.isFile();
+
+                if (isSu) {
+                    System.err.println(tempFile.getAbsolutePath() + ",result:" + isSu);
+
+                    stlGcode.setServerZipGcodeName(tempFile.getAbsolutePath());
+                    // 解压zip文件
+                    String unGcodeZipPath = tempFile.getAbsolutePath().replace(".zip", "");
+                    ZipFileUtil.upZipFile(tempFile, tempFile.getParentFile().getAbsolutePath().replace("\\", "/"));
+
+                    File unGcodeZip = new File(unGcodeZipPath);
+                    if (unGcodeZip.exists() && unGcodeZip.isFile()) {
+                        stlGcode.setLocalGcodeName(unGcodeZipPath);
+                        // 保存到数据库
+                        StlUtil.updateModuleDataBase(context, stlGcode.getRealStlName());
+                        System.out.println("..." + unGcodeZipPath + ",解压成功...");
+                    } else {
+                        System.err.println("!!!" + unGcodeZipPath + ",解压失败!!!");
+                        Log.e(TAG, "downloadProgress: 解压失败");
+                    }
+                }
+                System.err.println(tempFile.getAbsolutePath() + ",result:" + isSu);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.err.println("!!!execute download[ " + url + "] error:" + e.getMessage() + "!!!");
