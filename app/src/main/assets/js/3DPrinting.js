@@ -379,7 +379,7 @@ function getLocalAppSTL(){
 			stlListHTML += '<input class="this_module" type="hidden" value="3">';
 			stlListHTML += '<input class="this_url" type="hidden" value="' + stlList[i].realStlName + '">';
 			// stlListHTML += '<div class="drag sprint sprint_' + stlList[i].title + ' sprintY"></div>';
-			stlListHTML += '<div class="img_wrapper"><img src="file://' + stlList[i].localImg + '" alt="' + listSTL[i].localImg + '" class="drag sprint"></div>';
+			stlListHTML += '<div class="img_wrapper"><img src="file://' + stlList[i].localImg + '" alt="' + stlList[i].localImg + '" class="drag sprint"></div>';
 			var name  =stlList[i].sourceStlName.split(".stl")[0];
 			stlListHTML += '<div class="name drag">' + name + '</div>';
 			stlListHTML += '<div class="color_change">';
