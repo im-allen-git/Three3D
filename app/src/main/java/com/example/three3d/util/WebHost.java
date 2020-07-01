@@ -18,6 +18,7 @@ import com.example.three3d.activity.Esp8266Activity;
 import com.example.three3d.activity.MyAccountActivity;
 import com.example.three3d.activity.PrinterStartActivity;
 import com.example.three3d.activity.ShoppingActivity;
+import com.example.three3d.activity.UploadGcodeActivity;
 import com.example.three3d.pojo.StlGcode;
 import com.example.three3d.touchv1.EspTouchActivity;
 
@@ -198,14 +199,18 @@ public class WebHost {
                 Intent it = new Intent(this.context.getApplicationContext(), EspTouchActivity.class);
                 this.context.startActivity(it);
             }
-            // Intent it = new Intent(this.context.getApplicationContext(), PrinterActivity.class);
 
-            /*Intent it = new Intent(this.context.getApplicationContext(), Esp8266Activity.class);
+            // 测试文件上传
+            /*Intent it = new Intent(this.context.getApplicationContext(), UploadGcodeActivity.class);
             this.context.startActivity(it);*/
 
         } else if ("7".equalsIgnoreCase(code)) {
             // 3d打印机 状态页 status
             Intent it = new Intent(this.context.getApplicationContext(), PrinterStartActivity.class);
+            this.context.startActivity(it);
+        } else if ("8".equalsIgnoreCase(code)) {
+            // 上传gcode文件给打印机sd卡
+            Intent it = new Intent(this.context.getApplicationContext(), UploadGcodeActivity.class);
             this.context.startActivity(it);
         }
     }
@@ -285,6 +290,15 @@ public class WebHost {
         return "";
     }
 
+
+    @JavascriptInterface
+    public boolean sendGcode(String fileName) {
+        Message message = new Message();
+        message.what = 1;
+        message.obj = fileName;
+        this.myHandler.sendMessage(message);
+        return true;
+    }
 
     private boolean saveImg(String fileTxt) {
 

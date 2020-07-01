@@ -14,6 +14,7 @@ function getLocalAppSTL(){
 		for (var i in stlList) {
 			if(index==0){
 				stlListHTML += '<div class="each_stl clearfix index_'+index+' active_stl" onclick="choseStl(this)">';
+				currentStlName=stlList[i].realStlName;
 			}
 			else{
 				stlListHTML += '<div class="each_stl clearfix index_'+index+'" onclick="choseStl(this)">';
@@ -41,6 +42,9 @@ function choseStl(obj){
 }
 
 function submitStl(){
+    if(!currentStlName){
+	    currentStlName = $(".active_stl").find(".this_name").val();
+	}
 	var  flag = js.sendGcode(currentStlName);
 	// var  flag = false
 	if(!flag){

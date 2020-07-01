@@ -62,6 +62,10 @@
             android:name=".activity.Esp8266Activity"
             android:label="@string/app_name" />
 
+        <activity
+            android:name=".activity.UploadGcodeActivity"
+            android:label="@string/app_name" />
+
     </application>
 
 </manifest>

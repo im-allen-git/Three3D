@@ -174,11 +174,11 @@ $( function () {
 	);*/
 //input标签 软键盘打开和收起
 	$( "#save_name" ).focus( function () {
-		$( ".save_name_module" ).css( { "top": "-.85rem" } );
+		$( ".save_name_module" ).css( { "top": ".5rem" } );
 		$( ".obj_control" ).hide();
 	} );
 	$( "#save_name" ).blur( function () {
-		$( ".save_name_module" ).css( { "top": "23%" } );
+		$( ".save_name_module" ).css( { "top": "50%" } );
 		$( ".obj_control" ).show();
 	} );
 //以下代码针对安卓收起，关闭软键盘，是不会失去焦点的
@@ -187,12 +187,12 @@ $( function () {
 		var thisHeight = $( this ).height();
 		if (winHeight - thisHeight > 50) {
 			//当软键盘弹出，在这里面操作
-			$( ".save_name_module" ).css( { "top": "-.85rem" } );
+			$( ".save_name_module" ).css( { "top": ".5rem" } );
 			$( ".obj_control" ).hide();
 
 		} else {
 			//当软键盘收起，在此处操作
-			$( ".save_name_module" ).css( { "top": "23%" } );
+			$( ".save_name_module" ).css( { "top": "50%" } );
 			$( ".obj_control" ).show();
 		}
 	} );

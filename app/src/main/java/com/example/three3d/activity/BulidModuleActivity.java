@@ -222,8 +222,19 @@ public class BulidModuleActivity extends AppCompatActivity {
                     ZipFileUtil.upZipFile(tempFile, tempFile.getParentFile().getAbsolutePath().replace("\\", "/"));
 
                     File unGcodeZip = new File(unGcodeZipPath);
-                    if (unGcodeZip.exists() && unGcodeZip.isFile()) {
+                    isSu = unGcodeZip.exists() && unGcodeZip.isFile();
+                    if (isSu) {
+                        String renameFilePath = unGcodeZipPath.substring(0, unGcodeZipPath.lastIndexOf("/"))
+                                + "/" + stlGcode.getSourceStlName().replace(".stl",".gco");
+                        unGcodeZip.renameTo(new File(renameFilePath));
+
                         stlGcode.setLocalGcodeName(unGcodeZipPath);
+                        File renameFile = new File(renameFilePath);
+                        if(renameFile.exists() && renameFile.isFile()){
+                            unGcodeZip.deleteOnExit();
+                            stlGcode.setLocalGcodeName(renameFilePath);
+                        }
+
                         // 保存到数据库
                         StlUtil.updateModuleDataBase(context, stlGcode.getRealStlName());
                         System.out.println("..." + unGcodeZipPath + ",解压成功...");
