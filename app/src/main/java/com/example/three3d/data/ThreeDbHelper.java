@@ -15,7 +15,7 @@ public class ThreeDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Create a String that contains the SQL statement to create the pets table
-        String SQL_CREATE_PETS_TABLE =  "CREATE TABLE " + ThreeEntry.TABLE_NAME + " ("
+        String SQL_CREATE_MODULE_TABLE = "CREATE TABLE " + ThreeEntry.TABLE_NAME + " ("
                 + ThreeEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + ThreeEntry.COLUMN_SOURCE_STL_NAME + " TEXT , "
                 + ThreeEntry.COLUMN_REAL_STL_NAME + " TEXT , "
@@ -26,7 +26,15 @@ public class ThreeDbHelper extends SQLiteOpenHelper {
                 + ThreeEntry.COLUMN_LOCAL_IMG + " TEXT);";
 
         // Execute the SQL statement
-        db.execSQL(SQL_CREATE_PETS_TABLE);
+        db.execSQL(SQL_CREATE_MODULE_TABLE);
+
+
+        String SQL_CREATE_PRINTER_TABLE = "CREATE TABLE " + ThreePrinterEntry.TABLE_NAME + " ("
+                + ThreePrinterEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + ThreePrinterEntry.COLUMN_WIFI_URL + " TEXT);";
+        db.execSQL(SQL_CREATE_PRINTER_TABLE);
+
+
     }
 
     @Override

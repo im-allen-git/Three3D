@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -53,9 +54,14 @@ public class EspTouchActivity extends EspTouchActivityAbs {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
-                    if (StlUtil.ESP_8266_URL != null && StlUtil.ESP_8266_URL.length() > 0) {
+                    String ESP_8266_URL = msg.obj.toString();
+                    if (ESP_8266_URL != null && ESP_8266_URL.length() > 0) {
+                        if(StlUtil.ESP_8266_URL == null || StlUtil.ESP_8266_URL.length() == 0){
+                            StlUtil.savePrinterUrl(context, ESP_8266_URL);
+                        } else{
+                            StlUtil.updatePrinterUrl(context, ESP_8266_URL);
+                        }
                         Intent it = new Intent(context.getApplicationContext(), Esp8266Activity.class);
-                        it.putExtra("esp8266url", StlUtil.ESP_8266_URL);
                         context.startActivity(it);
                         finish();
                     }
@@ -64,7 +70,7 @@ public class EspTouchActivity extends EspTouchActivityAbs {
         }
     };
 
-    @SuppressLint("SourceLockedOrientationActivity")
+    @SuppressLint({"SourceLockedOrientationActivity", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +92,8 @@ public class EspTouchActivity extends EspTouchActivityAbs {
         mViewModel.messageView = findViewById(R.id.messageView);
         mViewModel.confirmBtn = findViewById(R.id.confirmBtn);
         mViewModel.confirmBtn.setOnClickListener(v -> executeEsptouch());
+
+        mViewModel.apPasswordEdit.setText("ldl@123456789");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
@@ -312,17 +320,19 @@ public class EspTouchActivity extends EspTouchActivityAbs {
 
             }
 
+            String ESP_8266_URL = null;
             if (ipAddress != null && ipAddress.length() > 0) {
-                StlUtil.ESP_8266_URL = "http://" + ipAddress + "/";
+                ESP_8266_URL = "http://" + ipAddress + "/";
             } else {
-                StlUtil.ESP_8266_URL = null;
+                ESP_8266_URL = null;
             }
 
-            resultMsgList.add(";ipAddress:" + StlUtil.ESP_8266_URL);
+            resultMsgList.add(";ipAddress:" + ESP_8266_URL);
             // 跳转到打印机控制界面
-            if (StlUtil.ESP_8266_URL != null && StlUtil.ESP_8266_URL.length() > 0) {
+            if (ESP_8266_URL != null && ESP_8266_URL.length() > 0) {
                 Message message = new Message();
                 message.what = 1;
+                message.obj = ESP_8266_URL;
                 handler.sendMessage(message);
             }
             /*CharSequence[] items = new CharSequence[resultMsgList.size()];

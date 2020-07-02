@@ -1,8 +1,9 @@
 package com.example.three3d.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,19 +14,27 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.three3d.R;
 import com.example.three3d.util.StlUtil;
 import com.example.three3d.util.WebHost;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Esp8266Activity extends AppCompatActivity {
 
+
+    private static final int WRITE_REQ = 1001;
+    private static final int READ_REQ = 1002;
+    private static boolean isReadPermissions = false;
+    private static boolean isWritePermissions = false;
+
+
     private WebHost webHost;
+    private WebView webView;
 
     @SuppressLint({"SourceLockedOrientationActivity", "SetJavaScriptEnabled"})
     @Override
@@ -34,6 +43,7 @@ public class Esp8266Activity extends AppCompatActivity {
 
         setContentView(R.layout.esp8266);
 
+        checkIsPermission();
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);// 隐藏状态栏
         Objects.requireNonNull(getSupportActionBar()).hide();// 隐藏标题栏
@@ -42,7 +52,7 @@ public class Esp8266Activity extends AppCompatActivity {
 
 
         // 拿到webView组件
-        WebView webView = findViewById(R.id.esp8266_view);
+        webView = findViewById(R.id.esp8266_view);
 
         // 拿到webView的设置对象
         WebSettings settings = webView.getSettings();
@@ -60,7 +70,6 @@ public class Esp8266Activity extends AppCompatActivity {
         // 复写WebViewClient类的shouldOverrideUrlLoading方法
         webView.setWebViewClient(new MyWebViewClient());
         webView.setWebChromeClient(new GoogleClient());
-        Intent intent = getIntent();
         // 获取到传递参数
         /*String esp8266url = intent.getStringExtra("esp8266url");
         System.err.println("esp8266url:" + esp8266url);
@@ -69,16 +78,6 @@ public class Esp8266Activity extends AppCompatActivity {
         }*/
         webView.loadUrl(StlUtil.ESP_8266_URL);
 
-        String filePath = intent.getStringExtra("filePath");
-
-        if (filePath != null && filePath.length() > 0) {
-            File file = new File(filePath);
-            if (file.exists() && file.isFile()) {
-                List<File> listFile = new ArrayList<>();
-                listFile.add(file);
-                webView.loadUrl("javascript:files_check_if_upload_files(" + listFile + ")");
-            }
-        }
     }
 
 
@@ -86,17 +85,44 @@ public class Esp8266Activity extends AppCompatActivity {
     private Handler mainHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == 1) {
-
+            if (msg.what == 11) {
+                uploadGcode(msg.obj.toString());
             }
         }
     };
+
+
+    /**
+     * 调用js方法上传文件
+     *
+     * @param filePath
+     */
+    private void uploadGcode(String filePath) {
+        if (filePath != null && filePath.length() > 0) {
+            File file = new File(filePath);
+            if (file.exists() && file.isFile()) {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                // webView.loadUrl("javascript:files_check_if_upload_files(" + filePath + ")");
+            }
+        }
+    }
 
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             return super.shouldOverrideUrlLoading(view, url);
         }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+        }
+
+
     }
 
 
@@ -104,7 +130,34 @@ public class Esp8266Activity extends AppCompatActivity {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
+        }
+    }
 
+
+    /**
+     * 检查读取和写入权限
+     */
+    private void checkIsPermission() {
+        //CameraDemoActivity 是activity的名字
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            //有权限的情况
+            isWritePermissions = true;
+        } else {
+            //没有权限，进行权限申请
+            //REQ是本次请求的辨认编号,即 requestCode
+            isWritePermissions = false;
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_REQ);
+        }
+
+        //CameraDemoActivity 是activity的名字
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            //有权限的情况
+            isReadPermissions = true;
+        } else {
+            //没有权限，进行权限申请
+            //REQ是本次请求的辨认编号,即 requestCode
+            isReadPermissions = false;
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_REQ);
         }
     }
 }

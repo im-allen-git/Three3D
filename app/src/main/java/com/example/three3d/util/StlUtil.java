@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.three3d.data.ThreeDbHelper;
 import com.example.three3d.data.ThreeEntry;
+import com.example.three3d.data.ThreePrinterEntry;
 import com.example.three3d.pojo.StlGcode;
 
 import java.text.SimpleDateFormat;
@@ -149,10 +150,55 @@ public class StlUtil {
     }
 
 
-    public static String getFormatTime(Date date){
+    public static String getFormatTime(Date date) {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         return df.format(date);
     }
 
+
+    /**
+     * 插入打印机的wifi链接
+     *
+     * @param context
+     * @param url
+     * @return
+     */
+    public static long savePrinterUrl(Context context, String url) {
+        SQLiteDatabase db = getDbByContext(context);
+        ContentValues values = new ContentValues();
+        values.put(ThreePrinterEntry.COLUMN_WIFI_URL, url);
+        long newRowId = db.insert(ThreePrinterEntry.TABLE_NAME, null, values);
+        ESP_8266_URL = url;
+        return newRowId;
+    }
+
+
+    public static void getPrinterUrl(Context context) {
+        SQLiteDatabase db = getDbByContext(context);
+        Cursor cursor = db.query(ThreePrinterEntry.TABLE_NAME, null, null, null, null, null, null);
+        int idIndex = cursor.getColumnIndex(ThreePrinterEntry._ID);
+        int urlIndex = cursor.getColumnIndex(ThreePrinterEntry.COLUMN_WIFI_URL);
+
+        if (cursor.moveToNext()) {
+            int id = cursor.getInt(idIndex);
+            String url = cursor.getString(urlIndex);
+            ESP_8266_URL = url;
+        } else {
+            ESP_8266_URL = null;
+        }
+    }
+
+
+    public static void updatePrinterUrl(Context context, String url) {
+        SQLiteDatabase db = getDbByContext(context);
+        if (url != null && url.length() > 0) {
+            ContentValues values = new ContentValues();
+            values.put(ThreePrinterEntry.COLUMN_WIFI_URL, url);
+            String whereClause = ThreePrinterEntry.COLUMN_WIFI_URL + " = ?";
+            String[] whereArgs = new String[]{ESP_8266_URL};
+            db.update(ThreePrinterEntry.TABLE_NAME, values, whereClause, whereArgs);
+            ESP_8266_URL = url;
+        }
+    }
 
 }

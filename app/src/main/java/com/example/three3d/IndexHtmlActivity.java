@@ -24,6 +24,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.three3d.util.HtmlUtil;
+import com.example.three3d.util.StlUtil;
 import com.example.three3d.util.WebHost;
 
 import java.util.Objects;
@@ -56,6 +57,10 @@ public class IndexHtmlActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         context = this;
+
+        // 读取wifi信息
+        StlUtil.getPrinterUrl(context);
+
         // 拿到webView组件
         WebView webView = findViewById(R.id.index);
 
@@ -66,7 +71,7 @@ public class IndexHtmlActivity extends AppCompatActivity {
 
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
 
-        WebHost webHost = new WebHost(this, mainHandler);
+        webHost = new WebHost(this, mainHandler);
         //JS映射
         webView.addJavascriptInterface(webHost, "js");
 

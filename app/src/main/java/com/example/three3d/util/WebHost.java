@@ -10,6 +10,7 @@ import android.os.Message;
 import android.util.Base64;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.three3d.IndexHtmlActivity;
@@ -41,6 +42,8 @@ public class WebHost {
     public Context context;
     private Handler myHandler;
 
+    private WebView webView;
+
     // APP缓存路径
     private String filePrePath;
 
@@ -63,7 +66,11 @@ public class WebHost {
         this.filePrePath = context.getApplicationContext().getFilesDir().getAbsolutePath()
                 .replace("\\", "/");
 
+    }
 
+
+    public void setWebView(WebView webView){
+        this.webView = webView;
     }
 
 
@@ -294,11 +301,40 @@ public class WebHost {
     @JavascriptInterface
     public boolean sendGcode(String fileName) {
         Message message = new Message();
-        message.what = 1;
+        message.what = 11;
         message.obj = fileName;
         this.myHandler.sendMessage(message);
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return true;
     }
+
+
+    /**
+     * 调用js方法上传文件
+     *
+     * @param filePath
+     */
+    private boolean uploadGcode(String filePath) {
+        boolean isSu = false;
+        if (filePath != null && filePath.length() > 0) {
+            File file = new File(filePath);
+            if (file.exists() && file.isFile()) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                webView.loadUrl("javascript:files_check_if_upload_files(" + filePath + ")");
+                isSu = true;
+            }
+        }
+        return isSu;
+    }
+
 
     private boolean saveImg(String fileTxt) {
 
