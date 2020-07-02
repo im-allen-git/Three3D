@@ -26,6 +26,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.three3d.R;
 import com.example.three3d.pojo.StlGcode;
 import com.example.three3d.util.HtmlUtil;
+import com.example.three3d.util.IOUtil;
 import com.example.three3d.util.OkHttpUtil;
 import com.example.three3d.util.StlUtil;
 import com.example.three3d.util.WebHost;
@@ -210,6 +211,7 @@ public class BulidModuleActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     OkHttpUtil.writeToFile(response, new File(outfileName));
                 }
+
                 File tempFile = new File(outfileName);
                 isSu = tempFile.exists() && tempFile.isFile();
 
@@ -224,15 +226,36 @@ public class BulidModuleActivity extends AppCompatActivity {
                     File unGcodeZip = new File(unGcodeZipPath);
                     isSu = unGcodeZip.exists() && unGcodeZip.isFile();
                     if (isSu) {
-                        String renameFilePath = unGcodeZipPath.substring(0, unGcodeZipPath.lastIndexOf("/"))
-                                + "/" + stlGcode.getSourceStlName().replace(".stl",".gco");
-                        unGcodeZip.renameTo(new File(renameFilePath));
+
+
+                        String nwName = stlGcode.getSourceStlName().replace(".stl", ".gco");
+                        ;
+
+                        // File nwfile = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), nwName);
+                        // String renameFilePath = nwfile.getAbsolutePath();
+
+                        String renameFilePath = IOUtil.DOWN_LOAD_PATH + "/" + nwName;
+
+                        File nwfile = new File(renameFilePath);
+
+                        // unGcodeZip.renameTo(nwfile);
+
+                        System.err.println("gco:" + renameFilePath);
+
+                        IOUtil.copyFile(unGcodeZip.getAbsolutePath(), renameFilePath);
+
+
 
                         stlGcode.setLocalGcodeName(unGcodeZipPath);
+
                         File renameFile = new File(renameFilePath);
-                        if(renameFile.exists() && renameFile.isFile()){
+
+                        if (renameFile.exists() && renameFile.isFile()) {
+                            System.err.println("gco copy:" + renameFilePath + ", true");
                             unGcodeZip.deleteOnExit();
                             stlGcode.setLocalGcodeName(renameFilePath);
+                        } else {
+                            System.err.println("gco copy:" + renameFilePath + ", false");
                         }
 
                         // 保存到数据库

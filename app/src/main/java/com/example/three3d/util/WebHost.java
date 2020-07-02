@@ -19,6 +19,7 @@ import com.example.three3d.activity.Esp8266Activity;
 import com.example.three3d.activity.MyAccountActivity;
 import com.example.three3d.activity.PrinterStartActivity;
 import com.example.three3d.activity.ShoppingActivity;
+import com.example.three3d.activity.UploadDemo;
 import com.example.three3d.activity.UploadGcodeActivity;
 import com.example.three3d.pojo.StlGcode;
 import com.example.three3d.touchv1.EspTouchActivity;
@@ -207,8 +208,9 @@ public class WebHost {
                 this.context.startActivity(it);
             }
 
+
             // 测试文件上传
-            /*Intent it = new Intent(this.context.getApplicationContext(), UploadGcodeActivity.class);
+            /*Intent it = new Intent(this.context.getApplicationContext(), UploadDemo.class);
             this.context.startActivity(it);*/
 
         } else if ("7".equalsIgnoreCase(code)) {

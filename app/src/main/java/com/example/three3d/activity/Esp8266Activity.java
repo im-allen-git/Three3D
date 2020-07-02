@@ -2,17 +2,21 @@ package com.example.three3d.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.WindowManager;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -32,9 +36,12 @@ public class Esp8266Activity extends AppCompatActivity {
     private static boolean isReadPermissions = false;
     private static boolean isWritePermissions = false;
 
+    private WebView mWebView;
+
+    private ValueCallback<Uri> uploadFile;
+    private ValueCallback<Uri[]> uploadFiles;
 
     private WebHost webHost;
-    private WebView webView;
 
     @SuppressLint({"SourceLockedOrientationActivity", "SetJavaScriptEnabled"})
     @Override
@@ -52,10 +59,10 @@ public class Esp8266Activity extends AppCompatActivity {
 
 
         // 拿到webView组件
-        webView = findViewById(R.id.esp8266_view);
+        mWebView = findViewById(R.id.esp8266_view);
 
         // 拿到webView的设置对象
-        WebSettings settings = webView.getSettings();
+        WebSettings settings = mWebView.getSettings();
         // settings.setAppCacheEnabled(true); // 开启缓存
         settings.setJavaScriptEnabled(true); // 开启javascript支持
         settings.setAllowUniversalAccessFromFileURLs(true);
@@ -63,20 +70,22 @@ public class Esp8266Activity extends AppCompatActivity {
         settings.setAllowFileAccessFromFileURLs(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
 
+        settings.setSupportZoom(false);
+        settings.setBuiltInZoomControls(false);
+
         webHost = new WebHost(this, mainHandler);
         //JS映射
-        webView.addJavascriptInterface(webHost, "js");
+        mWebView.addJavascriptInterface(webHost, "js");
 
         // 复写WebViewClient类的shouldOverrideUrlLoading方法
-        webView.setWebViewClient(new MyWebViewClient());
-        webView.setWebChromeClient(new GoogleClient());
+        mWebView.setWebChromeClient(new GoogleClient());
         // 获取到传递参数
         /*String esp8266url = intent.getStringExtra("esp8266url");
         System.err.println("esp8266url:" + esp8266url);
         if (esp8266url == null || esp8266url.length() == 0) {
             esp8266url = "http://10.0.0.113/";
         }*/
-        webView.loadUrl(StlUtil.ESP_8266_URL);
+        mWebView.loadUrl(StlUtil.ESP_8266_URL);
 
     }
 
@@ -111,25 +120,84 @@ public class Esp8266Activity extends AppCompatActivity {
         }
     }
 
-    private class MyWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            return super.shouldOverrideUrlLoading(view, url);
+
+    public class GoogleClient extends WebChromeClient {
+        // For Android 3.0+
+        public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
+            Log.i("test", "openFileChooser 1");
+            Esp8266Activity.this.uploadFile = uploadMsg;
+            openFileChooseProcess();
         }
 
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
+        // For Android < 3.0
+        public void openFileChooser(ValueCallback<Uri> uploadMsgs) {
+            Log.i("test", "openFileChooser 2");
+            Esp8266Activity.this.uploadFile = uploadMsgs;
+            openFileChooseProcess();
         }
 
+        // For Android  > 4.1.1
+        public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
+            Log.i("test", "openFileChooser 3");
+            Esp8266Activity.this.uploadFile = uploadMsg;
+            openFileChooseProcess();
+        }
+
+        // For Android  >= 5.0
+        public boolean onShowFileChooser(WebView webView,
+                                         ValueCallback<Uri[]> filePathCallback,
+                                         WebChromeClient.FileChooserParams fileChooserParams) {
+            Log.i("test", "openFileChooser 4:" + filePathCallback.toString());
+            Esp8266Activity.this.uploadFiles = filePathCallback;
+            openFileChooseProcess();
+            return true;
+        }
 
     }
 
 
-    public class GoogleClient extends WebChromeClient {
-        @Override
-        public void onProgressChanged(WebView view, int newProgress) {
-            super.onProgressChanged(view, newProgress);
+    private void openFileChooseProcess() {
+        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+        i.addCategory(Intent.CATEGORY_OPENABLE);
+        i.setType("*/*");
+        startActivityForResult(Intent.createChooser(i, "上传文件"), 0);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mWebView.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mWebView.onPause();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                if (null != uploadFile) {
+                    Uri result = data == null ? null
+                            : data.getData();
+                    uploadFile.onReceiveValue(result);
+                    uploadFile = null;
+                }
+                if (null != uploadFiles) {
+                    Uri result = data == null ? null
+                            : data.getData();
+                    uploadFiles.onReceiveValue(new Uri[]{result});
+                    uploadFiles = null;
+                }
+            } else if (resultCode == RESULT_CANCELED) {
+                if (null != uploadFile) {
+                    uploadFile.onReceiveValue(null);
+                    uploadFile = null;
+                }
+            }
         }
     }
 
