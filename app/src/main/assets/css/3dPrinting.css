@@ -137,9 +137,9 @@ active_shape .color_change{display: block;line-height: .55rem;}
 .noActive_control .iconfont{color:#eee;}
 
 .control_btn.color_control{padding-top: .1rem;}
-.color_circle { width: .25rem; height: .25rem; background: #f2f545; margin: auto; border-radius: 50%; }
+.color_circle { width: .25rem; height: .25rem; background: #FFF; margin: auto; border-radius: 50%; border:1px solid #BABBBB}
 .active_color{border:1px solid #2067C8}
-.white_control .color_circle,.white_color_circle{background: #fff;border:1px solid #BABBBB}
+.yellow_control .color_circle,.yellow_color_circle{background: #f2f545;;border:1px solid #BABBBB}
 .btn_name { font-size: .1rem;font-family: "webfont5", serif; line-height: .16rem;}
 .red{color:red;}
 .blue{color:blue;}

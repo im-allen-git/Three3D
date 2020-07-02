@@ -1087,14 +1087,14 @@ function changeColorBeforeShoot( type, obj ) {
 }
 
 function changeCurrentColor( type ) {
-	$( ".outside_color" ).removeClass( "white_color_circle" );
+	$( ".outside_color" ).removeClass( "yellow_color_circle" );
 	if (transformControl.object) {
 		if (type == 0) {
 			transformControl.object.material.color.set( "#dddddd" );
-			$( ".outside_color" ).addClass( "white_color_circle" );
+			$( ".outside_color" ).removeClass( "yellow_color_circle" );
 		} else {
 			transformControl.object.material.color.set( "#f2f545" );
-			$( ".outside_color" ).removeClass( "white_color_circle" );
+			$( ".outside_color" ).addClass( "yellow_color_circle" );
 		}
 		createObjForOperation( transformControl.object, 'transform' );
 		eachObjSetps( transformControl.object, 0 );
@@ -1366,7 +1366,7 @@ function checkIntersection( event ) {
 
 		var sceneChilds = raycaster.intersectObjects( scene.children ); //get all objects in the current position of your mouse;
 		if (sceneChilds.length > 1) {
-			if (sceneChilds && ( sceneChilds[0].object.name == "shapes" || sceneChilds[0].object.name == "stl"  || sceneChilds[0].object.name == "stlLocal" )) {
+			if (sceneChilds && ( sceneChilds[0].object.name == "shapes" || sceneChilds[0].object.name == "shapes_text" || sceneChilds[0].object.name == "stl"  || sceneChilds[0].object.name == "stlLocal" )) {
 				transformControl.detach( transformControl.object );
 				transformControl.attach( sceneChilds[0].object );
 			} else if (sceneChilds[0].object.name == "plane") {
@@ -1382,7 +1382,7 @@ function checkIntersection( event ) {
 
 		var sceneChilds = raycaster.intersectObjects( scene.children ); //get all objects in the current position of your mouse;
 		if (sceneChilds.length > 0) {
-			if (sceneChilds && ( sceneChilds[0].object.name == "shapes" || sceneChilds[0].object.name == "stl"  || sceneChilds[0].object.name == "stlLocal" )) {
+			if (sceneChilds && ( sceneChilds[0].object.name == "shapes" || sceneChilds[0].object.name == "shapes_text" || sceneChilds[0].object.name == "stl"  || sceneChilds[0].object.name == "stlLocal" )) {
 				transformControl.detach( transformControl.object );
 				transformControl.attach( sceneChilds[0].object );
 			} else if (sceneChilds[0].object.name == "plane") {
@@ -2038,13 +2038,13 @@ function stopPropagationFn() {
 }
 
 function showCurrentColor() {
-	$( ".outside_color" ).removeClass( "white_color_circle" );
+	$( ".outside_color" ).removeClass( "yellow_color_circle" );
 	if (transformControl.object) {
 		var thisColor = transformControl.object.material.color.toJSON();
 		if (thisColor == "14540253") {
-			$( ".outside_color" ).addClass( "white_color_circle" );
+			$( ".outside_color" ).removeClass( "yellow_color_circle" );
 		} else {
-			$( ".outside_color" ).removeClass( "white_color_circle" );
+			$( ".outside_color" ).addClass( "yellow_color_circle" );
 		}
 		cleanSelectedObject( transformControl.object );
 		switch (transformControlModeType) {
@@ -2133,7 +2133,7 @@ function onAnimationStep() { //检测scale，使其永远在0.1- LIMIT_SIZE 之�
 						if (currentObj.position.y < ( currentObj.geometry.boundingSphere.radius * currentObj.scale.y )) {
 							currentObj.position.y = ( SHAPE_SIZE * currentObj.scale.y );
 						}
-					} else if (currentObj.name == "stlLocal") {
+					} else if (currentObj.name == "stlLocal" || currentObj.name == "shapes_text") {
                         if (currentObj.position.y < 0) {
                             currentObj.position.y = 0;
                         }
@@ -2298,7 +2298,7 @@ function createText( word ) {
 	// make shape ( N.B. edge view not visible )
 	var matLite = new THREE.MeshPhongMaterial( { color: wordColor, flatShading: true } );
 	text = new THREE.Mesh( geometry, matLite );
-	text.name = 'shapes';
+	text.name = 'shapes_text';
 	text.receiveShadow = true;
 	text.castShadow = true;
 	scene.add( text );
