@@ -404,7 +404,7 @@ function getTimeStr() {
 	var h = date.getHours() < 10 ? ( '0' + date.getHours() ) : date.getHours();
 	var m = date.getMinutes() < 10 ? ( '0' + date.getMinutes() ) : date.getMinutes();
 	var s = date.getSeconds() < 10 ? ( '0' + date.getSeconds() ) : date.getSeconds();
-	var dateStr = Y + M + D + h + m + s;
+	var dateStr =D + h + m + s;
 	return dateStr;
 }
 
@@ -928,6 +928,7 @@ function onDocumentMouseDown( event ) {
 	} else {
 		checkIntersection( event );
 	}
+	 $( "#loading_data" ).hide();
 }
 
 function resetSomeThing() {
