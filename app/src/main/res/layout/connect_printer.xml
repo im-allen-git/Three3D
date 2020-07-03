@@ -48,10 +48,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="#00FFFFFF"
                     android:fontFamily="@font/hkfyw7gb"
                     android:text="@string/printer_title"
+                    android:textColor="#FFFFFF"
                     android:textSize="17sp"
-                    android:textColor="#FFFFFF" />
+                    app:backgroundTint="#00FFFFFF" />
 
                 <Button
                     android:id="@+id/button3"
@@ -60,10 +62,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/hkfyw7gb"
-                    android:text="@string/printer_statue_uncon"
-                    android:textSize="13sp"
                     android:gravity="center_vertical|right"
-                    android:textColor="#FF5722" />
+                    android:text="@string/printer_statue_uncon"
+                    android:textColor="#FF5722"
+                    android:textSize="13sp"
+                    app:backgroundTint="#00FFFFFF" />
             </LinearLayout>
             <!--顶部三按钮 end-->
 
@@ -80,7 +83,7 @@
                     android:layout_weight="1"
                     android:paddingLeft="25dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/parinter_img" />
+                    app:srcCompat="@mipmap/wifi_ico" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -88,7 +91,8 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:paddingLeft="25dp"
-                    android:paddingTop="50dp">
+                    android:paddingTop="70dp"
+                    android:paddingRight="25dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -96,22 +100,13 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/modelTypeTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/apSsidLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:fontFamily="@font/hkfyw7gb"
-                            android:text="@string/printer_model"
-                            android:textSize="13sp"
-                            android:textColor="#FFFFFF" />
-
-                        <TextView
-                            android:id="@+id/modelType"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/hkfyw7gb"
-                            android:text="adsadfsadf"
-                            android:textSize="13sp"
-                            android:textColor="#FFFFFF" />
+                            android:text="@string/esptouch1_ssid_title"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp" />
 
                     </LinearLayout>
 
@@ -121,47 +116,12 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/modelSpaceTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/apSsidText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:fontFamily="@font/hkfyw7gb"
-                            android:text="@string/printer_work_space"
-                            android:textSize="13sp"
-                            android:textColor="#FFFFFF" />
-
-                        <TextView
-                            android:id="@+id/modelSpace"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/hkfyw7gb"
-                            android:text="200*202"
-                            android:textSize="13sp"
-                            android:textColor="#FFFFFF" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/modelMaterialTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/hkfyw7gb"
-                            android:text="@string/printer_material"
-                            android:textSize="13sp"
-                            android:textColor="#FFFFFF" />
-
-                        <TextView
-                            android:id="@+id/modelMaterial"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/hkfyw7gb"
-                            android:text="200*202"
-                            android:textSize="13sp"
-                            android:textColor="#FFFFFF" />
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp" />
 
                     </LinearLayout>
 
@@ -182,8 +142,8 @@
                 android:layout_marginBottom="20dp"
                 android:layout_weight="1"
                 android:background="#00FFFFFF"
-                android:fontFamily="@font/hkfyw7gb"
                 android:contentDescription="@string/pintthismodule"
+                android:fontFamily="@font/hkfyw7gb"
                 android:scaleType="fitCenter"
                 android:src="@drawable/btn_connect" />
 
@@ -192,8 +152,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:background="#00FFFFFF"
-                android:paddingLeft="30dp"
                 android:fontFamily="@font/hkfyw7gb"
+                android:paddingLeft="30dp"
                 android:text="@string/connect_req1"
                 android:textColor="#426A8D"
                 android:textSize="15sp" />
@@ -203,8 +163,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:background="#00FFFFFF"
-                android:paddingLeft="30dp"
                 android:fontFamily="@font/hkfyw7gb"
+                android:paddingLeft="30dp"
                 android:text="@string/connect_req2"
                 android:textColor="#426A8D"
                 android:textSize="15sp" />
@@ -214,8 +174,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:background="#00FFFFFF"
-                android:paddingLeft="30dp"
                 android:fontFamily="@font/hkfyw7gb"
+                android:paddingLeft="30dp"
                 android:text="@string/connect_req3"
                 android:textColor="#426A8D"
                 android:textSize="15sp" />
@@ -225,20 +185,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:background="#00FFFFFF"
-                android:paddingLeft="30dp"
                 android:fontFamily="@font/hkfyw7gb"
+                android:paddingLeft="30dp"
                 android:text="@string/connect_req4"
-                android:textColor="#426A8D"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/connect_req5"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="#00FFFFFF"
-                android:paddingLeft="30dp"
-                android:fontFamily="@font/hkfyw7gb"
-                android:text="@string/connect_req5"
                 android:textColor="#426A8D"
                 android:textSize="15sp" />
 

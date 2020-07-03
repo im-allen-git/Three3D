@@ -26,6 +26,10 @@
     <string name="_3d_printer">3D打印机</string>
     <string name="_btn_print">打印</string>
     <string name="pintthismodule">pintThisModule</string>
+<!--    <string name="inputPass">WiFi Network Connection</string>-->
+    <string name="inputPass">WiFi连接</string>
+    <string name="wifiName">WiFi名称</string>
+    <string name="wifiPass">WiFi密码</string>
     <string name="new_module">创建模型</string>
     <string name="module_param">模型参数</string>
     <string name="printer_title">3D打印机</string>
@@ -34,10 +38,10 @@
     <string name="printer_model">型号：</string>
     <string name="printer_work_space">工作空间：</string>
     <string name="printer_material">打印耗材：</string>
-    <string name="connect_req1">1.保持手机蓝牙开启状态</string>
-    <string name="connect_req2">2.保持3D打印机启用状态</string>
-    <string name="connect_req3">3.手机搜索3D打印机设备型号</string>
-    <string name="connect_req4">4.连接3D打印机，连接时请勿断开蓝牙</string>
+    <string name="connect_req1">1.确定手机已链接WiFi网络</string>
+    <string name="connect_req2">2.确定3D打印机已启用WiFi功能</string>
+    <string name="connect_req3">3.点击连接，输入密码关联设备</string>
+    <string name="connect_req4">4.连接3D打印机后，进入打印页面选择并打印</string>
     <string name="connect_req5">5.连接成功后就可以打印模型拉</string>
     <string name="status_title">雕花雕塑一角</string>
     <string name="status_waiting">等待打印</string>
@@ -61,7 +65,8 @@
 
     <string name="esptouch1_title">EspTouch</string>
     <string name="esptouch1_about_version">EspTouch Version: %s</string>
-    <string name="esptouch1_ssid_title">SSID: </string>
+    <string name="esptouch1_ssid_title">WIFI(SSID): </string>
+    <string name="esptouch1_input_pass">输入WiFi密码</string>
     <string name="esptouch1_bssid_title">BSSID: </string>
     <string name="esptouch1_password_title">Password: </string>
     <string name="esptouch1_device_count_title">Device count: </string>

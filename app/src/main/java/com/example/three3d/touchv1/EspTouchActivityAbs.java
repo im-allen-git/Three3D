@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.location.LocationManagerCompat;
 
 import com.example.three3d.R;
+import com.example.three3d.util.IOUtil;
 
 import java.net.InetAddress;
 
@@ -150,6 +151,7 @@ public abstract class EspTouchActivityAbs extends AppCompatActivity {
         }
 
         String ssid = NetUtils.getSsidString(wifiInfo);
+        IOUtil.WIFI_SSID = ssid;
         int ipValue = wifiInfo.getIpAddress();
         if (ipValue != 0) {
             result.address = NetUtils.getAddress(wifiInfo.getIpAddress());

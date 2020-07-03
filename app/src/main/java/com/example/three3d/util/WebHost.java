@@ -17,6 +17,7 @@ import com.example.three3d.IndexHtmlActivity;
 import com.example.three3d.activity.BulidModuleActivity;
 import com.example.three3d.activity.Esp8266Activity;
 import com.example.three3d.activity.MyAccountActivity;
+import com.example.three3d.activity.PrinterActivity;
 import com.example.three3d.activity.PrinterStartActivity;
 import com.example.three3d.activity.ShoppingActivity;
 import com.example.three3d.activity.UploadDemo;
@@ -198,6 +199,13 @@ public class WebHost {
             message.obj = "back";
             myHandler.sendMessage(message);
         } else if ("6".equalsIgnoreCase(code)) {
+            // 3d打印机
+
+            Intent it = new Intent(this.context.getApplicationContext(), PrinterActivity.class);
+            this.context.startActivity(it);
+
+
+        }  else if ("61".equalsIgnoreCase(code)) {
             // 3d打印机
             if (StlUtil.ESP_8266_URL != null && StlUtil.ESP_8266_URL.length() > 0) {
                 Intent it = new Intent(this.context.getApplicationContext(), Esp8266Activity.class);

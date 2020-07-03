@@ -21,6 +21,8 @@ public class IOUtil {
 
     public static final String DOWN_CACHE_PATH = Environment.getDownloadCacheDirectory().getAbsolutePath();
 
+    public static volatile String WIFI_SSID  = null;
+
 
     public static boolean copyFile(String oldPathName, String newPathName) {
 
