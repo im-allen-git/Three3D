@@ -62,6 +62,7 @@
     --safe-area-inset-top: var(--windvane-safe-area-inset-top, var(--origin-safe-area-inset-top));
     --safe-area-inset-bottom: var(--windvane-safe-area-inset-bottom, var(--origin-safe-area-inset-bottom));
 }
+* { -webkit-touch-callout:none; -webkit-user-select:none; -khtml-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;-moz-touch-callout:none;-ms-touch-callout:none;touch-callout:none;}
 html{-webkit-tap-highlight-color: transparent;}
 .text-center{text-align: center}
 .text-right{text-align: right}
