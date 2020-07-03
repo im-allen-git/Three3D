@@ -101,6 +101,7 @@ public class BulidModuleActivity extends AppCompatActivity {
         webView.setWebViewClient(new MyWebViewClient());
         webView.setWebChromeClient(new GoogleClient());
 //        webView.loadUrl(HtmlUtil.BULID_MODULE_URL);
+        WebHost.disableLongClick(webView);
         Intent intent = getIntent();
         // 获取到传递参数
         WEB_URL = intent.getStringExtra("url");

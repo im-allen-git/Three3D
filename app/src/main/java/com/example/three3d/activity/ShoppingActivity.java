@@ -54,7 +54,7 @@ public class ShoppingActivity extends AppCompatActivity {
         webHost = new WebHost(this, mainHandler);
         //JS映射
         webView.addJavascriptInterface(webHost, "js");
-
+        WebHost.disableLongClick(webView);
         // 复写WebViewClient类的shouldOverrideUrlLoading方法
         webView.setWebViewClient(new MyWebViewClient());
         webView.setWebChromeClient(new GoogleClient());

@@ -63,7 +63,7 @@ public class IndexHtmlActivity extends AppCompatActivity {
 
         // 拿到webView组件
         WebView webView = findViewById(R.id.index);
-
+        WebHost.disableLongClick(webView);
         // 拿到webView的设置对象
         WebSettings settings = webView.getSettings();
         // settings.setAppCacheEnabled(true); // 开启缓存

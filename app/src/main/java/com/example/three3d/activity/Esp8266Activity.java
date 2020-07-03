@@ -76,7 +76,7 @@ public class Esp8266Activity extends AppCompatActivity {
         webHost = new WebHost(this, mainHandler);
         //JS映射
         mWebView.addJavascriptInterface(webHost, "js");
-
+        WebHost.disableLongClick(mWebView);
         // 复写WebViewClient类的shouldOverrideUrlLoading方法
         mWebView.setWebChromeClient(new GoogleClient());
         // 获取到传递参数

@@ -58,7 +58,7 @@ public class MyAccountActivity extends AppCompatActivity {
         // 复写WebViewClient类的shouldOverrideUrlLoading方法
         webView.setWebViewClient(new MyWebViewClient());
         webView.setWebChromeClient(new GoogleClient());
-
+        WebHost.disableLongClick(webView);
         Intent intent = getIntent();
         // 获取到传递参数
         WEB_URL = intent.getStringExtra("url");

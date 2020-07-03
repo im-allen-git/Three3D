@@ -433,4 +433,9 @@ public class WebHost {
         int nextInt = random.nextInt(9999);
         fileAllPath = filePrePath + "/" + System.currentTimeMillis() + "_" + nextInt;
     }
+
+    public static void disableLongClick(WebView webView){
+        webView.setLongClickable(true);
+        webView.setOnLongClickListener(v -> true);
+    }
 }
