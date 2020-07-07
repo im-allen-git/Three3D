@@ -78,7 +78,6 @@ public class WifiPassActivity extends EspTouchActivityAbs {
         mViewModel.confirmBtn = findViewById(R.id.confirmBtn);
         mViewModel.confirmBtn.setOnClickListener(v -> executeEsptouch());
 
-        mViewModel.apPasswordEdit.setText("ldl@123456789");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};

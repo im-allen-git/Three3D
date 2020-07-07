@@ -235,7 +235,7 @@ public class BulidModuleActivity extends AppCompatActivity {
                         // File nwfile = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), nwName);
                         // String renameFilePath = nwfile.getAbsolutePath();
 
-                        String renameFilePath = IOUtil.DOWN_LOAD_PATH + "/" + nwName;
+                        String renameFilePath = IOUtil.DOWN_LOAD_PATH + "/printer3d/" + nwName;
 
                         File nwfile = new File(renameFilePath);
 

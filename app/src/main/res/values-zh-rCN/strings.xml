@@ -40,9 +40,9 @@
     <string name="printer_model">型号：</string>
     <string name="printer_work_space">工作空间：</string>
     <string name="printer_material">打印耗材：</string>
-    <string name="connect_req1">1.保持手机蓝牙开启状态</string>
-    <string name="connect_req2">2.保持3D打印机启用状态</string>
-    <string name="connect_req3">3.手机搜索3D打印机设备型号</string>
+    <string name="connect_req1">1.确定手机已链接WiFi网络</string>
+    <string name="connect_req2">2.确定3D打印机已启用WiFi功能</string>
+    <string name="connect_req3">3.点击连接，输入密码关联设备</string>
     <string name="connect_req4">4.连接3D打印机后，进入打印页面选择并打印</string>
     <string name="connect_req5">5.连接成功后就可以打印模型拉</string>
     <string name="status_title">雕花雕塑一角</string>
@@ -78,7 +78,7 @@
     <string name="esptouch1_location_permission_title">⚠️警告️</string>
     <string name="esptouch1_location_permission_message">在 Android M 及以上版本，如果您禁止授权位置权限，APP将无法获取 Wi-Fi 信息。</string>
     <string name="esptouch1_configure_wifi_change_message">Wi-Fi 已断开或发生了变化</string>
-    <string name="esptouch1_configuring_message">Esptouch 正在执行配网, 请稍等片刻…</string>
+    <string name="esptouch1_configuring_message">正在执行WiFi配网, 请稍等片刻…</string>
     <string name="esptouch1_configure_result_failed">EspTouch 配网失败</string>
     <string name="esptouch1_configure_result_failed_port">建立 EspTouch 任务失败, 端口可能被其他程序占用</string>
     <string name="esptouch1_configure_result_success">EspTouch 完成</string>
