@@ -36,7 +36,7 @@
     <string name="module_param">模型参数</string>
     <string name="printer_title">3D打印机</string>
     <string name="printer_statue_uncon">● 未连接</string>
-    <string name="printer_statue_conn">已连接</string>
+    <string name="printer_statue_conn">● 已连接</string>
     <string name="printer_model">型号：</string>
     <string name="printer_work_space">工作空间：</string>
     <string name="printer_material">打印耗材：</string>

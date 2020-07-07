@@ -42,7 +42,7 @@
                     android:scaleType="fitStart"
                     android:src="@drawable/return_btn" />
 
-                <Button
+                <TextView
                     android:id="@+id/button2"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="0dp"
@@ -55,8 +55,8 @@
                     android:textSize="17sp"
                     app:backgroundTint="#00FFFFFF" />
 
-                <Button
-                    android:id="@+id/button3"
+                <TextView
+                    android:id="@+id/connected_wifi"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
                             android:fontFamily="@font/hkfyw7gb"
                             android:text="@string/wifiName"
                             android:textColor="#FFFFFF"
-                            android:textSize="13sp" />
+                            android:textSize="17sp" />
 
                     </LinearLayout>
 
@@ -121,7 +121,7 @@
                             android:layout_height="match_parent"
                             android:fontFamily="@font/hkfyw7gb"
                             android:textColor="#FFFFFF"
-                            android:textSize="13sp" />
+                            android:textSize="17sp" />
 
                     </LinearLayout>
 
@@ -142,6 +142,19 @@
                 android:layout_marginBottom="20dp"
                 android:layout_weight="1"
                 android:background="#00FFFFFF"
+                android:contentDescription="@string/pintthismodule"
+                android:fontFamily="@font/hkfyw7gb"
+                android:scaleType="fitCenter"
+                android:src="@drawable/btn_connect" />
+            <ImageButton
+                android:id="@+id/gotoIndex"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:visibility="gone"
                 android:contentDescription="@string/pintthismodule"
                 android:fontFamily="@font/hkfyw7gb"
                 android:scaleType="fitCenter"

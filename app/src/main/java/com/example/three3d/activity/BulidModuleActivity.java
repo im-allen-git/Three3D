@@ -239,6 +239,10 @@ public class BulidModuleActivity extends AppCompatActivity {
 
                         File nwfile = new File(renameFilePath);
 
+                        if(!nwfile.getParentFile().exists() || !nwfile.getParentFile().isDirectory()){
+                            nwfile.getParentFile().mkdirs();
+                        }
+
                         // unGcodeZip.renameTo(nwfile);
 
                         System.err.println("gco:" + renameFilePath);

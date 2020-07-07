@@ -60,7 +60,7 @@ public class WifiPassActivity extends EspTouchActivityAbs {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_esptouch);
+        setContentView(R.layout.input_wifi_password);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);// 隐藏状态栏
         Objects.requireNonNull(getSupportActionBar()).hide();// 隐藏标题栏
         //设置Activity竖屏显示
@@ -367,7 +367,7 @@ public class WifiPassActivity extends EspTouchActivityAbs {
         EditText deviceCountEdit;
         RadioGroup packageModeGroup;
         TextView messageView;
-        Button confirmBtn;
+        ImageButton confirmBtn;
 
         String ssid;
         byte[] ssidBytes;
