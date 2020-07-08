@@ -15,7 +15,7 @@
     </style>
 
     <style name="hkfyw7gb" parent="@android:style/TextAppearance.Small">
-        <item name="android:fontFamily">@font/hkfyw7gb</item>
+        <item name="android:fontFamily">@font/webfont</item>
     </style>-->
 
 

@@ -77,7 +77,7 @@ var goHomeFlag = false;//是否是点击首页
 var deleteObjFlag = false;//是否点击了删除
 $( function () {
 	listModule();
-	getLocalAppSTL();
+//	getLocalAppSTL();
 	shapesMain.addEventListener( "touchstart", function ( e ) {
 		$( ".zoom_options,.color_wrapper" ).hide();//隐藏子窗口
 	} );
@@ -276,7 +276,7 @@ function hideModule( obj ) {
 				shapesIndex ++;
 			}
 			$( ".normal_wrapper" ).html( shapesHtml );
-
+ showModule(0);
 			var cartoonHtml = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>卡通模型</div>';
 			var cartoonIndex = 0;
 			listSTL = res.data.stl;
@@ -340,7 +340,7 @@ function listModule( type ) {
 			shapesIndex ++;
 		}
 		$( ".normal_wrapper" ).html( shapesHtml );
-
+        showModule(0);
 		var cartoonHtml = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>卡通模型</div>';
 		var cartoonIndex = 0;
 		listSTL = data.data.stl;
@@ -784,6 +784,7 @@ function init() {
 	window.addEventListener( 'resize', onWindowResize, false );
 	animate();
 	onWindowResize();
+	createTip();
 }
 
 function animate() {
@@ -2342,3 +2343,19 @@ function createText( word ) {
 }
 
 // Text object end
+function createTip(){
+    if(true){
+        var div1 = document.createElement("div");
+        var div2 = document.createElement("div");
+        div1.className = "how_to_play";
+        var img =  document.createElement("img");
+        img.src = "../img/3dPrinting/howToPlay.gif";
+        div1.appendChild(img)
+        div2.className="how_to_play_bg";
+        document.body.appendChild(div1);
+        document.body.appendChild(div2);
+    }
+}
+function closeTip(){
+
+}

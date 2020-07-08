@@ -2,8 +2,10 @@ body{background:#4E92EF; font-size:.17rem;color:#FFFFFF;height:100%;}
 .my_module.container { height: 100%; }
 .main_wrapper { height: 90%; }
 .top_menu{border-bottom:1px solid #92CCFFFF}
-.top_menu .top_menu_btn{padding-top: .14rem; padding-bottom: .14rem; font-size:.17rem;}
+.top_menu .top_menu_btn{font-size:.15rem;padding:.14rem 0}
 .top_menu_btn a { color: #fff; }
+.top_menu_btn.mine{padding-left:.15rem;}
+.top_menu_btn.local{padding-right:.15rem;}
 .sec_menu {margin-top:.1rem;}
 .sec_menu .sec_menu_btn {height: .3rem;}
 .sec_menu .sec_menu_btn .sec_btn { color: #426A8DFF; height: .2rem;line-height: .2rem;  background: rgba(210,234,255,1); border-radius: .1rem .1rem 0px 0px; text-align: center; font-size: .14rem; margin-top: .1rem;}
