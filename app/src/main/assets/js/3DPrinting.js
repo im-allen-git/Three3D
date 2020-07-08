@@ -2141,7 +2141,31 @@ function onAnimationStep() { //检测scale，使其永远在0.1- LIMIT_SIZE 之�
                     else if (currentObj.position.y < ( SHAPE_SIZE * currentObj.scale.y ) / 2) {
 						currentObj.position.y = ( SHAPE_SIZE * currentObj.scale.y ) / 2;
 					}
-				}
+				}else if(transformControl.axis == "XYZ"){
+                    if (currentObj.position.x >= 0 && currentObj.position.x + ( ( SHAPE_SIZE * currentObj.scale.x ) / 2 ) >= ( WORK_SPACE_SIZE / 2 )) {
+                        currentObj.position.x = ( WORK_SPACE_SIZE / 2 ) - ( ( SHAPE_SIZE * currentObj.scale.x ) / 2 );
+                    } else if (currentObj.position.x < 0 && currentObj.position.x - ( ( SHAPE_SIZE * currentObj.scale.x ) / 2 ) <= - ( WORK_SPACE_SIZE / 2 )) {
+                        currentObj.position.x = - ( WORK_SPACE_SIZE / 2 ) + ( ( SHAPE_SIZE * currentObj.scale.x ) / 2 );
+                    }
+                    if (currentObj.position.z >= 0 && currentObj.position.z + ( ( SHAPE_SIZE * currentObj.scale.z ) / 2 ) >= ( WORK_SPACE_SIZE / 2 )) {
+                        currentObj.position.z = ( WORK_SPACE_SIZE / 2 ) - ( ( SHAPE_SIZE * currentObj.scale.z ) / 2 );
+                    } else if (currentObj.position.z < 0 && currentObj.position.z - ( ( SHAPE_SIZE * currentObj.scale.z ) / 2 ) <= - ( WORK_SPACE_SIZE / 2 )) {
+                        currentObj.position.z = - ( WORK_SPACE_SIZE / 2 ) + ( ( SHAPE_SIZE * currentObj.scale.z ) / 2 );
+                    }
+                    if (currentObj.position.y >= 0 && ( currentObj.position.y + ( ( SHAPE_SIZE * currentObj.scale.y ) / 2 ) ) >= ( WORK_SPACE_SIZE )) { //向上移
+                        currentObj.position.y = ( WORK_SPACE_SIZE ) - ( ( SHAPE_SIZE * currentObj.scale.y ) / 2 );
+                    } else if (currentObj.name == "stl") {
+                        if (currentObj.position.y < ( currentObj.geometry.boundingSphere.radius * currentObj.scale.y )) {
+                            currentObj.position.y = ( SHAPE_SIZE * currentObj.scale.y );
+                        }
+                    } else if (currentObj.name == "stlLocal" || currentObj.name == "shapes_text") {
+                        if (currentObj.position.y < 0) {
+                            currentObj.position.y = 0;
+                        }
+                    } else if (currentObj.position.y < ( SHAPE_SIZE * currentObj.scale.y ) / 2) {
+                        currentObj.position.y = ( SHAPE_SIZE * currentObj.scale.y ) / 2;
+                    }
+                }
 				break;
 			case "rotate":
 				break;
