@@ -31,4 +31,11 @@ public class StlGcode {
     // 本地缩略图
     private String localImg;
 
+    // stl 长宽高 大小
+    private String length;
+    private String width;
+    private String height;
+    private String size;
+    private String material;
+
 }

@@ -1,4 +1,4 @@
-var localStlParam =[];
+var localStlParam ={};
 $( function () {
 	getDefaultStl();
 } );
@@ -33,11 +33,13 @@ function thisParamInfo( type ) {
 }
 
 function getDefaultStl(){
-	var data = js.getLocalStl();
+	var localStl = js.getLocalStl();
+	console.log(localStl)
+    var data = eval('('+localStl+')')
 	var slideHtml = ''
 	for(var i in data){
 		slideHtml += '<div class="swiper-slide"><div class="img_wrapper">'
-		slideHtml += '<img src="../models/stl/localModules/hello_kitty.jpg" alt="">'
+		slideHtml += '<img src="'+data[i].localImg+'" alt="">'
 		slideHtml += '</div></div>'
 	}
 	$(".swiper-wrapper").html(slideHtml);

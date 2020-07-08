@@ -20,7 +20,6 @@ import com.example.three3d.activity.MyAccountActivity;
 import com.example.three3d.activity.PrinterActivity;
 import com.example.three3d.activity.PrinterStartActivity;
 import com.example.three3d.activity.ShoppingActivity;
-import com.example.three3d.activity.UploadDemo;
 import com.example.three3d.activity.UploadGcodeActivity;
 import com.example.three3d.pojo.StlGcode;
 import com.example.three3d.touchv1.EspTouchActivity;
@@ -40,6 +39,8 @@ import java.util.Random;
 public class WebHost {
 
     List<StlGcode> stlGcodeList = new ArrayList<>();
+
+    List<StlGcode> localStlList = new ArrayList<>();
 
     public Context context;
     private Handler myHandler;
@@ -71,7 +72,7 @@ public class WebHost {
     }
 
 
-    public void setWebView(WebView webView){
+    public void setWebView(WebView webView) {
         this.webView = webView;
     }
 
@@ -205,7 +206,7 @@ public class WebHost {
             this.context.startActivity(it);
 
 
-        }  else if ("61".equalsIgnoreCase(code)) {
+        } else if ("61".equalsIgnoreCase(code)) {
             // 3d打印机
             if (StlUtil.ESP_8266_URL != null && StlUtil.ESP_8266_URL.length() > 0) {
                 Intent it = new Intent(this.context.getApplicationContext(), Esp8266Activity.class);
@@ -309,6 +310,55 @@ public class WebHost {
 
 
     @JavascriptInterface
+    public String getLocalStl() {
+
+        if (localStlList == null || localStlList.size() == 0) {
+            localStlList = new ArrayList<>();
+            StlGcode kitty = new StlGcode(0, "hello_kitty.stl",
+                    "file:///android_asset/models/stl/localModules/hello_kitty.stl", "",
+                    "",
+                    "file:///android_asset/models/stl/localModules/hello_kitty.gco", "",
+                    "file:///android_asset/models/stl/localModules/hello_kitty.png",
+                    "74.01mm", "51.22mm", "100.93mm", "18.20M", "7318cm");
+            localStlList.add(kitty);
+            StlGcode chamaeleo_t = new StlGcode(0, "chamaeleo_t.stl",
+                    "file:///android_asset/models/stl/localModules/chamaeleo_t.stl", "",
+                    "",
+                    "file:///android_asset/models/stl/localModules/chamaeleo_t.gco", "",
+                    "file:///android_asset/models/stl/localModules/chamaeleo_t.png",
+                    "26.15mm", "69.46mm", "17.72mm", "5.33M", "151cm");
+            localStlList.add(chamaeleo_t);
+
+            StlGcode hand_ok = new StlGcode(0, "hand_ok.stl",
+                    "file:///android_asset/models/stl/localModules/hand_ok.stl", "",
+                    "",
+                    "file:///android_asset/models/stl/localModules/hand_ok.gco", "",
+                    "file:///android_asset/models/stl/localModules/hand_ok.png",
+                    "42.78mm", "57.72mm", "110.44mm", "16.40M", "1348cm");
+            localStlList.add(hand_ok);
+
+            StlGcode jet_pack_bunny = new StlGcode(0, "jet_pack_bunny.stl",
+                    "file:///android_asset/models/stl/localModules/jet_pack_bunny.stl", "",
+                    "",
+                    "file:///android_asset/models/stl/localModules/jet_pack_bunny.gco", "",
+                    "file:///android_asset/models/stl/localModules/jet_pack_bunny.png",
+                    "130.43mm", "92.01mm", "131.28mm", "48.20M", "7318cm");
+            localStlList.add(jet_pack_bunny);
+
+            StlGcode god_of_wealth = new StlGcode(0, "god_of_wealth.stl",
+                    "file:///android_asset/models/stl/localModules/god_of_wealth.stl", "",
+                    "",
+                    "file:///android_asset/models/stl/localModules/god_of_wealth.gco", "",
+                    "file:///android_asset/models/stl/localModules/god_of_wealth.png",
+                    "62.85mm", "57.72mm", "64.23mm", "23.40M", "1945cm");
+            localStlList.add(god_of_wealth);
+
+        }
+
+        return localStlList.size() == 0 ? null : JSONObject.toJSONString(localStlList);
+    }
+
+    @JavascriptInterface
     public boolean sendGcode(String fileName) {
         Message message = new Message();
         message.what = 11;
@@ -320,6 +370,11 @@ public class WebHost {
             e.printStackTrace();
         }
         return true;
+    }
+
+    @JavascriptInterface
+    public String printerGcode() {
+        return null;
     }
 
 
@@ -442,7 +497,7 @@ public class WebHost {
         fileAllPath = filePrePath + "/" + System.currentTimeMillis() + "_" + nextInt;
     }
 
-    public static void disableLongClick(WebView webView){
+    public static void disableLongClick(WebView webView) {
         webView.setLongClickable(true);
         webView.setOnLongClickListener(v -> true);
     }

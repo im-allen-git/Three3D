@@ -138,7 +138,7 @@ public class StlUtil {
             String createTime = cursor.getString(createTimeIndex);
             String localImg = cursor.getString(localImgIndex);
             StlGcode stlGcode = new StlGcode(id, sourceStlName, realStlName, sourceZipStlName,
-                    serverZipGcodeName, localGcodeName, createTime, localImg);
+                    serverZipGcodeName, localGcodeName, createTime, localImg,"0","0","0","0","0");
             stlDataBaseMap.put(stlGcode.getRealStlName(), stlGcode);
         }
     }
