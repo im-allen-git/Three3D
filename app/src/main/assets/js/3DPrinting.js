@@ -2354,8 +2354,9 @@ function createTip(){
         div2.className="how_to_play_bg";
         document.body.appendChild(div1);
         document.body.appendChild(div2);
-    }
-}
-function closeTip(){
+        $(".how_to_play, .how_to_play_bg").click(function(){
+            $(".how_to_play, .how_to_play_bg").remove();
 
+        })
+    }
 }
