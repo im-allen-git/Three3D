@@ -894,10 +894,10 @@ THREE.TransformControlsGizmo = function () {
 			[ new THREE.Mesh( arrowGeometry, matBlue ), [ 0, 0, 1 ], [ Math.PI / 2, 0, 0 ], null, 'fwd' ],
 			[ new THREE.Mesh( arrowGeometry, matBlue ), [ 0, 0, 1 ], [ - Math.PI / 2, 0, 0 ], null, 'bwd' ],
 			[ new THREE.Line( lineGeometry, matLineBlue ), null, [ 0, - Math.PI / 2, 0 ]]
-		]/*,
-		XYZ: [
-			[ new THREE.Mesh( new THREE.OctahedronBufferGeometry( 0.1, 0 ), matWhiteTransparent.clone() ), [ 0, 0, 0 ], [ 0, 0, 0 ]]
 		],
+		XYZ: [
+			[ new THREE.Mesh( new THREE.OctahedronBufferGeometry( 0.2, 0 ), matWhiteTransparent.clone() ), [ 0, 0, 0 ], [ 0, 0, 0 ]]
+		]/*,
 		XY: [
 			[ new THREE.Mesh( new THREE.PlaneBufferGeometry( 0.295, 0.295 ), matYellowTransparent.clone() ), [ 0.15, 0.15, 0 ]],
 			[ new THREE.Line( lineGeometry, matLineYellow ), [ 0.18, 0.3, 0 ], null, [ 0.125, 1, 1 ]],
@@ -924,10 +924,10 @@ THREE.TransformControlsGizmo = function () {
 		],
 		Z: [
 			[ new THREE.Mesh( new THREE.CylinderBufferGeometry( 0.2, 0.2, 1.3, 4, 1, false ), matInvisible ), [ 0, 0, 0.6 ], [ Math.PI / 2, 0, 0 ]]
-		]/*,
-		XYZ: [
-			[ new THREE.Mesh( new THREE.OctahedronBufferGeometry( 0.2, 0 ), matInvisible ) ]
 		],
+		XYZ: [
+			[ new THREE.Mesh( new THREE.OctahedronBufferGeometry( .3, 0 ), matInvisible ) ]
+		]/*,
 		XY: [
 			[ new THREE.Mesh( new THREE.PlaneBufferGeometry( 0.4, 0.4 ), matInvisible ), [ 0.2, 0.2, 0 ]]
 		],
