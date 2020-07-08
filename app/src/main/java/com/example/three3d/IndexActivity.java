@@ -1,11 +1,9 @@
 package com.example.three3d;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -14,13 +12,12 @@ import android.widget.ImageButton;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.example.three3d.activity.BulidModuleActivity;
 import com.example.three3d.activity.MyAccountActivity;
 import com.example.three3d.activity.PrinterActivity;
 import com.example.three3d.activity.PrinterStartActivity;
+import com.example.three3d.util.PermissionCheckUtil;
 import com.example.three3d.util.StlUtil;
 
 import java.util.Objects;
@@ -40,7 +37,7 @@ public class IndexActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        checkIsPermission();
+        PermissionCheckUtil.checkIsPermission(this, this);
 
         setContentView(R.layout.index);
 
@@ -89,42 +86,6 @@ public class IndexActivity extends AppCompatActivity {
         moduleParamBtn.setOnClickListener(v -> {
 
         });
-
-        // 链接打印机页面
-        ImageButton printBtn = findViewById(R.id.image_button_print);
-        printBtn.setOnClickListener(v -> {
-            Intent it = new Intent(context.getApplicationContext(), PrinterStartActivity.class);
-            startActivity(it);
-
-        });
-    }
-
-
-    /**
-     * 检查读取和写入权限
-     */
-    private void checkIsPermission() {
-        //CameraDemoActivity 是activity的名字
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            //有权限的情况
-            isWritePermissions = true;
-        } else {
-            //没有权限，进行权限申请
-            //REQ是本次请求的辨认编号,即 requestCode
-            isWritePermissions = false;
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_REQ);
-        }
-
-        //CameraDemoActivity 是activity的名字
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            //有权限的情况
-            isReadPermissions = true;
-        } else {
-            //没有权限，进行权限申请
-            //REQ是本次请求的辨认编号,即 requestCode
-            isReadPermissions = false;
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_REQ);
-        }
     }
 
 

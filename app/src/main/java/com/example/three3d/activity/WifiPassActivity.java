@@ -16,7 +16,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
@@ -33,7 +32,6 @@ import com.example.esptouch.IEsptouchTask;
 import com.example.esptouch.util.ByteUtil;
 import com.example.esptouch.util.TouchNetUtil;
 import com.example.three3d.R;
-import com.example.three3d.activity.Esp8266Activity;
 import com.example.three3d.touchv1.EspTouchActivityAbs;
 import com.example.three3d.touchv1.EspTouchApp;
 import com.example.three3d.util.StlUtil;
@@ -78,6 +76,7 @@ public class WifiPassActivity extends EspTouchActivityAbs {
         mViewModel.confirmBtn = findViewById(R.id.confirmBtn);
         mViewModel.confirmBtn.setOnClickListener(v -> executeEsptouch());
 
+        mViewModel.apPasswordEdit.setText("");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
@@ -103,13 +102,18 @@ public class WifiPassActivity extends EspTouchActivityAbs {
                 case 1:
                     String ESP_8266_URL = msg.obj.toString();
                     if (ESP_8266_URL != null && ESP_8266_URL.length() > 0) {
-                        if(StlUtil.ESP_8266_URL == null || StlUtil.ESP_8266_URL.length() == 0){
+                        if (StlUtil.ESP_8266_URL == null || StlUtil.ESP_8266_URL.length() == 0) {
                             StlUtil.savePrinterUrl(context, ESP_8266_URL);
-                        } else{
+                        } else {
                             StlUtil.updatePrinterUrl(context, ESP_8266_URL);
                         }
-                        Intent it = new Intent(context.getApplicationContext(), Esp8266Activity.class);
-                        context.startActivity(it);
+                        if (StlUtil.printer_gcode != null && StlUtil.printer_gcode.length() > 0) {
+                            Intent it = new Intent(context.getApplicationContext(), PrinterStartActivity.class);
+                            context.startActivity(it);
+                        } else {
+                            Intent it = new Intent(context.getApplicationContext(), Esp8266Activity.class);
+                            context.startActivity(it);
+                        }
                         finish();
                     }
                     break;

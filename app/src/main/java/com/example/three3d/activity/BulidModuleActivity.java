@@ -1,26 +1,20 @@
 package com.example.three3d.activity;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.WindowManager;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.three3d.R;
@@ -28,8 +22,10 @@ import com.example.three3d.pojo.StlGcode;
 import com.example.three3d.util.HtmlUtil;
 import com.example.three3d.util.IOUtil;
 import com.example.three3d.util.OkHttpUtil;
+import com.example.three3d.util.PermissionCheckUtil;
 import com.example.three3d.util.StlUtil;
 import com.example.three3d.util.WebHost;
+import com.example.three3d.util.WebViewClientUtil;
 import com.example.three3d.util.ZipFileUtil;
 
 import java.io.File;
@@ -44,11 +40,6 @@ import okhttp3.Response;
 
 public class BulidModuleActivity extends AppCompatActivity {
 
-
-    private static final int WRITE_REQ = 1001;
-    private static final int READ_REQ = 1002;
-    private static boolean isReadPermissions = false;
-    private static boolean isWritePermissions = false;
 
     private WebHost webHost;
     private Context context;
@@ -72,7 +63,7 @@ public class BulidModuleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        checkIsPermission();
+        PermissionCheckUtil.checkIsPermission(this, this);
         setContentView(R.layout.bulid_module);
 
         context = this;
@@ -98,8 +89,8 @@ public class BulidModuleActivity extends AppCompatActivity {
         webView.addJavascriptInterface(webHost, "js");
 
         // 复写WebViewClient类的shouldOverrideUrlLoading方法
-        webView.setWebViewClient(new MyWebViewClient());
-        webView.setWebChromeClient(new GoogleClient());
+        webView.setWebViewClient(WebViewClientUtil.getMyWebViewClient());
+        webView.setWebChromeClient(WebViewClientUtil.getGoogleClient());
 //        webView.loadUrl(HtmlUtil.BULID_MODULE_URL);
         WebHost.disableLongClick(webView);
         Intent intent = getIntent();
@@ -156,7 +147,7 @@ public class BulidModuleActivity extends AppCompatActivity {
     // okhttps 上传文件
     public boolean postProgress(String url, File file, Map<String, String> commandLineMap, StlGcode stlGcode) {
         boolean isSu = false;
-        if (isReadPermissions) {
+        if (PermissionCheckUtil.isReadPermissions) {
 
             Request request = OkHttpUtil.getRequestByBody(file, commandLineMap, url);
             OkHttpClient client = OkHttpUtil.getClient();
@@ -187,7 +178,7 @@ public class BulidModuleActivity extends AppCompatActivity {
 
     private boolean downFile(StlGcode stlGcode) {
         boolean isSu = false;
-        if (isReadPermissions && isWritePermissions) {
+        if (PermissionCheckUtil.isReadPermissions && PermissionCheckUtil.isWritePermissions) {
             String currentGcodeZip = stlGcode.getServerZipGcodeName();
             if (null != currentGcodeZip && currentGcodeZip.length() > 0) {
                 String outFileName = stlGcode.getRealStlName().replace("stl", "gcode") + ".zip";
@@ -202,7 +193,7 @@ public class BulidModuleActivity extends AppCompatActivity {
 
     private boolean downloadProgress(String url, String outfileName, StlGcode stlGcode) {
         boolean isSu = false;
-        if (isReadPermissions && isWritePermissions) {
+        if (PermissionCheckUtil.isReadPermissions && PermissionCheckUtil.isWritePermissions) {
             try {
                 //构建一个请求
                 Request request = OkHttpUtil.getRequest(url);
@@ -239,7 +230,7 @@ public class BulidModuleActivity extends AppCompatActivity {
 
                         File nwfile = new File(renameFilePath);
 
-                        if(!nwfile.getParentFile().exists() || !nwfile.getParentFile().isDirectory()){
+                        if (!nwfile.getParentFile().exists() || !nwfile.getParentFile().isDirectory()) {
                             nwfile.getParentFile().mkdirs();
                         }
 
@@ -248,7 +239,6 @@ public class BulidModuleActivity extends AppCompatActivity {
                         System.err.println("gco:" + renameFilePath);
 
                         IOUtil.copyFile(unGcodeZip.getAbsolutePath(), renameFilePath);
-
 
 
                         stlGcode.setLocalGcodeName(unGcodeZipPath);
@@ -281,48 +271,5 @@ public class BulidModuleActivity extends AppCompatActivity {
         return isSu;
     }
 
-
-    /**
-     * 检查读取和写入权限
-     */
-    private void checkIsPermission() {
-        //CameraDemoActivity 是activity的名字
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            //有权限的情况
-            isWritePermissions = true;
-        } else {
-            //没有权限，进行权限申请
-            //REQ是本次请求的辨认编号,即 requestCode
-            isWritePermissions = false;
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_REQ);
-        }
-
-        //CameraDemoActivity 是activity的名字
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            //有权限的情况
-            isReadPermissions = true;
-        } else {
-            //没有权限，进行权限申请
-            //REQ是本次请求的辨认编号,即 requestCode
-            isReadPermissions = false;
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_REQ);
-        }
-    }
-
-
-    private class MyWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            return super.shouldOverrideUrlLoading(view, url);
-        }
-    }
-
-    public class GoogleClient extends WebChromeClient {
-        @Override
-        public void onProgressChanged(WebView view, int newProgress) {
-            super.onProgressChanged(view, newProgress);
-
-        }
-    }
 
 }

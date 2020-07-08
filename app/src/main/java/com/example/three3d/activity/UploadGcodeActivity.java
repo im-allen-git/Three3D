@@ -8,17 +8,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.WindowManager;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.three3d.IndexHtmlActivity;
 import com.example.three3d.R;
 import com.example.three3d.util.HtmlUtil;
 import com.example.three3d.util.WebHost;
+import com.example.three3d.util.WebViewClientUtil;
 
 import java.util.Objects;
 
@@ -59,10 +57,9 @@ public class UploadGcodeActivity extends AppCompatActivity {
         webView.addJavascriptInterface(webHost, "js");
 
         // 复写WebViewClient类的shouldOverrideUrlLoading方法
-        webView.setWebViewClient(new MyWebViewClient());
-        webView.setWebChromeClient(new GoogleClient());
+        webView.setWebViewClient(WebViewClientUtil.getMyWebViewClient());
+        webView.setWebChromeClient(WebViewClientUtil.getGoogleClient());
         webView.loadUrl(WEB_URL);
-
 
 
     }
@@ -74,7 +71,7 @@ public class UploadGcodeActivity extends AppCompatActivity {
             switch (msg.what) {
                 case 1:
                     Intent it = new Intent(context.getApplicationContext(), Esp8266Activity.class);
-                    it.putExtra("filePath",msg.obj.toString());
+                    it.putExtra("filePath", msg.obj.toString());
                     context.startActivity(it);
                     finish();
                     break;
@@ -82,18 +79,4 @@ public class UploadGcodeActivity extends AppCompatActivity {
         }
     };
 
-    public class MyWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            return super.shouldOverrideUrlLoading(view, url);
-        }
-    }
-
-    public class GoogleClient extends WebChromeClient {
-        @Override
-        public void onProgressChanged(WebView view, int newProgress) {
-            super.onProgressChanged(view, newProgress);
-
-        }
-    }
 }

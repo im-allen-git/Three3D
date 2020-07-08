@@ -1,4 +1,9 @@
-var localStlParam ={};
+var X;
+var Y;
+var Z;
+var material;
+var size;
+var moduleName;
 $( function () {
 	getDefaultStl();
 } );
@@ -24,27 +29,38 @@ function goPage( type ) {
 
 function thisParamInfo( type ) {
 	if (type == 0) {
-        var X = $(".swiper-slide-active").find(".X").val();
-        var Y = $(".swiper-slide-active").find(".Y").val();
-        var Z = $(".swiper-slide-active").find(".Z").val();
-        var material = $(".swiper-slide-active").find(".material").val();
-        var size = $(".swiper-slide-active").find(".size").val();
+        X = $(".swiper-slide-active").find(".X").val();
+        Y = $(".swiper-slide-active").find(".Y").val();
+        Z = $(".swiper-slide-active").find(".Z").val();
+        material = $(".swiper-slide-active").find(".material").val();
+        size = $(".swiper-slide-active").find(".size").val();
+        moduleName = $(".swiper-slide-active").find(".moduleName").val();
+        console.log(X,Y,Z,material,size,moduleName)
         $("#XYZ").text(X + " " + Y + " " + Z)
         $("#moduleSize").text(size)
         $("#useMaterial").text(material)
         $("#printDuration").text()
 		$( ".module_param,.module_param_bg" ).show();
         $(".outer_printbtn").hide();
-	} else {
-		$( ".module_param,.module_param_bg" ).hide();
-		 $(".outer_printbtn").show();
+	} else if (type == 1){
+	console.log(moduleName)
+	    var sendFlag = js.printerGcode(moduleName);
+	    if(sendFlag){
+	        $( ".module_param,.module_param_bg" ).hide();
+            $(".outer_printbtn").show();
+	    }
+        else{
+        }
+	} else if (type == 2){
+	    $( ".module_param,.module_param_bg" ).hide();
+        $(".outer_printbtn").show();
 	}
 }
 
 function getDefaultStl(){
 	var localStl = js.getLocalStl();
-	console.log(localStl)
     var data = eval('('+localStl+')')
+    localStlParam =data;
 	var slideHtml = ''
 	for(var i in data){
 		slideHtml += '<div class="swiper-slide"><div class="img_wrapper">'
@@ -54,7 +70,10 @@ function getDefaultStl(){
 		slideHtml += '<input type="hidden" class="Z" value="'+data[i].height+'">'
 		slideHtml += '<input type="hidden" class="material" value="'+data[i].material+'">'
 		slideHtml += '<input type="hidden" class="size" value="'+data[i].size+'">'
-		slideHtml += '</div></div>'
+		var gcode = data[i].localGcodeName.split("/localModules/")[1];
+		slideHtml += '<input type="hidden" class="moduleName" value="'+gcode+'">'
+		slideHtml += '</div></div>';
+
 	}
 	$(".swiper-wrapper").html(slideHtml);
 	var swiper = new Swiper( '.swiper-container', {

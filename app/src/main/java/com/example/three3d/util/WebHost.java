@@ -40,7 +40,6 @@ public class WebHost {
 
     List<StlGcode> stlGcodeList = new ArrayList<>();
 
-    List<StlGcode> localStlList = new ArrayList<>();
 
     public Context context;
     private Handler myHandler;
@@ -311,50 +310,7 @@ public class WebHost {
 
     @JavascriptInterface
     public String getLocalStl() {
-
-        if (localStlList == null || localStlList.size() == 0) {
-            localStlList = new ArrayList<>();
-            StlGcode kitty = new StlGcode(0, "hello_kitty.stl",
-                    "file:///android_asset/models/stl/localModules/hello_kitty.stl", "",
-                    "",
-                    "file:///android_asset/models/stl/localModules/hello_kitty.gco", "",
-                    "file:///android_asset/models/stl/localModules/hello_kitty.png",
-                    "X:74.01", "Y:51.22", "Z:100.93", "18.20M", "7318cm");
-            localStlList.add(kitty);
-            StlGcode chamaeleo_t = new StlGcode(0, "chamaeleo_t.stl",
-                    "file:///android_asset/models/stl/localModules/chamaeleo_t.stl", "",
-                    "",
-                    "file:///android_asset/models/stl/localModules/chamaeleo_t.gco", "",
-                    "file:///android_asset/models/stl/localModules/chamaeleo_t.png",
-                    "X:26.15", "Y:69.46", "Z:17.72", "5.33M", "151cm");
-            localStlList.add(chamaeleo_t);
-
-            StlGcode hand_ok = new StlGcode(0, "hand_ok.stl",
-                    "file:///android_asset/models/stl/localModules/hand_ok.stl", "",
-                    "",
-                    "file:///android_asset/models/stl/localModules/hand_ok.gco", "",
-                    "file:///android_asset/models/stl/localModules/hand_ok.png",
-                    "X:2.78", "Y:57.72", "Z:110.44", "16.40M", "1348cm");
-            localStlList.add(hand_ok);
-
-            StlGcode jet_pack_bunny = new StlGcode(0, "jet_pack_bunny.stl",
-                    "file:///android_asset/models/stl/localModules/jet_pack_bunny.stl", "",
-                    "",
-                    "file:///android_asset/models/stl/localModules/jet_pack_bunny.gco", "",
-                    "file:///android_asset/models/stl/localModules/jet_pack_bunny.png",
-                    "X:130.43", "Y:92.01", "Z:131.28", "48.20M", "7318cm");
-            localStlList.add(jet_pack_bunny);
-
-            StlGcode god_of_wealth = new StlGcode(0, "god_of_wealth.stl",
-                    "file:///android_asset/models/stl/localModules/god_of_wealth.stl", "",
-                    "",
-                    "file:///android_asset/models/stl/localModules/god_of_wealth.gco", "",
-                    "file:///android_asset/models/stl/localModules/god_of_wealth.png",
-                    "X:62.85", "Y:57.72", "Z:64.23", "23.40M", "1945cm");
-            localStlList.add(god_of_wealth);
-
-        }
-
+        List<StlGcode> localStlList = StlUtil.getLocalStl();
         return localStlList.size() == 0 ? null : JSONObject.toJSONString(localStlList);
     }
 
@@ -373,8 +329,21 @@ public class WebHost {
     }
 
     @JavascriptInterface
-    public String printerGcode() {
-        return null;
+    public boolean printerGcode(String gcodeName) {
+
+        if (StlUtil.ESP_8266_URL == null || StlUtil.ESP_8266_URL.length() == 0) {
+            Intent it = new Intent(this.context.getApplicationContext(), PrinterActivity.class);
+            StlUtil.printer_gcode = gcodeName;
+            this.context.startActivity(it);
+        } else {
+            StlUtil.printer_gcode = null;
+            Intent it = new Intent(this.context.getApplicationContext(), PrinterStartActivity.class);
+            it.putExtra("gcodeName", gcodeName);
+            this.context.startActivity(it);
+        }
+
+
+        return true;
     }
 
 

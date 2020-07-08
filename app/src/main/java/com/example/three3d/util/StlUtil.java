@@ -29,6 +29,29 @@ public class StlUtil {
     public static volatile Map<String, StlGcode> stlMap = new HashMap<>();
 
     /**
+     * APP自带gcode的map
+     */
+    public static Map<String, StlGcode> localMapStl = new HashMap<>();
+
+    /**
+     * APP自带gcode集合
+     */
+    private static List<StlGcode> localStlList = new ArrayList<>();
+
+
+    /**
+     * 即将打印的gcode
+     */
+
+    public static volatile String printer_gcode;
+
+
+    public static final long HOUR_TIME =  60 * 60 * 1000;
+    public static final long MINUTE_TIME =  60 * 1000;
+    public static final long SECOND_TIME =  1000;
+
+
+    /**
      * 从数据库读取和后续更新的数据
      */
     public static volatile Map<String, StlGcode> stlDataBaseMap = new HashMap<>();
@@ -138,7 +161,7 @@ public class StlUtil {
             String createTime = cursor.getString(createTimeIndex);
             String localImg = cursor.getString(localImgIndex);
             StlGcode stlGcode = new StlGcode(id, sourceStlName, realStlName, sourceZipStlName,
-                    serverZipGcodeName, localGcodeName, createTime, localImg,"0","0","0","0","0");
+                    serverZipGcodeName, localGcodeName, createTime, localImg, "0", "0", "0", "0", "0");
             stlDataBaseMap.put(stlGcode.getRealStlName(), stlGcode);
         }
     }
@@ -199,6 +222,60 @@ public class StlUtil {
             db.update(ThreePrinterEntry.TABLE_NAME, values, whereClause, whereArgs);
             ESP_8266_URL = url;
         }
+    }
+
+
+    public static List<StlGcode> getLocalStl() {
+
+        if (localStlList == null || localStlList.size() == 0) {
+            localMapStl.clear();
+            localStlList = new ArrayList<>();
+            StlGcode kitty = new StlGcode(1, "hello_kitty.stl",
+                    "file:///android_asset/models/stl/localModules/hello_kitty.stl", "",
+                    "",
+                    "file:///android_asset/models/stl/localModules/hello_kitty.gco", "",
+                    "file:///android_asset/models/stl/localModules/hello_kitty.png",
+                    "X:74.01", "Y:51.22", "Z:100.93", "18.20M", "7318cm");
+            localStlList.add(kitty);
+            localMapStl.put(kitty.getLocalGcodeName().split("/localModules/")[1], kitty);
+
+            StlGcode chamaeleo_t = new StlGcode(2, "chamaeleo_t.stl",
+                    "file:///android_asset/models/stl/localModules/chamaeleo_t.stl", "",
+                    "",
+                    "file:///android_asset/models/stl/localModules/chamaeleo_t.gco", "",
+                    "file:///android_asset/models/stl/localModules/chamaeleo_t.png",
+                    "X:26.15", "Y:69.46", "Z:17.72", "5.33M", "151cm");
+            localStlList.add(chamaeleo_t);
+            localMapStl.put(chamaeleo_t.getLocalGcodeName().split("/localModules/")[1], chamaeleo_t);
+
+            StlGcode hand_ok = new StlGcode(3, "hand_ok.stl",
+                    "file:///android_asset/models/stl/localModules/hand_ok.stl", "",
+                    "",
+                    "file:///android_asset/models/stl/localModules/hand_ok.gco", "",
+                    "file:///android_asset/models/stl/localModules/hand_ok.png",
+                    "X:2.78", "Y:57.72", "Z:110.44", "16.40M", "1348cm");
+            localStlList.add(hand_ok);
+            localMapStl.put(hand_ok.getLocalGcodeName().split("/localModules/")[1], hand_ok);
+
+            StlGcode jet_pack_bunny = new StlGcode(4, "jet_pack_bunny.stl",
+                    "file:///android_asset/models/stl/localModules/jet_pack_bunny.stl", "",
+                    "",
+                    "file:///android_asset/models/stl/localModules/jet_pack_bunny.gco", "",
+                    "file:///android_asset/models/stl/localModules/jet_pack_bunny.png",
+                    "X:130.43", "Y:92.01", "Z:131.28", "48.20M", "7318cm");
+            localStlList.add(jet_pack_bunny);
+            localMapStl.put(jet_pack_bunny.getLocalGcodeName().split("/localModules/")[1], jet_pack_bunny);
+
+            StlGcode god_of_wealth = new StlGcode(5, "god_of_wealth.stl",
+                    "file:///android_asset/models/stl/localModules/god_of_wealth.stl", "",
+                    "",
+                    "file:///android_asset/models/stl/localModules/god_of_wealth.gco", "",
+                    "file:///android_asset/models/stl/localModules/god_of_wealth.png",
+                    "X:62.85", "Y:57.72", "Z:64.23", "23.40M", "1945cm");
+            localStlList.add(god_of_wealth);
+            localMapStl.put(god_of_wealth.getLocalGcodeName().split("/localModules/")[1], god_of_wealth);
+        }
+        return localStlList.size() == 0 ? null : localStlList;
     }
 
 }

@@ -9,16 +9,15 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.WindowManager;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.three3d.R;
 import com.example.three3d.util.HtmlUtil;
 import com.example.three3d.util.WebHost;
+import com.example.three3d.util.WebViewClientUtil;
 
 import java.util.Objects;
 
@@ -56,8 +55,8 @@ public class MyAccountActivity extends AppCompatActivity {
         webView.addJavascriptInterface(webHost, "js");
 
         // 复写WebViewClient类的shouldOverrideUrlLoading方法
-        webView.setWebViewClient(new MyWebViewClient());
-        webView.setWebChromeClient(new GoogleClient());
+        webView.setWebViewClient(WebViewClientUtil.getMyWebViewClient());
+        webView.setWebChromeClient(WebViewClientUtil.getGoogleClient());
         WebHost.disableLongClick(webView);
         Intent intent = getIntent();
         // 获取到传递参数
@@ -68,20 +67,6 @@ public class MyAccountActivity extends AppCompatActivity {
         webView.loadUrl(WEB_URL);
     }
 
-    public class MyWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            return super.shouldOverrideUrlLoading(view, url);
-        }
-    }
-
-    public class GoogleClient extends WebChromeClient {
-        @Override
-        public void onProgressChanged(WebView view, int newProgress) {
-            super.onProgressChanged(view, newProgress);
-
-        }
-    }
 
     @Override
     protected void onResume() {

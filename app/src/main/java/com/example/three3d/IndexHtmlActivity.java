@@ -1,42 +1,32 @@
 package com.example.three3d;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.WindowManager;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.example.three3d.util.HtmlUtil;
+import com.example.three3d.util.PermissionCheckUtil;
 import com.example.three3d.util.StlUtil;
 import com.example.three3d.util.WebHost;
+import com.example.three3d.util.WebViewClientUtil;
 
 import java.util.Objects;
 
 public class IndexHtmlActivity extends AppCompatActivity {
 
     private Context context;
-
-    private static final int WRITE_REQ = 1001;
-    private static final int READ_REQ = 1002;
-    private static boolean isReadPermissions = false;
-    private static boolean isWritePermissions = false;
 
     private String WEB_URL;
     private WebHost webHost;
@@ -47,7 +37,7 @@ public class IndexHtmlActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        checkIsPermission();
+        PermissionCheckUtil.checkIsPermission(this, this);
 
         setContentView(R.layout.index);
 
@@ -76,8 +66,8 @@ public class IndexHtmlActivity extends AppCompatActivity {
         webView.addJavascriptInterface(webHost, "js");
 
         // 复写WebViewClient类的shouldOverrideUrlLoading方法
-        webView.setWebViewClient(new MyWebViewClient());
-        webView.setWebChromeClient(new GoogleClient());
+        webView.setWebViewClient(WebViewClientUtil.getMyWebViewClient());
+        webView.setWebChromeClient(WebViewClientUtil.getGoogleClient());
 
 
         Intent intent = getIntent();
@@ -90,28 +80,13 @@ public class IndexHtmlActivity extends AppCompatActivity {
     }
 
 
-    public class MyWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            return super.shouldOverrideUrlLoading(view, url);
-        }
-    }
-
-    public class GoogleClient extends WebChromeClient {
-        @Override
-        public void onProgressChanged(WebView view, int newProgress) {
-            super.onProgressChanged(view, newProgress);
-
-        }
-    }
-
     @SuppressLint("HandlerLeak")
     private Handler mainHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 5:
-                    actionKey(KeyEvent.KEYCODE_BACK);
+                    WebViewClientUtil.actionKey(KeyEvent.KEYCODE_BACK);
                     /*Intent intent = new Intent();
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//刷新
                     startActivity(intent);// 开始界bai面的跳转du函数*/
@@ -119,51 +94,6 @@ public class IndexHtmlActivity extends AppCompatActivity {
             }
         }
     };
-
-    /**
-     * 模拟键盘事件方法
-     *
-     * @param keyCode
-     */
-    public void actionKey(final int keyCode) {
-        new Thread() {
-            public void run() {
-                try {
-                    Instrumentation inst = new Instrumentation();
-                    inst.sendKeyDownUpSync(keyCode);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
-
-    /**
-     * 检查读取和写入权限
-     */
-    private void checkIsPermission() {
-        //CameraDemoActivity 是activity的名字
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            //有权限的情况
-            isWritePermissions = true;
-        } else {
-            //没有权限，进行权限申请
-            //REQ是本次请求的辨认编号,即 requestCode
-            isWritePermissions = false;
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_REQ);
-        }
-
-        //CameraDemoActivity 是activity的名字
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            //有权限的情况
-            isReadPermissions = true;
-        } else {
-            //没有权限，进行权限申请
-            //REQ是本次请求的辨认编号,即 requestCode
-            isReadPermissions = false;
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_REQ);
-        }
-    }
 
 
 }

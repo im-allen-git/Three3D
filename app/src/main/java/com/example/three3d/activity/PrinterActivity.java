@@ -1,7 +1,6 @@
 package com.example.three3d.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -12,18 +11,16 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.three3d.R;
-import com.example.three3d.touchv1.EspTouchActivity;
-import com.example.three3d.touchv1.EspTouchActivityAbs;
 import com.example.three3d.touchv1.NetUtils;
 import com.example.three3d.util.IOUtil;
 import com.example.three3d.util.StlUtil;
+import com.example.three3d.util.WebViewClientUtil;
 
 import java.util.Objects;
 
@@ -45,7 +42,7 @@ public class PrinterActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         ImageButton ModuleParamBtn = findViewById(R.id.imageButtonModuleParam);
         ModuleParamBtn.setOnClickListener(v -> {
-            actionKey(KeyEvent.KEYCODE_BACK);
+            WebViewClientUtil.actionKey(KeyEvent.KEYCODE_BACK);
         });
 
         // 输入密码页面
@@ -62,8 +59,7 @@ public class PrinterActivity extends AppCompatActivity {
                 Intent it = new Intent(this.context.getApplicationContext(), Esp8266Activity.class);
                 this.context.startActivity(it);
             });
-        }
-        else{
+        } else {
             connected_wifi.setText(R.string.printer_statue_uncon);
             connected_wifi.setTextColor(Color.RED);
             gotoIndex.setVisibility(View.GONE);
@@ -82,31 +78,13 @@ public class PrinterActivity extends AppCompatActivity {
     }
 
     private void checkWifi() {
-            WifiInfo wifiInfo = mWifiManager.getConnectionInfo();
-            boolean connected = NetUtils.isWifiConnected(mWifiManager);
-            if (!connected) {
-                return;
-            }
-            String ssid = NetUtils.getSsidString(wifiInfo);
-            IOUtil.WIFI_SSID = ssid;
+        WifiInfo wifiInfo = mWifiManager.getConnectionInfo();
+        boolean connected = NetUtils.isWifiConnected(mWifiManager);
+        if (!connected) {
+            return;
+        }
+        String ssid = NetUtils.getSsidString(wifiInfo);
+        IOUtil.WIFI_SSID = ssid;
     }
 
-
-    /**
-     * 模拟键盘事件方法
-     *
-     * @param keyCode
-     */
-    public void actionKey(final int keyCode) {
-        new Thread() {
-            public void run() {
-                try {
-                    Instrumentation inst = new Instrumentation();
-                    inst.sendKeyDownUpSync(keyCode);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
 }

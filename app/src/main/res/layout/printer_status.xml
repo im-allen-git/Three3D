@@ -42,20 +42,20 @@
                     android:scaleType="fitStart"
                     android:src="@drawable/return_black" />
 
-                <Button
-                    android:id="@+id/button2"
+                <TextView
+                    android:id="@+id/printerName"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:fontFamily="@font/webfont"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/hkfyw7gb"
                     android:text="@string/status_title"
                     android:textColor="#000"
                     android:textSize="17sp"
-                    android:gravity="center_vertical|right"/>
+                    android:gravity="center_vertical|left"/>
 
-
-                <Button
+<!--
+                <TextView
                     android:id="@+id/button3"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="0dp"
@@ -65,7 +65,7 @@
                     android:text="@string/_3d_printer"
                     android:gravity="center_vertical|right"
                     android:textSize="17sp"
-                    android:textColor="#000" />
+                    android:textColor="#000" />-->
             </LinearLayout>
             <!--顶部三按钮 end-->
 
@@ -104,12 +104,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <ImageView
                 android:id="@+id/printingItem"
                 android:layout_width="wrap_content"
                 android:layout_height="250dp"
                 android:layout_margin="50dp"
-              android:src="@drawable/module_example" />
+                android:src="@drawable/module_example" />
 
             <TextView
                 android:id="@+id/textView"
@@ -129,6 +130,7 @@
                 android:layout_marginTop="20dp"
                 android:background="#00FFFFFF"
                 android:scaleType="fitCenter"
+                android:visibility="gone"
                 android:src="@drawable/btn_pause" />
 
             <TextView
@@ -138,7 +140,8 @@
                 android:text="剩余: 00:00:11"
                 android:textColor="#999999"
                 android:textSize="15sp"
-                android:fontFamily="@font/webfont"
+                android:paddingTop="15sp"
+                android:fontFamily="@font/hkfyw7gb"
                 android:gravity="center_vertical|center"/>
 
 

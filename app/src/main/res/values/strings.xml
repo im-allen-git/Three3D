@@ -43,7 +43,7 @@
     <string name="connect_req3">3.点击连接，输入密码关联设备</string>
     <string name="connect_req4">4.连接3D打印机后，进入打印页面选择并打印</string>
     <string name="connect_req5">5.连接成功后就可以打印模型拉</string>
-    <string name="status_title">雕花雕塑一角</string>
+    <string name="status_title">名称</string>
     <string name="status_waiting">等待打印</string>
     <string name="big_button">放大</string>
     <string name="lit_button">下载</string>
