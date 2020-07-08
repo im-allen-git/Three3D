@@ -1,5 +1,6 @@
+var localStlParam =[];
 $( function () {
-
+	getDefaultStl();
 } );
 
 function goPage( type ) {
@@ -29,4 +30,26 @@ function thisParamInfo( type ) {
 		$( ".module_param,.module_param_bg" ).hide();
 		 $(".outer_printbtn").show();
 	}
+}
+
+function getDefaultStl(){
+	var data = js.getLocalStl();
+	var slideHtml = ''
+	for(var i in data){
+		slideHtml += '<div class="swiper-slide"><div class="img_wrapper">'
+		slideHtml += '<img src="../models/stl/localModules/hello_kitty.jpg" alt="">'
+		slideHtml += '</div></div>'
+	}
+	$(".swiper-wrapper").html(slideHtml);
+	var swiper = new Swiper( '.swiper-container', {
+		spaceBetween: 0,
+		freeMode: false,
+		freeModeSticky: true,
+		direction: 'vertical',
+		navigation: {
+			nextEl: '.swiper-button-next',
+			prevEl: '.swiper-button-prev',
+		},
+
+	} );
 }
