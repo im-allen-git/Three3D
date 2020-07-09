@@ -115,7 +115,7 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="92%"
+                android:text="0%"
                 android:fontFamily="@font/webfont"
                 android:textColor="#FEAC1E"
                 android:textSize="50sp"

@@ -363,10 +363,8 @@ function listModule( type ) {
 }
 function getLocalAppSTL(){
 	var data = js.getStlList() || null;
-	console.log(data)
 	var stlListHTML = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>我的模型</div>';
 	if(data & data !=null && data.length>5) {
-	console.log(data+"ndy")
 	    var stlList = eval('('+data+')')
 		var stlListIndex = 100;
 		for (var i in stlList) {

@@ -147,6 +147,7 @@ public class StlUtil {
         values.put(ThreeEntry.COLUMN_EXE_TIME, "0");
 
         long newRowId = db.insert(ThreeEntry.TABLE_NAME, null, values);
+        stlGcode.setId(newRowId);
         stlDataBaseMap.put(stlGcode.getRealStlName(), stlGcode);
 
         return newRowId;

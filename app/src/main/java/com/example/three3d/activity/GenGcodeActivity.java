@@ -336,7 +336,6 @@ public class GenGcodeActivity extends AppCompatActivity {
 
                             // StlUtil.stlMap.put(stlGcode.getRealStlName(), stlGcode);
                             // 保存到数据库
-                            StlGcode tempCode = StlUtil.stlMap.get(currentFileName);
                             StlUtil.updateModuleDataBase(context, currentFileName);
                             sendMessage(DOWN_COMPLETED, "解压成功");
                         } else {

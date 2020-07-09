@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StlGcode {
 
-    private int id;
+    private long id;
 
     // stl原始文件名称
     private String sourceStlName;

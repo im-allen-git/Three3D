@@ -70,8 +70,17 @@ function thisParamInfo( type ,obj) {
         $("#useMaterial").text(material)
         $("#printDuration").text(exeTimeStr)
 		$( ".module_param,.module_param_bg" ).show();
-	} else {
-		$( ".module_param,.module_param_bg" ).hide();
+	}else if (type == 1){
+        var sendFlag = js.changeActive("61");
+        if(sendFlag){
+            $( ".module_param,.module_param_bg" ).hide();
+             $(".outer_printbtn").show();
+        }
+         else{
+         }
+    }
+    else if (type == 2){
+        $( ".module_param,.module_param_bg" ).hide();
 	}
 }
 function getLocalAppSTL(){
@@ -127,10 +136,10 @@ function deleteThisModule(obj,name){
         type: 'confirm',
         showTitle: false,
         overlayClose:true,
-        contentHtml: '<p class="red_note" style="word-break: break-word;">Are you sure you want to delete this module?</p>',
+        contentHtml: '<p class="red_note" style="word-break: break-word;text-align:center;">确定要删除该模型么?</p>',
         buttonText : {//按钮文本内容
-            ok : 'OK',
-            cancel:'Cancel'
+            ok : '确定',
+            cancel:'取消'
         },
         buttonClass : {
             ok:'removeThis_ok',
