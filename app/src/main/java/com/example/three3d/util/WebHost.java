@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -39,7 +40,6 @@ import java.util.Random;
 public class WebHost {
 
     List<StlGcode> stlGcodeList = new ArrayList<>();
-
 
     public Context context;
     private Handler myHandler;
@@ -231,6 +231,7 @@ public class WebHost {
             this.context.startActivity(it);
         }
     }
+
     @JavascriptInterface
     public void welcomeToIndex() {
         // 模型库首页
@@ -240,13 +241,14 @@ public class WebHost {
         message.what = 1;
         this.myHandler.sendMessage(message);
     }
+
     @JavascriptInterface
     public String getStlList() {
         stlGcodeList.clear();
         for (Map.Entry<String, StlGcode> fileEntry : StlUtil.stlDataBaseMap.entrySet()) {
             stlGcodeList.add(fileEntry.getValue());
         }
-        return stlGcodeList.size() == 0 ? null : JSONObject.toJSONString(stlGcodeList);
+        return JSONObject.toJSONString(stlGcodeList);
     }
 
 
@@ -349,9 +351,22 @@ public class WebHost {
             it.putExtra("gcodeName", gcodeName);
             this.context.startActivity(it);
         }
-
-
         return true;
+    }
+
+
+    @JavascriptInterface
+    public boolean getFlagByJson(String fileName) {
+        String firstCome = CacheUtil.getSettingNote(this.context, HtmlUtil.FLAG_JSON, fileName);
+        return firstCome != null && firstCome.length() > 0;
+    }
+
+
+    @JavascriptInterface
+    public void saveFlagByJson(String fileName) {
+        Map<String, String> map = new HashMap<>();
+        map.put(fileName, "1");
+        CacheUtil.saveSettingNote(this.context, HtmlUtil.FLAG_JSON, map);
     }
 
 
@@ -478,4 +493,6 @@ public class WebHost {
         webView.setLongClickable(true);
         webView.setOnLongClickListener(v -> true);
     }
+
+
 }

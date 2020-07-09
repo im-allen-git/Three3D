@@ -77,7 +77,7 @@ var goHomeFlag = false;//是否是点击首页
 var deleteObjFlag = false;//是否点击了删除
 $( function () {
 	listModule();
-//	getLocalAppSTL();
+	getLocalAppSTL();
 	shapesMain.addEventListener( "touchstart", function ( e ) {
 		$( ".zoom_options,.color_wrapper" ).hide();//隐藏子窗口
 	} );
@@ -340,7 +340,6 @@ function listModule( type ) {
 			shapesIndex ++;
 		}
 		$( ".normal_wrapper" ).html( shapesHtml );
-        showModule(0);
 		var cartoonHtml = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>卡通模型</div>';
 		var cartoonIndex = 0;
 		listSTL = data.data.stl;
@@ -364,8 +363,10 @@ function listModule( type ) {
 }
 function getLocalAppSTL(){
 	var data = js.getStlList() || null;
+	console.log(data)
 	var stlListHTML = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>我的模型</div>';
-	if(data) {
+	if(data & data !=null && data.length>5) {
+	console.log(data+"ndy")
 	    var stlList = eval('('+data+')')
 		var stlListIndex = 100;
 		for (var i in stlList) {
@@ -1527,7 +1528,8 @@ function saveAsImage(nameStr,result) {
 
                 var successFlag = js.saveStl( result, nameStr + '.stl', img2.split(",")[1]);
                 if(successFlag){
-                    afterSTLImg()
+                    afterSTLImg();
+                    getLocalAppSTL();
                 }
                 else{
                     $( ".save_name_verify" ).text( "保存失败，请重试" ).show();
@@ -1595,7 +1597,6 @@ function afterSTLImg(){
         goHomeFlag = false;
         saveFlag = false;
     }
-	getLocalAppSTL();
 }
 // 导出相关 end
 //camera 方向
@@ -2344,7 +2345,10 @@ function createText( word ) {
 
 // Text object end
 function createTip(){
-    if(true){
+    var flag = js.getFlagByJson("build_module");
+//    console.log("build_module:"+flag)
+    if(!flag){
+        showModule(0);
         var div1 = document.createElement("div");
         var div2 = document.createElement("div");
         div1.className = "how_to_play";
@@ -2355,6 +2359,7 @@ function createTip(){
         document.body.appendChild(div1);
         document.body.appendChild(div2);
         $(".how_to_play, .how_to_play_bg").click(function(){
+            js.saveFlagByJson("build_module");
             $(".how_to_play, .how_to_play_bg").remove();
         })
     }

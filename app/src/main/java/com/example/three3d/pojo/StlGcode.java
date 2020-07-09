@@ -36,6 +36,13 @@ public class StlGcode {
     private String width;
     private String height;
     private String size;
+
+    // 材料长度
     private String material;
+
+    // 执行打印时间
+    private long exeTime;
+
+    private String exeTimeStr;
 
 }

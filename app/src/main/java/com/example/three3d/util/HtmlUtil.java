@@ -13,4 +13,21 @@ public class HtmlUtil {
     public static final String UPLOAD_GCODE_HTML = "file:///android_asset/src/upload_gcode.html";
 
     public static final String UPLOAD_DEMO_HTML = "file:///android_asset/src/upload_demo.html ";
+
+
+    /**
+     * 缓存各种标识名称的文件名
+     */
+    public static final String FLAG_JSON = "flag_json";
+
+
+    /**
+     * 欢迎页文件标识
+     */
+    public static final String WELCOME_FLAG = "welcome";
+
+    /**
+     * 创建模型文件标识
+     */
+    public static final String BUILD_MODULE = "build_module";
 }

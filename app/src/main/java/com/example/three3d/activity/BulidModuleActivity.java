@@ -253,6 +253,7 @@ public class BulidModuleActivity extends AppCompatActivity {
                             System.err.println("gco copy:" + renameFilePath + ", false");
                         }
 
+                        IOUtil.getGoceInfo(stlGcode);
                         // 保存到数据库
                         StlUtil.updateModuleDataBase(context, stlGcode.getRealStlName());
                         System.out.println("..." + unGcodeZipPath + ",解压成功...");

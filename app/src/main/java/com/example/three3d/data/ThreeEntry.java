@@ -20,4 +20,11 @@ public final class ThreeEntry implements BaseColumns {
     public final static String COLUMN_CREATE_TIME ="create_time";
     public final static String COLUMN_LOCAL_IMG ="local_img";
 
+    public final static String COLUMN_LENGTH ="g_length";
+    public final static String COLUMN_WIDTH ="g_width";
+    public final static String COLUMN_HEIGHT ="g_height";
+    public final static String COLUMN_SIZE ="g_size";
+    public final static String COLUMN_MATERIAL ="material";
+    public final static String COLUMN_EXE_TIME ="exe_time";
+
 }

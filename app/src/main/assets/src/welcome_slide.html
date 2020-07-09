@@ -37,7 +37,7 @@
                 <div class="img_wrapper">
                     <img src="../img/welcome2.png" alt="">
                 </div>
-                <div class="goto_index" onclick = "js.welcomeToIndex()">完成</div>
+                <div class="goto_index" onclick = "jumpToindex()">完成</div>
             </div>
         </div>
         <!-- Add Pagination -->
@@ -57,6 +57,9 @@
       },
 
 	} );
-
+    function jumpToindex(){
+        js.saveFlagByJson("welcome");
+        js.welcomeToIndex();
+    }
 </script>
 </html>

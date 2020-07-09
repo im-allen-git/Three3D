@@ -23,7 +23,14 @@ public class ThreeDbHelper extends SQLiteOpenHelper {
                 + ThreeEntry.COLUMN_LOCAL_GCODE_NAME + " TEXT , "
                 + ThreeEntry.COLUMN_SERVER_ZIP_GCODE_NAME + " TEXT , "
                 + ThreeEntry.COLUMN_CREATE_TIME + " TEXT , "
-                + ThreeEntry.COLUMN_LOCAL_IMG + " TEXT);";
+                + ThreeEntry.COLUMN_LOCAL_IMG + " TEXT , "
+
+                + ThreeEntry.COLUMN_LENGTH + " TEXT , "
+                + ThreeEntry.COLUMN_WIDTH + " TEXT , "
+                + ThreeEntry.COLUMN_HEIGHT + " TEXT , "
+                + ThreeEntry.COLUMN_SIZE + " TEXT , "
+                + ThreeEntry.COLUMN_MATERIAL + " TEXT , "
+                + ThreeEntry.COLUMN_EXE_TIME + " TEXT);";
 
         // Execute the SQL statement
         db.execSQL(SQL_CREATE_MODULE_TABLE);

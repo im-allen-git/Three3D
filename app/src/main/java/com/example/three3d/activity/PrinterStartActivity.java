@@ -127,7 +127,7 @@ public class PrinterStartActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         // 开始打印
-                        printNow(tempName);
+                        printNow(tempName, stlGcode);
                     }
                 }.start();
             }
@@ -135,7 +135,7 @@ public class PrinterStartActivity extends AppCompatActivity {
     }
 
 
-    private void printNow(String gcodeName) {
+    private void printNow(String gcodeName, StlGcode stlGcode) {
         // http://10.0.0.63/command_silent?commandText=M23%20/HELLO_~1.GCO%0AM24&PAGEID=0
         String tempGcodeNameStr = gcodeName.substring(0, gcodeName.lastIndexOf("."));
         if (tempGcodeNameStr.length() > 8) {
@@ -162,59 +162,19 @@ public class PrinterStartActivity extends AppCompatActivity {
             e.printStackTrace();
             Log.e(TAG, "printNow " + url + "],error:", e);
         }
-
-        setTextShow();
+        setTextShow(stlGcode.getExeTime());
     }
 
 
-    private void setTextShow() {
-        long count = 10 * 1000;
+    private void setTextShow(long count) {
         long oldCount = count;
-        long hourTime = 0;
-        long minuteTime = 0;
 
-        long secondTime = 0;
 
         StringBuffer timeBf;
-
         while (count >= 0) {
             try {
                 Thread.sleep(1000);
-                timeBf = new StringBuffer("剩余: ");
-                hourTime = count / StlUtil.HOUR_TIME;
-                if (hourTime > 0) {
-                    if (hourTime < 10) {
-                        timeBf.append("0" + hourTime + ":");
-                    } else {
-                        timeBf.append("" + hourTime + ":");
-                    }
-                } else {
-                    timeBf.append("00:");
-                }
-
-                minuteTime = (count - hourTime * StlUtil.HOUR_TIME) / StlUtil.MINUTE_TIME;
-                if (minuteTime > 0) {
-                    if (minuteTime < 10) {
-                        timeBf.append("0" + minuteTime + ":");
-                    } else {
-                        timeBf.append("" + minuteTime + ":");
-                    }
-                } else {
-                    timeBf.append("00:");
-                }
-
-
-                secondTime = (count - hourTime * StlUtil.HOUR_TIME - minuteTime * StlUtil.MINUTE_TIME) / StlUtil.SECOND_TIME;
-                if (secondTime > 0) {
-                    if (secondTime < 10) {
-                        timeBf.append("0" + secondTime);
-                    } else {
-                        timeBf.append("" + secondTime);
-                    }
-                } else {
-                    timeBf.append("00");
-                }
-
+                timeBf = new StringBuffer("剩余: " + IOUtil.getTimeStr(count));
                 Message message = new Message();
                 message.what = 100 - (int) (count * 100 / oldCount);
                 message.obj = timeBf.toString();

@@ -46,9 +46,9 @@ public class StlUtil {
     public static volatile String printer_gcode;
 
 
-    public static final long HOUR_TIME =  60 * 60 * 1000;
-    public static final long MINUTE_TIME =  60 * 1000;
-    public static final long SECOND_TIME =  1000;
+    public static final long HOUR_TIME = 60 * 60 * 1000;
+    public static final long MINUTE_TIME = 60 * 1000;
+    public static final long SECOND_TIME = 1000;
 
 
     /**
@@ -67,6 +67,14 @@ public class StlUtil {
             stlMap.put("realStlName", stlGcodeEntry.getValue().getRealStlName());
             stlMap.put("createTime", stlGcodeEntry.getValue().getCreateTime());
             stlMap.put("localImg", stlGcodeEntry.getValue().getLocalImg());
+
+            stlMap.put("x", stlGcodeEntry.getValue().getLength());
+            stlMap.put("y", stlGcodeEntry.getValue().getWidth());
+            stlMap.put("z", stlGcodeEntry.getValue().getHeight());
+            stlMap.put("size", stlGcodeEntry.getValue().getSize());
+            stlMap.put("material", stlGcodeEntry.getValue().getMaterial());
+            stlMap.put("exeTimeStr", IOUtil.getTimeStr(stlGcodeEntry.getValue().getExeTime()));
+
             data_list.add(stlMap);
         }
         if (data_list.size() == 0) {
@@ -94,9 +102,20 @@ public class StlUtil {
             values.put(ThreeEntry.COLUMN_SERVER_ZIP_GCODE_NAME, stlGcode.getServerZipGcodeName());
             values.put(ThreeEntry.COLUMN_CREATE_TIME, stlGcode.getCreateTime());
             values.put(ThreeEntry.COLUMN_LOCAL_IMG, stlGcode.getLocalImg());
+
+            values.put(ThreeEntry.COLUMN_LENGTH, stlGcode.getLength());
+            values.put(ThreeEntry.COLUMN_WIDTH, stlGcode.getWidth());
+            values.put(ThreeEntry.COLUMN_HEIGHT, stlGcode.getHeight());
+            values.put(ThreeEntry.COLUMN_SIZE, stlGcode.getSize());
+            values.put(ThreeEntry.COLUMN_MATERIAL, stlGcode.getMaterial());
+            values.put(ThreeEntry.COLUMN_EXE_TIME, String.valueOf(stlGcode.getExeTime()));
+
+
             String whereClause = ThreeEntry._ID + " = ?";
             String[] whereArgs = new String[]{String.valueOf(stlGcode.getId())};
             db.update(ThreeEntry.TABLE_NAME, values, whereClause, whereArgs);
+
+            stlDataBaseMap.remove(realStlName);
             stlDataBaseMap.put(realStlName, stlGcode);
         }
     }
@@ -119,6 +138,14 @@ public class StlUtil {
         values.put(ThreeEntry.COLUMN_SERVER_ZIP_GCODE_NAME, "");
         values.put(ThreeEntry.COLUMN_CREATE_TIME, stlGcode.getCreateTime());
         values.put(ThreeEntry.COLUMN_LOCAL_IMG, stlGcode.getLocalImg());
+
+        values.put(ThreeEntry.COLUMN_LENGTH, "0");
+        values.put(ThreeEntry.COLUMN_WIDTH, "0");
+        values.put(ThreeEntry.COLUMN_HEIGHT, "0");
+        values.put(ThreeEntry.COLUMN_SIZE, "0");
+        values.put(ThreeEntry.COLUMN_MATERIAL, "0");
+        values.put(ThreeEntry.COLUMN_EXE_TIME, "0");
+
         long newRowId = db.insert(ThreeEntry.TABLE_NAME, null, values);
         stlDataBaseMap.put(stlGcode.getRealStlName(), stlGcode);
 
@@ -151,6 +178,15 @@ public class StlUtil {
         int localGcodeNameIndex = cursor.getColumnIndex(ThreeEntry.COLUMN_LOCAL_GCODE_NAME);
         int createTimeIndex = cursor.getColumnIndex(ThreeEntry.COLUMN_CREATE_TIME);
         int localImgIndex = cursor.getColumnIndex(ThreeEntry.COLUMN_LOCAL_IMG);
+
+        int lengthIndex = cursor.getColumnIndex(ThreeEntry.COLUMN_LENGTH);
+        int widthIndex = cursor.getColumnIndex(ThreeEntry.COLUMN_WIDTH);
+        int heigthIndex = cursor.getColumnIndex(ThreeEntry.COLUMN_HEIGHT);
+        int sizeIndex = cursor.getColumnIndex(ThreeEntry.COLUMN_SIZE);
+        int materialIndex = cursor.getColumnIndex(ThreeEntry.COLUMN_MATERIAL);
+        int timeIndex = cursor.getColumnIndex(ThreeEntry.COLUMN_EXE_TIME);
+
+
         while (cursor.moveToNext()) {
             int id = cursor.getInt(idIndex);
             String sourceStlName = cursor.getString(sourceStlNameIndex);
@@ -160,8 +196,19 @@ public class StlUtil {
             String localGcodeName = cursor.getString(localGcodeNameIndex);
             String createTime = cursor.getString(createTimeIndex);
             String localImg = cursor.getString(localImgIndex);
+
+            String lengthStr = cursor.getString(lengthIndex);
+            String widthStr = cursor.getString(widthIndex);
+            String heigthStr = cursor.getString(heigthIndex);
+            String sizeStr = cursor.getString(sizeIndex);
+            String material = cursor.getString(materialIndex);
+            long exeTime = cursor.getLong(timeIndex);
+
+
             StlGcode stlGcode = new StlGcode(id, sourceStlName, realStlName, sourceZipStlName,
-                    serverZipGcodeName, localGcodeName, createTime, localImg, "0", "0", "0", "0", "0");
+                    serverZipGcodeName, localGcodeName, createTime, localImg,
+                    lengthStr, widthStr, heigthStr, sizeStr, material, exeTime, IOUtil.getTimeStr(exeTime));
+            System.err.println(stlGcode);
             stlDataBaseMap.put(stlGcode.getRealStlName(), stlGcode);
         }
     }
@@ -235,7 +282,8 @@ public class StlUtil {
                     "",
                     "file:///android_asset/models/stl/localModules/hello_kitty.gco", "",
                     "file:///android_asset/models/stl/localModules/hello_kitty.png",
-                    "X:74.01", "Y:51.22", "Z:100.93", "18.20M", "7318cm");
+                    "X:74.01", "Y:51.22", "Z:100.93", "18.20M", "7318cm",
+                    1025 * StlUtil.MINUTE_TIME, IOUtil.getTimeStr(1025 * StlUtil.MINUTE_TIME));
             localStlList.add(kitty);
             localMapStl.put(kitty.getLocalGcodeName().split("/localModules/")[1], kitty);
 
@@ -244,7 +292,8 @@ public class StlUtil {
                     "",
                     "file:///android_asset/models/stl/localModules/chamaeleo_t.gco", "",
                     "file:///android_asset/models/stl/localModules/chamaeleo_t.png",
-                    "X:26.15", "Y:69.46", "Z:17.72", "5.33M", "151cm");
+                    "X:92.89", "Y:93.08", "Z:25.98", "5.33M", "780cm",
+                    110 * StlUtil.MINUTE_TIME, IOUtil.getTimeStr(110 * StlUtil.MINUTE_TIME));
             localStlList.add(chamaeleo_t);
             localMapStl.put(chamaeleo_t.getLocalGcodeName().split("/localModules/")[1], chamaeleo_t);
 
@@ -253,7 +302,8 @@ public class StlUtil {
                     "",
                     "file:///android_asset/models/stl/localModules/hand_ok.gco", "",
                     "file:///android_asset/models/stl/localModules/hand_ok.png",
-                    "X:2.78", "Y:57.72", "Z:110.44", "16.40M", "1348cm");
+                    "X:42.78", "Y:57.72", "Z:110.44", "16.40M", "2168cm",
+                    304 * StlUtil.MINUTE_TIME, IOUtil.getTimeStr(304 * StlUtil.MINUTE_TIME));
             localStlList.add(hand_ok);
             localMapStl.put(hand_ok.getLocalGcodeName().split("/localModules/")[1], hand_ok);
 
@@ -262,7 +312,8 @@ public class StlUtil {
                     "",
                     "file:///android_asset/models/stl/localModules/jet_pack_bunny.gco", "",
                     "file:///android_asset/models/stl/localModules/jet_pack_bunny.png",
-                    "X:130.43", "Y:92.01", "Z:131.28", "48.20M", "7318cm");
+                    "X:130.43", "Y:92.01", "Z:131.28", "48.20M", "2168cm",
+                    304 * StlUtil.MINUTE_TIME, IOUtil.getTimeStr(304 * StlUtil.MINUTE_TIME));
             localStlList.add(jet_pack_bunny);
             localMapStl.put(jet_pack_bunny.getLocalGcodeName().split("/localModules/")[1], jet_pack_bunny);
 
@@ -271,7 +322,8 @@ public class StlUtil {
                     "",
                     "file:///android_asset/models/stl/localModules/god_of_wealth.gco", "",
                     "file:///android_asset/models/stl/localModules/god_of_wealth.png",
-                    "X:62.85", "Y:57.72", "Z:64.23", "23.40M", "1945cm");
+                    "X:62.85", "Y:57.72", "Z:64.23", "23.40M", "1945cm",
+                    273 * StlUtil.MINUTE_TIME, IOUtil.getTimeStr(273 * StlUtil.MINUTE_TIME));
             localStlList.add(god_of_wealth);
             localMapStl.put(god_of_wealth.getLocalGcodeName().split("/localModules/")[1], god_of_wealth);
         }

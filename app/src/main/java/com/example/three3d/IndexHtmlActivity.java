@@ -77,6 +77,7 @@ public class IndexHtmlActivity extends AppCompatActivity {
             WEB_URL = HtmlUtil.INDEX_HTML;
         }
         webView.loadUrl(WEB_URL);
+        StlUtil.getModuleDataBase(this);
     }
 
 

@@ -4,6 +4,13 @@ var movedDir; //移动的距离x
 var DLETET_LEFT = 83;
 var Xflag =false;
 var Yflag =false;
+var X;//模型长
+var Y;//模型宽
+var Z;//模型高
+var material;//模型材料消耗
+var size;//模型大小
+var moduleName; //模型名称
+var exeTimeStr; //打印时间
 $( function () {
 	getLocalAppSTL();
 } );
@@ -46,8 +53,22 @@ function showCurrentModule(type){
 	$("#contentModule").html();
 }
 
-function thisParamInfo( type ) {
+function thisParamInfo( type ,obj) {
 	if (type == 0) {
+	    var parent = $(obj).parents(".each_module")
+	    console.log("parents:" + parent)
+	    X = parent.find(".X").val();
+        Y = parent.find(".Y").val();
+        Z = parent.find(".Z").val();
+        material = parent.find(".material").val();
+        size = parent.find(".size").val();
+        moduleName = parent.find(".moduleName").val();
+        exeTimeStr = parent.find(".exeTimeStr").val();
+        console.log(X,Y,Z,material,size,moduleName)
+        $("#XYZ").text(X + " " + Y + " " + Z)
+        $("#moduleSize").text(size)
+        $("#useMaterial").text(material)
+        $("#printDuration").text(exeTimeStr)
 		$( ".module_param,.module_param_bg" ).show();
 	} else {
 		$( ".module_param,.module_param_bg" ).hide();
@@ -55,22 +76,31 @@ function thisParamInfo( type ) {
 }
 function getLocalAppSTL(){
 	var data = js.getStlList() || null;
+	console.log(data)
+
 	var stlListHTML = '';
 	if(data) {
 		var stlList = eval('('+data+')');
 		for (var i in stlList) {
-			stlListHTML += '<div class="each_module "><div class="each_module_wrapper clearfix swiper-container"><div class="swiper-wrapper">';
+			stlListHTML += '<div class="each_module"><div class="each_module_wrapper clearfix swiper-container"><div class="swiper-wrapper">';
             stlListHTML += '<div class="swiper-slide">';
             stlListHTML += '<div class="col-xs-3"><img src="'+stlList[i].localImg+'" alt=""></div>';
             stlListHTML += '<div class="col-xs-9">';
             var name  =stlList[i].sourceStlName.split(".stl")[0];
             stlListHTML += '<div class="module_name">'+name+'</div>';
             stlListHTML += '<div class="module_time"><div class="info">创建时间: <span class="this_createTime">'+stlList[i].createTime+'</span></div></div>';
-            stlListHTML += '<div class="module_size"><div class="info">打印尺寸(mm): <span class="this_createTime">X:15 Y:25 Z:30</span></div></div>';
-            stlListHTML += '<div class="img_wrapper showHide first_child"><img src="../img/3dPrinting/btn_print.png" alt=""></div>';
+            stlListHTML += '<div class="module_size"><div class="info">打印尺寸(mm): <span class="this_createTime">'+stlList[i].length+" "+stlList[i].width+" "+stlList[i].height+'</span></div></div>';
+            stlListHTML += '<div class="img_wrapper showHide first_child"><img src="../img/3dPrinting/btn_print.png" alt="" onclick="thisParamInfo(0,this)"></div>';
             stlListHTML += '</div></div>';
             stlListHTML += '<div class="swiper-slide delete_slide" onclick="deleteThisModule(this,\''+stlList[i].realStlName+'\')"><div class="delete">删除</div></div>';
-            stlListHTML += '</div></div></div>';
+            stlListHTML += '</div>';
+            stlListHTML += '<input type="hidden" class="X" value="'+stlList[i].length+'">'
+            stlListHTML += '<input type="hidden" class="Y" value="'+stlList[i].width+'">'
+            stlListHTML += '<input type="hidden" class="Z" value="'+stlList[i].height+'">'
+            stlListHTML += '<input type="hidden" class="material" value="'+stlList[i].material+'">'
+            stlListHTML += '<input type="hidden" class="size" value="'+stlList[i].size+'">'
+            stlListHTML += '<input type="hidden" class="exeTimeStr" value="'+stlList[i].exeTimeStr+'">'
+            stlListHTML += '</div></div>';
 		}
 	}
 	else{
