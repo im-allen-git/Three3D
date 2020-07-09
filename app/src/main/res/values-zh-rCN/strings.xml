@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ThreeD</string>
+    <string name="app_name">Magic Box</string>
 
     <string name="click_button">处理文件</string>
     <string name="up_button">一键处理文件</string>
@@ -99,4 +99,5 @@
     <string name="esptouch2_provision_stop">停止</string>
     <string name="esptouch2_provision_result_exception">捕获到错误：%s</string>
     <string name="esptouch2_provision_result_none">没有找到设备</string>
+    <string name="welcome_text">开启儿童智慧第一步</string>
 </resources>

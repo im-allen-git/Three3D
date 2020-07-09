@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="n">
-        <activity android:name=".IndexHtmlActivity">
+        <activity android:name=".activity.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -71,8 +71,16 @@
             android:name=".activity.UploadDemo"
             android:label="@string/app_name" />
 
- <activity
+        <activity
             android:name=".activity.WifiPassActivity"
+            android:label="@string/app_name" />
+
+        <activity
+            android:name=".IndexHtmlActivity"
+            android:label="@string/app_name" />
+
+        <activity
+            android:name=".activity.WelcomeSlideActivity"
             android:label="@string/app_name" />
 
 
