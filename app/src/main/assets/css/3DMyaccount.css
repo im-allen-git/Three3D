@@ -49,4 +49,5 @@ img.imgBtn.param_close { position: absolute; top: -.1rem; right: -.1rem; width: 
 .print_btn { background-image: url(../img/3dPrinting/btn_print.png); background-repeat: no-repeat; background-size: contain; width: 1.2rem; height: .65rem; margin: auto; }
 
 
-.note_error { display: none; position: fixed; top: 50%; bottom: 0; left: 50%; right: 0; margin-top: -0.75rem; margin-left: -47.5%; z-index: 4;border-radius: .35rem; width: 95%; height: 1.5rem; text-align: center; background: rgba(255,251,230,1); box-shadow: 0px 0px 0.21rem 0px rgba(145,96,34,0.2), 0px 0px 1rem 0px rgba(240,221,56,1) inset; }
+.note_error { display: none; position: fixed; top: 50%; bottom: 0; left: 50%; right: 0; margin-top: -0.75rem; margin-left: -47.5%; z-index: 4;border-radius: .35rem; width: 95%; height: 1.5rem; text-align: center; background: rgba(185,239,255,1);box-shadow: 0px 0px 10px 0px rgba(33,86,145,0.2), 0px 0px 125px 0px rgba(56,153,240,1)inset;     color: red;}
+.note_error .save_name_title { width: 2.08rem; height: .32rem; background: linear-gradient(0deg,rgba(85,181,227,1) 0%,rgba(53,129,227,1) 100%); border-radius: 0 0 .15rem .15rem; line-height: .32rem; margin: auto; font-size: .18rem; color: #fff; margin-bottom: .4rem;     color: red;}
