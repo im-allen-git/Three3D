@@ -43,11 +43,10 @@ public class PrinterStartActivity extends AppCompatActivity {
     private Handler mainHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            System.err.println(msg.what);
             if (msg.what < 100) {
                 textView.setText(msg.what + "%");
                 textViewTimer.setText(msg.obj.toString());
-            } else if(msg.what >= 100){
+            } else if (msg.what >= 100) {
                 textView.setText("打印完成!");
                 textViewTimer.setText(msg.obj.toString());
             }
@@ -88,7 +87,7 @@ public class PrinterStartActivity extends AppCompatActivity {
         Intent it = this.getIntent();
         String gcodeName = it.getStringExtra("gcodeName");
 
-        if (gcodeName == null && gcodeName.length() == 0) {
+        if (gcodeName != null && gcodeName.length() == 0) {
             gcodeName = StlUtil.printer_gcode;
             StlUtil.printer_gcode = null;
         } else {
@@ -138,11 +137,19 @@ public class PrinterStartActivity extends AppCompatActivity {
 
     private void printNow(String gcodeName) {
         // http://10.0.0.63/command_silent?commandText=M23%20/HELLO_~1.GCO%0AM24&PAGEID=0
-        String url = StlUtil.ESP_8266_URL + "command_silent?commandText=M23%20/" + gcodeName + "%0AM24&PAGEID=0";
+        String tempGcodeNameStr = gcodeName.substring(0, gcodeName.lastIndexOf("."));
+        if (tempGcodeNameStr.length() > 8) {
+            tempGcodeNameStr = gcodeName.substring(0, 5) + "_~1" + gcodeName.substring(gcodeName.lastIndexOf("."));
+        } else {
+            tempGcodeNameStr = gcodeName;
+        }
+
+
+        String url = StlUtil.ESP_8266_URL + "command_silent?commandText=M23%20/" + tempGcodeNameStr.toUpperCase() + "%0AM24&PAGEID=0";
 
         OkHttpClient client = OkHttpUtil.getClient();
         Request request = OkHttpUtil.getRequest(url);
-
+        System.err.println(url);
         try {
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
@@ -209,7 +216,7 @@ public class PrinterStartActivity extends AppCompatActivity {
                 }
 
                 Message message = new Message();
-                message.what = 100- (int) (count * 100 / oldCount);
+                message.what = 100 - (int) (count * 100 / oldCount);
                 message.obj = timeBf.toString();
                 mainHandler.sendMessage(message);
                 count -= StlUtil.SECOND_TIME;
