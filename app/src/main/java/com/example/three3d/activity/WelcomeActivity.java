@@ -39,6 +39,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     Thread.sleep(2000);
                     Intent it = new Intent(context, WelcomeSlideActivity.class);
                     context.startActivity(it);
+                    finish();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

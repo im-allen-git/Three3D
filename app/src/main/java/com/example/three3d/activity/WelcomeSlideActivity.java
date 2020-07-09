@@ -71,11 +71,8 @@ public class WelcomeSlideActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case 5:
-                    WebViewClientUtil.actionKey(KeyEvent.KEYCODE_BACK);
-                    /*Intent intent = new Intent();
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//刷新
-                    startActivity(intent);// 开始界bai面的跳转du函数*/
+                case 1:
+                    finish();
                     break;
             }
         }

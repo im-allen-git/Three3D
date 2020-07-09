@@ -231,7 +231,15 @@ public class WebHost {
             this.context.startActivity(it);
         }
     }
-
+    @JavascriptInterface
+    public void welcomeToIndex() {
+        // 模型库首页
+        Intent it = new Intent(this.context.getApplicationContext(), IndexHtmlActivity.class);
+        this.context.startActivity(it);
+        Message message = new Message();
+        message.what = 1;
+        this.myHandler.sendMessage(message);
+    }
     @JavascriptInterface
     public String getStlList() {
         stlGcodeList.clear();
