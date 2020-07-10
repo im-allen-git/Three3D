@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -39,6 +40,9 @@ public class PrinterStartActivity extends AppCompatActivity {
     private TextView printerName, status_waiting, textView, textViewTimer;
     ImageView imageView, printingItem;
 
+    private String tempGcode;
+    private StlGcode tempStlGcode;
+
     @SuppressLint("HandlerLeak")
     private Handler mainHandler = new Handler() {
         @Override
@@ -65,7 +69,24 @@ public class PrinterStartActivity extends AppCompatActivity {
         //设置Activity竖屏显示
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         initView();
-        setInfo();
+
+        if (setInfo()) {
+            new Thread() {
+                @Override
+                public void run() {
+                    // 开始打印
+                    printNow(tempGcode, tempStlGcode);
+                }
+            }.start();
+        } else {
+            printerName.setVisibility(View.INVISIBLE);
+            imageView.setVisibility(View.INVISIBLE);
+            // status_waiting.setVisibility(View.INVISIBLE);
+            printingItem.setVisibility(View.INVISIBLE);
+            textView.setVisibility(View.INVISIBLE);
+            textViewTimer.setVisibility(View.INVISIBLE);
+            status_waiting.setText("获取模型失败,请重试!");
+        }
     }
 
 
@@ -83,9 +104,11 @@ public class PrinterStartActivity extends AppCompatActivity {
         textViewTimer = findViewById(R.id.textViewTimer);
     }
 
-    private void setInfo() {
+    private boolean setInfo() {
+        boolean isSu = false;
         Intent it = this.getIntent();
         String gcodeName = it.getStringExtra("gcodeName");
+        String flag = it.getStringExtra("flag");
 
         if (gcodeName != null && gcodeName.length() == 0) {
             gcodeName = StlUtil.printer_gcode;
@@ -94,9 +117,16 @@ public class PrinterStartActivity extends AppCompatActivity {
             StlUtil.printer_gcode = null;
         }
 
+        StlGcode stlGcode;
         if (gcodeName != null && gcodeName.length() > 0) {
 
-            StlGcode stlGcode = StlUtil.localMapStl.get(gcodeName);
+            if ("0".equalsIgnoreCase(flag)) {
+                stlGcode = StlUtil.localMapStl.get(gcodeName);
+            } else if ("1".equalsIgnoreCase(flag)) {
+                stlGcode = StlUtil.stlDataBaseMap.get(gcodeName);
+            } else {
+                return isSu;
+            }
             if (stlGcode != null) {
                 // 显示基本信息
                 printerName.setText(stlGcode.getSourceStlName());
@@ -120,18 +150,12 @@ public class PrinterStartActivity extends AppCompatActivity {
                 textView.setText("0%");
                 textViewTimer.setText("剩余: 00:00:00");
 
-
-                final String tempName = gcodeName;
-
-                new Thread() {
-                    @Override
-                    public void run() {
-                        // 开始打印
-                        printNow(tempName, stlGcode);
-                    }
-                }.start();
+                tempStlGcode = stlGcode;
+                tempGcode = gcodeName;
+                isSu = true;
             }
         }
+        return isSu;
     }
 
 
@@ -154,6 +178,7 @@ public class PrinterStartActivity extends AppCompatActivity {
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
                 String rs = response.body().string();
+                setTextShow(stlGcode.getExeTime() + 60 * StlUtil.SECOND_TIME);
                 System.err.println(rs);
             } else {
                 System.err.println(gcodeName + ", print error!!!!");
@@ -162,7 +187,7 @@ public class PrinterStartActivity extends AppCompatActivity {
             e.printStackTrace();
             Log.e(TAG, "printNow " + url + "],error:", e);
         }
-        setTextShow(stlGcode.getExeTime());
+
     }
 
 

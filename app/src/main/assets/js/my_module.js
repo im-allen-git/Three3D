@@ -71,7 +71,7 @@ function thisParamInfo( type ,obj) {
         $("#printDuration").text(exeTimeStr)
 		$( ".module_param,.module_param_bg" ).show();
 	}else if (type == 1){
-        var sendFlag = js.changeActive("61");
+        var sendFlag = js.printerGcode(moduleName, 1);
         if(sendFlag){
             $( ".module_param,.module_param_bg" ).hide();
              $(".outer_printbtn").show();
@@ -109,6 +109,7 @@ function getLocalAppSTL(){
             stlListHTML += '<input type="hidden" class="material" value="'+stlList[i].material+'">'
             stlListHTML += '<input type="hidden" class="size" value="'+stlList[i].size+'">'
             stlListHTML += '<input type="hidden" class="exeTimeStr" value="'+stlList[i].exeTimeStr+'">'
+            stlListHTML += '<input type="hidden" class="moduleName" value="'+stlList[i].realStlName+'">'
             stlListHTML += '</div></div>';
 		}
 	}

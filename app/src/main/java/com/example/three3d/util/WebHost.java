@@ -339,7 +339,8 @@ public class WebHost {
     }
 
     @JavascriptInterface
-    public boolean printerGcode(String gcodeName) {
+    public boolean printerGcode(String gcodeName, int flag) {
+        // flag  0  原始APP的gcode   1 自己创建的模型
         if (StlUtil.ESP_8266_URL == null || StlUtil.ESP_8266_URL.length() == 0) {
             Intent it = new Intent(this.context.getApplicationContext(), PrinterActivity.class);
             StlUtil.printer_gcode = gcodeName;
@@ -348,6 +349,7 @@ public class WebHost {
             StlUtil.printer_gcode = null;
             Intent it = new Intent(this.context.getApplicationContext(), PrinterStartActivity.class);
             it.putExtra("gcodeName", gcodeName);
+            it.putExtra("flag", flag);
             this.context.startActivity(it);
         }
         return true;
