@@ -207,7 +207,6 @@ public class WebHost {
 
         } else if ("61".equalsIgnoreCase(code)) {
             // 3d打印机
-            StlUtil.ESP_8266_URL ="http://192.168.3.82/";
             if (StlUtil.ESP_8266_URL != null && StlUtil.ESP_8266_URL.length() > 0) {
                 Intent it = new Intent(this.context.getApplicationContext(), Esp8266Activity.class);
                 it.putExtra("esp8266url", StlUtil.ESP_8266_URL);
