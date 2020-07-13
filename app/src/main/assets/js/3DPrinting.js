@@ -36,8 +36,8 @@ var shapeHelperObjects = [];
 var shapesObj = []; //所有的当前已放置的obj
 var currentAllObjs = []; //所有的当前已放置的obj
 var transformControl;
-var WORK_SPACE_SIZE = 200;
-var SHAPE_SIZE = 20;
+var WORK_SPACE_SIZE = 100;
+var SHAPE_SIZE = 10;
 var LIMIT_SIZE = 4;
 var tcX, tcY, tcZ, tcScale, tcScaleY; //当前对象的xyz值
 var tcScaleYPosition, tcScaleYPositionFlag; //tcScaleYPosition: 改变大小之前位置；tcScaleYPosition: 改变大小之前是否贴住工作台
@@ -503,7 +503,7 @@ function init() {
 
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
 	// camera.position.set( 0, 200, 350 ); //正面
-	camera.position.set( 170, 145, 255 ); //45°
+	camera.position.set( 83, 71, 124); //45°
 	camera.lookAt( 0, 0, 0 );
 
 	scene = new THREE.Scene();
@@ -893,10 +893,11 @@ function onDocumentMouseDown( event ) {
 						voxel.position.divideScalar( SHAPE_SIZE ).floor().multiplyScalar( SHAPE_SIZE ).addScalar( SHAPE_SIZE / 2 );
 						voxel.name = "shapes";
 					} else if (stlGeoFlag == 1) {
-						voxel.position.divideScalar( 50 ).floor().multiplyScalar( 50 ).addScalar( 25 );
-						voxel.name = "stl";
+                        voxel.position.divideScalar( SHAPE_SIZE*2.5 ).floor().multiplyScalar( SHAPE_SIZE*2.5 ).addScalar( SHAPE_SIZE*2.5/2 );
+                        voxel.name = "stl";
+                        voxel.scale.set(.5,.5,.5)
 					} else if (stlGeoFlag == 2){
-                        voxel.position.divideScalar( 50 ).floor().multiplyScalar( 50 );
+						voxel.position.divideScalar( SHAPE_SIZE*2.5  ).floor().multiplyScalar( SHAPE_SIZE*2.5 );
                         voxel.name = "stlLocal";
                         voxel.rotation.set( -Math.PI / 2, 0, 0 );
                     }
