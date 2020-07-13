@@ -26,5 +26,6 @@ public final class ThreeEntry implements BaseColumns {
     public final static String COLUMN_SIZE ="g_size";
     public final static String COLUMN_MATERIAL ="material";
     public final static String COLUMN_EXE_TIME ="exe_time";
+    public final static String COLUMN_UPLOAD_FLAG ="upload_flag";
 
 }

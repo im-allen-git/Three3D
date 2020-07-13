@@ -71,26 +71,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            tools:ignore="MissingConstraints">
-
-
-            <GridView
-                android:id="@+id/stl_list_grid"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:columnWidth="90dp"
-                android:horizontalSpacing="10dp"
-                android:numColumns="auto_fit"
-                android:stretchMode="columnWidth"
-                android:stackFromBottom="true"
-                android:transcriptMode="alwaysScroll"
-                android:drawSelectorOnTop="false"
-                android:verticalSpacing="10dp" />
-        </LinearLayout>
 
     </LinearLayout>
 

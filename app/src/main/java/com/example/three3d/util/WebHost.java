@@ -122,6 +122,7 @@ public class WebHost {
                     StlUtil.stlMap.put(tempFileAllPath, stlGcode);
                     isSu = true;
 
+                    stlGcode.setExeTimeStr("00:00:00");
                     StlUtil.saveModuleDataBase(context, stlGcode);
 
                     msg.what = 1;
@@ -206,6 +207,7 @@ public class WebHost {
 
 
         } else if ("61".equalsIgnoreCase(code)) {
+            // StlUtil.ESP_8266_URL = "http://10.0.0.34/";
             // 3d打印机
             if (StlUtil.ESP_8266_URL != null && StlUtil.ESP_8266_URL.length() > 0) {
                 Intent it = new Intent(this.context.getApplicationContext(), Esp8266Activity.class);
@@ -340,6 +342,7 @@ public class WebHost {
 
     @JavascriptInterface
     public boolean printerGcode(String gcodeName, int flag) {
+        // StlUtil.ESP_8266_URL = "http://10.0.0.34/";
         // flag  0  原始APP的gcode   1 自己创建的模型
         if (StlUtil.ESP_8266_URL == null || StlUtil.ESP_8266_URL.length() == 0) {
             Intent it = new Intent(this.context.getApplicationContext(), PrinterActivity.class);
@@ -349,7 +352,7 @@ public class WebHost {
             StlUtil.printer_gcode = null;
             Intent it = new Intent(this.context.getApplicationContext(), PrinterStartActivity.class);
             it.putExtra("gcodeName", gcodeName);
-            it.putExtra("flag", flag);
+            it.putExtra("flag", String.valueOf(flag));
             this.context.startActivity(it);
         }
         return true;

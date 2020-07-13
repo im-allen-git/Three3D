@@ -45,4 +45,7 @@ public class StlGcode {
 
     private String exeTimeStr;
 
+    // 是否上传打印机 0未上传 1上传
+    private int flag;
+
 }

@@ -110,6 +110,8 @@ public class StlUtil {
             values.put(ThreeEntry.COLUMN_MATERIAL, stlGcode.getMaterial());
             values.put(ThreeEntry.COLUMN_EXE_TIME, String.valueOf(stlGcode.getExeTime()));
 
+            values.put(ThreeEntry.COLUMN_UPLOAD_FLAG, String.valueOf(stlGcode.getFlag()));
+
 
             String whereClause = ThreeEntry._ID + " = ?";
             String[] whereArgs = new String[]{String.valueOf(stlGcode.getId())};
@@ -145,6 +147,7 @@ public class StlUtil {
         values.put(ThreeEntry.COLUMN_SIZE, "0");
         values.put(ThreeEntry.COLUMN_MATERIAL, "0");
         values.put(ThreeEntry.COLUMN_EXE_TIME, "0");
+        values.put(ThreeEntry.COLUMN_UPLOAD_FLAG, "0");
 
         long newRowId = db.insert(ThreeEntry.TABLE_NAME, null, values);
         stlGcode.setId(newRowId);
@@ -187,6 +190,8 @@ public class StlUtil {
         int materialIndex = cursor.getColumnIndex(ThreeEntry.COLUMN_MATERIAL);
         int timeIndex = cursor.getColumnIndex(ThreeEntry.COLUMN_EXE_TIME);
 
+        int uploadFlagIndex = cursor.getColumnIndex(ThreeEntry.COLUMN_UPLOAD_FLAG);
+
 
         while (cursor.moveToNext()) {
             int id = cursor.getInt(idIndex);
@@ -205,11 +210,12 @@ public class StlUtil {
             String material = cursor.getString(materialIndex);
             long exeTime = cursor.getLong(timeIndex);
 
+            int uploadFlag = cursor.getInt(uploadFlagIndex);
+
 
             StlGcode stlGcode = new StlGcode(id, sourceStlName, realStlName, sourceZipStlName,
                     serverZipGcodeName, localGcodeName, createTime, localImg,
-                    lengthStr, widthStr, heigthStr, sizeStr, material, exeTime, IOUtil.getTimeStr(exeTime));
-            System.err.println(stlGcode);
+                    lengthStr, widthStr, heigthStr, sizeStr, material, exeTime, IOUtil.getTimeStr(exeTime), uploadFlag);
             stlDataBaseMap.put(stlGcode.getRealStlName(), stlGcode);
         }
     }
@@ -284,7 +290,7 @@ public class StlUtil {
                     "file:///android_asset/models/stl/localModules/hello_kitty.gco", "",
                     "file:///android_asset/models/stl/localModules/hello_kitty.png",
                     "X:74.01", "Y:51.22", "Z:100.93", "18.20M", "7318cm",
-                    1025 * StlUtil.MINUTE_TIME, IOUtil.getTimeStr(1025 * StlUtil.MINUTE_TIME));
+                    1025 * StlUtil.MINUTE_TIME, IOUtil.getTimeStr(1025 * StlUtil.MINUTE_TIME), 1);
             localStlList.add(kitty);
             localMapStl.put(kitty.getLocalGcodeName().split("/localModules/")[1], kitty);
 
@@ -294,7 +300,7 @@ public class StlUtil {
                     "file:///android_asset/models/stl/localModules/chamaeleo_t.gco", "",
                     "file:///android_asset/models/stl/localModules/chamaeleo_t.png",
                     "X:92.89", "Y:93.08", "Z:25.98", "5.33M", "780cm",
-                    110 * StlUtil.MINUTE_TIME, IOUtil.getTimeStr(110 * StlUtil.MINUTE_TIME));
+                    110 * StlUtil.MINUTE_TIME, IOUtil.getTimeStr(110 * StlUtil.MINUTE_TIME), 1);
             localStlList.add(chamaeleo_t);
             localMapStl.put(chamaeleo_t.getLocalGcodeName().split("/localModules/")[1], chamaeleo_t);
 
@@ -304,7 +310,7 @@ public class StlUtil {
                     "file:///android_asset/models/stl/localModules/hand_ok.gco", "",
                     "file:///android_asset/models/stl/localModules/hand_ok.png",
                     "X:42.78", "Y:57.72", "Z:110.44", "16.40M", "2168cm",
-                    304 * StlUtil.MINUTE_TIME, IOUtil.getTimeStr(304 * StlUtil.MINUTE_TIME));
+                    304 * StlUtil.MINUTE_TIME, IOUtil.getTimeStr(304 * StlUtil.MINUTE_TIME), 1);
             localStlList.add(hand_ok);
             localMapStl.put(hand_ok.getLocalGcodeName().split("/localModules/")[1], hand_ok);
 
@@ -314,7 +320,7 @@ public class StlUtil {
                     "file:///android_asset/models/stl/localModules/jet_pack_bunny.gco", "",
                     "file:///android_asset/models/stl/localModules/jet_pack_bunny.png",
                     "X:130.43", "Y:92.01", "Z:131.28", "48.20M", "2168cm",
-                    304 * StlUtil.MINUTE_TIME, IOUtil.getTimeStr(304 * StlUtil.MINUTE_TIME));
+                    304 * StlUtil.MINUTE_TIME, IOUtil.getTimeStr(304 * StlUtil.MINUTE_TIME), 1);
             localStlList.add(jet_pack_bunny);
             localMapStl.put(jet_pack_bunny.getLocalGcodeName().split("/localModules/")[1], jet_pack_bunny);
 
@@ -324,11 +330,34 @@ public class StlUtil {
                     "file:///android_asset/models/stl/localModules/god_of_wealth.gco", "",
                     "file:///android_asset/models/stl/localModules/god_of_wealth.png",
                     "X:62.85", "Y:57.72", "Z:64.23", "23.40M", "1945cm",
-                    273 * StlUtil.MINUTE_TIME, IOUtil.getTimeStr(273 * StlUtil.MINUTE_TIME));
+                    273 * StlUtil.MINUTE_TIME, IOUtil.getTimeStr(273 * StlUtil.MINUTE_TIME), 1);
             localStlList.add(god_of_wealth);
             localMapStl.put(god_of_wealth.getLocalGcodeName().split("/localModules/")[1], god_of_wealth);
         }
         return localStlList.size() == 0 ? null : localStlList;
+    }
+
+
+    /**
+     * 获取打印命令
+     * @param gcodeName
+     * @return
+     */
+    public static String getPrinterCommond(String gcodeName) {
+        // http://10.0.0.63/command_silent?commandText=M23%20/HELLO_~1.GCO%0AM24&PAGEID=0
+        String tempGcodeNameStr = gcodeName.substring(0, gcodeName.lastIndexOf("."));
+        if (tempGcodeNameStr.length() > 8) {
+            tempGcodeNameStr = gcodeName.substring(0, 5) + "_~1" + gcodeName.substring(gcodeName.lastIndexOf("."));
+        } else {
+            tempGcodeNameStr = gcodeName;
+        }
+        return ESP_8266_URL + "command_silent?commandText=M23%20/" + tempGcodeNameStr.toUpperCase() + "%0AM24&PAGEID=0";
+    }
+
+
+    public static String getPostFileUrl(){
+        // http://10.0.0.34/upload_serial
+        return ESP_8266_URL + "upload_serial";
     }
 
 }

@@ -61,6 +61,14 @@ public class OkHttpUtil {
     }
 
 
+    public static Request getRequestByBody(File file, String url) {
+        String multipartStr = "multipart/form-data";
+        RequestBody formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("file", file.getName(),
+                        RequestBody.create(MediaType.parse(multipartStr), file)).build();
+        return new Request.Builder().url(url).post(formBody).build();
+    }
+
     public static Request getRequest(String url) {
         //构建一个请求
         return new Request.Builder().addHeader("Connection", "close")
@@ -114,8 +122,8 @@ public class OkHttpUtil {
         client = new OkHttpClient.Builder()
                 .sslSocketFactory(HttpsTrustManager.createSSLSocketFactory(), new HttpsTrustManager())
                 .hostnameVerifier(new HttpsTrustManager.TrustAllHostnameVerifier())
-                .readTimeout(600, TimeUnit.SECONDS)
-                .writeTimeout(600, TimeUnit.SECONDS)
-                .connectTimeout(1200, TimeUnit.SECONDS).build();
+                .readTimeout(900, TimeUnit.SECONDS)
+                .writeTimeout(900, TimeUnit.SECONDS)
+                .connectTimeout(1800, TimeUnit.SECONDS).build();
     }
 }

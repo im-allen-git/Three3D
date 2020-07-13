@@ -49,7 +49,7 @@ public class PrinterActivity extends AppCompatActivity {
         ImageButton connectWifiBtn = findViewById(R.id.imageButtonPrint);
         ImageButton gotoIndex = findViewById(R.id.gotoIndex);
         TextView connected_wifi = findViewById(R.id.connected_wifi);
-
+        StlUtil.ESP_8266_URL = "http://10.0.0.34/";
         if (StlUtil.ESP_8266_URL != null && StlUtil.ESP_8266_URL.length() > 0) {
             connected_wifi.setText(R.string.printer_statue_conn);
             connected_wifi.setTextColor(Color.GREEN);

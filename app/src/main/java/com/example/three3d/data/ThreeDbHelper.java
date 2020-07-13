@@ -30,6 +30,7 @@ public class ThreeDbHelper extends SQLiteOpenHelper {
                 + ThreeEntry.COLUMN_HEIGHT + " TEXT , "
                 + ThreeEntry.COLUMN_SIZE + " TEXT , "
                 + ThreeEntry.COLUMN_MATERIAL + " TEXT , "
+                + ThreeEntry.COLUMN_UPLOAD_FLAG + " TEXT , "
                 + ThreeEntry.COLUMN_EXE_TIME + " TEXT);";
 
         // Execute the SQL statement

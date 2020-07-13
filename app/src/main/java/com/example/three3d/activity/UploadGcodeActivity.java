@@ -32,7 +32,7 @@ public class UploadGcodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.my_account);
+        setContentView(R.layout.upload_gcode);
 
         context = this;
 
