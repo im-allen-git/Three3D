@@ -403,7 +403,8 @@ function getTimeStr() {
 	var h = date.getHours() < 10 ? ( '0' + date.getHours() ) : date.getHours();
 	var m = date.getMinutes() < 10 ? ( '0' + date.getMinutes() ) : date.getMinutes();
 	var s = date.getSeconds() < 10 ? ( '0' + date.getSeconds() ) : date.getSeconds();
-	var dateStr =D + h + m + s;
+	console.log("+++++++++++++++++"+ D,h,m,s)
+	var dateStr =D.toString() + h.toString() + m.toString() + s.toString();
 	return dateStr;
 }
 
@@ -1425,7 +1426,7 @@ function exportMoudle( type ) { //type 0: ASCII 1: GLTF
 		clearCache( plane );
 		scene.remove( plane );
 		outlinePass.selectedObjects = [];
-		camera.position.set( 170, 145, 255 ); //45°
+		camera.position.set( 83, 71, 124); //45°
 		camera.lookAt( 0, 0, 0 );
 		//threejs Y-up, 别的事Z-up,所以到处之前要旋转
         scene.rotation.set( Math.PI / 2, 0, 0 );

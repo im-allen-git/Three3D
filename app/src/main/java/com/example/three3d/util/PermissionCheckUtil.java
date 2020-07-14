@@ -14,6 +14,7 @@ public class PermissionCheckUtil {
     public static final int READ_REQ = 1002;
     public static boolean isReadPermissions = false;
     public static boolean isWritePermissions = false;
+    public static final int REQUEST_PERMISSION = 0x01;
 
 
     /**
@@ -41,5 +42,6 @@ public class PermissionCheckUtil {
             isReadPermissions = false;
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_REQ);
         }
+
     }
 }

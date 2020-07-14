@@ -99,5 +99,6 @@
     <string name="esptouch2_provision_result_exception">Catch exception: %s</string>
     <string name="esptouch2_provision_result_none">Not found any devices</string>
     <string name="welcome_text">开启儿童智慧第一步</string>
+    <string name="retry">请重试</string>
 
 </resources>

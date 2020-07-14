@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,12 +28,16 @@ import com.example.three3d.util.PermissionCheckUtil;
 import com.example.three3d.util.StlUtil;
 import com.example.three3d.util.WebViewClientUtil;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -42,12 +47,17 @@ public class PrinterStartActivity extends AppCompatActivity {
     private static final String TAG = PrinterStartActivity.class.getSimpleName();
 
     private TextView printerName, status_waiting, textView, textViewTimer;
-    ImageView imageView, printingItem;
+    private ImageView imageView, printingItem;
+    private Button button;
 
     private String tempGcode;
     private StlGcode tempStlGcode;
 
     private Context context;
+
+    private static volatile boolean isRun = true;
+
+    private MyThread myThread = new MyThread();
 
     @SuppressLint("HandlerLeak")
     private Handler mainHandler = new Handler() {
@@ -61,9 +71,10 @@ public class PrinterStartActivity extends AppCompatActivity {
                 textViewTimer.setText(msg.obj.toString());
             } else if (msg.what == 120) {
                 status_waiting.setText("请勿关闭当前页面!");
-                textView.setText("正在上传...");
+                textView.setText(msg.obj.toString());
             } else if (msg.what == 130) {
-                textView.setText("上传完成!");
+                isRun = false;
+                textView.setText(msg.obj.toString());
                 tempStlGcode.setFlag(1);
                 StlUtil.stlMap.put(tempStlGcode.getRealStlName(), tempStlGcode);
                 StlUtil.updateModuleDataBase(context, tempStlGcode.getRealStlName());
@@ -76,7 +87,12 @@ public class PrinterStartActivity extends AppCompatActivity {
                     }
                 }.start();
             } else if (msg.what == 140) {
+                isRun = false;
+                button.setVisibility(View.VISIBLE);
+                textViewTimer.setVisibility(View.GONE);
                 textView.setText(msg.obj.toString());
+            } else if (msg.what == 150) {
+                textView.setText("请等待...");
             }
         }
     };
@@ -97,16 +113,14 @@ public class PrinterStartActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         initView();
 
-        if (beforePrinter()) {
-
-        } else {
+        if (!beforePrinter()) {
             printerName.setVisibility(View.INVISIBLE);
             imageView.setVisibility(View.INVISIBLE);
             // status_waiting.setVisibility(View.INVISIBLE);
             printingItem.setVisibility(View.INVISIBLE);
             textView.setVisibility(View.INVISIBLE);
             textViewTimer.setVisibility(View.INVISIBLE);
-            status_waiting.setText("获取模型失败,请重试!");
+            status_waiting.setText("获取模型失败!");
         }
     }
 
@@ -123,6 +137,20 @@ public class PrinterStartActivity extends AppCompatActivity {
         printingItem = findViewById(R.id.printingItem);
         textView = findViewById(R.id.textView);
         textViewTimer = findViewById(R.id.textViewTimer);
+        button = findViewById(R.id.retryBtn);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textViewTimer.setVisibility(View.VISIBLE);
+                button.setVisibility(View.GONE);
+                new Thread() {
+                    @Override
+                    public void run() {
+                        postTo3dPrinter(tempStlGcode);
+                    }
+                }.start();
+            }
+        });
     }
 
 
@@ -132,9 +160,10 @@ public class PrinterStartActivity extends AppCompatActivity {
         String gcodeName = it.getStringExtra("gcodeName");
         String flag = it.getStringExtra("flag");
 
-        if (gcodeName != null && gcodeName.length() == 0) {
+        if (gcodeName == null || gcodeName.length() == 0) {
             gcodeName = StlUtil.printer_gcode;
             StlUtil.printer_gcode = null;
+            flag = "1";
         } else {
             StlUtil.printer_gcode = null;
         }
@@ -157,11 +186,12 @@ public class PrinterStartActivity extends AppCompatActivity {
                         }
                     }.start();
                 } else {
+                    String finalFlag = flag;
                     new Thread() {
                         @Override
                         public void run() {
                             // 开始打印
-                            if ("1".equalsIgnoreCase(flag)) {
+                            if ("1".equalsIgnoreCase(finalFlag)) {
                                 String tempCode = tempStlGcode.getLocalGcodeName().substring(tempStlGcode.getLocalGcodeName().lastIndexOf("/") + 1);
                                 printNow(tempCode, tempStlGcode);
                             } else {
@@ -220,40 +250,72 @@ public class PrinterStartActivity extends AppCompatActivity {
                 File file = new File(stlGcode.getLocalGcodeName());
                 if (file.exists() && file.isFile()) {
                     Request request = OkHttpUtil.getRequestByBody(file, StlUtil.getPostFileUrl());
-                    sendMessage(120, "开始上传");
-                    OkHttpClient client = OkHttpUtil.getClient();
+                    OkHttpUtil.sendMessage(120, "开始上传", mainHandler);
+                    // OkHttpClient client = OkHttpUtil.getClient();
+
+                    myThread = new MyThread();
+                    myThread.start();
+                    OkHttpClient client = OkHttpUtil.getClient(mainHandler, textView);
                     try {
+
+
+                        client.newCall(request).enqueue(new Callback() {
+
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                isRun = false;
+                                String content = response.body().string();
+                                System.err.println("-------" + content);
+                                if (content != null && content.contains("Ok")) {
+                                    OkHttpUtil.sendMessage(130, "上传成功", mainHandler);
+                                } else {
+                                    OkHttpUtil.sendMessage(140, "上传失败", mainHandler);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                isRun = false;
+                                System.err.println(e.getMessage());
+                                OkHttpUtil.sendMessage(140, "上传失败", mainHandler);
+                            }
+                        });
+
+
+                        // Thread.sleep(20* 1000);
+                        // isRun = false;
+
+
+                        /*myThread.start();
+
                         Response response = client.newCall(request).execute();
                         if (response.isSuccessful()) {
+                            myThread.interrupt();
                             isSu = true;
-                            sendMessage(130, "上传成功");
+                            OkHttpUtil.sendMessage(130, "上传成功", mainHandler);
                             System.err.println("postTo3dPrinter,rs:" + response.body().string());
                         } else {
-                            sendMessage(140, "上传文件失败,请重试");
+                            OkHttpUtil.sendMessage(140, "上传失败", mainHandler);
                             System.err.println("postTo3dPrinter,rs: error !!!" + response.body().string());
-                        }
-                    } catch (IOException e) {
+                            myThread.interrupt();
+                        }*/
+                        // System.err.println("postTo3dPrinter,rs:" + response.body().string());
+                    } catch (Exception e) {
+                        isRun = false;
                         e.printStackTrace();
                         Log.e(TAG, "postTo3dPrinter,error:", e);
-                        sendMessage(140, "上传文件失败,请重试");
+                        OkHttpUtil.sendMessage(140, "上传失败", mainHandler);
                     }
                 } else {
-                    sendMessage(140, "获取文件失败");
+                    OkHttpUtil.sendMessage(140, "获取文件失败", mainHandler);
                 }
             } else {
-                sendMessage(140, "获取打印机连接失败");
+                OkHttpUtil.sendMessage(140, "获取打印机连接失败", mainHandler);
             }
         }
         return isSu;
     }
 
-
-    private void sendMessage(int what, String msg) {
-        Message message = new Message();
-        message.what = what;
-        message.obj = msg;
-        mainHandler.sendMessage(message);
-    }
 
     private void printNow(String gcodeName, StlGcode stlGcode) {
         String url = StlUtil.getPrinterCommond(gcodeName);
@@ -266,7 +328,7 @@ public class PrinterStartActivity extends AppCompatActivity {
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
                 String rs = response.body().string();
-                setTextShow(stlGcode.getExeTime() + 120 * StlUtil.SECOND_TIME);
+                setTextShow(stlGcode.getExeTime() + 180 * StlUtil.SECOND_TIME);
                 System.err.println(rs);
             } else {
                 System.err.println(gcodeName + ", print error!!!!");
@@ -282,7 +344,6 @@ public class PrinterStartActivity extends AppCompatActivity {
     private void setTextShow(long count) {
         long oldCount = count;
 
-
         StringBuffer timeBf;
         while (count >= 0) {
             try {
@@ -296,6 +357,51 @@ public class PrinterStartActivity extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+
+    private void uploadShow() {
+        StringBuffer timeBf = new StringBuffer("正在上传.");
+        int count = 0;
+        while (isRun) {
+            count++;
+            try {
+                Thread.sleep(1000);
+                if (count % 5 == 0) {
+                    timeBf = new StringBuffer("正在上传.");
+                } else if (count % 5 == 1) {
+                    timeBf = new StringBuffer("正在上传..");
+                } else if (count % 5 == 2) {
+                    timeBf = new StringBuffer("正在上传...");
+                } else if (count % 5 == 3) {
+                    timeBf = new StringBuffer("正在上传....");
+                } else if (count % 5 == 4) {
+                    timeBf = new StringBuffer("正在上传.....");
+                }
+                if (isRun) {
+                    Message message = new Message();
+                    message.what = 120;
+                    message.obj = timeBf.toString();
+                    mainHandler.sendMessage(message);
+                } else {
+                    Message message = new Message();
+                    message.what = 150;
+                    mainHandler.sendMessage(message);
+                    break;
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    class MyThread extends Thread {
+
+        @Override
+        public void run() {
+            uploadShow();
         }
     }
 

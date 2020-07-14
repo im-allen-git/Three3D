@@ -34,6 +34,7 @@ import com.example.esptouch.util.TouchNetUtil;
 import com.example.three3d.R;
 import com.example.three3d.touchv1.EspTouchActivityAbs;
 import com.example.three3d.touchv1.EspTouchApp;
+import com.example.three3d.util.PermissionCheckUtil;
 import com.example.three3d.util.StlUtil;
 
 import java.lang.ref.WeakReference;
@@ -44,8 +45,6 @@ import java.util.Objects;
 public class WifiPassActivity extends EspTouchActivityAbs {
 
     private static final String TAG = WifiPassActivity.class.getSimpleName();
-
-    private static final int REQUEST_PERMISSION = 0x01;
 
     private EspTouchViewModel mViewModel;
 
@@ -80,7 +79,7 @@ public class WifiPassActivity extends EspTouchActivityAbs {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
-            requestPermissions(permissions, REQUEST_PERMISSION);
+            requestPermissions(permissions, PermissionCheckUtil.REQUEST_PERMISSION);
         }
 
         EspTouchApp.getInstance().observeBroadcast(this, broadcast -> {
@@ -111,8 +110,8 @@ public class WifiPassActivity extends EspTouchActivityAbs {
                             Intent it = new Intent(context.getApplicationContext(), PrinterStartActivity.class);
                             context.startActivity(it);
                         } else {
-                            Intent it = new Intent(context.getApplicationContext(), Esp8266Activity.class);
-                            context.startActivity(it);
+//                            Intent it = new Intent(context.getApplicationContext(), Esp8266Activity.class);
+//                            context.startActivity(it);
                         }
                         finish();
                     }
@@ -124,7 +123,7 @@ public class WifiPassActivity extends EspTouchActivityAbs {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_PERMISSION) {
+        if (requestCode == PermissionCheckUtil.REQUEST_PERMISSION) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 onWifiChanged();
             } else {

@@ -132,6 +132,17 @@
                 android:visibility="gone"
                 android:src="@drawable/btn_pause" />
 
+            <Button
+                android:id="@+id/retryBtn"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0"
+                android:text="@string/retry"
+                android:textColor="#FFF"
+                android:visibility="gone"
+                app:backgroundTint="#FB3E3E" />
+
             <TextView
                 android:id="@+id/textViewTimer"
                 android:layout_width="match_parent"
@@ -142,6 +153,7 @@
                 android:paddingTop="15sp"
                 android:fontFamily="@font/hkfyw7gb"
                 android:gravity="center_vertical|center"/>
+
 
 
         </LinearLayout>

@@ -152,7 +152,7 @@ public class StlUtil {
         long newRowId = db.insert(ThreeEntry.TABLE_NAME, null, values);
         stlGcode.setId(newRowId);
         stlDataBaseMap.put(stlGcode.getRealStlName(), stlGcode);
-
+        db.close();
         return newRowId;
     }
 
@@ -162,6 +162,7 @@ public class StlUtil {
         String whereClause = ThreeEntry.COLUMN_REAL_STL_NAME + " = ?";
         String[] whereArgs = {fileName};
         db.delete(ThreeEntry.TABLE_NAME, whereClause, whereArgs);
+        db.close();
     }
 
 
@@ -218,6 +219,7 @@ public class StlUtil {
                     lengthStr, widthStr, heigthStr, sizeStr, material, exeTime, IOUtil.getTimeStr(exeTime), uploadFlag);
             stlDataBaseMap.put(stlGcode.getRealStlName(), stlGcode);
         }
+        db.close();
     }
 
 
@@ -246,6 +248,7 @@ public class StlUtil {
         values.put(ThreePrinterEntry.COLUMN_WIFI_URL, url);
         long newRowId = db.insert(ThreePrinterEntry.TABLE_NAME, null, values);
         ESP_8266_URL = url;
+        db.close();
         return newRowId;
     }
 
@@ -263,6 +266,7 @@ public class StlUtil {
         } else {
             ESP_8266_URL = null;
         }
+        db.close();
     }
 
 
@@ -276,6 +280,7 @@ public class StlUtil {
             db.update(ThreePrinterEntry.TABLE_NAME, values, whereClause, whereArgs);
             ESP_8266_URL = url;
         }
+        db.close();
     }
 
 

@@ -207,7 +207,7 @@ public class WebHost {
 
 
         } else if ("61".equalsIgnoreCase(code)) {
-            // StlUtil.ESP_8266_URL = "http://10.0.0.34/";
+            StlUtil.ESP_8266_URL = "http://10.0.0.34/";
             // 3d打印机
             if (StlUtil.ESP_8266_URL != null && StlUtil.ESP_8266_URL.length() > 0) {
                 Intent it = new Intent(this.context.getApplicationContext(), Esp8266Activity.class);
@@ -257,12 +257,12 @@ public class WebHost {
     @JavascriptInterface
     public boolean deleteStl(String fileName) {
         if (StlUtil.stlDataBaseMap.containsKey(fileName)) {
+            StlGcode stlGcode = StlUtil.stlDataBaseMap.get(fileName);
             if (StlUtil.stlDataBaseMap.containsKey(fileName)) {
                 StlUtil.deleteModuleDataBase(context, fileName);
                 StlUtil.stlDataBaseMap.remove(fileName);
             }
 
-            StlGcode stlGcode = StlUtil.stlMap.get(fileName);
             File tempFile;
 
             if (stlGcode.getSourceZipStlName() != null && stlGcode.getSourceZipStlName().length() > 0) {
@@ -342,7 +342,7 @@ public class WebHost {
 
     @JavascriptInterface
     public boolean printerGcode(String gcodeName, int flag) {
-        // StlUtil.ESP_8266_URL = "http://10.0.0.34/";
+        StlUtil.ESP_8266_URL = "http://10.0.0.34/";
         // flag  0  原始APP的gcode   1 自己创建的模型
         if (StlUtil.ESP_8266_URL == null || StlUtil.ESP_8266_URL.length() == 0) {
             Intent it = new Intent(this.context.getApplicationContext(), PrinterActivity.class);

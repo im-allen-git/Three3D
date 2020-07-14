@@ -1,5 +1,9 @@
 package com.example.three3d.util;
 
+import android.os.Handler;
+import android.os.Message;
+import android.widget.TextView;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,6 +15,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -117,6 +122,22 @@ public class OkHttpUtil {
         return client;
     }
 
+    public static OkHttpClient getClient(Handler mainHandler, TextView textView) {
+        OkHttpClient client = new OkHttpClient.Builder().addNetworkInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request originRequest = chain.request();
+                Request targetRequest = originRequest.newBuilder()
+                        .post(new ProgressRequestBody(originRequest.body(), textView, mainHandler))  //封装上传进度拦截器
+                        .build();
+                return chain.proceed(targetRequest);
+            }
+        }).readTimeout(900, TimeUnit.SECONDS)
+                .writeTimeout(900, TimeUnit.SECONDS)
+                .connectTimeout(1800, TimeUnit.SECONDS).build();
+        return client;
+    }
+
 
     private static void initClient() {
         client = new OkHttpClient.Builder()
@@ -125,5 +146,12 @@ public class OkHttpUtil {
                 .readTimeout(900, TimeUnit.SECONDS)
                 .writeTimeout(900, TimeUnit.SECONDS)
                 .connectTimeout(1800, TimeUnit.SECONDS).build();
+    }
+
+    public static void sendMessage(int what, String msg, Handler mainHandler) {
+        Message message = new Message();
+        message.what = what;
+        message.obj = msg;
+        mainHandler.sendMessage(message);
     }
 }
