@@ -80,7 +80,7 @@
                     android:id="@+id/imageView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="1.2"
                     android:paddingLeft="25dp"
                     android:scaleType="fitCenter"
                     app:srcCompat="@mipmap/wifi_ico" />
@@ -88,42 +88,21 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight=".8"
                     android:orientation="vertical"
                     android:paddingLeft="25dp"
-                    android:paddingTop="70dp"
                     android:paddingRight="25dp">
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/apSsidLabel"
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/apSsidLabel"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:fontFamily="@font/webfont"
-                            android:text="@string/wifiName"
-                            android:textColor="#FFFFFF"
-                            android:textSize="17sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/apSsidText"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:fontFamily="@font/webfont"
-                            android:textColor="#FFFFFF"
-                            android:textSize="17sp" />
-
-                    </LinearLayout>
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|center"
+                        android:layout_gravity="center_horizontal|center"
+                        android:fontFamily="@font/webfont"
+                        android:text="@string/inputPass"
+                        android:textColor="#FFFFFF"
+                        android:textSize="17sp" />
 
                 </LinearLayout>
             </LinearLayout>
