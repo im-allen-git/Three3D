@@ -77,6 +77,11 @@ public class IOUtil {
             gcodeMap.put("X", 0D);
             gcodeMap.put("Y", 0D);
             gcodeMap.put("Z", 0D);
+
+            gcodeMap.put("X_M", 0D);
+            gcodeMap.put("Y_M", 0D);
+            gcodeMap.put("Z_M", 0D);
+
             gcodeMap.put("size", 0D);
             //fill_density
 
@@ -113,10 +118,19 @@ public class IOUtil {
 
             DecimalFormat df = new DecimalFormat("#.00");
 
-            stlGcode.setLength("X:" + df.format(gcodeMap.get("X")));
-            stlGcode.setWidth("Y:" + df.format(gcodeMap.get("Y")));
-            stlGcode.setHeight("Z:" + df.format(gcodeMap.get("Z")));
+            System.err.println();
+            System.err.println("X_M/X:" + gcodeMap.get("X_M") + "/" + gcodeMap.get("X"));
+            System.err.println("Y_M/X:" + gcodeMap.get("Y_M") + "/" + gcodeMap.get("Y"));
+            System.err.println("Z_M/X:" + gcodeMap.get("Z_M") + "/" + gcodeMap.get("Z"));
+
+            stlGcode.setLength("X:" + df.format(gcodeMap.get("X_M") - gcodeMap.get("X")));
+            stlGcode.setWidth("Y:" + df.format(gcodeMap.get("Y_M") - gcodeMap.get("Y")));
+            stlGcode.setHeight("Z:" + df.format(gcodeMap.get("Z_M") - gcodeMap.get("Z")));
             stlGcode.setMaterial(df.format(gcodeMap.get("filament_used") / 10D) + "cm");
+
+            System.err.println("filament_used:" + gcodeMap.get("filament_used"));
+            System.err.println("fill_density:" + gcodeMap.get("fill_density"));
+            System.err.println("perimeter_speed:" + gcodeMap.get("perimeter_speed"));
 
             if (gcodeMap.get("fill_density") > 0 && gcodeMap.get("perimeter_speed") > 0) {
                 double exeTime = Math.ceil(gcodeMap.get("filament_used") / gcodeMap.get("perimeter_speed")
@@ -161,18 +175,33 @@ public class IOUtil {
                 double tempD = 0;
                 if (child.startsWith("X")) {
                     tempD = Double.parseDouble(child.substring(1).trim());
-                    if (gcodeMap.get("X") < tempD) {
+                    if (gcodeMap.get("X_M") < tempD) {
+                        gcodeMap.put("X_M", tempD);
+                    }
+                    if (gcodeMap.get("X") == 0) {
+                        gcodeMap.put("X", tempD);
+                    } else if (gcodeMap.get("X") > tempD) {
                         gcodeMap.put("X", tempD);
                     }
                 } else if (child.startsWith("Y")) {
                     tempD = Double.parseDouble(child.substring(1).trim());
-                    if (gcodeMap.get("Y") < tempD) {
+                    if (gcodeMap.get("Y_M") < tempD) {
+                        gcodeMap.put("Y_M", tempD);
+                    }
+                    if (gcodeMap.get("Y") == 0) {
+                        gcodeMap.put("Y", tempD);
+                    } else if (gcodeMap.get("Y") > tempD) {
                         gcodeMap.put("Y", tempD);
                     }
                 } else if (child.startsWith("Z")) {
                     tempD = Double.parseDouble(child.substring(1).trim());
-                    if (gcodeMap.get("Z") < tempD) {
-                        gcodeMap.put("Z", tempD);
+                    if (gcodeMap.get("Z_M") < tempD) {
+                        gcodeMap.put("Z_M", tempD);
+                    }
+                    if (gcodeMap.get("Y") == 0) {
+                        gcodeMap.put("Y", tempD);
+                    } else if (gcodeMap.get("Y") > tempD) {
+                        gcodeMap.put("Y", tempD);
                     }
                 }
             }
