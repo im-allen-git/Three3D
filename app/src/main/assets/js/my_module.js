@@ -88,7 +88,7 @@ function getLocalAppSTL(){
 	console.log(data)
 
 	var stlListHTML = '';
-	if(data) {
+	if(data && data !=null && data.length>5) {
 		var stlList = eval('('+data+')');
 		for (var i in stlList) {
 			stlListHTML += '<div class="each_module"><div class="each_module_wrapper clearfix swiper-container"><div class="swiper-wrapper">';

@@ -3,6 +3,7 @@ package com.example.three3d.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Instrumentation;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -36,6 +38,8 @@ import com.example.three3d.touchv1.EspTouchActivityAbs;
 import com.example.three3d.touchv1.EspTouchApp;
 import com.example.three3d.util.PermissionCheckUtil;
 import com.example.three3d.util.StlUtil;
+import com.example.three3d.util.WebHost;
+import com.example.three3d.util.WebViewClientUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -51,6 +55,8 @@ public class WifiPassActivity extends EspTouchActivityAbs {
     private EsptouchAsyncTask4 mTask;
 
     private Context context;
+
+    private ImageButton imageButton;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -73,7 +79,20 @@ public class WifiPassActivity extends EspTouchActivityAbs {
         mViewModel.packageModeGroup = findViewById(R.id.packageModeGroup);
         mViewModel.messageView = findViewById(R.id.messageView);
         mViewModel.confirmBtn = findViewById(R.id.confirmBtn);
-        mViewModel.confirmBtn.setOnClickListener(v -> executeEsptouch());
+        mViewModel.confirmBtn.setOnClickListener(v -> {
+            String tempPass = mViewModel.apPasswordEdit.getText().toString();
+            if(tempPass != null && tempPass.length()>0){
+                executeEsptouch();
+            }
+            else{
+                new AlertDialog.Builder(this)
+                        .setTitle("提示")
+                        .setMessage("请您输入密码!")
+                        .setCancelable(false)
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> System.err.println())
+                        .show();
+            }
+        });
 
         mViewModel.apPasswordEdit.setText("");
 
@@ -91,6 +110,10 @@ public class WifiPassActivity extends EspTouchActivityAbs {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        imageButton = findViewById(R.id.imageButtonBack);
+        imageButton.setOnClickListener(v -> {
+            WebViewClientUtil.actionKey(KeyEvent.KEYCODE_BACK);
+        });
     }
 
     @SuppressLint("HandlerLeak")
@@ -119,7 +142,6 @@ public class WifiPassActivity extends EspTouchActivityAbs {
             }
         }
     };
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
