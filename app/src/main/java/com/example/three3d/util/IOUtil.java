@@ -136,7 +136,9 @@ public class IOUtil {
                 double exeTime = Math.ceil(gcodeMap.get("filament_used") / gcodeMap.get("perimeter_speed")
                         * gcodeMap.get("fill_density") * StlUtil.MINUTE_TIME
                 );
-                stlGcode.setExeTime((long) exeTime);
+                long tempTime = (long) exeTime;
+                stlGcode.setExeTime(tempTime);
+                stlGcode.setExeTimeStr(IOUtil.getTimeStr(tempTime));
             }
         }
 

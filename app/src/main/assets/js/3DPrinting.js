@@ -75,6 +75,8 @@ var lDrawGuiData = {
 var currentModule = 0; //0:基础模型 1：lego
 var goHomeFlag = false;//是否是点击首页
 var deleteObjFlag = false;//是否点击了删除
+
+var cameraSideIndex = 150;
 $( function () {
 	listModule();
 	getLocalAppSTL();
@@ -757,22 +759,22 @@ function init() {
 
 		switch (e.target.id) {
 			case 'front':
-				camera.position.set( 0, 0, 300 );
+				camera.position.set( 0, 0, cartoonIndex );
 				break;
 			case 'back':
-				camera.position.set( 0, 0, - 300 );
+				camera.position.set( 0, 0, - cartoonIndex );
 				break;
 			case 'top':
-				camera.position.set( 0, 300, 0 );
+				camera.position.set( 0, cartoonIndex, 0 );
 				break;
 			case 'bottom':
-				camera.position.set( 0, - 300, 0 );
+				camera.position.set( 0, - cartoonIndex, 0 );
 				break;
 			case 'left':
-				camera.position.set( - 300, 0, 0 );
+				camera.position.set( - cartoonIndex, 0, 0 );
 				break;
 			case 'right':
-				camera.position.set( 300, 0, 0 );
+				camera.position.set( cartoonIndex, 0, 0 );
 				break;
 		}
 		camera.lookAt( scene.position );

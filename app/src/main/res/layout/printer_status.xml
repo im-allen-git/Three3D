@@ -48,7 +48,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/hkfyw7gb"
+                    android:fontFamily="@font/webfont"
                     android:text="@string/status_title"
                     android:textColor="#000"
                     android:textSize="17sp"
@@ -118,7 +118,7 @@
                 android:text="0%"
                 android:fontFamily="@font/webfont"
                 android:textColor="#FEAC1E"
-                android:textSize="50sp"
+                android:textSize="36sp"
                 android:textStyle="bold"
                 android:gravity="center_vertical|center"/>
 
@@ -151,7 +151,7 @@
                 android:textColor="#999999"
                 android:textSize="15sp"
                 android:paddingTop="15sp"
-                android:fontFamily="@font/hkfyw7gb"
+                android:fontFamily="@font/webfont"
                 android:gravity="center_vertical|center"/>
 
 

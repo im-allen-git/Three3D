@@ -73,8 +73,6 @@ public class PrinterActivity extends AppCompatActivity {
         mWifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
         checkWifi();
         TextView wifi_name = findViewById(R.id.apSsidText);
-        wifi_name.setText(IOUtil.WIFI_SSID);
-
     }
 
     private void checkWifi() {

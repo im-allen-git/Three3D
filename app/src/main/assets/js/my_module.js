@@ -55,8 +55,7 @@ function showCurrentModule(type){
 
 function thisParamInfo( type ,obj) {
 	if (type == 0) {
-	    var parent = $(obj).parents(".each_module")
-	    console.log("parents:" + parent)
+	    var parent = $(obj).parents(".each_module");
 	    X = parent.find(".X").val();
         Y = parent.find(".Y").val();
         Z = parent.find(".Z").val();
@@ -64,12 +63,16 @@ function thisParamInfo( type ,obj) {
         size = parent.find(".size").val();
         moduleName = parent.find(".moduleName").val();
         exeTimeStr = parent.find(".exeTimeStr").val();
-        console.log(X,Y,Z,material,size,moduleName)
         $("#XYZ").text(X + " " + Y + " " + Z)
         $("#moduleSize").text(size)
         $("#useMaterial").text(material)
         $("#printDuration").text(exeTimeStr)
 		$( ".module_param,.module_param_bg" ).show();
+		if(exeTimeStr == "00:00:00"){
+            $(".module_param .print_btn").hide();
+            $(".note").show();
+            return
+        }
 	}else if (type == 1){
         var sendFlag = js.printerGcode(moduleName, 1);
         if(sendFlag){
@@ -80,13 +83,19 @@ function thisParamInfo( type ,obj) {
          }
     }
     else if (type == 2){
-        $( ".module_param,.module_param_bg" ).hide();
+
+        $(".module_param,.module_param_bg" ).hide();
+        $("#XYZ").text("");
+        $("#moduleSize").text("");
+        $("#useMaterial").text("");
+        $("#printDuration").text("");
+        $(".module_param .print_btn").show();
+        $(".note").hide();
+        getLocalAppSTL();
 	}
 }
 function getLocalAppSTL(){
 	var data = js.getStlList() || null;
-	console.log(data)
-
 	var stlListHTML = '';
 	if(data && data !=null && data.length>5) {
 		var stlList = eval('('+data+')');

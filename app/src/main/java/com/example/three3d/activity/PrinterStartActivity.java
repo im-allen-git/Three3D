@@ -106,6 +106,7 @@ public class PrinterStartActivity extends AppCompatActivity {
         setContentView(R.layout.printer_status);
         context = this;
 
+        isRun = true;
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);// 隐藏状态栏
         Objects.requireNonNull(getSupportActionBar()).hide();// 隐藏标题栏
@@ -141,6 +142,7 @@ public class PrinterStartActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isRun = true;
                 textViewTimer.setVisibility(View.VISIBLE);
                 button.setVisibility(View.GONE);
                 new Thread() {

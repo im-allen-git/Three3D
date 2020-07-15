@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Base64;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
+
+import androidx.annotation.RequiresApi;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.three3d.IndexHtmlActivity;
@@ -31,6 +34,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -244,12 +248,14 @@ public class WebHost {
         this.myHandler.sendMessage(message);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @JavascriptInterface
     public String getStlList() {
         stlGcodeList.clear();
         for (Map.Entry<String, StlGcode> fileEntry : StlUtil.stlDataBaseMap.entrySet()) {
             stlGcodeList.add(fileEntry.getValue());
         }
+        stlGcodeList.sort(Comparator.comparing(StlGcode::getCreateTime).reversed());
         return JSONObject.toJSONString(stlGcodeList);
     }
 
