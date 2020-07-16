@@ -759,22 +759,22 @@ function init() {
 
 		switch (e.target.id) {
 			case 'front':
-				camera.position.set( 0, 0, cartoonIndex );
+				camera.position.set( 0, 0, cameraSideIndex );
 				break;
 			case 'back':
-				camera.position.set( 0, 0, - cartoonIndex );
+				camera.position.set( 0, 0, - cameraSideIndex );
 				break;
 			case 'top':
-				camera.position.set( 0, cartoonIndex, 0 );
+				camera.position.set( 0, cameraSideIndex, 0 );
 				break;
 			case 'bottom':
-				camera.position.set( 0, - cartoonIndex, 0 );
+				camera.position.set( 0, - cameraSideIndex, 0 );
 				break;
 			case 'left':
-				camera.position.set( - cartoonIndex, 0, 0 );
+				camera.position.set( - cameraSideIndex, 0, 0 );
 				break;
 			case 'right':
-				camera.position.set( cartoonIndex, 0, 0 );
+				camera.position.set( cameraSideIndex, 0, 0 );
 				break;
 		}
 		camera.lookAt( scene.position );
@@ -1612,27 +1612,27 @@ function cameraSides( type ) {
 	switch (type) {
 		case 0: //front
 			toOrthographicCamera( 0 );
-			camera.position.set( 0, 0, 350 );
+			camera.position.set( 0, 0, cameraSideIndex );
 			break;
 		case 1://rear
 			toOrthographicCamera( 0 );
-			camera.position.set( 0, 0, - 350 );
+			camera.position.set( 0, 0, - cameraSideIndex );
 			break;
 		case 2://left
 			toOrthographicCamera( 0 );
-			camera.position.set( - 350, 0, 0 );
+			camera.position.set( - cameraSideIndex, 0, 0 );
 			break;
 		case 3://right
 			toOrthographicCamera( 0 );
-			camera.position.set( 350, 0, 0 );
+			camera.position.set( cameraSideIndex, 0, 0 );
 			break;
 		case 4://top
 			toOrthographicCamera( 1 );
-			camera.position.set( 0, 450, 0 );
+			camera.position.set( 0, cameraSideIndex, 0 );
 			break;
 		case 5://bottom
 			toOrthographicCamera( 1 );
-			camera.position.set( 0, - 450, 0 );
+			camera.position.set( 0, - cameraSideIndex, 0 );
 			break;
 		case 6://45°角度
 			toOrthographicCamera( 1 );
