@@ -51,16 +51,15 @@
             android:textColor="#fff"
             android:layout_gravity="center"
             android:gravity="center_horizontal"
-            android:text="182****5555" />
+            android:text="" />
 
         <Button
             android:id="@+id/phoneNumberLogin"
             android:layout_width="320dp"
             android:layout_height="50dp"
-            android:layout_gravity="center||center_horizontal"
+            android:layout_gravity="center_horizontal"
             android:background="#16B347"
-            android:shadowRadius="50dp"
-            android:text="本机号码一键登录"
+            android:text="@string/phone_login_tx"
             app:backgroundTint="#16B347"
             app:backgroundTintMode="screen"
             app:cornerRadius="25dp" />
@@ -72,22 +71,23 @@
         android:layout_marginTop="20dp"
         tools:ignore="MissingConstraints">
         <ImageButton
-            android:id="@+id/wechatBtn"
+            android:id="@+id/weChatBtn"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:scaleType="centerInside"
-            android:background="none"
-            app:srcCompat="@drawable/wechat_icon" />
+            android:background="@drawable/background_none"
+            app:srcCompat="@mipmap/wechat_launcher" />
 
         <ImageButton
-            android:id="@+id/zhifubaoBtn"
+            android:id="@+id/aliPayBtn"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="none"
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/zhifubao" />
+            android:background="@drawable/background_none"
+
+            app:srcCompat="@mipmap/alipay_launcher" />
     </LinearLayout>
 
 

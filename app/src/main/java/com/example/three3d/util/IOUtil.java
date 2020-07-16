@@ -120,8 +120,8 @@ public class IOUtil {
 
             System.err.println();
             System.err.println("X_M/X:" + gcodeMap.get("X_M") + "/" + gcodeMap.get("X"));
-            System.err.println("Y_M/X:" + gcodeMap.get("Y_M") + "/" + gcodeMap.get("Y"));
-            System.err.println("Z_M/X:" + gcodeMap.get("Z_M") + "/" + gcodeMap.get("Z"));
+            System.err.println("Y_M/Y:" + gcodeMap.get("Y_M") + "/" + gcodeMap.get("Y"));
+            System.err.println("Z_M/Y:" + gcodeMap.get("Z_M") + "/" + gcodeMap.get("Z"));
 
             stlGcode.setLength("X:" + df.format(gcodeMap.get("X_M") - gcodeMap.get("X")));
             stlGcode.setWidth("Y:" + df.format(gcodeMap.get("Y_M") - gcodeMap.get("Y")));
@@ -136,7 +136,7 @@ public class IOUtil {
                 double exeTime = Math.ceil(gcodeMap.get("filament_used") / gcodeMap.get("perimeter_speed")
                         * gcodeMap.get("fill_density") * StlUtil.MINUTE_TIME
                 );
-                long tempTime = (long) exeTime;
+                long tempTime = (long) exeTime * 10;
                 stlGcode.setExeTime(tempTime);
                 stlGcode.setExeTimeStr(IOUtil.getTimeStr(tempTime));
             }

@@ -58,13 +58,7 @@ public class ShoppingActivity extends AppCompatActivity {
         webView.setWebViewClient(WebViewClientUtil.getMyWebViewClient());
         webView.setWebChromeClient(WebViewClientUtil.getGoogleClient());
 
-        Intent intent = getIntent();
-        // 获取到传递参数
-        WEB_URL = intent.getStringExtra("url");
-        if (WEB_URL == null || WEB_URL.length() == 0) {
-            WEB_URL = HtmlUtil.SHOP_HTML;
-        }
-        webView.loadUrl(WEB_URL);
+        webView.loadUrl(HtmlUtil.SERVER_SHOP_HTML);
 
     }
 

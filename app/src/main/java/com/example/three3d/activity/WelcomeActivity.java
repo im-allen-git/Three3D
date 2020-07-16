@@ -39,6 +39,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     String firstCome = CacheUtil.getSettingNote(context, HtmlUtil.FLAG_JSON, HtmlUtil.WELCOME_FLAG);
                     if (firstCome != null && firstCome.length() > 0) {
                         Intent it = new Intent(context, IndexHtmlActivity.class);
+                        //Intent it = new Intent(context, LoginActivity.class);
                         context.startActivity(it);
                     } else {
                         Intent it = new Intent(context, WelcomeSlideActivity.class);

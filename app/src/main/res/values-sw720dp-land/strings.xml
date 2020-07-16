@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="retry">请重试</string>
+    <string name="phone_login_tx">本机号码一键登录</string>
 </resources>
