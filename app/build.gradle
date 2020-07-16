@@ -44,6 +44,4 @@ dependencies {
     implementation 'org.projectlombok:lombok:1.18.8'
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
     implementation project(':esptouch')
-
-    implementation (name: 'alipaySdk-15.7.7-20200702160044', ext: 'aar')
 }
