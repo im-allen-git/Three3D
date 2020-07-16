@@ -1,6 +1,6 @@
-package com.example.esptouch.protocol;
+package com.kairong.esptouch.protocol;
 
-import com.example.esptouch.util.ByteUtil;
+import com.kairong.esptouch.util.ByteUtil;
 
 public class TouchData {
     private final byte[] mData;

@@ -1,9 +1,9 @@
-package com.example.esptouch.protocol;
+package com.kairong.esptouch.protocol;
 
-import com.example.esptouch.security.ITouchEncryptor;
-import com.example.esptouch.task.ICodeData;
-import com.example.esptouch.util.ByteUtil;
-import com.example.esptouch.util.CRC8;
+import com.kairong.esptouch.security.ITouchEncryptor;
+import com.kairong.esptouch.task.ICodeData;
+import com.kairong.esptouch.util.ByteUtil;
+import com.kairong.esptouch.util.CRC8;
 
 import java.net.InetAddress;
 import java.util.LinkedList;

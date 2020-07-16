@@ -1,4 +1,4 @@
-package com.example.esptouch.task;
+package com.kairong.esptouch.task;
 
 public interface IEsptouchTaskParameter {
 

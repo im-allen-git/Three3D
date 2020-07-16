@@ -1,8 +1,8 @@
-package com.example.esptouch.protocol;
+package com.kairong.esptouch.protocol;
 
-import com.example.esptouch.task.ICodeData;
-import com.example.esptouch.util.ByteUtil;
-import com.example.esptouch.util.CRC8;
+import com.kairong.esptouch.task.ICodeData;
+import com.kairong.esptouch.util.ByteUtil;
+import com.kairong.esptouch.util.CRC8;
 
 /**
  * one data format:(data code should have 2 to 65 data)

@@ -1,20 +1,20 @@
-package com.example.esptouch.task;
+package com.kairong.esptouch.task;
 
 import android.content.Context;
 import android.os.Looper;
 import android.util.Log;
 
-import com.example.esptouch.EsptouchResult;
-import com.example.esptouch.IEsptouchListener;
-import com.example.esptouch.IEsptouchResult;
-import com.example.esptouch.IEsptouchTask;
-import com.example.esptouch.protocol.EsptouchGenerator;
-import com.example.esptouch.protocol.TouchData;
-import com.example.esptouch.security.ITouchEncryptor;
-import com.example.esptouch.udp.UDPSocketClient;
-import com.example.esptouch.udp.UDPSocketServer;
-import com.example.esptouch.util.ByteUtil;
-import com.example.esptouch.util.TouchNetUtil;
+import com.kairong.esptouch.EsptouchResult;
+import com.kairong.esptouch.IEsptouchListener;
+import com.kairong.esptouch.IEsptouchResult;
+import com.kairong.esptouch.IEsptouchTask;
+import com.kairong.esptouch.protocol.EsptouchGenerator;
+import com.kairong.esptouch.protocol.TouchData;
+import com.kairong.esptouch.security.ITouchEncryptor;
+import com.kairong.esptouch.udp.UDPSocketClient;
+import com.kairong.esptouch.udp.UDPSocketServer;
+import com.kairong.esptouch.util.ByteUtil;
+import com.kairong.esptouch.util.TouchNetUtil;
 
 import java.net.InetAddress;
 import java.util.ArrayList;

@@ -1,13 +1,13 @@
-package com.example.esptouch;
+package com.kairong.esptouch;
 
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.example.esptouch.protocol.TouchData;
-import com.example.esptouch.security.ITouchEncryptor;
-import com.example.esptouch.task.EsptouchTaskParameter;
-import com.example.esptouch.task.__EsptouchTask;
-import com.example.esptouch.util.TouchNetUtil;
+import com.kairong.esptouch.protocol.TouchData;
+import com.kairong.esptouch.security.ITouchEncryptor;
+import com.kairong.esptouch.task.EsptouchTaskParameter;
+import com.kairong.esptouch.task.__EsptouchTask;
+import com.kairong.esptouch.util.TouchNetUtil;
 
 import java.util.List;
 
