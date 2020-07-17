@@ -79,7 +79,7 @@ var deleteObjFlag = false;//是否点击了删除
 var cameraSideIndex = 150;
 $( function () {
 	listModule();
-	// getLocalAppSTL();
+	getLocalAppSTL();
 	shapesMain.addEventListener( "touchstart", function ( e ) {
 		$( ".zoom_options,.color_wrapper" ).hide();//隐藏子窗口
 	} );
@@ -237,7 +237,7 @@ function hideModule( obj ) {
 	$( obj ).parents( ".child_wrapper" ).hide();
 }
 
-function listModule( type ) {
+/*function listModule( type ) {
 	$.ajax( {
 		type: "GET",
 		url: "../static/moduleList.json",
@@ -305,8 +305,8 @@ function listModule( type ) {
 		}
 	} );
 
-}
-/*function listModule( type ) {
+}*/
+function listModule( type ) {
 	var data = js.getModuleList();
 	if(data){
 		data = eval('('+data+')')
@@ -362,7 +362,7 @@ function listModule( type ) {
         cartoonHtml += '<div class="go_shopping" onclick="goShop() ">购买模型<i class="iconfont arrow arrow_right">&#xe6f8;</i></div>';
 		$( ".cartoon_wrapper" ).html( cartoonHtml );
 	}
-}*/
+}
 function getLocalAppSTL(){
 	var data = js.getStlList() || null;
 	var stlListHTML = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>我的模型</div>';
