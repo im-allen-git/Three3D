@@ -45,9 +45,9 @@ var transformControlModeType = 1;
 var transformControlMove = false;
 var transformDragFlag = true;
 var focusedTransformObj;
-var textTR = '当前状态:<br>移动';
-var textSC = '当前状态:<br>改变大小';
-var textRO = '当前状态:<br> 旋转';
+var textTR = '当前状态: 移动 </br>按单个轴移动, 更精确';
+var textSC = '当前状态: 改变大小';
+var textRO = '当前状态: 旋转';
 var intersectsSelect = [];
 var intersection = {
 	intersects: false,
@@ -79,7 +79,7 @@ var deleteObjFlag = false;//是否点击了删除
 var cameraSideIndex = 150;
 $( function () {
 	listModule();
-	getLocalAppSTL();
+	// getLocalAppSTL();
 	shapesMain.addEventListener( "touchstart", function ( e ) {
 		$( ".zoom_options,.color_wrapper" ).hide();//隐藏子窗口
 	} );
@@ -237,7 +237,7 @@ function hideModule( obj ) {
 	$( obj ).parents( ".child_wrapper" ).hide();
 }
 
-/*function listModule( type ) {
+function listModule( type ) {
 	$.ajax( {
 		type: "GET",
 		url: "../static/moduleList.json",
@@ -305,8 +305,8 @@ function hideModule( obj ) {
 		}
 	} );
 
-}*/
-function listModule( type ) {
+}
+/*function listModule( type ) {
 	var data = js.getModuleList();
 	if(data){
 		data = eval('('+data+')')
@@ -362,7 +362,7 @@ function listModule( type ) {
         cartoonHtml += '<div class="go_shopping" onclick="goShop() ">购买模型<i class="iconfont arrow arrow_right">&#xe6f8;</i></div>';
 		$( ".cartoon_wrapper" ).html( cartoonHtml );
 	}
-}
+}*/
 function getLocalAppSTL(){
 	var data = js.getStlList() || null;
 	var stlListHTML = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>我的模型</div>';
@@ -409,7 +409,9 @@ function getTimeStr() {
 	var dateStr =D.toString() + h.toString() + m.toString() + s.toString();
 	return dateStr;
 }
-
+function closeSaveSucc(){
+	$( ".save_succ,.save_name_module_bg" ).hide();
+}
 function saveModuleShow( type ) {
 	if (objects.length > 1) {
 		if (type == 0) {
@@ -1345,12 +1347,12 @@ function checkIntersection( event ) {
 	}
 	mouse.x = ( x / window.innerWidth ) * 2 - 1;
 	mouse.y = - ( y / window.innerHeight ) * 2 + 1;
-
 	var controlBoardWidth = $( "#shapes" ).hasClass( "shapes_close" ); //left decal side width
 	if (! controlBoardWidth) {
 		mouse.x = ( x / ( window.innerWidth - 100 ) ) * 2 - 1;
 		mouse.y = - ( y / window.innerHeight ) * 2 + 1;
 	}
+	mouse.y = mouse.y + 0.05; //防止点击靠下，选不中
 	if (! plane) return;
 	raycaster.setFromCamera( mouse, camera );
 	raycaster.intersectObject( plane, false, intersectsSelect );
@@ -1598,6 +1600,7 @@ function afterSTLImg(){
     else{
         goHomeFlag = false;
         saveFlag = false;
+        $(".save_succ,.save_name_module_bg").show();
     }
 }
 // 导出相关 end

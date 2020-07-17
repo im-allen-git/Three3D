@@ -128,13 +128,29 @@
 </div>
 <div class="save_ask">
 	<div class="save_name_title">提示</div>
-	<div class="save_name_tip">
-		模型进度还没有保存哦，此时离开会丢失进度，是否保存？
+	<div class="save_name_tip clearfix">
+		<div class="left_side">
+			<div class="">
+				模型进度还没有保存哦，此时离开会丢失进度，是否保存？
+			</div>
+			<div class="save_note">(保存前仔细检查一遍是否有模型悬空, 悬空的模型打印效果不佳哦)</div>
+		</div>
+		<div class="right_side">
+			<img src="../img/3dPrinting/save_module_not.png" alt="">
+		</div>
 	</div>
 	<div class="btn_wrapper clearfix">
 		<img src="../img/3dPrinting/btn_no.png" class="go_home_ok" onclick="goHomeSaveModule(0)">
 		<img src="../img/3dPrinting/btn_yes.png" class="go_home_ok" onclick="goHomeSaveModule(1)">
 		<img src="../img/3dPrinting/btn_close.png" class="imgBtn save_name_cancle" onclick="hideGoHome()">
+	</div>
+</div>
+<div class="save_succ">
+	<div class="save_name_title">提示</div>
+	<div class="save_name_tip">模型保存成功</div>
+	<div class="save_name_tip">模型已保存在模型库，<i class="jump_mymodult" onclick="js.changeActive('1')">点击前往</i></div>
+	<div class="btn_wrapper clearfix">
+		<img src="../img/3dPrinting/btn_close.png" class="imgBtn save_name_cancle" onclick="closeSaveSucc()">
 	</div>
 </div>
 <div class="note">
@@ -151,7 +167,7 @@
 		<div class="btn btn_cancle text_cancle" onclick="showInput(1)">取消</div>
 	</div>
 </div>
-<div class="control_type">当前状态: 移动</div>
+<div class="control_type">当前状态: 移动 </br>按单个轴移动, 更精确</div>
 <div id="loading_data"><img src="../img/loading.gif" alt=""></div>
 </body>
 

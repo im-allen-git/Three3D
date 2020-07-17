@@ -172,17 +172,24 @@ active_shape .color_change{display: block;line-height: .55rem;}
 .save_module{left:.5rem}
 .save_module.noActive_save {opacity: .3}
 .save_name_module_bg {display:none;position: fixed;top: 0;right: 0;left: 0;bottom:0;background: #000; opacity: .3;z-index: 3;}
-.save_name_module, .save_ask { display: none; position: absolute; top: 50%; left: 50%; z-index: 4; border-radius: .35rem; width: 3.15rem; height: 2rem; margin-top: -1rem; margin-left: -1.575rem; text-align: center; background: rgba(185,239,255,1); box-shadow: 0px 0px 11px 0px rgba(34,87,145,0.2), 0px 0px 125px 0px rgba(56,154,240,1) inset; }
-.save_name_module .save_name_title,.save_ask .save_name_title { width: 1.47rem; height: .33rem; background:linear-gradient(0deg,rgba(85,182,227,1) 0%,rgba(54,129,227,1) 100%); border-radius: 0 0 .15rem .15rem; line-height: .33rem; margin: auto; font-size: .18rem;    color: #323232;}
+.save_name_module,.save_succ{ display: none; position: absolute; top: 50%; left: 50%; z-index: 4; border-radius: .35rem; width: 3.15rem; height: 2rem; margin-top: -1rem; margin-left: -1.575rem;text-align: center; background: rgba(185,239,255,1); box-shadow: 0px 0px 11px 0px rgba(34,87,145,0.2), 0px 0px 125px 0px rgba(56,154,240,1) inset; color: #426A8D;}
+.save_ask{ display: none; position: absolute; top: 50%; left: 50%; z-index: 4; border-radius: .35rem; width: 4rem; height: 2.3rem; margin-top: -1.15rem; margin-left: -2rem;text-align: center; background: rgba(185,239,255,1); box-shadow: 0px 0px 11px 0px rgba(34,87,145,0.2), 0px 0px 125px 0px rgba(56,154,240,1) inset; color: #426A8D;}
+.save_name_module .save_name_title,.save_ask .save_name_title ,.save_succ .save_name_title { width: 1.47rem; height: .33rem; background:linear-gradient(0deg,rgba(85,182,227,1) 0%,rgba(54,129,227,1) 100%); border-radius: 0 0 .15rem .15rem; line-height: .33rem; margin: auto; font-size: .18rem;    color: #fff;}
 .save_name_tip{margin: .15rem 0;}
 .save_ask .save_name_title{color:#fff}
- .save_ask .save_name_tip { margin: .3rem .3rem .1rem; text-align: left; line-height: 0.25rem;color:#426A8D; }
+ .save_ask .save_name_tip { margin:.3rem 0 .1rem 0; text-align: left; line-height: 0.25rem;color:#426A8D; }
 input#save_name { width: 90%;margin-top: .1rem; padding: 0 .1rem; font-size: .12rem; height: .4rem; line-height: .4rem; border-radius: .1rem; background: rgba(255,255,255,1); box-shadow: 3px 2px 2px 0px rgba(85,182,227,0.64) inset; border: none; outline: none;color: #323232;}
 .save_name_cancle {position: absolute; top: -.14rem; right: -.1rem; width: .45rem;}
 img.save_name_ok,img.go_home_ok { width: .9rem; height: auto; margin: .12rem .2rem 0 .2rem; }
 .save_name_verify{display:none;color:red;position: absolute;bottom: .62rem; left: .23rem; background: #fff;}
-.open_save_name{}
-/*lego*/
+.left_side { float: left; width: 60%; position: relative; padding-left: .2rem; font-size: .13rem;}
+.left_side .save_note{font-size: .12rem;color:#3D96E8;}
+.right_side { float: left; width: 40%; position: relative; }
+.right_side img { max-width: 100%;margin-top: .06rem; }
+.save_ask .btn_wrapper .go_home_ok{margin-top: .05rem}
+.save_succ { height: 1.5rem; margin-top: -.75rem; }
+i.jump_mymodult { color: #ff972d; }
+    /*lego*/
 .dg.ac.lego_constrution{right: .9rem;}
 .dg .cr.string,.dg .cr.number{border-left: none!important;}
 .module.lego.Car { margin-top: .32rem; }
@@ -260,11 +267,11 @@ input#textContent { width: 90%; border: 1px solid #999; border-radius: 4px; marg
 #left {background: #ff51e8;}
 #top {background: #fff;}
 
-.control_type {display: none; background: #7BB3FF; border-radius: 5px; position: fixed; top: 1rem;left: .1rem; font-size: 0.15rem; color: #426A8D; line-height: .2rem; padding: .07rem; }
+.control_type {display: none; background: #7BB3FF; border-radius: 5px; position: fixed; top: .1rem;left: 50%;transform: translate(-90%,0);font-size: 0.15rem; color: #426A8D; line-height: .2rem; padding: .07rem; text-align: center;opacity: .7;}
 
 .how_to_play,.how_to_play_bg { position: fixed; top: 0; right: 0; left: 0; bottom: 0;z-index: 9;}
 .how_to_play_bg{z-index:8;background:#000;opacity:.3;}
-.how_to_play img { width: 55%; height: 50%; float: right; margin-right: .75rem; margin-top: .3rem; }
+.how_to_play img { width: 55%; float: right; margin-right: .75rem; margin-top: .3rem; }
 @media only screen and (max-width: 320px) {
     .swiper-button-next {
         top: 74%;

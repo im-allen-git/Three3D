@@ -193,3 +193,12 @@ function deleteThisModule(obj,name){
     });
 
 }
+
+function showTipDetail(type){
+    if(type == 0){
+        $(".tip_detail").show();
+    }
+    else if(type==1){
+        $(".tip_detail").hide();
+    }
+}
