@@ -21,7 +21,11 @@ import com.example.three3d.activity.PrinterActivity;
 import com.example.three3d.activity.PrinterStartActivity;
 import com.example.three3d.activity.ShoppingActivity;
 import com.example.three3d.activity.UploadGcodeActivity;
+import com.example.three3d.pojo.BindingUserPojo;
+import com.example.three3d.pojo.EquipmentPojo;
 import com.example.three3d.pojo.StlGcode;
+import com.example.three3d.pojo.UserPojo;
+import com.example.three3d.pojo.WeighingdataPojo;
 import com.example.three3d.touchv1.EspTouchActivity;
 
 import java.io.BufferedReader;
@@ -491,6 +495,9 @@ public class WebHost {
     }
 
 
+
+
+
     private void setPath() {
         Random random = new Random();
         int nextInt = random.nextInt(9999);
@@ -501,4 +508,255 @@ public class WebHost {
         webView.setLongClickable(true);
         webView.setOnLongClickListener(v -> true);
     }
+
+    @JavascriptInterface
+    // 保存注册用户数据
+    public boolean register(String nickName, String mobile) {
+
+        boolean isSu = false;
+
+        UserPojo userPojo = new UserPojo();
+        userPojo.setNickName(nickName);
+        userPojo.setMobile(mobile);
+
+        isSu = true;
+
+        // 保存注册用户数据
+        StlUtil.saveUserDataBase(context, userPojo);
+
+        return isSu;
+    }
+
+    @JavascriptInterface
+    // 查询用户信息数据
+    public List<Map<String, Object>>  getUserInfoDataList(String userId) {
+
+        // 查询用户信息数据
+        List<Map<String, Object>>   userInfoList = StlUtil.getUserInfoData(context, userId);
+
+        return userInfoList;
+    }
+
+
+    @JavascriptInterface
+    // 用户数据修改
+    public boolean updateUserInfo(String userId,String nickName,String sex,String birthday,String height,String weight) {
+
+        boolean isSu = false;
+
+        UserPojo userPojo = new UserPojo();
+        userPojo.setUserId(userId);
+        userPojo.setNickName(nickName);
+        userPojo.setSex(sex);
+        userPojo.setBirthday(birthday);
+        userPojo.setHeight(height);
+        userPojo.setWeight(weight);
+
+
+        isSu = true;
+
+        // 用户数据修改
+        StlUtil.updateUserInfoDataBase(context, userPojo);
+
+        return isSu;
+    }
+
+    @JavascriptInterface
+    // 保存群组共享用户数据
+    public boolean bindingUserAdd(String Userid, String bindingId) {
+
+        boolean isSu = false;
+
+        BindingUserPojo bindingUserPojo = new BindingUserPojo();
+        bindingUserPojo.setUserId(Userid);
+        bindingUserPojo.setBindingUserid(bindingId);
+
+        isSu = true;
+
+        // 保存群组共享用户数据
+        StlUtil.saveBindingUserDataBase(context, bindingUserPojo);
+
+        return isSu;
+    }
+
+    @JavascriptInterface
+    // 删除群组共享用户数据
+    public boolean bindingUserDel(String Userid) {
+        boolean isSu = false;
+        // 删除群组共享用户数据
+        StlUtil.deleteBindingUserDataBase(context, Userid);
+        isSu = true;
+
+        return isSu;
+    }
+
+
+    @JavascriptInterface
+    // 查询绑定用户信息数据
+    public List<Map<String, Object>>  getBindingUserList(String userId) {
+
+        // 查询用户信息数据
+        List<Map<String, Object>>   bindingUserList = StlUtil.getBindingUserList(context, userId);
+
+        return bindingUserList;
+    }
+
+    @JavascriptInterface
+    // 保存设备信息数据
+    public boolean equipmentAdd(String mac,String uuId, String name, String userId, String item, String unit
+            , String target) {
+
+        boolean isSu = false;
+
+        EquipmentPojo equipmentPojo = new EquipmentPojo();
+        equipmentPojo.setMac(mac);
+        equipmentPojo.setUuId(uuId);
+        equipmentPojo.setName(name);
+        equipmentPojo.setUserId(userId);
+        equipmentPojo.setItem(item);
+        equipmentPojo.setUnit(unit);
+        equipmentPojo.setTarget(target);
+
+        isSu = true;
+
+        // 保存设备信息数据
+        StlUtil.saveEquipmentDataBase(context, equipmentPojo);
+
+        return isSu;
+    }
+
+    @JavascriptInterface
+    // 设备信息删除
+    public boolean equipmentDel(String uuID) {
+        boolean isSu = false;
+        // 设备信息删除
+        StlUtil.deleteEquipmentDataBase(context, uuID);
+        isSu = true;
+
+        return isSu;
+    }
+
+    @JavascriptInterface
+    // 设备信息更新
+    public boolean updateEquipment(String uuId, String userId,String item,String unit,String target) {
+
+        boolean isSu = false;
+
+        EquipmentPojo equipmentPojo = new EquipmentPojo();
+        equipmentPojo.setUuId(uuId);
+        equipmentPojo.setUserId(userId);
+        equipmentPojo.setItem(item);
+        equipmentPojo.setUnit(unit);
+        equipmentPojo.setTarget(target);
+
+        isSu = true;
+
+        // 设备信息更新
+        StlUtil.updateEquipment(context, equipmentPojo);
+
+        return isSu;
+    }
+
+    @JavascriptInterface
+    // 查询设备信息数据
+    public List<Map<String, Object>>  getEquipmentDataList(String userId) {
+
+        // 查询设备信息数据
+        List<Map<String, Object>>   equipmentDataList = StlUtil.getEquipmentData(context, userId);
+
+        return equipmentDataList;
+    }
+
+
+
+    @JavascriptInterface
+    // 保存称重信息数据 手动输入
+    public boolean weighingdataAdd(String userId,String uuId,  String item, String type, String weight
+            , String createTime) {
+
+        boolean isSu = false;
+
+        WeighingdataPojo weighingdataPojo = new WeighingdataPojo();
+        weighingdataPojo.setUserId(userId);
+        weighingdataPojo.setUserId(uuId);
+        weighingdataPojo.setItem(item);
+        weighingdataPojo.setType(type);
+        weighingdataPojo.setWeight(weight);
+        weighingdataPojo.setCreateTime(createTime);
+
+        isSu = true;
+
+        // 保存设备信息数据
+        StlUtil.saveWeighingDataBase(context, weighingdataPojo);
+
+        return isSu;
+    }
+
+    @JavascriptInterface
+    // 更新称重信息数据
+    public boolean updateWeighingdata(String type,String number, String wasteRate,String weightStr) {
+
+        boolean isSu = false;
+
+        WeighingdataPojo weighingdataPojo = new WeighingdataPojo();
+        weighingdataPojo.setType(type);
+        weighingdataPojo.setNumber(number);
+        weighingdataPojo.setWasteRate(wasteRate);
+        weighingdataPojo.setWeightStr(weightStr);
+
+
+        isSu = true;
+
+        // 更新称重信息数据
+        StlUtil.updateWeighingData(context, weighingdataPojo);
+
+        return isSu;
+    }
+
+    @JavascriptInterface
+    // 逻辑删除称重信息数据单条数据
+    public boolean updateDelWeighingData(String id) {
+
+        boolean isSu = false;
+
+        WeighingdataPojo weighingdataPojo = new WeighingdataPojo();
+        weighingdataPojo.setId(Integer.valueOf(id));
+
+        isSu = true;
+
+        // 逻辑删除称重信息数据单条
+        StlUtil.updateDelWeighingData(context, weighingdataPojo);
+
+        return isSu;
+    }
+
+    @JavascriptInterface
+    // 逻辑删除称重信息数据多条
+    public boolean updateDelWeighingDataAll(String idAll) {
+
+        boolean isSu = false;
+
+        WeighingdataPojo weighingdataPojo = new WeighingdataPojo();
+        weighingdataPojo.setIdAllStr(idAll);
+
+        isSu = true;
+
+        // 逻辑删除称重信息数据
+        StlUtil.updateDelWeighingData(context, weighingdataPojo);
+
+        return isSu;
+    }
+
+    @JavascriptInterface
+    // 查询称重信息数据
+    public List<Map<String, Object>>  getWeightingDataList(String userId) {
+
+        // 查询称重信息数据
+        List<Map<String, Object>>   weightingDataList = StlUtil.getWeightingData(context, userId);
+
+        return weightingDataList;
+    }
+
+
+
 }

@@ -6,13 +6,22 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.three3d.data.BindingUserEntry;
+import com.example.three3d.data.EquipmentEntry;
 import com.example.three3d.data.ThreeDbHelper;
 import com.example.three3d.data.ThreeEntry;
 import com.example.three3d.data.ThreePrinterEntry;
+import com.example.three3d.data.UserEntry;
+import com.example.three3d.data.WeighingdataEntry;
+import com.example.three3d.pojo.BindingUserPojo;
+import com.example.three3d.pojo.EquipmentPojo;
 import com.example.three3d.pojo.StlGcode;
+import com.example.three3d.pojo.UserPojo;
+import com.example.three3d.pojo.WeighingdataPojo;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -199,6 +208,383 @@ public class StlUtil {
             db.update(ThreePrinterEntry.TABLE_NAME, values, whereClause, whereArgs);
             ESP_8266_URL = url;
         }
+    }
+
+
+    /**
+     * 保存注册用户数据
+     *
+     * @param context
+     * @param userPojo
+     * @return
+     */
+    static long saveUserDataBase(Context context, UserPojo userPojo) {
+        SQLiteDatabase db = getDbByContext(context);
+
+        ContentValues values = new ContentValues();
+        values.put(UserEntry.COLUMN_NICK_NAME, userPojo.getNickName());
+        values.put(UserEntry.COLUMN_MOBILE, userPojo.getMobile());
+        values.put(UserEntry.COLUMN_CREATE_TIME, StlUtil.getFormatTime(new Date()));
+
+
+        long newRowId = db.insert(UserEntry.TABLE_NAME, null, values);
+
+
+        return newRowId;
+    }
+
+    /**
+     * 用户信息更新
+     *
+     * @param context
+     * @param
+     */
+    public static void updateUserInfoDataBase(Context context, UserPojo userPojo) {
+        SQLiteDatabase db = getDbByContext(context);
+
+            ContentValues values = new ContentValues();
+
+            values.put(UserEntry.COLUMN_NICK_NAME, userPojo.getNickName());
+//            values.put(UserEntry.COLUMN_PASSWORD, userPojo.getPassword());
+//            values.put(UserEntry.COLUMN_MOBILE, userPojo.getMobile());
+            values.put(UserEntry.COLUMN_SEX, userPojo.getSex());
+            values.put(UserEntry.COLUMN_BIRTHDAY, userPojo.getBirthday());
+            values.put(UserEntry.COLUMN_HEIGHT, userPojo.getHeight());
+            values.put(UserEntry.COLUMN_WEIGHT, userPojo.getWeight());
+//            values.put(UserEntry.COLUMN_WASTE_RATE, userPojo.getWasteRate());
+//            values.put(UserEntry.COLUMN_NUMBER, userPojo.getNumber());
+            String whereClause = UserEntry.COLUMN_USER_ID + " = ?";
+            String[] whereArgs = new String[]{String.valueOf(userPojo.getUserId())};
+            db.update(UserEntry.TABLE_NAME, values, whereClause, whereArgs);
+
+
+    }
+
+    /**
+     * 保存群组共享用户数据
+     *
+     * @param context
+     * @param bindingUserPojo
+     * @return
+     */
+    static long saveBindingUserDataBase(Context context, BindingUserPojo bindingUserPojo) {
+        SQLiteDatabase db = getDbByContext(context);
+
+        ContentValues values = new ContentValues();
+        values.put(BindingUserEntry.COLUMN_USER_ID, bindingUserPojo.getUserId());
+        values.put(BindingUserEntry.COLUMN_BINDING_USERID, bindingUserPojo.getBindingUserid());
+
+        long newRowId = db.insert(BindingUserEntry.TABLE_NAME, null, values);
+
+
+        return newRowId;
+    }
+
+    /**
+     * 删除群组共享用户数据
+     *
+     * @param context
+     * @param userId
+     * @return
+     */
+    public static void deleteBindingUserDataBase(Context context, String userId) {
+        SQLiteDatabase db = getDbByContext(context);
+        String whereClause = BindingUserEntry.COLUMN_USER_ID + " = ?";
+        String[] whereArgs = {userId};
+        db.delete(BindingUserEntry.TABLE_NAME, whereClause, whereArgs);
+    }
+
+
+    /**
+     * 保存设备数据
+     *
+     * @param context
+     * @param equipmentPojo
+     * @return
+     */
+    static long saveEquipmentDataBase(Context context, EquipmentPojo equipmentPojo) {
+        SQLiteDatabase db = getDbByContext(context);
+
+        ContentValues values = new ContentValues();
+        values.put(EquipmentEntry.COLUMN_MAC, equipmentPojo.getMac());
+        values.put(EquipmentEntry.COLUMN_UUID, equipmentPojo.getUuId());
+        values.put(EquipmentEntry.COLUMN_USER_ID, equipmentPojo.getName());
+        values.put(EquipmentEntry.COLUMN_USER_ID, equipmentPojo.getUserId());
+        values.put(EquipmentEntry.COLUMN_USER_ID, equipmentPojo.getItem());
+        values.put(EquipmentEntry.COLUMN_USER_ID, equipmentPojo.getUnit());
+        values.put(EquipmentEntry.COLUMN_USER_ID, equipmentPojo.getTarget());
+
+        long newRowId = db.insert(EquipmentEntry.TABLE_NAME, null, values);
+
+
+        return newRowId;
+    }
+
+    /**
+     * 删除设备数据
+     *
+     * @param context
+     * @param uuId
+     * @return
+     */
+    public static void deleteEquipmentDataBase(Context context, String uuId) {
+        SQLiteDatabase db = getDbByContext(context);
+        String whereClause = EquipmentEntry.COLUMN_UUID + " = ?";
+        String[] whereArgs = {uuId};
+        db.delete(EquipmentEntry.TABLE_NAME, whereClause, whereArgs);
+    }
+
+
+    /**
+     * 设备信息修改
+     *
+     * @param context
+     * @param
+     */
+    public static void updateEquipment(Context context, EquipmentPojo equipmentPojo) {
+        SQLiteDatabase db = getDbByContext(context);
+
+        ContentValues values = new ContentValues();
+        values.put(EquipmentEntry.COLUMN_ITEM, equipmentPojo.getItem());
+        values.put(EquipmentEntry.COLUMN_UNIT, equipmentPojo.getUnit());
+        values.put(EquipmentEntry.COLUMN_TARGET, equipmentPojo.getTarget());
+
+        String whereClause = EquipmentEntry.COLUMN_UUID + " = ? and " +EquipmentEntry.COLUMN_USER_ID +" = ? and "+EquipmentEntry.COLUMN_ITEM+" = ? ";
+        String[] whereArgs = new String[]{String.valueOf(equipmentPojo.getUuId()),String.valueOf(equipmentPojo.getUserId())
+        ,String.valueOf(equipmentPojo.getItem())};
+        db.update(EquipmentEntry.TABLE_NAME, values, whereClause, whereArgs);
+//            stlDataBaseMap.put(realStlName, stlGcode);
+
+    }
+
+
+    /**
+     * 保存设备数据
+     *
+     * @param context
+     * @param weighingdataPojo
+     * @return
+     */
+    static long saveWeighingDataBase(Context context, WeighingdataPojo weighingdataPojo) {
+        SQLiteDatabase db = getDbByContext(context);
+
+        ContentValues values = new ContentValues();
+        values.put(WeighingdataEntry._ID, weighingdataPojo.getId());
+        values.put(WeighingdataEntry.COLUMN_USER_ID, weighingdataPojo.getUserId());
+        values.put(WeighingdataEntry.COLUMN_UUID, weighingdataPojo.getUuid());
+        values.put(WeighingdataEntry.COLUMN_ITEM, weighingdataPojo.getItem());
+        values.put(WeighingdataEntry.COLUMN_TYPE, weighingdataPojo.getType());
+        values.put(WeighingdataEntry.COLUMN_WEIGHT, weighingdataPojo.getWeight());
+        values.put(WeighingdataEntry.COLUMN_CREATE_TIME, weighingdataPojo.getCreateTime());
+        values.put(WeighingdataEntry.COLUMN_WASTE_RATE, "1");
+        values.put(WeighingdataEntry.COLUMN_NUMBER, "1");
+        values.put(WeighingdataEntry.COLUMN_STATUS, "1");
+        values.put(WeighingdataEntry.COLUMN_MODIFY_TIME, StlUtil.getFormatTime(new Date()));
+
+        long newRowId = db.insert(WeighingdataEntry.TABLE_NAME, null, values);
+
+        return newRowId;
+    }
+
+
+    /**
+     * 设备信息修改
+     *
+     * @param context
+     * @param
+     */
+    public static void updateWeighingData(Context context, WeighingdataPojo weighingdataPojo) {
+        SQLiteDatabase db = getDbByContext(context);
+
+        // "1:10;2:20;3:30"
+        String[] weightArry =  weighingdataPojo.getWeightStr().split(";");
+        //String数组转List
+        List<String> weightList= Arrays.asList(weightArry);
+        for(String ws:weightList){
+
+            ContentValues values = new ContentValues();
+            values.put(WeighingdataEntry.COLUMN_TYPE, weighingdataPojo.getType());
+            values.put(WeighingdataEntry.COLUMN_NUMBER, weighingdataPojo.getNumber());
+            values.put(WeighingdataEntry.COLUMN_WASTE_RATE, weighingdataPojo.getWasteRate());
+            values.put(WeighingdataEntry.COLUMN_WEIGHT, String.valueOf(ws.split(":")[1]));
+            values.put(WeighingdataEntry.COLUMN_MODIFY_TIME, StlUtil.getFormatTime(new Date()));
+
+            String whereClause = WeighingdataEntry._ID + " = ? ";
+            String[] whereArgs = new String[]{String.valueOf(ws.split(":")[0])};
+            db.update(WeighingdataEntry.TABLE_NAME, values, whereClause, whereArgs);
+        }
+
+
+    }
+
+
+    /**
+     * 逻辑删除设备信息单条
+     *
+     * @param context
+     * @param
+     */
+    public static void updateDelWeighingData(Context context, WeighingdataPojo weighingdataPojo) {
+        SQLiteDatabase db = getDbByContext(context);
+
+        ContentValues values = new ContentValues();
+        values.put(WeighingdataEntry.COLUMN_STATUS, "2");
+
+        String whereClause = WeighingdataEntry._ID + " = ? ";
+        String[] whereArgs = new String[]{String.valueOf(weighingdataPojo.getId())};
+        db.update(WeighingdataEntry.TABLE_NAME, values, whereClause, whereArgs);
+
+    }
+
+    /**
+     * 逻辑删除设备信息多条
+     *
+     * @param context
+     * @param
+     */
+    public static void updateDelWeighingAllData(Context context, WeighingdataPojo weighingdataPojo) {
+        SQLiteDatabase db = getDbByContext(context);
+
+        // "1:2:3"
+        String[] weightArry =  weighingdataPojo.getIdAllStr().split(":");
+        //String数组转List
+        List<String> idList= Arrays.asList(weightArry);
+        for(String idS:idList){
+
+            ContentValues values = new ContentValues();
+            values.put(WeighingdataEntry.COLUMN_STATUS, "2");
+
+            String whereClause = WeighingdataEntry._ID + " = ? ";
+            String[] whereArgs = new String[]{String.valueOf(idS)};
+            db.update(WeighingdataEntry.TABLE_NAME, values, whereClause, whereArgs);
+
+        }
+    }
+
+
+    /**
+     * 获取用户数据
+     *
+     * @param context
+     * userID
+     */
+    public static List<Map<String, Object>>  getUserInfoData(Context context,String userId) {
+        data_list.clear();
+        SQLiteDatabase db = getDbByContext(context);
+        String[] whereArgs = new String[]{userId};
+        String whereClause = UserEntry.COLUMN_USER_ID + " = ? ";
+        Cursor cursor = db.query(UserEntry.TABLE_NAME, null, whereClause, whereArgs, null, null, null);
+
+        while (cursor.moveToNext()) {
+
+            Map<String, Object> stlMap = new HashMap<>();
+            stlMap.put("userId", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_USER_ID)));
+            stlMap.put("nickName", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_NICK_NAME)));
+            stlMap.put("password", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_PASSWORD)));
+            stlMap.put("mobile", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_MOBILE)));
+            stlMap.put("sex", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_SEX)));
+            stlMap.put("birthday", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_BIRTHDAY)));
+            stlMap.put("height", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_HEIGHT)));
+            stlMap.put("weight", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_WEIGHT)));
+            stlMap.put("wasteRate", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_WASTE_RATE)));
+            stlMap.put("number", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_NUMBER)));
+            stlMap.put("createTime", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_CREATE_TIME)));
+
+            data_list.add(stlMap);
+        }
+        return data_list;
+    }
+
+    /**
+     * 获取用户数据
+     *
+     * @param context
+     * userID
+     */
+    public static List<Map<String, Object>>  getBindingUserList(Context context,String userId) {
+        data_list.clear();
+        SQLiteDatabase db = getDbByContext(context);
+        String[] whereArgs = new String[]{userId};
+        String whereClause = BindingUserEntry.COLUMN_USER_ID + " = ? ";
+        Cursor cursor = db.query(BindingUserEntry.TABLE_NAME, null, whereClause, whereArgs, null, null, null);
+
+        while (cursor.moveToNext()) {
+
+            Map<String, Object> stlMap = new HashMap<>();
+            stlMap.put("userId", cursor.getString(cursor.getColumnIndex(BindingUserEntry.COLUMN_USER_ID)));
+            stlMap.put("userId", cursor.getString(cursor.getColumnIndex(BindingUserEntry.COLUMN_BINDING_USERID)));
+            stlMap.put("createTime", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_CREATE_TIME)));
+
+            data_list.add(stlMap);
+        }
+        return data_list;
+    }
+
+
+
+
+    /**
+     * 获取设备数据
+     *
+     * @param context
+     * userID
+     */
+    public static List<Map<String, Object>>  getEquipmentData(Context context,String userId) {
+        data_list.clear();
+        SQLiteDatabase db = getDbByContext(context);
+        String[] whereArgs = new String[]{userId};
+        String whereClause = EquipmentEntry.COLUMN_USER_ID + " = ? ";
+        Cursor cursor = db.query(EquipmentEntry.TABLE_NAME, null, whereClause, whereArgs, null, null, null);
+
+        while (cursor.moveToNext()) {
+
+            Map<String, Object> stlMap = new HashMap<>();
+            stlMap.put("mac", cursor.getString(cursor.getColumnIndex(EquipmentEntry.COLUMN_MAC)));
+            stlMap.put("uuId", cursor.getString(cursor.getColumnIndex(EquipmentEntry.COLUMN_UUID)));
+            stlMap.put("name", cursor.getString(cursor.getColumnIndex(EquipmentEntry.COLUMN_NAME)));
+            stlMap.put("userId", cursor.getString(cursor.getColumnIndex(EquipmentEntry.COLUMN_USER_ID)));
+            stlMap.put("item", cursor.getString(cursor.getColumnIndex(EquipmentEntry.COLUMN_ITEM)));
+            stlMap.put("unit", cursor.getString(cursor.getColumnIndex(EquipmentEntry.COLUMN_UNIT)));
+            stlMap.put("target", cursor.getString(cursor.getColumnIndex(EquipmentEntry.COLUMN_TARGET)));
+            stlMap.put("createTime", cursor.getString(cursor.getColumnIndex(EquipmentEntry.COLUMN_CREATE_TIME)));
+            stlMap.put("updateTime", cursor.getString(cursor.getColumnIndex(EquipmentEntry.COLUMN_UPDATE_TIME)));
+
+            data_list.add(stlMap);
+        }
+        return data_list;
+    }
+
+    /**
+     * 获取设备数据
+     *
+     * @param context
+     * userID
+     */
+    public static List<Map<String, Object>>  getWeightingData(Context context,String userId) {
+        data_list.clear();
+        SQLiteDatabase db = getDbByContext(context);
+        String[] whereArgs = new String[]{userId};
+        String whereClause = WeighingdataEntry.COLUMN_USER_ID + " = ? ";
+        Cursor cursor = db.query(WeighingdataEntry.TABLE_NAME, null, whereClause, whereArgs, null, null, null);
+
+        while (cursor.moveToNext()) {
+
+            Map<String, Object> stlMap = new HashMap<>();
+            stlMap.put("id", cursor.getString(cursor.getColumnIndex(WeighingdataEntry._ID)));
+            stlMap.put("userId", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_USER_ID)));
+            stlMap.put("uuid", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_UUID)));
+            stlMap.put("item", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_ITEM)));
+            stlMap.put("type", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_TYPE)));
+            stlMap.put("weight", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_WEIGHT)));
+            stlMap.put("createTime", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_CREATE_TIME)));
+            stlMap.put("wasteRate", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_WASTE_RATE)));
+            stlMap.put("number", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_NUMBER)));
+            stlMap.put("modifyTime", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_MODIFY_TIME)));
+            stlMap.put("status", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_STATUS)));
+
+            data_list.add(stlMap);
+        }
+        return data_list;
     }
 
 }

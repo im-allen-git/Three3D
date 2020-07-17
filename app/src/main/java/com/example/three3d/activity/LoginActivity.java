@@ -22,7 +22,7 @@ import com.example.three3d.util.WebHost;
 
 import java.util.Objects;
 
-public class MyAccountActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private String WEB_URL;
     private WebHost webHost;
@@ -34,10 +34,6 @@ public class MyAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.my_account);
-
-//        final EditText usernameEditText = findViewById(R.id.username);
-//        final EditText passwordEditText = findViewById(R.id.password);
-//        final Button loginButton = findViewById(R.id.login);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);// 隐藏状态栏
         Objects.requireNonNull(getSupportActionBar()).hide();// 隐藏标题栏
@@ -58,16 +54,6 @@ public class MyAccountActivity extends AppCompatActivity {
         webHost = new WebHost(this, mainHandler);
         //JS映射
         webView.addJavascriptInterface(webHost, "js");
-
-//        loginButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                loadingProgressBar.setVisibility(View.VISIBLE);
-//                loginViewModel.login(usernameEditText.getText().toString(),
-//                        passwordEditText.getText().toString());
-//            }
-//        });
-
 
         // 复写WebViewClient类的shouldOverrideUrlLoading方法
         webView.setWebViewClient(new MyWebViewClient());
