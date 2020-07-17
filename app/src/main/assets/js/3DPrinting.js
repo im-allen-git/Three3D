@@ -1604,6 +1604,14 @@ function afterSTLImg(){
     }
 }
 // 导出相关 end
+function goPage(page){
+	page = Number(page);
+	switch(page){
+		case 1:
+		$(".save_succ,.save_name_module_bg").hide();
+		js.changeActive('1')
+	}
+}
 //camera 方向
 
 function showCameraSides() {
