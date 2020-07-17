@@ -59,11 +59,11 @@
                     android:outlineProvider="none"
                     android:gravity="left"
                     android:textSize="17sp"
-                    android:text="@string/jump"
+                    android:text="跳过"
+                    android:src="@drawable/return_btn"
                     app:backgroundTint="#0D9CFF"
                     android:paddingStart="15dp"
-                    android:paddingEnd="10dp"
-                    tools:ignore="RtlHardcoded">
+                    android:paddingEnd="10dp">
 
                 </Button>
 

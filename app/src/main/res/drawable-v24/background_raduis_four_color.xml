@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="MissingDefaultResource">
+    <!--背景颜色-->
+    <solid android:color="#FEAC1E" />
+    <!--分别设置左上，右上，左下，右下-->
+    <corners
+        android:bottomLeftRadius="100px"
+        android:bottomRightRadius="100px"
+        android:topLeftRadius="100px"
+        android:topRightRadius="100px" />
+</shape>
