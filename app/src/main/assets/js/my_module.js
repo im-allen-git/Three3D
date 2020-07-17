@@ -69,7 +69,7 @@ function thisParamInfo( type ,obj) {
         $("#printDuration").text(exeTimeStr)
 		$( ".module_param,.module_param_bg" ).show();
 		if(exeTimeStr == "00:00:00"){
-            $(".module_param .print_btn").hide();
+            $(".module_param .print_btn,.module_param .tip").hide();
             $(".note").show();
             return
         }
@@ -89,7 +89,7 @@ function thisParamInfo( type ,obj) {
         $("#moduleSize").text("");
         $("#useMaterial").text("");
         $("#printDuration").text("");
-        $(".module_param .print_btn").show();
+        $(".module_param .print_btn,.module_param .tip").show();
         $(".note").hide();
         getLocalAppSTL();
 	}

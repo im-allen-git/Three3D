@@ -69,17 +69,23 @@
 	</div>
 	<div class="print_btn" onclick="thisParamInfo(1)"></div>
 	<div class="note">文件生成中，请等待</div>
-	<div class="tip">当前打印机只适用于小模型打印 <i class="showTipDetail(0)">详情</i></div>
+	<div class="tip">当前打印机只适用于小模型打印 <i class="showDetail" onclick="showTipDetail(0)">详情</i></div>
 	<img src="../img/3dPrinting/btn_close.png" class="imgBtn param_close" onclick="thisParamInfo(2)">
+	<div class="tip_detail text-left container">
+		<div class="top_menu row clearfix">
+			<div class="top_menu_btn back col-xs-4 text-left iconfont" onclick="showTipDetail(1);">&#xe720;</div>
+			<div class="top_menu_btn top_title col-xs-4 text-center">详情</div>
+			<div class="col-xs-4"></div>
+		</div>
+		<p>①取出打印机SD卡</p>
+		<p>②插入电脑，读取SD卡</p>
+		<p>③手机连接电脑，找到模型位置Download→print3D</p>
+		<p>④传入SD卡中</p>
+		<p>⑤插入SD卡到打印机</p>
+		<p>⑥选择模型并打印</p>
+	</div>
 </div>
-<div class="tip_detail">
-	①取出打印机SD卡
-	②插入电脑，读取SD卡
-	③手机连接电脑，找到模型位置Download→print3D
-	④传入SD卡中
-	⑤插入SD卡到打印机
-	⑥选择模型并打印
-</div>
+
 <div class="note_error">
 	<div class="save_name_title">提示</div>
 	<div class="save_name_tip">删除失败，请重试</div>
