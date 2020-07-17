@@ -40,32 +40,7 @@
                     android:paddingRight="10dp"
                     android:paddingBottom="15dp"
                     android:scaleType="fitStart"
-                    android:visibility="gone"
                     android:src="@drawable/return_btn" />
-
-                <Button
-                    android:id="@+id/ButtonJumpTo"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:background="#0D9CFF"
-                    android:contentDescription="@string/pintthismodule"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="10dp"
-                    android:paddingBottom="15dp"
-                    android:scaleType="fitStart"
-                    android:textColor="#FFFFFF"
-                    android:outlineProvider="none"
-                    android:gravity="left"
-                    android:textSize="17sp"
-                    android:text="@string/jump"
-                    app:backgroundTint="#0D9CFF"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="10dp"
-                    tools:ignore="RtlHardcoded">
-
-                </Button>
 
                 <TextView
                     android:id="@+id/button2"

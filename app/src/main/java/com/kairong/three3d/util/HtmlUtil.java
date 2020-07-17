@@ -31,4 +31,8 @@ public class HtmlUtil {
      * 创建模型文件标识
      */
     public static final String BUILD_MODULE = "build_module";
+    /**
+     * 第一次连接打印机
+     */
+    public static final String FIRST_CONNECT_PRINTER = "first_concent_printer";
 }

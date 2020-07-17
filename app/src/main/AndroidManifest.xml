@@ -86,6 +86,10 @@
             android:name="com.kairong.three3d.activity.LoginActivity"
             android:label="@string/app_name" />
 
+        <activity
+            android:name="com.kairong.three3d.activity.PrinterFirstActivity"
+            android:label="@string/app_name" />
+
 
     </application>
 
