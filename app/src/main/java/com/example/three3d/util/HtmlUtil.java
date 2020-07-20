@@ -13,4 +13,8 @@ public class HtmlUtil {
 
     public static final String UPLOAD_DEMO_HTML = "file:///android_asset/src/upload_demo.html ";
 
+    /**
+     * 缓存各种标识名称的文件名
+     */
+    public static final String USER_JSON = "user_json";
 }

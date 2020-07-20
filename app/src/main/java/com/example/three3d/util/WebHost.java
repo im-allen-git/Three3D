@@ -46,10 +46,6 @@ public class WebHost {
     List<StlGcode> stlGcodeList = new ArrayList<>();
 
     List<StlGcode> localStlList = new ArrayList<>();
-    /**
-     * 缓存各种标识名称的文件名
-     */
-    public static final String USER_JSON = "user_json";
 
     public Context context;
     private Handler myHandler;
@@ -535,7 +531,7 @@ public class WebHost {
         Map<String, String> stlMap = new HashMap<>();
         stlMap.put("userId", String.valueOf(userId));
         // userId保存类似于session
-        CacheUtil.saveSettingNote(context, USER_JSON, stlMap);
+        CacheUtil.saveSettingNote(context, HtmlUtil.USER_JSON, stlMap);
 
         isSu = true;
 
@@ -547,7 +543,7 @@ public class WebHost {
     public List<Map<String, Object>>  getUserInfoDataList(String userId) {
 
         // 取得session信息
-        String userIdSe = CacheUtil.getSettingNote(context, USER_JSON, "userId");
+        String userIdSe = CacheUtil.getSettingNote(context, HtmlUtil.USER_JSON, "userId");
         // 查询用户信息数据
         List<Map<String, Object>>   userInfoList = StlUtil.getUserInfoData(context, userIdSe);
 
