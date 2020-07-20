@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -45,6 +46,10 @@ public class WebHost {
     List<StlGcode> stlGcodeList = new ArrayList<>();
 
     List<StlGcode> localStlList = new ArrayList<>();
+    /**
+     * 缓存各种标识名称的文件名
+     */
+    public static final String USER_JSON = "user_json";
 
     public Context context;
     private Handler myHandler;
@@ -511,18 +516,28 @@ public class WebHost {
 
     @JavascriptInterface
     // 保存注册用户数据
-    public boolean register(String nickName, String mobile) {
+    public boolean registerOrLogin(String nickName, String mobile) {
 
         boolean isSu = false;
 
-        UserPojo userPojo = new UserPojo();
-        userPojo.setNickName(nickName);
-        userPojo.setMobile(mobile);
+        int userId = StlUtil.checkUserIdExist(context,mobile);
+        if(userId ==0){
+            UserPojo userPojo = new UserPojo();
+            userPojo.setNickName(nickName);
+            userPojo.setMobile(mobile);
+
+            // 保存注册用户数据
+            StlUtil.saveUserDataBase(context, userPojo);
+            //获取最新插入数据的自增长主键ID
+            userId = StlUtil.getLastInsertRowid(context);
+        }
+
+        Map<String, String> stlMap = new HashMap<>();
+        stlMap.put("userId", String.valueOf(userId));
+        // userId保存类似于session
+        CacheUtil.saveSettingNote(context, USER_JSON, stlMap);
 
         isSu = true;
-
-        // 保存注册用户数据
-        StlUtil.saveUserDataBase(context, userPojo);
 
         return isSu;
     }
@@ -531,8 +546,10 @@ public class WebHost {
     // 查询用户信息数据
     public List<Map<String, Object>>  getUserInfoDataList(String userId) {
 
+        // 取得session信息
+        String userIdSe = CacheUtil.getSettingNote(context, USER_JSON, "userId");
         // 查询用户信息数据
-        List<Map<String, Object>>   userInfoList = StlUtil.getUserInfoData(context, userId);
+        List<Map<String, Object>>   userInfoList = StlUtil.getUserInfoData(context, userIdSe);
 
         return userInfoList;
     }

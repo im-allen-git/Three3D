@@ -230,6 +230,7 @@ public class StlUtil {
         long newRowId = db.insert(UserEntry.TABLE_NAME, null, values);
 
 
+
         return newRowId;
     }
 
@@ -494,6 +495,49 @@ public class StlUtil {
         }
         return data_list;
     }
+
+    /**
+     * 检查用户是否注册
+     *
+     * @param context
+     * userID
+     */
+    public static int  checkUserIdExist(Context context,String mobile) {
+        data_list.clear();
+        int userId = 0;
+        SQLiteDatabase db = getDbByContext(context);
+        String[] whereArgs = new String[]{mobile};
+        String whereClause = UserEntry.COLUMN_MOBILE + " = ? ";
+        Cursor cursor = db.query(UserEntry.TABLE_NAME, null, whereClause, whereArgs, null, null, null);
+
+        while (cursor.moveToNext()) {
+
+            userId =cursor.getInt(cursor.getColumnIndex(UserEntry.COLUMN_USER_ID));
+
+        }
+        return userId;
+    }
+
+    /**
+     * 获取最新插入数据的自增长主键ID
+     *
+     * @param context
+     * userID
+     */
+    public static int  getLastInsertRowid(Context context) {
+
+        SQLiteDatabase db = getDbByContext(context);
+
+        String sql = "select last_insert_rowid() from " + UserEntry.TABLE_NAME ;
+        Cursor cursor = db.rawQuery(sql, null);
+        int userId = -1;
+        if(cursor.moveToFirst()){
+            userId = cursor.getInt(0);
+        }
+        return userId;
+
+    }
+
 
     /**
      * 获取用户数据
