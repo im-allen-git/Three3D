@@ -16,21 +16,20 @@
 <div class="main_wrapper">
 
 	<div id="container" class="clearfix"></div>
-	<div class="show_more clearfix"><img src="../img/arrow.png" alt=""></div>
+	<div class="show_more clearfix" onclick="showMore()"><img src="../img/arrow.png" alt=""></div>
 	<div id="shapes" class="clearfix">
 		<div class="shapes_wrapper">
-			<div class="shapes_options normal" onclick="showModule(0)">基础模型 <i class="iconfont arrow arrow_right">&#xe6f8;</i>
-			</div>
-			<div class="shapes_options cartoon" onclick="showModule(1)">卡通模型 <i class="iconfont arrow arrow_right">&#xe6f8;</i>
-			</div>
-			<div class="shapes_options cartoon" onclick="showModule(2)">我的模型 <i class="iconfont arrow arrow_right">&#xe6f8;</i>
-			</div>
+			<div class="shapes_options normal" onclick="showModule(0)">基础模型 <i class="iconfont arrow arrow_right">&#xe6f8;</i></div>
+			<div class="shapes_options cartoon" onclick="showModule(1)">卡通模型 <i class="iconfont arrow arrow_right">&#xe6f8;</i></div>
+			<div class="shapes_options cartoon" onclick="showModule(2)">我的模型 <i class="iconfont arrow arrow_right">&#xe6f8;</i></div>
+			<div class="shapes_options cartoon" onclick="showModule(3)">我的世界 <i class="iconfont arrow arrow_right">&#xe6f8;</i></div>
 		</div>
 	</div>
 	<div id="childWrapper">
 		<div class="child_wrapper normal_wrapper"></div>
 		<div class="child_wrapper cartoon_wrapper"></div>
 		<div class="child_wrapper mymodule_wrapper"></div>
+		<div class="child_wrapper minecraft_wrapper"></div>
 	</div>
 </div>
 <div class="obj_control has_right_menu">
@@ -96,11 +95,31 @@
 		</div>
 
 	</div>
-	<!--<div class="zoom_control">
-        <div class="iconfont" onclick="cameraSides(7)">&#xe611;</div>
-        <div class="zoom_index">100%</div>
-        <div class="iconfont" onclick="cameraSides(8)">&#xe626;</div>
-    </div>-->
+	<div class="obj_control_wrapper_minecraft clearfix">
+		<div class="control_btn undo_control noActive_control" onclick="redoUndo(0)">
+			<i class="iconfont">&#xe696;</i>
+			<div class="btn_name">撤回</div>
+		</div>
+		<div class="control_btn redo_control noActive_control" onclick="redoUndo(1)">
+			<i class="iconfont">&#xe697;</i>
+			<div class="btn_name">恢复</div>
+		</div>
+		<div class="control_btn zoomin_control" onclick="showChild(0)">
+			<i class="iconfont">&#xe64e;</i>
+			<div class="btn_name">放大缩小</div>
+			<div class="zoom_options">
+				<div class="zoom_opt" onclick="zoomView(50)">50%</div>
+				<div class="zoom_opt" onclick="zoomView(100)">100%</div>
+				<div class="zoom_opt" onclick="zoomView(200)">200%</div>
+			</div>
+		</div>
+		<div class="control_btn delete_control" onclick="deletedModule()">
+			<div class="icon_wrapper">
+			<i class="iconfont">&#xe783;</i>
+			</div>
+			<div class="btn_name">删除</div>
+		</div>
+	</div>
 </div>
 
 <div class="module_btns clearfix">
@@ -145,12 +164,54 @@
 		<img src="../img/3dPrinting/btn_close.png" class="imgBtn save_name_cancle" onclick="hideGoHome()">
 	</div>
 </div>
+
 <div class="save_succ">
 	<div class="save_name_title">提示</div>
 	<div class="save_name_tip">模型保存成功</div>
-	<div class="save_name_tip">模型已保存在模型库，<i class="jump_mymodult" onclick="js.changeActive('1')">点击前往</i></div>
+	<div class="save_name_tip">模型已保存在模型库，<i class="jump_mymodult" onclick="goPage('1')">点击前往</i></div>
 	<div class="btn_wrapper clearfix">
 		<img src="../img/3dPrinting/btn_close.png" class="imgBtn save_name_cancle" onclick="closeSaveSucc()">
+	</div>
+</div>
+<div class="save_ask_mineCraft">
+	<div class="save_name_title">提示</div>
+	<div class="save_name_tip clearfix text-left">
+		<div class="left_side">
+			<div class="text-center mine_craft_title" style="font-weight: bold">正在前往我的世界模式</div>
+			<div class="">
+				模型进度还没有保存哦，此时离开会丢失进度，是否保存？
+			</div>
+			<div class="save_note">(保存前仔细检查一遍是否有模型悬空, 悬空的模型打印效果不佳哦)</div>
+		</div>
+		<div class="right_side">
+			<img src="../img/3dPrinting/save_module_not.png" alt="">
+		</div>
+	</div>
+	<div class="btn_wrapper clearfix">
+		<img src="../img/3dPrinting/btn_no.png" class="go_home_ok btn_no" onclick="switchGame(0)">
+		<img src="../img/3dPrinting/btn_yes.png" class="go_home_ok btn_yes" onclick="swichToMineCraftModule()">
+		<img src="../img/3dPrinting/btn_close.png" class="imgBtn save_name_cancle" onclick="hideMineCraftNote()">
+	</div>
+</div>
+<div class="switchToMineCraft">
+	<div class="save_name_title">提示</div>
+	<div class="save_name_tip">正在前往我的世界模式 <br>当前模型为保存，是否保存？</div>
+	<div class="btn_wrapper clearfix">
+		<img src="../img/3dPrinting/btn_no.png" class="go_home_ok" onclick="switchGame(0)">
+		<img src="../img/3dPrinting/btn_yes.png" class="go_home_ok" onclick="swichToMineCraftModule()">
+		<img src="../img/3dPrinting/btn_close.png" class="imgBtn save_name_cancle" onclick="hideMineCraftNote()">
+	</div>
+</div>
+<div class="save_name_minecraft_module">
+	<div class="save_name_title">命名</div>
+	<div class="save_name_tip">模型还没有名字，取个名字吧</div>
+	<input type="text" placeholder="请输入模型名称" maxlength="8" id="save_minecraft_name" oninput="saveModuleName(this,'oninput')"
+				 onblur="saveModuleName(this,'onblur')" onFocus="saveModuleName(this,'onFocus')" onkeyup="this.value=this.value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g ,'')"
+				 blur="saveModuleName(this,'blur')">
+	<div class="save_name_verify">请输入模型名称</div>
+	<div class="btn_wrapper clearfix">
+		<img src="../img/3dPrinting/btn_yes1.png" class="save_name_ok" onclick="exportMineCraftMoudle(0)">
+		<img src="../img/3dPrinting/btn_close.png" class="imgBtn save_name_cancle" onclick="saveCraftModuleShow(1)">
 	</div>
 </div>
 <div class="note">
@@ -188,4 +249,5 @@
 <script src='../js/controls/TransformControls.js'></script>
 <script src='../js/dialog.js'></script>
 <script src='../js/3DPrinting.js'></script>
+<script src='../js/mineCraft.js'></script>
 </html>

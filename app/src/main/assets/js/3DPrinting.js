@@ -10,7 +10,7 @@ var listShapes = [];
 var listLDraw = [];
 var listSTL = [];
 var saveFlag = false;
-
+var maxObject = 10;
 // var mobile = /Android|webOS|iPhone|iPad|BlackBerry/i.test( navigator.userAgent );
 var mobile = true;
 var container = document.getElementById( 'container' ); //
@@ -61,7 +61,7 @@ var eachRedoObjectInfo = {};//每一个对象的每一个步骤；
 var shootedFlag = false;
 
 var orientationControls = new THREE.OrientationControls( 50 ); //右上角三视图
-var stlGeoFlag = 0; //0 geo; 1 stl 2, localStl
+var stlGeoFlag = 0; //0 geo; 1 stl 2, localStl 4, minecraft
 //LDraw
 var lDrawModul;
 var lDrawModulGUI;
@@ -75,97 +75,108 @@ var lDrawGuiData = {
 var currentModule = 0; //0:基础模型 1：lego
 var goHomeFlag = false;//是否是点击首页
 var deleteObjFlag = false;//是否点击了删除
-
 var cameraSideIndex = 150;
+
+var currentBuildType = 0;//0: 普通模式 1：minecraft
 $( function () {
 	listModule();
-	getLocalAppSTL();
+	// getLocalAppSTL();
 	shapesMain.addEventListener( "touchstart", function ( e ) {
 		$( ".zoom_options,.color_wrapper" ).hide();//隐藏子窗口
 	} );
 	shapesEventL.addEventListener( "touchstart", function ( e ) {
-		$( ".zoom_options,.color_wrapper" ).hide();//隐藏子窗口
-		selectedDragObj = $( e.target );
-		if (selectedDragObj.hasClass( "drag" )) {
-			$( ".active_shape" ).removeClass( "active_shape" );
-			if (selectedDragObj.hasClass( "name" )) {
-				dragObj = $( selectedDragObj ).parents( ".module" ).find( ".sprint" ).clone();
-				$( selectedDragObj ).parents( ".module" ).addClass( "active_shape" );
-				selectedDragObjFlag = true;
-			} else if (selectedDragObj.hasClass( "sprint" )) {
-				dragObj = selectedDragObj.clone();
-				$( selectedDragObj ).parents( ".module" ).addClass( "active_shape" );
-				selectedDragObjFlag = true;
-			} else if (selectedDragObj.hasClass( "module" )) {
-				dragObj = $( selectedDragObj ).find( ".sprint" ).clone();
-				$( selectedDragObj ).addClass( "active_shape" );
+		if(currentBuildType == 0) {
+			$(".zoom_options,.color_wrapper").hide();//隐藏子窗口
+			selectedDragObj = $(e.target);
+			if (selectedDragObj.hasClass("drag")) {
+				$(".active_shape").removeClass("active_shape");
+				if (selectedDragObj.hasClass("name")) {
+					dragObj = $(selectedDragObj).parents(".module").find(".sprint").clone();
+					$(selectedDragObj).parents(".module").addClass("active_shape");
+					selectedDragObjFlag = true;
+				} else if (selectedDragObj.hasClass("sprint")) {
+					dragObj = selectedDragObj.clone();
+					$(selectedDragObj).parents(".module").addClass("active_shape");
+					selectedDragObjFlag = true;
+				} else if (selectedDragObj.hasClass("module")) {
+					dragObj = $(selectedDragObj).find(".sprint").clone();
+					$(selectedDragObj).addClass("active_shape");
+					selectedDragObjFlag = false;
+				}
+				dragObj.addClass("startDrag");
+				maxW = document.body.clientWidth - selectedDragObj[0].offsetWidth;
+				maxH = document.body.clientHeight - selectedDragObj[0].offsetHeight;
+			}
+			else{
 				selectedDragObjFlag = false;
 			}
-			dragObj.addClass( "startDrag" );
-			maxW = document.body.clientWidth - selectedDragObj[0].offsetWidth;
-			maxH = document.body.clientHeight - selectedDragObj[0].offsetHeight;
 		}
 	}, false );
 	shapesEventL.addEventListener( "touchmove", function ( e ) {
-		dragedFlag = true;
-		var ev = e || window.event;
-		var touch = ev.targetTouches[0];
-		var windowWidth = window.innerWidth;
-		movedDir = windowWidth - touch.clientX;
+		if(currentBuildType == 0) {
+			dragedFlag = true;
+			var ev = e || window.event;
+			var touch = ev.targetTouches[0];
+			var windowWidth = window.innerWidth;
+			movedDir = windowWidth - touch.clientX;
 
-		if (dragObj && movedDir > 100) {
-			$( "body" ).append( dragObj );
-			var oLeft = touch.clientX - 50;
-			var oTop = touch.clientY - 50;
-			if (oLeft < 0) {
-				oLeft = 0;
-			} else if (oLeft >= maxW) {
-				oLeft = maxW;
+			if (dragObj && movedDir > 100 && selectedDragObjFlag) {
+				$("body").append(dragObj);
+				var oLeft = touch.clientX - 50;
+				var oTop = touch.clientY - 50;
+				if (oLeft < 0) {
+					oLeft = 0;
+				} else if (oLeft >= maxW) {
+					oLeft = maxW;
+				}
+				if (oTop < 0) {
+					oTop;
+				} else if (oTop >= maxH) {
+					oTop = maxH;
+				}
+				dragObj[0].style.left = oLeft + 25 + 'px';
+				dragObj[0].style.top = oTop + 'px';
 			}
-			if (oTop < 0) {
-				oTop;
-			} else if (oTop >= maxH) {
-				oTop = maxH;
-			}
-			dragObj[0].style.left = oLeft + 25 + 'px';
-			dragObj[0].style.top = oTop + 'px';
 		}
 	}, false );
 	shapesEventL.addEventListener( "touchend", function ( e ) {
-		if (dragObj && dragedFlag && movedDir > 100) {
-			// $( selectedDragObj ).parents( ".module" ).trigger( "click" );
-			if (selectedDragObjFlag) {
-				var code = Number( $( selectedDragObj ).parents( ".module" ).find( ".this_code" ).val() );
-				var type = Number( $( selectedDragObj ).parents( ".module" ).find( ".this_module" ).val() );
-				var url =$( selectedDragObj ).parents( ".module" ).find( ".this_url" ).val();
-			} else if (selectedDragObjFlag == false) {
-				var code = Number( $( selectedDragObj ).find( ".this_code" ).val() );
-				var type = Number( $( selectedDragObj ).find( ".this_module" ).val() );
-				var url = $( selectedDragObj ).find( ".this_url" ).val();
+		if(currentBuildType == 0) {
+			if (dragObj && dragedFlag && movedDir > 100) {
+				// $( selectedDragObj ).parents( ".module" ).trigger( "click" );
+				if (selectedDragObjFlag) {
+					var code = Number($(selectedDragObj).parents(".module").find(".this_code").val());
+					var type = Number($(selectedDragObj).parents(".module").find(".this_module").val());
+					var url = $(selectedDragObj).parents(".module").find(".this_url").val();
+				} else if (selectedDragObjFlag == false) {
+					var code = Number($(selectedDragObj).find(".this_code").val());
+					var type = Number($(selectedDragObj).find(".this_module").val());
+					var url = $(selectedDragObj).find(".this_url").val();
+				}
+				if (type == 0) {
+					changeShapes(code);
+				} else if (type == 1) {
+					loadSTL(code);
+				} else if (type == 2) {
+					showInput(0);
+				} else if (type == 3) {
+					loadLocalSTL(url)
+				} else if (type == 4) {
+					loadhouseSTL(code)
+				}
+				$(dragObj).remove();
+				if (type == 0) {
+					onDocumentMouseDown(e);
+				} else if (type == 1 || type == 3 || type == 4) {
+					setTimeout(function () {
+						onDocumentMouseDown(e);
+					}, 1000);
+				}
+			} else {
+				$(dragObj).remove();
 			}
-			if (type == 0) {
-				changeShapes( code );
-			} else if (type == 1) {
-				loadSTL( code );
-			} else if (type == 2) {
-				showInput( 0 );
-			} else if(type == 3){
-				loadLocalSTL(url)
-			}
-			$( dragObj ).remove();
-			if(type == 0){
-			    onDocumentMouseDown( e );
-			}
-			else if (type == 1 || type == 3){
-                setTimeout( function () {
-                    onDocumentMouseDown( e );
-                }, 1000 );
-			}
-		} else {
-			$( dragObj ).remove();
+			dragedFlag = false;
+			$(".active_shape").removeClass("active_shape");
 		}
-		dragedFlag = false;
-		$( ".active_shape" ).removeClass( "active_shape" );
 	}, false );
 	/*window.addEventListener( "touchmove", function ( event ) {
 			if (event.scale !== 1) {
@@ -198,28 +209,25 @@ $( function () {
 			$( ".obj_control" ).show();
 		}
 	} );
-//input标签 软键盘打开和收起 end
-	$( ".show_more" ).click( function () {
-		$( ".zoom_options,.color_wrapper" ).hide();//隐藏子窗口
-		$( "#shapes" ).toggle();
-		$( "#shapes" ).toggleClass( "shapes_close" );
-		$( ".show_more" ).toggleClass( "show_more_close" );
-		$( ".child_wrapper " ).hide();
-		$( ".obj_control" ).toggleClass( "has_right_menu" );
-		$( ".orientationControls" ).toggleClass( "right_menu_hide" );
-
-		if ($( ".obj_control" ).hasClass( "has_right_menu" )) {
-			$( ".obj_control" ).css( { width: window.innerWidth - 100 } );
-		} else {
-			$( ".obj_control" ).css( { width: "100%" } );
-		}
-		onWindowResize(); //canvas floats to right side,in case the show_more close, there were dark side
-	} );
-
 	init();
 	render();
 } );
+function showMore(){
+	$( ".zoom_options,.color_wrapper" ).hide();//隐藏子窗口
+	$( "#shapes" ).toggle();
+	$( "#shapes" ).toggleClass( "shapes_close" );
+	$( ".show_more" ).toggleClass( "show_more_close" );
+	$( ".child_wrapper " ).hide();
+	$( ".obj_control" ).toggleClass( "has_right_menu" );
+	$( ".orientationControls" ).toggleClass( "right_menu_hide" );
 
+	if ($( ".obj_control" ).hasClass( "has_right_menu" )) {
+		$( ".obj_control" ).css( { width: window.innerWidth - 100 } );
+	} else {
+		$( ".obj_control" ).css( { width: "100%" } );
+	}
+	onWindowResize(); //canvas floats to right side,in case the show_more close, there were dark side
+}
 function showModule( type ) {//type 0: 标准模型    1:卡通模型 2: lego 模型
 	if (type == 0) {
 		$( ".normal_wrapper" ).show();
@@ -228,7 +236,12 @@ function showModule( type ) {//type 0: 标准模型    1:卡通模型 2: lego �
 	} else if (type == 2) {
 		$( ".mymodule_wrapper" ).show();
 	} else if (type == 3) {
-		alert( "购买跳转" );
+		if(objects.length>1){
+			$( ".save_ask_mineCraft" ).show();
+		}
+		else{
+			switchGame(0);//1: 去普通模式 0：去minecraft
+		}
 	}
 }
 
@@ -278,7 +291,7 @@ function hideModule( obj ) {
 				shapesIndex ++;
 			}
 			$( ".normal_wrapper" ).html( shapesHtml );
- showModule(0);
+ 			showModule(0);
 			var cartoonHtml = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>卡通模型</div>';
 			var cartoonIndex = 0;
 			listSTL = res.data.stl;
@@ -298,6 +311,21 @@ function hideModule( obj ) {
 			}
 			cartoonHtml += '<div class="go_shopping" onclick="goShop() ">购买模型</div>';
 			$( ".cartoon_wrapper" ).html( cartoonHtml );
+
+			var houstHtml = '<div class="child_title" onclick="swichToNormalModule(this)"><i class="iconfont arrow">&#xe720;</i>我的世界</div>';
+			var houstIndex = 0;
+			var listhouseSTL = res.data.house;
+			for (var i in listhouseSTL) {
+				houstHtml += '<div class="module mine_craft_'+houstIndex+ ' '+  listhouseSTL[i].title + '" onclick="loadhouseSTL('+houstIndex+',this)">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
+				houstHtml += '<input class="this_code" type="hidden" value="' + houstIndex + '">';
+				houstHtml += '<input class="this_module" type="hidden" value="4">';
+				houstHtml += '<div class="sprint sprint_' + listhouseSTL[i].title + '"></div>';
+				// houstHtml += '<div class="img_wrapper"><img src="../img/3dPrinting/sprint_' + listhouseSTL[i].title + '.png" alt="' + listhouseSTL[i].title + '" class="drag"></div>';
+				houstHtml += '<div class="name">' + listhouseSTL[i].name + '</div>';
+				houstHtml += '</div>';
+				houstIndex ++;
+			}
+			$( ".minecraft_wrapper" ).html( houstHtml );
 
 		},
 		error: function ( res ) {
@@ -361,6 +389,21 @@ function listModule( type ) {
 		}
         cartoonHtml += '<div class="go_shopping" onclick="goShop() ">购买模型<i class="iconfont arrow arrow_right">&#xe6f8;</i></div>';
 		$( ".cartoon_wrapper" ).html( cartoonHtml );
+
+		var mineCraftHtml = '<div class="child_title" onclick="swichToNormalModule(this)"><i class="iconfont arrow">&#xe720;</i>我的世界</div>';
+			var mineCraftIndex = 0;
+			var listhouseSTL = res.data.house;
+			for (var i in listhouseSTL) {
+				mineCraftHtml += '<div class="module mine_craft_'+mineCraftIndex+ ' '+  listhouseSTL[i].title + '" onclick="loadhouseSTL('+mineCraftIndex+',this)">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
+				mineCraftHtml += '<input class="this_code" type="hidden" value="' + mineCraftIndex + '">';
+				mineCraftHtml += '<input class="this_module" type="hidden" value="4">';
+				mineCraftHtml += '<div class="sprint sprint_' + listhouseSTL[i].title + '"></div>';
+				// mineCraftHtml += '<div class="img_wrapper"><img src="../img/3dPrinting/sprint_' + listhouseSTL[i].title + '.png" alt="' + listhouseSTL[i].title + '" class="drag"></div>';
+				mineCraftHtml += '<div class="name">' + listhouseSTL[i].name + '</div>';
+				mineCraftHtml += '</div>';
+				mineCraftIndex ++;
+			}
+			$( ".minecraft_wrapper" ).html( mineCraftHtml );
 	}
 }
 function getLocalAppSTL(){
@@ -405,12 +448,12 @@ function getTimeStr() {
 	var h = date.getHours() < 10 ? ( '0' + date.getHours() ) : date.getHours();
 	var m = date.getMinutes() < 10 ? ( '0' + date.getMinutes() ) : date.getMinutes();
 	var s = date.getSeconds() < 10 ? ( '0' + date.getSeconds() ) : date.getSeconds();
-	console.log("+++++++++++++++++"+ D,h,m,s)
 	var dateStr =D.toString() + h.toString() + m.toString() + s.toString();
 	return dateStr;
 }
 function closeSaveSucc(){
 	$( ".save_succ,.save_name_module_bg" ).hide();
+	$( ".minecraft_wrapper" ).hide();
 }
 function saveModuleShow( type ) {
 	if (objects.length > 1) {
@@ -461,7 +504,12 @@ function goHomePage() {
 function goHomeSaveModule( type ) {//type 0:gohome 1; save
 	$( ".save_ask,.save_name_module_bg" ).hide();
 	if (type === 0) {
-		js.changeActive( "3" );//1,我的模型 2 商城 3 模型库首页 4 创建模型
+		if(currentBuildType==0) {//0: 普通模式 1：minecraft
+			js.changeActive("3");//1,我的模型 2 商城 3 模型库首页 4 创建模型
+		}
+		else if(currentBuildType==1) {
+			switchGame(1)
+		}
 	} else {
 		saveModuleShow( 0 );
 		goHomeFlag = true;
@@ -473,7 +521,7 @@ function goShop() {//type 0:gohome 1; save
 }
 
 function hideGoHome() {
-	$( ".save_ask,.save_name_module_bg" ).hide();
+	$( ".save_ask,.save_ask_mineCraft,.save_name_module_bg" ).hide();
 }
 
 function showChild( type ) {
@@ -723,10 +771,13 @@ function init() {
 		if (transformControl.object) {
 			focusedTransformObj = transformControl.object;
 		}
-		if (! controlsMoved && !transformControlMove) {
+		if (! controlsMoved && !transformControlMove && currentBuildType == 0) {
 			setTimeout( function () {
 				onDocumentMouseDown( e );
 			}, 100 );
+		}
+		else if (! controlsMoved && !transformControlMove && currentBuildType == 1) {
+			onDocumentMouseDownMineCraft(e)
 		}
 		tcScaleYPosition = '';
 		tcScaleYPositionFlag = '';
@@ -740,10 +791,13 @@ function init() {
 		if (transformControl.object) {
 			focusedTransformObj = transformControl.object;
 		}
-		if (! controlsMoved && !transformControlMove) {
+		if (! controlsMoved && !transformControlMove && currentBuildType == 0) {
 			setTimeout( function () {
 				onDocumentMouseDown( e );
 			}, 100 );
+		}
+		if (! controlsMoved && !transformControlMove && currentBuildType == 1) {
+			onDocumentMouseDownMineCraft(e)
 		}
 		tcScaleYPosition = '';
 		tcScaleYPositionFlag = '';
@@ -889,7 +943,7 @@ function onDocumentMouseDown( event ) {
 				// create cube
 
 			} else {
-				if (objects.length < 11 && currentObj) {
+				if (objects.length < (maxObject+1) && currentObj) {
 					var voxelMaterial = currentObjMaterial.clone();
 					var voxel = new THREE.Mesh( currentObj, voxelMaterial );
 					voxel.position.copy( intersect.point ).add( intersect.face.normal );
@@ -1432,6 +1486,7 @@ function exportMoudle( type ) { //type 0: ASCII 1: GLTF
 		outlinePass.selectedObjects = [];
 		camera.position.set( 83, 71, 124); //45°
 		camera.lookAt( 0, 0, 0 );
+		directionalLight.position.set( -10, 1, -20 ).normalize();
 		//threejs Y-up, 别的事Z-up,所以到处之前要旋转
         scene.rotation.set( Math.PI / 2, 0, 0 );
         scene.updateMatrixWorld();
@@ -1480,6 +1535,7 @@ function exportMoudle( type ) { //type 0: ASCII 1: GLTF
         //threejs Y-up, 别的事Z-up,所以到处之前要旋转
         scene.rotation.set( 0, 0, 0 );
         scene.updateMatrixWorld();
+		directionalLight.position.set( 1, 0.75, 0.5 ).normalize();
         //end
 	}
 }
@@ -1582,13 +1638,7 @@ var saveFile = function (strData, filename) {
 function afterSTLImg(){
 	saveModuleShow( 1 );
 	// 保存成功，清空当前项目
-	objects.forEach( function ( d ) {
-		clearCache( d );
-		scene.remove( d );
-	} );
-	objects = [];
-	objects.push( plane );
-	transformControl.detach();
+	removeAllShapes();
 	$( ".save_stl" ).addClass( "noActive_save" );
 	$("#canImg").remove();//保存当前图片后，删除
     $(".obj_control_wrapper").hide();
@@ -1598,10 +1648,16 @@ function afterSTLImg(){
         js.changeActive( "3" );//1,我的模型 2 商城 3 模型库首页 4 创建模型
     }
     else{
-        goHomeFlag = false;
-        saveFlag = false;
-        $(".save_succ,.save_name_module_bg").show();
+		if(goMineCraftFlag){
+			switchGame(0);
+		}else{
+			goHomeFlag = false;
+			saveFlag = false;
+			$(".save_succ,.save_name_module_bg").show();
+		}
+
     }
+
 }
 // 导出相关 end
 function goPage(page){
@@ -1757,10 +1813,7 @@ async function loadSTL( thisSTL, obj ) {
 		default:
 			file = '../models/stl/ascii/3dPrinting/tyrannosaurusRex.stl';
 	}
-	var loader = new THREE.STLLoader();
-	await loader.load( file, function ( geometry ) {
-		currentObj = geometry;
-	} );
+
 }
 async function loadLocalSTL( thisSTL) {
 	stlGeoFlag = 2;//0 geo; 1 stl 2, localStl
@@ -2025,7 +2078,12 @@ function shapesController( type ) {//type 0: normal
 	if (! $( ".show_more" ).hasClass( "show_more_close" )) {
 		$( ".obj_control" ).css( { width: window.innerWidth - 100 } );
 	}
-	$( ".obj_control_wrapper" ).show();
+	if(currentBuildType == 0){
+		$( ".obj_control_wrapper" ).show();
+	}
+	else{
+		$( ".obj_control_wrapper" ).hide();
+	}
 
 }
 
