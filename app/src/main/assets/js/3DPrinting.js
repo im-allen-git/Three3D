@@ -76,11 +76,10 @@ var currentModule = 0; //0:基础模型 1：lego
 var goHomeFlag = false;//是否是点击首页
 var deleteObjFlag = false;//是否点击了删除
 var cameraSideIndex = 150;
-
 var currentBuildType = 0;//0: 普通模式 1：minecraft
 $( function () {
 	listModule();
-	// getLocalAppSTL();
+	getLocalAppSTL();
 	shapesMain.addEventListener( "touchstart", function ( e ) {
 		$( ".zoom_options,.color_wrapper" ).hide();//隐藏子窗口
 	} );
@@ -160,13 +159,11 @@ $( function () {
 					showInput(0);
 				} else if (type == 3) {
 					loadLocalSTL(url)
-				} else if (type == 4) {
-					loadhouseSTL(code)
 				}
 				$(dragObj).remove();
 				if (type == 0) {
 					onDocumentMouseDown(e);
-				} else if (type == 1 || type == 3 || type == 4) {
+				} else if (type == 1 || type == 3) {
 					setTimeout(function () {
 						onDocumentMouseDown(e);
 					}, 1000);
@@ -392,7 +389,7 @@ function listModule( type ) {
 
 		var mineCraftHtml = '<div class="child_title" onclick="swichToNormalModule(this)"><i class="iconfont arrow">&#xe720;</i>我的世界</div>';
 			var mineCraftIndex = 0;
-			var listhouseSTL = res.data.house;
+			var listhouseSTL = [{"name": "砖头", "title": "wall","id": "00","url": "../img/3dPrinting/sprint_cube.png" },{"name": "窗户","title": "window","id": "01","url": "../img/3dPrinting/sprint_window.png"},{"name": "门","title": "door","id": "02","url": "../img/3dPrinting/sprint_cube.png"} ];
 			for (var i in listhouseSTL) {
 				mineCraftHtml += '<div class="module mine_craft_'+mineCraftIndex+ ' '+  listhouseSTL[i].title + '" onclick="loadhouseSTL('+mineCraftIndex+',this)">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
 				mineCraftHtml += '<input class="this_code" type="hidden" value="' + mineCraftIndex + '">';
@@ -504,12 +501,8 @@ function goHomePage() {
 function goHomeSaveModule( type ) {//type 0:gohome 1; save
 	$( ".save_ask,.save_name_module_bg" ).hide();
 	if (type === 0) {
-		if(currentBuildType==0) {//0: 普通模式 1：minecraft
-			js.changeActive("3");//1,我的模型 2 商城 3 模型库首页 4 创建模型
-		}
-		else if(currentBuildType==1) {
-			switchGame(1)
-		}
+        js.changeActive("3");//1,我的模型 2 商城 3 模型库首页 4 创建模型
+
 	} else {
 		saveModuleShow( 0 );
 		goHomeFlag = true;
@@ -1813,7 +1806,10 @@ async function loadSTL( thisSTL, obj ) {
 		default:
 			file = '../models/stl/ascii/3dPrinting/tyrannosaurusRex.stl';
 	}
-
+	var loader = new THREE.STLLoader();
+	await loader.load( file, function ( geometry ) {
+		currentObj = geometry;
+	} );
 }
 async function loadLocalSTL( thisSTL) {
 	stlGeoFlag = 2;//0 geo; 1 stl 2, localStl

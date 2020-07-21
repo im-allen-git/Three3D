@@ -101,7 +101,7 @@ function getLocalAppSTL(){
 	if(data && data !=null && data.length>5) {
 		var stlList = eval('('+data+')');
 		for (var i in stlList) {
-			stlListHTML += '<div class="each_module"><div class="each_module_wrapper clearfix swiper-container"><div id="appStlSwiper" class="swiper-wrapper">';
+			stlListHTML += '<div class="each_module"><div class="each_module_wrapper clearfix swiper-container" id="appStlSwiper"><div class="swiper-wrapper">';
             stlListHTML += '<div class="swiper-slide">';
             stlListHTML += '<div class="col-xs-3"><img src="'+stlList[i].localImg+'" alt=""></div>';
             stlListHTML += '<div class="col-xs-9">';
@@ -109,7 +109,11 @@ function getLocalAppSTL(){
             stlListHTML += '<div class="module_name">'+name+'</div>';
             stlListHTML += '<div class="module_time"><div class="info">创建时间: <span class="this_createTime">'+stlList[i].createTime+'</span></div></div>';
             stlListHTML += '<div class="module_size"><div class="info">打印尺寸(mm): <span class="this_createTime">'+stlList[i].length+" "+stlList[i].width+" "+stlList[i].height+'</span></div></div>';
-            stlListHTML += '<div class="img_wrapper showHide first_child"><img src="../img/3dPrinting/btn_print.png" alt="" onclick="thisParamInfo(0,this)"></div>';
+            stlListHTML += '<div class="img_wrapper showHide first_child"><img src="../img/3dPrinting/btn_print.png" alt="" onclick="thisParamInfo(0,this)">';
+            if(stlList[i].flag == 1) { // 0未上传 1上传
+                stlListHTML += '<i style="font-style:normal;color:red;font-size:.1rem;position: absolute; left: 1rem; top: .1rem;">已存入SD卡</i>';
+            }
+            stlListHTML += '</div>';
             stlListHTML += '</div></div>';
             stlListHTML += '<div class="swiper-slide delete_slide" onclick="deleteThisModule(this,\''+stlList[i].realStlName+'\')"><div class="delete">删除</div></div>';
             stlListHTML += '</div>';
@@ -126,8 +130,9 @@ function getLocalAppSTL(){
 	else{
 		stlListHTML+='<div class="no_module">您还没有创建模型哦<br><span onclick=" goPage(4) ">点击这里创建模型</span></div>'
 	}
+	console.log(stlListHTML)
 	$(".mine_content").html(stlListHTML)
-	var swiper = new Swiper('#appStlSwiper', {
+	var swiper1 = new Swiper('#appStlSwiper', {
         slidesPerView: 'auto',
         spaceBetween: 0,
         freeMode: false,
@@ -138,10 +143,11 @@ function getLocalAppSTL(){
 function getSDsTL(){
 	var data = js.getSdList() || null;
 	var stlListHTML = '';
-	if(data && data !=null && data.length>5) {
+	if(data && data !=null && data.length>1) {
+	    if(data.length>5){
 		var stlList = eval('('+data+')');
 		for (var i in stlList) {
-			stlListHTML += '<div class="each_module"><div class="each_module_wrapper clearfix swiper-container"><div id="sdStlSwiper"  class="swiper-wrapper">';
+			stlListHTML += '<div class="each_module"><div class="each_module_wrapper clearfix swiper-container" id="sdStlSwiper" ><div class="swiper-wrapper">';
             stlListHTML += '<div class="swiper-slide">';
             stlListHTML += '<div class="col-xs-3"><img src="'+stlList[i].localImg+'" alt=""></div>';
             stlListHTML += '<div class="col-xs-9">';
@@ -162,12 +168,16 @@ function getSDsTL(){
             stlListHTML += '<input type="hidden" class="moduleName" value="'+stlList[i].realStlName+'">'
             stlListHTML += '</div></div>';
 		}
+		}
+		else if(data == "11"){
+		    stlListHTML+='<div class="no_module">您没有连接打印机，请连接打印机</div>'
+		}
 	}
 	else{
-		stlListHTML+='<div class="no_module">您还没有本地模型哦</div>'
+		stlListHTML+='<div class="no_module">您的SD卡中，还没有模型哦</div>'
 	}
 	$(".local_content").html(stlListHTML)
-	var swiper = new Swiper('#sdStlSwiper', {
+	var swiper2 = new Swiper('#sdStlSwiper', {
         slidesPerView: 'auto',
         spaceBetween: 0,
         freeMode: false,
