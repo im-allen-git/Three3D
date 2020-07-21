@@ -539,6 +539,21 @@ public class WebHost {
     }
 
     @JavascriptInterface
+    public boolean getFlagByJson(String fileName) {
+        String firstCome = CacheUtil.getSettingNote(this.context, HtmlUtil.USER_JSON, fileName);
+        return firstCome != null && firstCome.length() > 0;
+    }
+
+    @JavascriptInterface
+    // 取得session，userId
+    public int getUserId(String fileName) {
+        String userId = CacheUtil.getSettingNote(this.context, HtmlUtil.USER_JSON, fileName);
+        return Integer.valueOf(userId);
+    }
+
+
+
+    @JavascriptInterface
     // 查询用户信息数据
     public List<Map<String, Object>>  getUserInfoDataList(String userId) {
 
