@@ -147,81 +147,25 @@
         "url": "../img/3dPrinting/doughnut.png"
       }
     ],
-    "lego": [
+    "house": [
       {
-        "name": "Car",
-        "url": "../models/ldraw/car.ldr_Packed.mpd"
+        "name": "砖头",
+        "title": "wall",
+        "id": "00",
+        "url": "../img/3dPrinting/sprint_cube.png"
       },
       {
-        "name": "Lunar Vehicle",
-        "url": "../models/ldraw/1621-1-LunarMPVVehicle.mpd_Packed.mpd"
+        "name": "窗户",
+        "title": "window",
+        "id": "01",
+        "url": "../img/3dPrinting/sprint_window.png"
       },
       {
-        "name": "Radar Truck",
-        "url": "../models/ldraw/889-1-RadarTruck.mpd_Packed.mpd"
-      },
-      {
-        "name": "Trailer",
-        "url": "../models/ldraw/4838-1-MiniVehicles.mpd_Packed.mpd"
-      },
-      {
-        "name": "Bulldozer",
-        "url": "../models/ldraw/4915-1-MiniConstruction.mpd_Packed.mpd"
-      },
-      {
-        "name": "Helicopter",
-        "url": "../models/ldraw/4918-1-MiniFlyers.mpd_Packed.mpd"
-      },
-      {
-        "name": "Plane",
-        "url": "../models/ldraw/5935-1-IslandHopper.mpd_Packed.mpd"
+        "name": "门",
+        "title": "door",
+        "id": "02",
+        "url": "../img/3dPrinting/sprint_cube.png"
       }
-    ],
-    "pose": [
-      {
-        "name": "01",
-        "url": "../models/vpds/01.vpd"
-      },
-      {
-        "name": "02",
-        "url": "../models/vpds/02.vpd"
-      },
-      {
-        "name": "03",
-        "url": "../models/vpds/03.vpd"
-      },
-      {
-        "name": "04",
-        "url": "../models/vpds/04.vpd"
-      },
-      {
-        "name": "05",
-        "url": "../models/vpds/05.vpd"
-      },
-      {
-        "name": "06",
-        "url": "../models/vpds/06.vpd"
-      },
-      {
-        "name": "07",
-        "url": "../models/vpds/07.vpd"
-      },
-      {
-        "name": "08",
-        "url": "../models/vpds/08.vpd"
-      },
-      {
-        "name": "09",
-        "url": "../models/vpds/09.vpd"
-      },
-      {
-        "name": "10",
-        "url": "../models/vpds/10.vpd"
-      },
-      {
-        "name": "11",
-        "url": "../models/vpds/11.vpd"
-      }
-    ]
+      ]
   }
 }
