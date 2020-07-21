@@ -338,30 +338,6 @@ public class StlDealUtil {
 
 
     /**
-     * 获取打印命令
-     *
-     * @param gcodeName
-     * @return
-     */
-    public static String getPrinterCommond(String gcodeName) {
-        // http://10.0.0.63/command_silent?commandText=M23%20/HELLO_~1.GCO%0AM24&PAGEID=0
-        String tempGcodeNameStr = gcodeName.substring(0, gcodeName.lastIndexOf("."));
-        if (tempGcodeNameStr.length() > 8) {
-            tempGcodeNameStr = gcodeName.substring(0, 5) + "_~1" + gcodeName.substring(gcodeName.lastIndexOf("."));
-        } else {
-            tempGcodeNameStr = gcodeName;
-        }
-        return PrinterConfig.ESP_8266_URL + "command_silent?commandText=M23%20/" + tempGcodeNameStr.toUpperCase() + "%0AM24&PAGEID=0";
-    }
-
-
-    public static String getPostFileUrl() {
-        // http://10.0.0.34/upload_serial
-        return PrinterConfig.ESP_8266_URL + "upload_serial";
-    }
-
-
-    /**
      * 设置打印机上传数据
      */
     public static synchronized void setPrinterUploadInfo(StlGcode stlGcode, int isUpload, int printType) {

@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.kairong.three3d.R;
 import com.kairong.three3d.config.PrinterConfig;
 import com.kairong.three3d.pojo.StlGcode;
+import com.kairong.three3d.util.CacheUtil;
 import com.kairong.three3d.util.DialogUtil;
 import com.kairong.three3d.util.OkHttpUtil;
 import com.kairong.three3d.util.PermissionCheckUtil;
@@ -108,6 +109,10 @@ public class PrinterStartActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         initView();
 
+        if(CacheUtil.sdList.size() == 0){
+            CacheUtil.getSdList(1);
+        }
+
         // 判断传递的参数并且放入队列
         if (PrinterConfig.upload_count > 0 || PrinterConfig.printer_count > 0 || PrinterUtil.beforePrinter(this)) {
             if (PrinterConfig.is_background > 0) {
@@ -179,7 +184,8 @@ public class PrinterStartActivity extends AppCompatActivity {
 
 
     private void printAnimation() {
-        if (PrinterUtil.tempStlGcode.getFlag() == 0) {
+        if (!CacheUtil.sdMap.containsKey(PrinterUtil.tempStlGcode.getShortGcode().toUpperCase())
+                && PrinterUtil.tempStlGcode.getFlag() == 0) {
             new Thread() {
                 @Override
                 public void run() {
@@ -205,7 +211,7 @@ public class PrinterStartActivity extends AppCompatActivity {
 
                 File file = new File(stlGcode.getLocalGcodeName());
                 if (file.exists() && file.isFile()) {
-                    Request request = OkHttpUtil.getRequestByBody(file, StlDealUtil.getPostFileUrl());
+                    Request request = OkHttpUtil.getRequestByBody(file, PrinterUtil.getPostFileUrl());
                     OkHttpUtil.sendMessage(120, "开始上传", mainHandler);
                     // OkHttpClient client = OkHttpUtil.getClient();
                     // PrinterConfig.currPrinterGcodeInfo.setBegin_time(System.currentTimeMillis());

@@ -383,6 +383,15 @@ public class WebHost {
     }
 
 
+    @JavascriptInterface
+    public String getSdList() {
+        if (CacheUtil.sdList.size() == 0) {
+            CacheUtil.getSdList(1);
+        }
+        return CacheUtil.sdList.size() == 0 ? null : JSONObject.toJSONString(CacheUtil.sdList);
+    }
+
+
     /**
      * 调用js方法上传文件
      *

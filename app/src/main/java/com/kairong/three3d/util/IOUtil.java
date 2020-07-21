@@ -166,7 +166,7 @@ public class IOUtil {
      * @param fileS
      * @param stlGcode
      */
-    private static void genFileSize(int fileS, StlGcode stlGcode) {
+    public static void genFileSize(int fileS, StlGcode stlGcode) {
         DecimalFormat df = new DecimalFormat("#.00");
         String fileSizeString = "0";
         if (fileS < 1024) {
