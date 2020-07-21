@@ -32,6 +32,10 @@ public class HtmlConfig {
      */
     public static final String BUILD_MODULE = "build_module";
     /**
+     * 创建模型我的世界文件标识
+     */
+    public static final String MINE_CRAFT_MODULE = "mine_craft_module";
+    /**
      * 第一次连接打印机
      */
     public static final String FIRST_CONNECT_PRINTER = "first_concent_printer";

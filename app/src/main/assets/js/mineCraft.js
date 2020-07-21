@@ -280,3 +280,28 @@ function exportMineCraftMoudle( type ) { //type 0: ASCII 1: GLTF
         switchGame(1)
     }
 }
+
+// Text object end
+function firstMineCraft(){
+    var flag = js.getFlagByJson("mine_craft_module");
+//    console.log("build_module:"+flag)
+    if(!flag){
+        showModule(0);
+        var div1 = document.createElement("div");
+        var div2 = document.createElement("div");
+        div1.className = "how_to_play";
+        var img =  document.createElement("img");
+        img.src = "../img/3dPrinting/firstMineCraft.gif";
+        div1.appendChild(img)
+        div2.className="how_to_play_bg";
+        document.body.appendChild(div1);
+        document.body.appendChild(div2);
+        $(".how_to_play, .how_to_play_bg").click(function(){
+            js.saveFlagByJson("mine_craft_module");
+            $(".how_to_play, .how_to_play_bg").remove();
+        })
+    }
+    else{
+        $(".how_to_play, .how_to_play_bg").remove();
+    }
+}
