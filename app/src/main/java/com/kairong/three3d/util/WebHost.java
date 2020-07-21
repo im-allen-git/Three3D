@@ -21,6 +21,7 @@ import com.kairong.three3d.activity.BulidModuleActivity;
 import com.kairong.three3d.activity.Esp8266Activity;
 import com.kairong.three3d.activity.MyAccountActivity;
 import com.kairong.three3d.activity.PrinterActivity;
+import com.kairong.three3d.activity.PrinterFirstActivity;
 import com.kairong.three3d.activity.PrinterStartActivity;
 import com.kairong.three3d.activity.ShoppingActivity;
 import com.kairong.three3d.activity.UploadGcodeActivity;
@@ -243,7 +244,7 @@ public class WebHost {
     @JavascriptInterface
     public void welcomeToIndex() {
         // 模型库首页
-        Intent it = new Intent(this.context.getApplicationContext(), IndexHtmlActivity.class);
+        Intent it = new Intent(this.context.getApplicationContext(), PrinterFirstActivity.class);
         // Intent it = new Intent(this.context.getApplicationContext(), LoginActivity.class);
         this.context.startActivity(it);
         Message message = new Message();

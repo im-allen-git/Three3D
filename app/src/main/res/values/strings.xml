@@ -101,5 +101,6 @@
     <string name="welcome_text">开启儿童智慧第一步</string>
     <string name="retry">请重试</string>
     <string name="phone_login_tx">本机号码一键登录</string>
+    <string name="jump">跳过</string>
 
 </resources>

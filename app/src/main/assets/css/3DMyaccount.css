@@ -47,7 +47,10 @@ body{background:#4E92EF; font-size:.17rem;color:#FFFFFF;height:100%;}
 .note em{color:#FF7F0E;}
 .tip { margin-top: -.1rem;line-height: .45rem;}
 .tip i { color: #fe9806; }
-.tip_detail { display: none; }
+.tip_detail { display: none; position: fixed; top:0;bottom: 0; left: 0;right: 0; background:#4E92EF; color: #333; width: 100%; height: auto;line-height: .2rem;z-index: 12}
+.tip_detail .top_menu{border-bottom:1px solid #92CCFFFF}
+.tip_detail .top_menu .top_menu_btn{padding-top: .14rem; padding-bottom: .14rem; font-size:.17rem;}
+.tip_detail .top_menu .back { font-size: .25rem; line-height: .45rem; padding-top: 0; padding-bottom: 0; padding-left: 7px;}
 img.imgBtn.param_close { position: absolute; top: -.1rem; right: -.1rem; width: .45rem; }
 .print_btn { background-image: url(../img/3dPrinting/btn_print.png); background-repeat: no-repeat; background-size: contain; width: 1.2rem; height: .65rem; margin: auto; }
 

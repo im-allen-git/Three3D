@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7649691",
+      "name": "密码显示",
+      "font_class": "mimaxianshi",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "13673058",
+      "name": "密码显示",
+      "font_class": "mimaxianshi1",
+      "unicode": "e685",
+      "unicode_decimal": 59013
+    },
+    {
       "icon_id": "4766293",
       "name": "user",
       "font_class": "user",
