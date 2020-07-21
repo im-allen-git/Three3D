@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.kairong.three3d.config.PrinterConfig;
 import com.kairong.three3d.pojo.StlGcode;
 
 import java.io.IOException;
@@ -25,6 +26,16 @@ public class CacheUtil {
     public static volatile List<StlGcode> sdList = new ArrayList<>();
     public static volatile Map<String, StlGcode> sdMap = new HashMap<>();
 
+    public static void getSdListThread(int flag) {
+        new Thread() {
+            @Override
+            public void run() {
+                getSdList(flag);
+            }
+        }.start();
+    }
+
+
     /**
      * 获取SD卡list数据
      *
@@ -44,34 +55,36 @@ public class CacheUtil {
 
 
     private static void getSdListByOkHttp() {
-        OkHttpClient client = OkHttpUtil.getClient();
-        Request request = OkHttpUtil.getRequest(PrinterUtil.getSDListUrl());
-        try {
-            Response execute = client.newCall(request).execute();
-            if (execute.isSuccessful()) {
-                String rs = execute.body().string();
-                if (!TextUtils.isEmpty(rs)) {
-                    sdList.clear();
-                    sdMap.clear();
-                    String[] childList = null;
-                    String[] rsList = rs.split("\n");
-                    for (int i = 0; i < rsList.length; i++) {
-                        if (rsList[i].contains("file list")) {
-                            continue;
+        if (PrinterConfig.ESP_8266_URL != null && PrinterConfig.ESP_8266_URL.length() > 0) {
+            OkHttpClient client = OkHttpUtil.getClient();
+            Request request = OkHttpUtil.getRequest(PrinterUtil.getSDListUrl());
+            try {
+                Response execute = client.newCall(request).execute();
+                if (execute.isSuccessful()) {
+                    String rs = execute.body().string();
+                    if (!TextUtils.isEmpty(rs)) {
+                        sdList.clear();
+                        sdMap.clear();
+                        String[] childList = null;
+                        String[] rsList = rs.split("\n");
+                        for (int i = 0; i < rsList.length; i++) {
+                            if (rsList[i].contains("file list")) {
+                                continue;
+                            }
+                            childList = rsList[i].trim().split(" ");
+                            StlGcode stlGcode = new StlGcode();
+                            stlGcode.setLocalGcodeName(childList[0]);
+                            int fileS = Integer.parseInt(childList[1].trim());
+                            IOUtil.genFileSize(fileS, stlGcode);
+                            sdList.add(stlGcode);
+                            sdMap.put(stlGcode.getLocalGcodeName(), stlGcode);
                         }
-                        childList = rsList[i].trim().split(" ");
-                        StlGcode stlGcode = new StlGcode();
-                        stlGcode.setLocalGcodeName(childList[0]);
-                        int fileS = Integer.parseInt(childList[1].trim());
-                        IOUtil.genFileSize(fileS, stlGcode);
-                        sdList.add(stlGcode);
-                        sdMap.put(stlGcode.getLocalGcodeName(), stlGcode);
                     }
                 }
+            } catch (IOException e) {
+                Log.e(TAG, e.getMessage());
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            Log.e(TAG, e.getMessage());
-            e.printStackTrace();
         }
     }
 

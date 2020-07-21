@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kairong.three3d.config.HtmlConfig;
+import com.kairong.three3d.util.CacheUtil;
 import com.kairong.three3d.util.PermissionCheckUtil;
 import com.kairong.three3d.util.StlDealUtil;
 import com.kairong.three3d.util.WebHost;
@@ -78,6 +79,10 @@ public class IndexHtmlActivity extends AppCompatActivity {
         }
         webView.loadUrl(WEB_URL);
         StlDealUtil.getModuleDataBase(this);
+
+        if (CacheUtil.sdList.size() == 0) {
+            CacheUtil.getSdListThread(1);
+        }
     }
 
 

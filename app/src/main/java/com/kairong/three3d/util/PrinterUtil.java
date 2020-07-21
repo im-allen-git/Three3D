@@ -90,7 +90,8 @@ public class PrinterUtil {
 
         InputStream is = null;
         try {
-            if (tempStlGcode.getFlag() > 0) {
+            System.err.println(tempStlGcode.getLocalImg());
+            if (tempStlGcode.getLocalFlag() > 0) {
                 // InputStream abpath = getClass().getResourceAsStream("/assets/文件名");
                 is = context.getAssets().open(tempStlGcode.getLocalImg().replace("file:///android_asset/", ""));
             } else {
@@ -255,6 +256,7 @@ public class PrinterUtil {
 
     /**
      * 上传文件命令url
+     *
      * @return
      */
     public static String getPostFileUrl() {
@@ -264,6 +266,7 @@ public class PrinterUtil {
 
     /**
      * 获取sd卡命令url
+     *
      * @return
      */
     public static String getSDListUrl() {

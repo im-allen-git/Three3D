@@ -109,8 +109,8 @@ public class PrinterStartActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         initView();
 
-        if(CacheUtil.sdList.size() == 0){
-            CacheUtil.getSdList(1);
+        if (CacheUtil.sdList.size() == 0) {
+            CacheUtil.getSdListThread(1);
         }
 
         // 判断传递的参数并且放入队列
@@ -233,6 +233,7 @@ public class PrinterStartActivity extends AppCompatActivity {
                                     if (content != null && (content.contains("Ok") || content.contains("ok"))) {
                                         OkHttpUtil.sendMessage(100, "上传成功", mainHandler);
                                         OkHttpUtil.sendMessage(130, "上传成功", mainHandler);
+                                        CacheUtil.getSdListThread(1);
                                     } else {
                                         OkHttpUtil.sendMessage(140, "上传失败", mainHandler);
                                     }

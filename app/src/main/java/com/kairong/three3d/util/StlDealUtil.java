@@ -210,7 +210,7 @@ public class StlDealUtil {
 
             StlGcode stlGcode = new StlGcode(id, sourceStlName, realStlName, sourceZipStlName,
                     serverZipGcodeName, localGcodeName, createTime, localImg,
-                    lengthStr, widthStr, heigthStr, sizeStr, material, exeTime, IOUtil.getTimeStr(exeTime), uploadFlag);
+                    lengthStr, widthStr, heigthStr, sizeStr, material, exeTime, IOUtil.getTimeStr(exeTime), uploadFlag, 0);
             stlDataBaseMap.put(stlGcode.getRealStlName(), stlGcode);
         }
         db.close();
@@ -289,7 +289,7 @@ public class StlDealUtil {
                     "file:///android_asset/models/stl/localModules/hello_kitty.gco", "",
                     "file:///android_asset/models/stl/localModules/hello_kitty.png",
                     "X:74.01", "Y:51.22", "Z:100.93", "18.20M", "7318cm",
-                    1025 * PrinterConfig.MINUTE_TIME, IOUtil.getTimeStr(1025 * PrinterConfig.MINUTE_TIME), 1);
+                    1025 * PrinterConfig.MINUTE_TIME, IOUtil.getTimeStr(1025 * PrinterConfig.MINUTE_TIME), 1, 1);
             localStlList.add(kitty);
             localMapStl.put(kitty.getLocalGcodeName().split("/localModules/")[1], kitty);
 
@@ -299,7 +299,7 @@ public class StlDealUtil {
                     "file:///android_asset/models/stl/localModules/chamaeleo_t.gco", "",
                     "file:///android_asset/models/stl/localModules/chamaeleo_t.png",
                     "X:92.89", "Y:93.08", "Z:25.98", "5.33M", "780cm",
-                    110 * PrinterConfig.MINUTE_TIME, IOUtil.getTimeStr(110 * PrinterConfig.MINUTE_TIME), 1);
+                    110 * PrinterConfig.MINUTE_TIME, IOUtil.getTimeStr(110 * PrinterConfig.MINUTE_TIME), 1, 1);
             localStlList.add(chamaeleo_t);
             localMapStl.put(chamaeleo_t.getLocalGcodeName().split("/localModules/")[1], chamaeleo_t);
 
@@ -309,7 +309,7 @@ public class StlDealUtil {
                     "file:///android_asset/models/stl/localModules/hand_ok.gco", "",
                     "file:///android_asset/models/stl/localModules/hand_ok.png",
                     "X:42.78", "Y:57.72", "Z:110.44", "16.40M", "2168cm",
-                    304 * PrinterConfig.MINUTE_TIME, IOUtil.getTimeStr(304 * PrinterConfig.MINUTE_TIME), 1);
+                    304 * PrinterConfig.MINUTE_TIME, IOUtil.getTimeStr(304 * PrinterConfig.MINUTE_TIME), 1, 1);
             localStlList.add(hand_ok);
             localMapStl.put(hand_ok.getLocalGcodeName().split("/localModules/")[1], hand_ok);
 
@@ -319,7 +319,7 @@ public class StlDealUtil {
                     "file:///android_asset/models/stl/localModules/jet_pack_bunny.gco", "",
                     "file:///android_asset/models/stl/localModules/jet_pack_bunny.png",
                     "X:130.43", "Y:92.01", "Z:131.28", "48.20M", "2168cm",
-                    304 * PrinterConfig.MINUTE_TIME, IOUtil.getTimeStr(304 * PrinterConfig.MINUTE_TIME), 1);
+                    304 * PrinterConfig.MINUTE_TIME, IOUtil.getTimeStr(304 * PrinterConfig.MINUTE_TIME), 1, 1);
             localStlList.add(jet_pack_bunny);
             localMapStl.put(jet_pack_bunny.getLocalGcodeName().split("/localModules/")[1], jet_pack_bunny);
 
@@ -329,7 +329,7 @@ public class StlDealUtil {
                     "file:///android_asset/models/stl/localModules/god_of_wealth.gco", "",
                     "file:///android_asset/models/stl/localModules/god_of_wealth.png",
                     "X:62.85", "Y:57.72", "Z:64.23", "23.40M", "1945cm",
-                    273 * PrinterConfig.MINUTE_TIME, IOUtil.getTimeStr(273 * PrinterConfig.MINUTE_TIME), 1);
+                    273 * PrinterConfig.MINUTE_TIME, IOUtil.getTimeStr(273 * PrinterConfig.MINUTE_TIME), 1, 1);
             localStlList.add(god_of_wealth);
             localMapStl.put(god_of_wealth.getLocalGcodeName().split("/localModules/")[1], god_of_wealth);
         }

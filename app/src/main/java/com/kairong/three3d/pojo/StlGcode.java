@@ -50,6 +50,9 @@ public class StlGcode {
     // 是否上传打印机 0未上传 1上传
     private int flag;
 
+    // 是否本地文件  1本地文件 0创建文件
+    private int localFlag;
+
 
     public String getShortGcode() {
         if (TextUtils.isEmpty(localGcodeName)) {

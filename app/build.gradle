@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.example.three3d"
+        applicationId "com.kairong.three3d"
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 1

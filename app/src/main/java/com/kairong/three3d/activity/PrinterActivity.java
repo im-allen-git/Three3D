@@ -22,8 +22,6 @@ import com.kairong.three3d.IndexHtmlActivity;
 import com.kairong.three3d.R;
 import com.kairong.three3d.config.PrinterConfig;
 import com.kairong.three3d.touchv1.NetUtils;
-import com.kairong.three3d.util.CacheUtil;
-import com.kairong.three3d.util.HtmlUtil;
 import com.kairong.three3d.util.IOUtil;
 import com.kairong.three3d.util.WebViewClientUtil;
 
@@ -72,7 +70,7 @@ public class PrinterActivity extends AppCompatActivity {
             connectWifiBtn.setOnClickListener(v -> {
                 Intent it = new Intent(context.getApplicationContext(), WifiPassActivity.class);
                 startActivity(it);
-                if(StlUtil.ESP_8266_URL!=null){
+                if(PrinterConfig.ESP_8266_URL!=null){
                     finish();
                 }
             });

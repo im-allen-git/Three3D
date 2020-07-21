@@ -385,10 +385,15 @@ public class WebHost {
 
     @JavascriptInterface
     public String getSdList() {
-        if (CacheUtil.sdList.size() == 0) {
-            CacheUtil.getSdList(1);
+        if (PrinterConfig.ESP_8266_URL != null && PrinterConfig.ESP_8266_URL.length() > 0) {
+            if (CacheUtil.sdList.size() == 0) {
+                CacheUtil.getSdList(1);
+            }
+            return CacheUtil.sdList.size() == 0 ? null : JSONObject.toJSONString(CacheUtil.sdList);
         }
-        return CacheUtil.sdList.size() == 0 ? null : JSONObject.toJSONString(CacheUtil.sdList);
+        else{
+            return "11";
+        }
     }
 
 
