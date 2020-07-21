@@ -118,11 +118,9 @@ function onDocumentMouseDownMineCraft(event) {
             if (canBeDeleted) {
 
                 if (intersect.object !== plane) {
-
+                    createObjForOperation( intersect.object, 'delete' );
                     scene.remove(intersect.object);
-
                     objects.splice(objects.indexOf(intersect.object), 1);
-
                 }
 
                 // create cube
