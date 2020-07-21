@@ -389,7 +389,7 @@ function listModule( type ) {
 
 		var mineCraftHtml = '<div class="child_title" onclick="swichToNormalModule(this)"><i class="iconfont arrow">&#xe720;</i>我的世界</div>';
 			var mineCraftIndex = 0;
-			var listhouseSTL = [{"name": "砖头", "title": "wall","id": "00","url": "../img/3dPrinting/sprint_cube.png" },{"name": "窗户","title": "window","id": "01","url": "../img/3dPrinting/sprint_window.png"},{"name": "门","title": "door","id": "02","url": "../img/3dPrinting/sprint_cube.png"} ];
+			var listhouseSTL = [{"name": "砖头", "title": "wall","id": "00","url": "../img/3dPrinting/sprint_cube.png" },{"name": "窗户","title": "window","id": "01","url": "../img/3dPrinting/sprint_window.png"},{"name": "门","title": "door","id": "02","url": "../img/3dPrinting/sprint_door.png"} ];
 			for (var i in listhouseSTL) {
 				mineCraftHtml += '<div class="module mine_craft_'+mineCraftIndex+ ' '+  listhouseSTL[i].title + '" onclick="loadhouseSTL('+mineCraftIndex+',this)">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
 				mineCraftHtml += '<input class="this_code" type="hidden" value="' + mineCraftIndex + '">';

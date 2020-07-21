@@ -253,6 +253,8 @@ div#shapes.closeShapes{display: none;}
 .sprint_fivepointstar{background-image: url("../img/3dPrinting/sprint_fivepointstar.png");background-position: 0 0;}
 .sprintY{background-position: 0 0;}
 .sprint_wall{background-image: url("../img/3dPrinting/sprint_cube.png");}
+.sprint_window{background-image: url("../img/3dPrinting/sprint_window.png");background-position: 0 0;}
+.sprint_door{background-image: url("../img/3dPrinting/sprint_door.png");background-position: 0 0;}
 
 /*文字输入*/
 .text_window{display: none; position:fixed;top: .1rem; right: 1.1rem; width: 1.5rem; background: #fff; border-radius: 4px;font-size: .14rem; text-align: center;z-index: 2;}
