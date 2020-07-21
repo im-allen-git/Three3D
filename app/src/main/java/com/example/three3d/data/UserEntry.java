@@ -10,9 +10,9 @@ public final class UserEntry implements BaseColumns {
 
     /** Name of database table for pets */
     public final static String TABLE_NAME = "user";
-    public final static String COLUMN_USER_ID = BaseColumns._ID;
+    //     public final static String COLUMN_USER_ID = BaseColumns._ID;
 
-//    public final static String COLUMN_USER_ID ="user_id";
+    public final static String COLUMN_USER_ID ="user_id";
     // 昵称(默认手机号，第三方登录使用第三方昵称)
     public final static String COLUMN_NICK_NAME ="nick_name";
     // 密码

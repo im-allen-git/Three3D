@@ -29,10 +29,10 @@ public class ThreeDbHelper extends SQLiteOpenHelper {
 //        // Execute the SQL statement
 //        db.execSQL(SQL_CREATE_PETS_TABLE);
 
-//        String SQL_CREATE_PRINTER_TABLE = "CREATE TABLE " + ThreePrinterEntry.TABLE_NAME + " ("
-//                + ThreePrinterEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-//                + ThreePrinterEntry.COLUMN_WIFI_URL + " TEXT);";
-//        db.execSQL(SQL_CREATE_PRINTER_TABLE);
+        String SQL_CREATE_PRINTER_TABLE = "CREATE TABLE " + ThreePrinterEntry.TABLE_NAME + " ("
+                + ThreePrinterEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + ThreePrinterEntry.COLUMN_WIFI_URL + " TEXT);";
+        db.execSQL(SQL_CREATE_PRINTER_TABLE);
 
 
         // user Create a String that contains the SQL statement to create the pets table
