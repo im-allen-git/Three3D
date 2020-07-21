@@ -14,6 +14,7 @@ function switchGame(type) { //type  1: 去普通模式 0：去minecraft
     // var switchGame = $("#switchGame:checked").length;
     if (type == 1) {
         currentBuildType = 0;//0: 普通模式 1：minecraft
+         camera.position.set( 83, 71, 124); //45°
         $(".mine_craft_active").removeClass("mine_craft_active");
         $(".obj_control_wrapper_minecraft").hide();
         $( ".save_ask_mineCraft,.save_name_module_bg" ).hide();
@@ -23,12 +24,15 @@ function switchGame(type) { //type  1: 去普通模式 0：去minecraft
 
     } else if (type == 0) {
         currentBuildType = 1;//0: 普通模式 1：minecraft
+        camera.position.set(0,80,127);
         $( ".minecraft_wrapper" ).show();
         $(".obj_control_wrapper").hide();
         $( ".save_ask_mineCraft,.save_name_module_bg" ).hide();
         $(".mine_craft_active").removeClass("mine_craft_active");
         loadhouseSTL(0)
+        firstMineCraft();
     }
+    camera.lookAt( 0, 0, 0 );
     goMineCraftFlag=false;
 }
 
@@ -276,7 +280,7 @@ function exportMineCraftMoudle( type ) { //type 0: ASCII 1: GLTF
         scene.updateMatrixWorld();
         directionalLight.position.set( 1, 0.75, 0.5 ).normalize();
         //end
-
+    $(".save_name_minecraft_module,.save_name_module_bg").hide();
         switchGame(1)
     }
 }
@@ -289,19 +293,19 @@ function firstMineCraft(){
         showModule(0);
         var div1 = document.createElement("div");
         var div2 = document.createElement("div");
-        div1.className = "how_to_play";
+        div1.className = "how_to_play_minecraft";
         var img =  document.createElement("img");
         img.src = "../img/3dPrinting/firstMineCraft.gif";
         div1.appendChild(img)
         div2.className="how_to_play_bg";
         document.body.appendChild(div1);
         document.body.appendChild(div2);
-        $(".how_to_play, .how_to_play_bg").click(function(){
+        $(".how_to_play_minecraft, .how_to_play_bg").click(function(){
             js.saveFlagByJson("mine_craft_module");
-            $(".how_to_play, .how_to_play_bg").remove();
+            $(".how_to_play_minecraft, .how_to_play_bg").remove();
         })
     }
     else{
-        $(".how_to_play, .how_to_play_bg").remove();
+        $(".how_to_play_minecraft, .how_to_play_bg").remove();
     }
 }
