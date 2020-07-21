@@ -1,0 +1,53 @@
+.log_main{padding-top:2.3rem;}
+.log_logo img{width:1.2rem;}
+.log_logo p{margin-top:0.1rem;}
+.log_phone{    font-size:0.4rem;font-family: Microsoft YaHei;
+    font-weight: 700;
+    margin-top:0.5rem;    margin-bottom: 0;}
+.log_phone_btn{
+    display: inline-block;color:#fff;font-size:0.28rem;width:80%;height:0.9rem;line-height: .9rem;background: #16B347;border-radius:0.45rem;    margin-top:0.5rem;
+	margin-bottom:0.5rem;
+	}
+.log_phone_btn:focus,.log_phone_btn:hover {
+    color: #fff;background: #059833;
+}
+.mentioning_item {float:left;width:33.3%;}
+.mentioning_item1{text-align: right;}
+.mentioning_item3{text-align: left;}
+.mentioning_item span{display:inline-block;font-size:0.7rem;}
+.mentioning_item1 span{color:#329ADE;}
+.mentioning_item2 span{color:#FF4646;}
+.mentioning_item3 span{color:#00D866;}
+
+.log_protocol{width: 92%;position: fixed;bottom:0.6rem;left:50%;-webkit-transform: translate(-50%,0);-moz-transform: translate(-50%,0);-otransform: translate(-50%,0);-ms-transform: translate(-50%,0);transform: translate(-50%,0);}
+.protocol_check{display: inline-block;
+    width: 0.3rem;
+    height: 0.3rem;
+    line-height: 0.3rem;
+    border: 1px solid #16B446;
+    border-radius: 50%;
+    position: relative;
+    top:1px;right: 0.05rem;}
+.protocol_active{background: #16B446;}
+.protocol_check i{display:none;font-size: 0.24rem;color:#FFF;}
+.protocol_active i{display: block;}
+.log_protocol span{font-size:0.26rem;}
+.log_protocol span a{font-weight: 400;color:#16B447;}
+
+.log_embar_btn,.log_embar_btn:focus, .log_embar_btn:hover{background: #babdbb;}
+/* 链接方式弹窗开始*/
+.wife{background-color:#fff;border:1px solid #16B347;color:#16B347;}
+/* 链接方式弹窗结束 */
+
+
+
+
+
+
+
+
+
+
+
+
+

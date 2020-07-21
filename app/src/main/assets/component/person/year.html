@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>report</title>
+		<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+		<link href="../../index/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://at.alicdn.com/t/font_1881137_fqwptv0pmzf.css" />
+		<link rel="stylesheet" href="../css/com.css">
+		<style>
+			body{background-color:#f4f8fb;}
+			.sort span{font-size:0.25rem;color:#333;padding-bottom:0.1rem;width:0.8rem;display: inline-block;text-align: center;}
+			.sort span.active {border-bottom:0.05rem solid #16b446;}
+			.unit{color:#888;}
+			.main2_wrap{background-color:#fff;padding-top:0.3rem;position: relative;box-shadow:0px 0px 20px 0px rgba(0, 0, 0, 0.1);border-radius: 10px;}
+			.top_transparent{position: absolute;top:10px;right:0;width:50%;height:30px;z-index: 10;background-color:transparent;}
+			.day_state{width:30px;height:4px;border-radius: 2px;background-color:#32ff22;display: inline-block;margin-right:0.1rem;
+			position: relative;top:-2px;}
+			.main2_unit{color:#bac1ca;}
+			.main2_top {font-size:0.25rem;padding:0 20px;}
+			
+			
+		</style>
+	</head>
+	<body>
+		<div class="top_wrap"></div>
+		<div class="report bgf4">
+			<div class="container ">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="top mt80">
+							<a href="report_list.html" class="add_back">
+								<i class="iconfont icon-left c0"></i>
+								<span> 摄入年报 </span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="row ">
+					<div class="col-xs-12 clearfix mt40">
+						<div class="pull-left sort">
+							<span href="" class="active">食用盐</span>
+							<span href="" class="">糖</span>
+							<span href="" class="">味精</span>
+							<span href="" class="">食用油</span>
+						</div>
+						<span class="pull-right unit">
+							(单位：克)
+						</span>
+					</div>										
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						
+						<div id="main1" style="width: 100%;height:400px;"></div>
+					</div>
+				</div>
+				
+				<div class="row mt30">
+					
+					<div class="col-xs-12 ">
+						<div class="main2_wrap">
+							<div class="main2_top clearfix">
+								<div class="pull-left">*最大摄入量每日8克，日均摄入6克</div>
+								<div class="pull-right">
+									<div><em class="day_state"></em> <span>每日标准</span></div>
+									<p class="text-right main2_unit">( 单位：克 )</p>
+								</div>	
+								
+							</div>
+							<div id="main2" style="width: 100%;height:300px;"></div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script> -->
+<script src="../../index/js/jquery.min.js"></script>
+<script src="../js/com.js"></script>
+<!-- <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script> -->
+<script src="../../index/js/echarts.min.js"></script>
+<script src="../js/report.js"></script>
+

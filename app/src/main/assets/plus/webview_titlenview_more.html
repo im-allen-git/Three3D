@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>titleNView</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+var ws = null;
+// H5 plus事件处理
+function plusReady(){
+	ws = plus.webview.currentWebview();
+}
+document.addEventListener('plusready', plusReady, false);
+
+var bAlign = false;
+function switchTitleAlign(){
+  ws.setStyle({
+    titleNView: {
+      titleAlign: bAlign?'left':'center'
+    }
+  });
+  bAlign = !bAlign;
+}
+
+function setBackgroundImage(){
+  ws.setStyle({
+    titleNView: {
+      backgroundImage: '../img/ui.png'
+    }
+  });
+}
+function setBackgroundGradient(){
+  ws.setStyle({
+    titleNView: {
+      backgroundImage: 'linear-gradient(to top, #a80077, #66ff00)'
+    }
+  });
+}
+
+function setRedDot(){
+  ws.setStyle({
+    titleNView:{
+      redDotColor: '#00FF00',
+      backButton: {
+        redDot: true
+      }
+    }
+  })
+}
+function hideRedDot(){
+  ws.setStyle({
+    titleNView: {
+      backButton: {
+        redDot: false
+      }
+    }
+  });
+}
+
+function setBadge(){
+  ws.setStyle({
+    titleNView: {
+      backButton: {
+        badgeText: '8',
+        badgeBackground: '#CCCCCC',
+        badgeColor: '#FF0000',
+        title: ''
+      }
+    }
+  });
+}
+function removeBadge(){
+  ws.setStyle({
+    titleNView: {
+      backButton: {
+        badgeText: ''
+      }
+    }
+  });
+}
+
+function multiTitle(){
+  ws.setStyle({
+    titleNView: {
+      titleText: '新标题文本内容',
+      subtitleText: '副标题文本内容'
+    }
+  });
+}
+function singleTitle(){
+  ws.setStyle({
+    titleNView: {
+      subtitleText: ''
+    }
+  });
+}
+
+function setIcon(){
+  ws.setStyle({
+    titleNView: {
+      titleIcon: '../img/ui.png',
+      titleIconRadius: '5px',
+    }
+  });
+}
+function removeIcon(){
+  ws.setStyle({
+    titleNView: {
+      titleIcon: '',
+      titleIconRadius: '',
+    }
+  });
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+    <br/><br/>
+    <span class="des">此页面演示自定义返回按钮、标题栏对其方式、标题栏背景图等功能</span>
+		<br/><br/>
+		<div class="button" onclick="switchTitleAlign()">切换标题对齐方式</div>
+		<div class="button" onclick="setBackgroundImage()">设置背景图片</div>
+		<div class="button" onclick="setBackgroundGradient()">设置背景渐变色</div>
+		<div class="button" onclick="setBadge()">设置返回按钮角标</div>
+		<div class="button" onclick="removeBadge()">移除返回按钮角标</div>
+		<div class="button" onclick="multiTitle()">多行标题</div>
+		<div class="button" onclick="singleTitle()">单行标题</div>
+		<div class="button" onclick="setIcon()">显示标题图标</div>
+		<div class="button" onclick="removeIcon()">隐藏标题图标</div>
+		<br/>
+		<div style="width:100%;height:1000px"></div>
+	</body>
+</html>

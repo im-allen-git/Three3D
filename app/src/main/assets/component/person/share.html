@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>report</title>
+		<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+		<link href="../../index/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://at.alicdn.com/t/font_1881137_fqwptv0pmzf.css" />
+		<!-- h5+ 的css -->
+		<link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+		<!-- self css -->
+		<link rel="stylesheet" href="../css/com.css">
+		<style>
+			body{text-align: left;}
+			.no_group p{font-size:0.3rem;color:#868c92;margin:0.65rem 0;}
+			.add_phone,.sm{width:80%;border-radius: 40px;height:0.8rem;font-size:0.3rem;}
+			.sm{border-color:#15b346;color:#15b346;}
+			.icon-delete{color:#4cae4c;font-size:0.5rem;}
+			.share .group_name,.share .state{font-size:0.3rem;}
+			.share .state{color:#999;}
+			.list{margin:0 20px;border-bottom:1px solid #ececec;line-height: 0.8rem;}
+			.share_foot{width:100%;position: fixed;bottom:0.5rem;left:50%;margin-left:-50%;height:2.5rem;}
+			.group_list {max-height:7.5rem;overflow-y: auto;}
+			.hdata {
+				color: #e1673e;
+				font-size: 14px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			.share .group_name{margin-right:0.4rem;}
+			.tc{top:1rem;}
+			
+		</style>
+	</head>
+	<body ><!-- onselectstart="return false;" -->
+		<div class="top_wrap"></div>
+		<div class="share">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="top mt80">
+							<a href="../my.html" class="add_back">
+								<i class="iconfont icon-left"></i>
+								<span> 群组共享 </span>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="row no_group">
+					<div class="col-xs-12">
+						<p class="text-center"> 您还没有群组成员，点击添加 </p>
+					</div>
+				</div>
+
+				<div class="row group_list mt20">
+					<!-- <div class="list clearfix">
+						<div class="col-xs-10">
+							<span class="group_name" id="add_name"> 我自己 </span>
+							<span class="state"> 已连接 </span>
+						</div>
+						<div class="col-xs-2 text-right">
+							<i class="iconfont icon-delete del_list"></i>
+						</div>
+					</div> -->
+					
+				</div>
+
+				<div class="row share_foot">
+					<div class="col-xs-12 text-center">
+						<button class="btn btn-success add_phone wrap"> 手机号码添加 </button>
+						<div class="tc phone_tc">
+							<div class="tc_top clearfix mt80">
+								<div class="wrap phone_wrap">
+									<span class="pull-left s1"><b>手机号码添加</b></span>
+									<i class="pull-right iconfont icon-close i1 close"></i>
+								</div>
+								
+							</div>
+							<div class="line"></div>
+							<div class="input_wrap position_relative">
+								<input type="text" class="form-control phone_val">
+								<i class="iconfont icon-close i2 del phone_del"></i>
+							</div>
+							<div class="clearfix">
+								<button class="pull-left btn btn-default cancel">取消</button>
+								<button class="pull-right btn btn-success sure">确认</button>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-xs-12 text-center mt60" id="plist">
+						<button class="btn btn-default sm" onclick="openBarcode()"> 扫码添加</button>
+						<!-- <div class="button" onclick="openBarcode()">扫一扫</div> -->
+						<ul id="history" class="dlist" style="text-align:left;display: none;">
+							<li id="nohistory" class="ditem" onclick="onempty()">无历史记录 </li>
+						</ul>
+						<!-- <br 
+						<div class="button button-waring" onclick="cleanHistroy()">清空历史记录</div> -->
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</body>
+</html>
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script> -->
+<script src="../../index/js/jquery.min.js"></script>
+<script src="../js/com.js"></script>
+<!-- 扫描代码 -->
+<script type="text/javascript" src="../../js/common.js"></script>
+
+		<script type="text/javascript">
+			var group_arr = [];
+			var text = '';
+			var img = null;
+			var blist = [];
+			
+			// 首次进入,刷新群组列表开始
+			
+			var groupPhone = window.sessionStorage.getItem("groupPhone");
+			if(groupPhone&&groupPhone.length>0){
+				var g = groupPhone.replace(/&/g,',');
+				var s = g.substring(0,g.length);
+				group_arr = s.split(',');
+				console.log(group_arr);
+			}
+			
+			if(group_arr.length > 0){
+				$('.no_group').hide();
+				var list = ''
+				for(var i = 0;i<group_arr.length;i++){
+					if(group_arr[i] && group_arr[i] != ''){
+						list += '<div class="list clearfix">'
+						list +=	'<div class="col-xs-10">'
+						list +=		'<span class="group_name" id="add_name"> '+ group_arr[i] +' </span>'
+						list +=		'<span class="state"> 已连接 </span>'
+						list +=	'</div>'
+						list +=	'<div class="col-xs-2 text-right">'
+						list +=		'<i class="iconfont icon-delete del_list" onclick="del_list(this)"></i>'
+						list +=	'</div>'
+						list +='</div>';
+					}
+				}
+				$('.group_list').append(list).show();
+			}else{
+				$('.no_group').show();
+				 $('.group_list ').hide();
+			} 
+			
+			/* 首次进入结束 */
+			
+			
+		
+			function scaned(t, r, f) {
+				var d = new Date();
+				var h = d.getHours(),
+					m = d.getMinutes(),
+					s = d.getSeconds(),
+					ms = d.getMilliseconds();
+				if (h < 10) {
+					h = '0' + h;
+				}
+				if (m < 10) {
+					m = '0' + m;
+				}
+				if (s < 10) {
+					s = '0' + s;
+				}
+				if (ms < 10) {
+					ms = '00' + ms;
+				} else if (ms < 100) {
+					ms = '0' + ms;
+				}
+				var ts = '[' + h + ':' + m + ':' + s + '.' + ms + ']';
+				var li = null,
+					hl = document.getElementById('history');
+				if (blist.length > 0) {
+					li = document.createElement('li');
+					li.className = 'ditem';
+					hl.insertBefore(li, hl.childNodes[0]);
+				} else {
+					li = document.getElementById('nohistory');
+				}
+				li.id = blist.length;
+				var html = '[' + h + ':' + m + ':' + s + '.' + ms + ']' + '　　' + t + '码<div class="hdata">';
+				html += r;
+				html += '</div>';
+				li.innerHTML = html;
+				text = r ;
+				alert(text);
+				var list = ''
+				// $('#add_name').text(text);
+				list += '<div class="list clearfix">'
+				list +=	'<div class="col-xs-10">'
+				list +=		'<span class="group_name" id="add_name"> '+ text +' </span>'
+				list +=		'<span class="state"> 已连接 </span>'
+				list +=	'</div>'
+				list +=	'<div class="col-xs-2 text-right">'
+				list +=		'<i class="iconfont icon-delete del_list" onclick="del_list(this)"></i>'
+				list +=	'</div>'
+				list +='</div>';
+				$('.group_list').append(list);	
+				$('.no_group').hide();
+				// window.sessionStorage.setItem('groupErweima',text);
+				
+				
+				// 二维码添加添加群组成员
+				
+					var phone_val = text;
+					var groupPhone = window.sessionStorage.getItem("groupPhone");
+					if(groupPhone&&groupPhone.length>0){
+						var g = groupPhone.replace(/&/g,',');
+						var s = g.substring(0,g.length);
+						var group_arr = s.split(',');
+					
+					}else{
+						group_arr = [];
+					}
+					
+					   console.log(group_arr);
+						group_arr.push(phone_val);
+						var phone_str = group_arr.join('&');
+					
+					
+					// 添加群组 设置缓存
+					window.sessionStorage.setItem('groupPhone',phone_str);
+					
+				/* 二维码添加结束 */
+				
+				
+				li.setAttribute('onclick', 'selected(id)');
+				blist[blist.length] = {
+					type: t,
+					result: r,
+					file: f
+				};
+				update(t, r, f);
+				
+			}
+		
+			function selected(id) {
+				var h = blist[id];
+				update(h.type, h.result, h.file);
+				if (h.result.indexOf('http://') == 0 || h.result.indexOf('https://') == 0) {
+					plus.nativeUI.confirm(h.result, function(i) {
+						if (i.index == 0) {
+							plus.runtime.openURL(h.result);
+						}
+					}, '', ['打开', '取消']);
+				} else {
+					plus.nativeUI.alert(h.result);
+				}
+			}
+		
+			function update(t, r, f) {
+				outSet('扫描成功：');
+				outLine(t);
+				outLine(r);
+				outLine('\n图片地址：' + f);
+				if (!f || f == 'null') {
+					img.src = '../img/barcode.png';
+				} else {
+					plus.io.resolveLocalFileSystemURL(f, function(entry) {
+						img.src = entry.toLocalURL();
+					});
+					//img.src = 'http://localhost:13131/'+f;
+				}
+			}
+		
+			function onempty() {
+				if (window.plus) {
+					plus.nativeUI.alert('无扫描记录');
+				} else {
+					alert('无扫描记录');
+				}
+			}
+		
+			function cleanHistroy() {
+				if (blist.length > 0) {
+					var hl = document.getElementById('history');
+					hl.innerHTML = '<li id="nohistory" class="ditem" onclick="onempty();">无历史记录	</li>';
+				}
+				plus.io.resolveLocalFileSystemURL('_doc/barcode/', function(entry) {
+					entry.removeRecursively(function() {
+						// Success
+					}, function(e) {
+						//alert( "failed"+e.message );
+					});
+				});
+			}
+			// 打开二维码扫描界面 
+			function openBarcode() {
+				createWithoutTitle('../../plus/barcode_scan.html', {
+					titleNView: {
+						type: 'float',
+						// backgroundColor: 'rgba(215,75,40,0.3)',
+						backgroundColor: '#1ccc4e',
+						titleText: '扫一扫',
+						titleColor: '#FFFFFF',
+						autoBackButton: true,
+						buttons: [{
+							fontSrc: '_www/helloh5.ttf',
+							text: '\ue302',
+							fontSize: '18px',
+							onclick: 'javascript:scanPicture()'
+						}]
+					}
+				});
+			}
+			// 打开自定义扫描界面 
+			function openBarcodeCustom() {
+				createWithoutTitle('../../plusbarcode_custom.html', {
+					titleNView: {
+						type: 'float',
+						// backgroundColor: 'rgba(215,75,40,0.3)',
+						backgroundColor: '#1ccc4e',
+						titleText: '扫一扫',
+						titleColor: '#FFFFFF',
+						autoBackButton: true,
+						buttons: [{
+							fontSrc: '_www/helloh5.ttf',
+							text: '\ue401',
+							fontSize: '18px',
+							onclick: 'javascript:switchFlash()'
+						}]
+					}
+				});
+			} 
+			
+			
+			// 手机号码添加群组成员
+			$('.phone_tc .sure').click(function(){
+				var phone_val = $('.phone_val').val().trim();
+				var groupPhone = window.sessionStorage.getItem("groupPhone");
+				if(groupPhone&&groupPhone.length>0){
+					var g = groupPhone.replace(/&/g,',');
+					var s = g.substring(0,g.length);
+					var group_arr = s.split(',');
+					
+					
+					// 
+					// 添加群组 设置缓存
+					// window.sessionStorage.setItem('groupPhone',s); 
+				}else{
+					group_arr = [];
+					// phone_str += phone_val + '&';
+				}
+				
+				   console.log(group_arr);
+					group_arr.push(phone_val);
+					var phone_str = group_arr.join('&');
+				
+				
+				// 添加群组 设置缓存
+				window.sessionStorage.setItem('groupPhone',phone_str);
+				var list = ''
+				// $('#add_name').text(text);
+				list += '<div class="list clearfix">'
+				list +=	'<div class="col-xs-10">'
+				list +=		'<span class="group_name" id="add_name"> '+ phone_val +' </span>'
+				list +=		'<span class="state"> 已连接 </span>'
+				list +=	'</div>'
+				list +=	'<div class="col-xs-2 text-right">'
+				list +=		'<i class="iconfont icon-delete del_list" onclick="del_list(this)"></i>'
+				list +=	'</div>'
+				list +='</div>';
+				$('.group_list').append(list).show();	
+				$('.no_group').hide();
+				$('.phone_tc').hide();
+			});
+			
+			// 删除群组成员
+			function del_list(obj){
+				$(obj).closest('.list').remove();
+				var li_name = $(obj).closest('.list').find('#add_name').text().trim();
+				var groupPhone = window.sessionStorage.getItem("groupPhone");
+				if(groupPhone&&groupPhone.length>0){
+					var g = groupPhone.replace(/&/g,',');
+					var s = g.substring(0,g.length);
+					group_arr = s.split(',');
+					console.log(group_arr);
+					group_arr.splice($.inArray(li_name,group_arr),1);  // 删除数组中元素值
+										
+					console.log(group_arr); 
+					 var s = group_arr.join('&');
+					// 添加群组 设置缓存
+					window.sessionStorage.setItem('groupPhone',s); 
+				}
+			};
+			$('.phone_del').click(function(){
+				$('.phone_val').val('');
+			});
+			
+			
+			
+		</script> 
+
+
+
+
+

@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<!-- <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/> -->
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<!-- <meta name="misapplication-tap-highlight" content="no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/> -->
+		<title>新用户</title>
+		<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="./css/index.css">
+		<script type="text/javascript">(function() {var currClientWidth, fontValue, originWidth;originWidth = 750;__resize();window.addEventListener('resize', __resize, false);function __resize() {currClientWidth = document.documentElement.clientWidth || document.body.clientWidth;if(currClientWidth > 768) {currClientWidth = 768;}if(currClientWidth < 320) {currClientWidth = 320;}fontValue = (currClientWidth / originWidth * 100).toFixed(2);document.getElementsByTagName("html")[0].style.fontSize = fontValue + 'px';}})();</script>
+		<style>
+			.index_main{padding-top:0.8rem;}
+			.confirm_device {margin-top:1rem;}
+			.top_wrap{width:100%;height:1rem;background-color:rgba(0,0,0,.2);}
+			.lanya_wrap input{width:200px;}
+		</style>
+	</head>
+	<body>
+		<div class="top_wrap"></div>
+		<div class="lanya_list" id="lanyaList">
+			<!-- <input type="hidden" class='str_lanya' value='24' style="border:1px solid blue;">
+			<input type="hidden" class='str_lanya' value='54' style="border:1px solid blue;"> -->
+		</div>
+		
+		<input type="hidden" class="lanya" style="border:1px solid red;">
+		<div class="lanya_wrap" style="border:1px solid red;overflow:hidden;margin-top:50px;display: none;" >
+				<div class="wrap_value" style="text-align: left;">
+					<div> <a href="../index/index.html">返回到首页1 </a> </div>
+					<div class="button">添加设备</div> 
+					<div>最终获取的蓝牙数值：<input type="text" id="yalan" style="border:1px solid red;"> </div>
+					<!-- 缓存 --> <!-- <div>最终获取的缓存蓝牙数值：<input type="text" id="huancun" style="border:1px solid red;"> </div> -->
+					<div id="outpos" style="display: block;">
+						<div id="output">
+							Bluetooth用于管理蓝牙设备，搜索附近蓝牙设备、连接实现数据通信等。
+						</div>
+					</div> 
+				</div>
+		</div> 
+		<!-- 首页主界面 -->
+		<div class="index_main">
+			<div class="index-top text-center clearfix">
+
+				<span class="switch_top">
+					<i id="myname"></i>
+					<i class="iconfont">&#xe7ee;</i></span>
+
+				<!-- <span class="switch_top"><em>本人</em><i class="iconfont">&#xe7ee;</i></span> -->
+				<div class="device_bg" id="switchBg"></div>
+				<ul class="switch_users">
+					<li class="switch_item"></li>
+					<!-- <li class="switch_item">用户1</li>
+					<li class="switch_item">用户2</li>
+					<li class="switch_item">用户3</li> -->
+				</ul>
+			</div>
+			<div class="index_container">
+				<div class="food_top">
+					<ul class="food_type" id="foodType">
+						<!-- <li class="food_item food_active">食用盐</li> -->
+					</ul>
+					<span id="addDeviceBtn1" class="iconfont food_add_type">&#xe630;</span>
+				</div>
+				<div class="food_amount" id="foodAmount">
+					<div class="amount_item amount_item1 clearfix">
+						<div class="index_con1">
+							<a class="ingest_href">
+								<p class="ingest_txt ingest_today1">今日共摄入 <i class="shi_num">0</i> <i class="shi_unit">克</i></p>
+								<div class="ingest_img clearfix">
+									<img src="./img/index/shi_i2.png" alt="Scale">
+									<div class="ingest_bgmain">
+										<div class="ingest_bg"></div>
+										<div class="ingest_bg_new"></div>
+									</div>
+									<span class="ingest_num"><i class="shi_num">0</i><i class="shi_unit1">g</i></span>
+								</div>
+							</a>
+						</div>
+						<div class="index_con2">
+							<p class="ingest_txt ingest_today2">指导摄入量还剩</p>
+							<div class="ingest_remain">
+								<span class="remain_weight"><i class="shi_num">0</i><i class="shi_unit1">g</i></span>
+							</div>
+						</div>
+						<div class="index_con3">
+							<div class="index_con_add" id="addDeviceBtn">
+								<p class="ingest_txt ingest_today3">添加</p>
+								<div class="increase_icon">
+									<i class="iconfont">&#xe630;</i>
+								</div>
+							</div>
+							<div class="index_con_box">
+								<img class="img-responsive center-block" src="img/index/shi_b2.png" alt="device image">
+								<ul class="detect_list">
+									<li class="detect_item clearfix">
+										<span class="detect_name">监测品</span>
+										<span class="detect_num detect_num1">食用糖</span>
+									</li>
+									<li class="detect_item clearfix">
+										<span class="detect_name">当前剩余</span>
+										<span class="detect_num detect_num2"><i class="shi_num">142</i> <i class="shi_unit">克</i></span>
+									</li>
+									<li class="detect_item clearfix">
+										<span class="detect_name">设备名称</span>
+										<span class="detect_num detect_num3">Smart Balance 1234</span>
+									</li>
+									<li class="detect_item clearfix">
+										<span class="detect_name">设备状态</span>
+										<span class="detect_num detect_num4 detect_status">正常</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- <div class="amount_item amount_item2 clearfix index_exceed">
+						<div class="index_con1">
+							<a href="../index/detail.html">
+								<p class="ingest_txt ingest_today">今日共摄入<strong>0</strong>克</p>
+								<div class="ingest_img clearfix">
+									<img src="./img/index/shi_i2.png" alt="Scale">
+									<div class="ingest_bgmain">
+										<div class="ingest_bg"></div>
+										<div class="ingest_bg_new"></div>
+									</div>
+									<span class="ingest_num">g</span>
+								</div>
+							</a>
+						</div>
+						<div class="index_con2">
+							<p class="ingest_txt ingest_today">超过最大摄入量</p>
+							<div class="ingest_remain">
+								<span class="remain_weight"><em>0</em>g</span>
+							</div>
+						</div>
+						<div class="index_con3">
+							<div class="index_con_box">
+								<img class="img-responsive center-block" src="img/index/shi_b2.png" alt="device image">
+								<ul class="detect_list">
+									<li class="detect_item clearfix">
+										<span class="detect_name">监测品</span>
+										<span class="detect_num">食用糖</span>
+									</li>
+									<li class="detect_item clearfix">
+										<span class="detect_name">当前剩余</span>
+										<span class="detect_num">142 克</span>
+									</li>
+									<li class="detect_item clearfix">
+										<span class="detect_name">设备名称</span>
+										<span class="detect_num">Smart Balance 1234</span>
+									</li>
+									<li class="detect_item clearfix">
+										<span class="detect_name">设备状态</span>
+										<span class="detect_num detect_status">正常</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div> -->
+				</div>
+			</div>
+		</div>
+
+		<!-- 公用底部 -->
+		<div class="foot">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-xs-4 foot_index foot_active">
+						<a href="../index/index.html"><i class="iconfont">&#xe867;</i>首页</a>
+					</div>
+					<div class="col-xs-4 foot_device">
+						<a href="../index/device.html"><i class="iconfont">&#xe86d;</i>设备</a>
+					</div>
+					<div class="col-xs-4 foot_me">
+						<a href="../component/my.html"><i class="iconfont">&#xe871;</i>我的</a>
+					</div>
+		
+				</div>
+			</div>
+		</div>
+		<!-- 公用底部  -->
+		
+		<!-- 首页主界面 end -->
+
+		<!-- 添加设备弹窗 -->
+		<div class="device_box" id="addDevice">
+			<div class="device_bg" id="addDeviceBg"></div>
+			<div class="device_pop text-left">
+				<span id="addDeviceClose" class="device_close iconfont">&#xe7fd;</span>
+				<h1 class="device_operating_title">添加设备</h1>
+				<div class="add_dev_main">
+					<div class="add_dev_one">
+						<div class="add_dev_input">
+							<div class="dev_input_item">
+								<span class="input_txt">项目名称</span>
+								<ol class="add_type1" id="addType1">
+									<li class="type1_active">盐</li>
+									<li>糖</li>
+									<li>味精</li>
+									<li>油</li>
+									<li>酱油</li>
+									<li class="type1_customize">+自定义</li>
+								</ol>
+							</div>
+							<div class="dev_input_item dev_input_item2">
+								<span class="input_txt">称重单位</span>
+								<ol class="add_type2" id="addType2">
+									<li class="type2_active">克</li>
+									<li>毫升</li>
+								</ol>
+							</div>
+							<div class="dev_input_item">
+								<span class="input_txt">推荐指标</span>
+								<div class="increase_decrease">
+									<span class="recommend_decrease"></span>
+									<input class="recommend_bun" type="text" value="2">
+									<span class="recommend_increase iconfont">&#xe630;</span>
+									<b class="recommend_font">天</b>
+								</div>
+							</div>
+						</div>
+						<div class="device_bottom clearfix">
+							<a class="device_previous" id="devicePrevious1">取消</a>
+							<a class="device_next" id="addDeviceNext1">下一步</a>
+						</div>
+					</div>
+					<div class="add_dev_two">
+						<ul class="add_list">
+							<li class="add_item clearfix">
+								<span class="add_name">项目名称</span>
+								<span class="add_txt add_txt1">盐</span>
+							</li>
+							<li class="add_item clearfix">
+								<span class="add_name">称重单位</span>
+								<span class="add_txt add_txt2">克</span>
+							</li>
+							<li class="add_item clearfix">
+								<span class="add_name">推荐指标</span>
+								<span class="add_txt add_txt3">5g/天</span>
+							</li>
+							<li class="add_item clearfix">
+								<span class="add_name">绑定设备</span>
+								<span class="add_txt add_txt4">Smart Balance 1234</span>
+							</li>
+						</ul>
+						<div class="device_bottom clearfix">
+							<a class="device_previous" id="devicePrevious2">上一步</a>
+							<a class="device_next" id="addDeviceNext2">完成</a>
+						</div>
+					</div>
+					
+				</div>
+				
+			</div>
+			<!-- 自定义项目弹窗 -->
+			<div class="customize_project" id="customizeProject">
+				<div class="customize_bg" id="customizeBg"></div>
+				<div class="customize_pop text-left">
+					<span id="customizeClose" class="customize_close iconfont">&#xe7fd;</span>
+					<h1 class="device_operating_title">自定义项目名</h1>
+					<div class="customize_main">
+						<input type="text" class="customize_name" id="customizeName" autocomplete="off">
+						<i class="iconfont" id="customizeIcon">&#xe844;</i>
+						<a class="customize_confirm" id="customizeConfirm">确认</a>
+					</div>
+					
+				</div>
+			</div>
+			<!-- 自定义项目弹窗 end -->
+		</div>
+		<!-- 添加设备弹窗 end -->
+		
+		<!-- 还无设备弹窗 -->
+		<div class="device_box" id="deviceBox">
+			<div class="device_bg" id="deviceBg"></div>
+			<div class="device_pop text-left">
+				<span id="deviceClose" class="device_close iconfont">&#xe7fd;</span>
+				<h1 class="device_operating_title">设备列表</h1>
+				<div class="device_main">
+					<p class="device_tip">您还没有设备，请先添加设备</p>
+					
+				</div>
+				<div class="device_bottom clearfix" >
+					<a class="device_previous" id="devicePrevious3">上一步</a>
+					<a class="device_next" onclick="openBarcode()" id="addDeviceNext3">添加设备</a>
+					<!-- <button class="btn btn-default sm" onclick="openBarcode()"> 扫码添加</button> -->
+					<!-- <div class="button" onclick="openBarcode()">扫一扫</div> -->
+					<ul id="history" class="dlist" style="text-align:left;display: none;">
+						<li id="nohistory" class="ditem" onclick="onempty()">无历史记录 </li>
+					</ul>
+				</div>
+			</div>
+	    </div>
+		<!-- 还无列表弹窗end -->
+
+		<!-- 添加新设备列表弹窗 -->
+		<div class="device_box" id="newEquipments">
+			<div class="device_bg" id="newEquipmentsBg"></div>
+			<div class="device_pop text-left">
+				<span id="newEquipmentsClose" class="device_close iconfont">&#xe7fd;</span>
+				<div class="equipments_main">
+					<h1 class="device_operating_title">设备列表</h1>
+					<div class="equipments_center">
+						<ul class="equipments_list" id="equipmentsList">
+							<!-- <li class="equipments_item clearfix">
+								<span class="equipments_name">Smart Balance 1234</span><span class="equipments_function">未绑定</span>
+								<em class="equipments_check"><i class="iconfont"></i></em>
+							</li>
+							<li class="equipments_item clearfix">
+								<span class="equipments_name">Smart Balance 1234111</span><span class="equipments_function">未绑定</span>
+								<em class="equipments_check equipments_active"><i class="iconfont"></i></em>
+							</li> -->
+						</ul>
+						<a class="equipments_new_btn" onclick="openBarcode()" id="list_add">+ 添加新设备</a>
+						
+					</div>
+					<div class="device_bottom clearfix">
+						<a class="device_previous" id="devicePrevious4">上一步</a>
+						<a class="device_next" id="addDeviceNext4">下一步</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 添加新设备列表弹窗 end -->
+
+		<!-- 确认设备弹窗 -->
+		<div class="confirm_device" id="confirmDevice">
+			<div class="back text-left clearfix">
+				<i class="iconfont" id="confirmDeviceBack">&#xe7ec;</i>
+			</div>
+			<img class="confirm_img img-responsive center-block" id="cold_img" src="img/index/shi_g3.png" alt="confirm device">
+			<h1 class="confirm_name" id="confirm_name">smart balance 1234</h1>
+			<div class="confirm_bottom">
+				<a class="confirm_add_btn" id="confirmAddBtn" >添加</a>
+				<a class="confirm_back_btn" id="confirmBackBtn">返回</a>
+			</div>
+		</div>
+		<!-- 确认设备弹窗 end -->
+
+		<!-- 系统提示弹窗 -->
+		<div class="device_box" id="systemHint">
+			<div class="device_bg" id="systemHintBg"></div>
+			<div class="device_pop text-left">
+				<span id="systemHintClose" class="device_close iconfont">&#xe7fd;</span>
+				<div class="hint_main_top">
+					<h1 class="device_operating_title">系统提示</h1>
+					<span>第一次使用,请完善基础设置</span>
+					<p>(可在我的 - 设置 - 参数中修改)</p>
+				</div>
+				<div class="hint_main_center">
+					<div class="hint_meals_number">
+						<span>进餐人数</span>
+						<ul class="meals_list" id="mealsList">
+							<li class="meals_item meals_active">1</li>
+							<li class="meals_item">2</li>
+							<li class="meals_item">3</li>
+							<li class="meals_item">4</li>
+							<li class="meals_item">5</li>
+							<li class="meals_item">6</li>
+							<li class="meals_item">7</li>
+							<li class="meals_item">8</li>
+						</ul>
+					</div>
+					<div class="waste_ratio">
+						<span>浪费比率</span>
+						<div class="waste_chart">
+							<input type="hidden" id="singleSlider" value="0" />
+							<!-- <span class="progress_tip">0</span> -->
+							<!-- <div class="progress_bar"><i class="progress_circle"></i><span class="progress_tip">5</span></div> -->
+						</div>
+					</div>
+					
+				</div>
+				
+				<a class="hint_main_bottom" id="hintMainBottom">确定</a>
+				
+			</div>
+		</div>
+		<!-- 系统提示弹窗end -->
+		
+		<!-- 选择蓝牙或者 wife 弹窗开始 -->
+		<div class="device_box" id="device_link" style="display: block;" >
+			<div class="device_bg" ></div>
+			<div class="device_pop text-left">
+				<!-- <span id="systemLinkClose" class="device_close iconfont">&#xe7fd;</span> -->
+				<div class="hint_main_top">
+					<h1 class="device_operating_title">系统提示</h1>
+					<span>第一次使用，选择设备连接方式</span>
+					<p>(可在我的 - 设置 - 参数中修改)</p>
+				</div>
+				<div class="link_line"></div>
+				<a class="hint_main_bottom lanya" id="lanya">蓝牙连接</a>
+				<a class="hint_main_bottom wife" id="wife">WIFI连接</a>
+			</div>
+		</div>
+		<!--  wife 链接弹窗开始 -->
+		<div class="device_box" id="wife_link">
+			<div class="device_bg" ></div>
+			<div class="device_pop text-left">
+				<span id="systemLinkClose" class="device_close iconfont">&#xe7fd;</span>
+				<div class="hint_main_top">
+					<h1 class="device_operating_title">WIFI连接</h1>
+					
+				</div>
+				<div class="link_line"></div>
+				<div class="link_center">
+					<span class="s s1">网络名称</span>
+					<p class="p1"> TD-ESKDLS45121 </p>
+					<span class="s"> 安全密码 </span>
+					<div class="input_wrap position_relative">
+						<input type="text" class="form-control password_val">
+						<i class="iconfont icon-close i2 del password_del">&#xe7fd;</i>
+					</div>
+					<div class="clearfix mb20">
+						<span class="pull-left  cancel">取消</span>
+						<span class="pull-right  btn-success sure">确认</span>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<!--  wife 链接弹窗结束 -->
+		<!-- 链接 wife 和 蓝牙确定后提示信息开始  -->
+		<div class="device_box" id="device_tips">
+			<div class="device_bg" ></div>
+			<div class="device_pop text-left">
+				<!-- <span id="systemLinkClose" class="device_close iconfont">&#xe7fd;</span> -->
+				<div class="hint_main_top">
+					<h1 class="device_operating_title">提示</h1>
+				</div>
+				<div class="link_line"></div>
+				<div class="text-center">
+					<p class="mt130">设置连接方式需要重启设备和APP</p>
+					<p class="green tips_p2">重启中...</p>
+				</div>
+			</div>
+		</div>
+		<!-- 链接 wife 和 蓝牙确定后提示信息结束  -->
+		<!-- 选择蓝牙或者 wife 弹窗结束 -->
+		
+		<!-- 存储已经添加的大类别数据 -->
+		<input type="hidden" id="foodTypeVal1" value="">
+
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.range-min.js"></script>
+		<!-- <script src="js/common.js"></script> -->
+		<script src="js/index.js"></script> 
+		
+		<!-- 扫描代码 -->
+				<script type="text/javascript" src="../js/common.js"></script>
+		
+				<script type="text/javascript">
+					/* 蓝牙变量开始 */
+						var bds = []; // 可连接设备列表
+						var deviceId = null,
+							bconnect = false;
+						var bss = []; // 连接设备服务列表
+						var serviceId = null;
+						var bscs = []; // 连接设备服务对应的特征值列表
+						var characteristicId = null;
+						var bscws = []; // 可写特征值列表
+						var wcharacteristicId = null;
+						var hclanya = ''
+						/* 蓝牙变量结束 */
+					
+					var lanyaarr = [];
+					var text = '';
+					var img = null;
+					var blist = [];
+				
+					 var deviceName = '';
+					var deviceId = '';
+					var serviceId = '';
+					var characteristicId   = '';
+					
+				
+					function scaned(t, r, f) {
+						var d = new Date();
+						var h = d.getHours(),
+							m = d.getMinutes(),
+							s = d.getSeconds(),
+							ms = d.getMilliseconds();
+						 if (h < 10) { // 扫描时间
+							h = '0' + h;
+						}
+						if (m < 10) {
+							m = '0' + m;
+						}
+						if (s < 10) {
+							s = '0' + s;
+						}
+						if (ms < 10) {
+							ms = '00' + ms;
+						} else if (ms < 100) {
+							ms = '0' + ms;
+						}
+						var ts = '[' + h + ':' + m + ':' + s + '.' + ms + ']'; 
+						var li = null,
+							hl = document.getElementById('history');
+						if (blist.length > 0) {
+							li = document.createElement('li');
+							li.className = 'ditem';
+							hl.insertBefore(li, hl.childNodes[0]);
+						} else {
+							li = document.getElementById('nohistory');
+						}
+						li.id = blist.length;
+						var html = '[' + h + ':' + m + ':' + s + '.' + ms + ']' + '　　' + t + '码<div class="hdata">';
+						html += r;
+						html += '</div>';
+						li.innerHTML = html;
+						text = r ;
+						//  alert(text);
+						
+						var deviceArr = r.split(',');
+
+						var deviceName = deviceArr[0];
+						/* if(deviceName){
+							alert(deviceName);
+						} */
+						
+						deviceName = deviceArr[0];
+						deviceId =  deviceArr[1];
+						serviceId = deviceArr[2];
+						characteristicId = deviceArr[3];
+						
+						// alert( '读取的二维码数据' + deviceName + ',' + deviceId + ',' + serviceId + ',' + characteristicId );
+						
+						
+						//var name = text.substring(0,text.indexOf('&'));
+						//var url = text.substring(text.indexOf('&')+1,text.length+1);
+						$('#confirm_name').text(deviceName);
+						// $('#cold_img').attr('src',url);
+						window.sessionStorage.setItem('device_name',deviceName); // 设备名称
+						// window.sessionStorage.setItem('device_img',url); // 设备图片
+						
+						$('#deviceBox').hide();
+						$('#confirmDevice').show();
+						$('#newEquipments').hide();
+						
+						li.setAttribute('onclick', 'selected(id)');
+						blist[blist.length] = {
+							type: t,
+							result: r,
+							file: f
+						};
+						update(t, r, f);
+						
+						
+						
+					}
+				
+					function selected(id) { // 选择二维码
+						var h = blist[id];
+						update(h.type, h.result, h.file);
+						if (h.result.indexOf('http://') == 0 || h.result.indexOf('https://') == 0) {
+							plus.nativeUI.confirm(h.result, function(i) {
+								if (i.index == 0) {
+									plus.runtime.openURL(h.result);
+								}
+							}, '', ['打开', '取消']);
+						} else {
+							plus.nativeUI.alert(h.result);
+						}
+					}
+				
+					function update(t, r, f) {
+						outSet('扫描成功：');
+						outLine(t);
+						outLine(r);
+						outLine('\n图片地址：' + f);
+						if (!f || f == 'null') {
+							img.src = '../img/barcode.png';
+						} else {
+							plus.io.resolveLocalFileSystemURL(f, function(entry) {
+								img.src = entry.toLocalURL();
+							});
+							//img.src = 'http://localhost:13131/'+f;
+						}
+					}
+				
+					function onempty() {
+						if (window.plus) {
+							plus.nativeUI.alert('无扫描记录');
+						} else {
+							alert('无扫描记录');
+						}
+					}
+				
+					function cleanHistroy() {
+						if (blist.length > 0) {
+							var hl = document.getElementById('history');
+							hl.innerHTML = '<li id="nohistory" class="ditem" onclick="onempty();">无历史记录	</li>';
+						}
+						plus.io.resolveLocalFileSystemURL('_doc/barcode/', function(entry) {
+							entry.removeRecursively(function() {
+								// Success
+							}, function(e) {
+								//alert( "failed"+e.message );
+							});
+						});
+					}
+					// 打开二维码扫描界面 
+					function openBarcode() {
+						createWithoutTitle('../plus/barcode_scan.html', {
+							titleNView: {
+								type: 'float',
+								backgroundColor: 'rgba(215,75,40,0.3)',
+								titleText: '扫一扫',
+								titleColor: '#FFFFFF',
+								autoBackButton: true,
+								buttons: [{
+									fontSrc: '_www/helloh5.ttf',
+									text: '\ue302',
+									fontSize: '18px',
+									onclick: 'javascript:scanPicture()'
+								}]
+							}
+						});
+					}
+					// 打开自定义扫描界面 
+					/* function openBarcodeCustom() {
+						createWithoutTitle('../plusbarcode_custom.html', {
+							titleNView: {
+								type: 'float',
+								backgroundColor: 'rgba(215,75,40,0.3)',
+								titleText: '扫一扫',
+								titleColor: '#FFFFFF',
+								autoBackButton: true,
+								buttons: [{
+									fontSrc: '_www/helloh5.ttf',
+									text: '\ue401',
+									fontSize: '18px',
+									onclick: 'javascript:switchFlash()'
+								}]
+							}
+						});
+					} */
+					
+					
+					
+					/* 蓝牙*/
+					/* 蓝牙变量开始 */
+						// var bds = []; // 可连接设备列表
+						// var deviceId = null,
+						// 	bconnect = false;
+						// var bss = []; // 连接设备服务列表
+						// var serviceId = null;
+						// var bscs = []; // 连接设备服务对应的特征值列表
+						// var characteristicId = null;
+						// var bscws = []; // 可写特征值列表
+						// var wcharacteristicId = null;
+						/* 蓝牙变量结束 */
+						
+						// 重设数据 
+						function resetDevices(d, s) {
+							d || (bds = [], deviceId = null, document.getElementById('deivce').value = '');
+							s || (bss = [], serviceId = null, document.getElementById('service').value = '');
+							bscs = [], bscws = [], characteristicId = null, wcharacteristicId = null, document.getElementById('characteristic')
+								.value = '', document.getElementById('wcharacteristic').value = '';
+						}
+						
+						// 页面初始化操作 
+						document.addEventListener('plusready', function(e) {
+							
+							// connectDevice('FC:F5:C4:16:24:AA'); // 链接蓝牙设备
+							// 监听蓝牙适配器状态变化
+							plus.bluetooth.onBluetoothAdapterStateChange(function(e) {
+								outLine('onBluetoothAdapterStateChange: ' + JSON.stringify(e));
+							});
+							//  监听搜索到新设备 
+							plus.bluetooth.onBluetoothDeviceFound(function(e) {
+								var devices = e.devices;
+								outLine('onBluetoothDeviceFound: ' + devices.length);
+								for (var i in devices) {
+									outLine(JSON.stringify(devices[i]));
+									var device = devices[i];
+									if (device.deviceId /*&&device.name&&device.name.length>0&&device.name!='null'*/ ) {
+										bds.push(device);
+									}
+								}
+								if (!bconnect && bds.length > 0) { // 默认选择最后一个
+									var n = bds[bds.length - 1].name;
+									if (!n || n.length <= 0) {
+										n = bds[bds.length - 1].deviceId;
+									}
+									document.getElementById('deivce').value = n;
+									deviceId = bds[bds.length - 1].deviceId;
+									
+								}
+							});
+							
+							
+							//  监听低功耗蓝牙设备连接状态变化 
+							plus.bluetooth.onBLEConnectionStateChange(function(e) {
+								outLine('onBLEConnectionStateChange: ' + JSON.stringify(e));
+								if (deviceId == e.deviceId) { // 更新连接状态
+									bconnect = e.connected;
+									outLine('监听的链接状态是 == ' + bconnect);
+									
+								}
+							});
+							// 监听低功耗蓝牙设备的特征值变化 
+							plus.bluetooth.onBLECharacteristicValueChange(function(e) {
+								/* outLine('onBLECharacteristicValueChange: ' + JSON.stringify(e));
+								var value = buffer2hex(e.value);
+								
+								outLine('value(hex) = ' + value); */
+								
+								var value1 = buffer2hex(e.value); // 调用  arrayBuffer 数据类型转16进制方法，把数据转成 16进制的
+								// outLine('value(hex) = ' + value1);
+								var v2 = value1.replace(/0x3/g,''); // 去掉所有的 '0x3', '0x' 是转16进制时候，自己添加的，3是16进制的标识，所有字符串前面都有个 3 。
+								// outLine('接收的数据是 == ' + v2);
+								var v3 = v2.replace(/0x5f/g,'_');  // 去掉所有的 '0x5f', '0x' 是转16进制时候，自己添加的，5f 是 16 进制的标识： 转换成字符串后就是  _   。
+								var v4 = v3.replace(/0x2e/g,'.');   // 去掉所有的 '0x2e', '0x' 是转16进制时候，自己添加的，2e 是 16 进制的标识： 转换成字符串后就是  .  。
+								var value = v4.replace(/ /g,'') ; // 去掉所有的 空格，空格是自己转 16进制的时候自己添加的 ; 这时候得到的数据是真实的数字
+								// outLine('接收的最终数据 =='+ value); 
+								 $('#yalan').val(value);
+								 hclanya += value+'&';
+								 window.sessionStorage.setItem('lanya' , hclanya);
+								 var lanya_h = window.sessionStorage.getItem("hclanya");
+								 $('#huancun').val(lanya_h)
+								  outLine('获取的缓存值是:'+hclanya);
+								// alert('获取的缓存值是:'+lanya_h);
+								 
+								if (characteristicId == e.characteristicId) {
+									// 更新到页面显示
+									document.getElementById('readvalue').value = value;
+								} else if (wcharacteristicId == e.characteristicId) {
+									plus.nativeUI.toast(value);
+								}
+							});
+						}, false);
+						
+						function buffer2hex(value) {
+							var t = '';
+							if (value) {
+								var v = new Uint8Array(value);
+								for (var i in v) {
+									t += '0x' + v[i].toString(16) + ' ';
+								}
+							} else {
+								t = '无效值';
+							}
+							return t;
+						}
+						
+						// 打开蓝牙 
+						function openBluetooth() {
+							outSet('打开蓝牙适配器：');
+							plus.bluetooth.openBluetoothAdapter({
+								success: function(e) {
+									outLine('打开成功!');
+								},
+								fail: function(e) {
+									outLine('打开失败! ' + JSON.stringify(e));
+									alert('打开蓝牙失败，请重新打开');
+								}
+							});
+						}
+						
+						// 开始搜索蓝牙设备 
+						function startDiscovery() {
+							outSet('开始搜索蓝牙设备：');
+							resetDevices();
+							plus.bluetooth.startBluetoothDevicesDiscovery({
+								success: function(e) {
+									outLine('开始搜索成功!' + JSON.stringify(e));
+								},
+								fail: function(e) {
+									outLine('开始搜索失败! ' + JSON.stringify(e));
+								}
+							});
+						}
+						
+						// 停止搜索蓝牙设备 
+						function stopDiscovery() {
+							outSet('停止搜索蓝牙设备：');
+							plus.bluetooth.stopBluetoothDevicesDiscovery({
+								success: function(e) {
+									outLine('停止搜索成功!');
+								},
+								fail: function(e) {
+									outLine('停止搜索失败! ' + JSON.stringify(e));
+								}
+							});
+						}
+						
+						// 选择蓝牙设备 
+						function selectDevice() {
+							if (bds.length <= 0) {
+								plus.nativeUI.toast('未搜索到有效蓝牙设备!');
+								return;
+							}
+							var bts = [];
+							for (var i in bds) {
+								var t = bds[i].name;
+								if (!t || t.length <= 0) {
+									t = bds[i].deviceId;
+								}
+								bts.push({
+									title: t
+								});
+							}
+							plus.nativeUI.actionSheet({
+								title: "选择蓝牙设备",
+								cancel: "取消",
+								buttons: bts
+							}, function(e) {
+								if (e.index > 0) {
+									document.getElementById('deivce').value = bds[e.index - 1].name;
+									deviceId = bds[e.index - 1].deviceId;
+									outLine('选择了蓝牙: == "' + bds[e.index - 1].name + '"');
+								}
+							});
+						}
+						
+						// 连接蓝牙设备 
+						function connectDevice(deviceId) {
+							if (!deviceId) {
+								plus.nativeUI.toast('未选择设备!');
+								return;
+							}
+							outSet('连接设备deviceId == : ' + deviceId);
+							plus.bluetooth.createBLEConnection({
+								deviceId: deviceId,
+								success: function(e) {
+									outLine('连接成功!');
+								},
+								fail: function(e) {
+									outLine('连接失败! ' + JSON.stringify(e));
+									alert('蓝牙链接失败，请重新链接');
+								}
+							});
+						}
+						
+						// 获取设备服务 
+						function getServices() {
+							if (!deviceId) {
+								plus.nativeUI.toast('未选择设备!');
+								return;
+							}
+							if (!bconnect) {
+								plus.nativeUI.toast('未连接蓝牙设备!');
+								return;
+							}
+							resetDevices(true);
+							outSet('获取蓝牙设备服务:');
+							plus.bluetooth.getBLEDeviceServices({
+								deviceId: deviceId,
+								success: function(e) {
+									var services = e.services;
+									outLine('获取服务成功! ' + services.length);
+									if (services.length > 0) {
+										for (var i in services) {
+											bss.push(services[i]);
+											outLine(JSON.stringify(services[i]));
+										}
+										if (bss.length > 0) { // 默认选择最后一个服务
+											document.getElementById('service').value = serviceId = bss[bss.length - 1].uuid;
+										}
+									} else {
+										outLine('获取服务列表为空?');
+									}
+								},
+								fail: function(e) {
+									outLine('获取服务失败! ' + JSON.stringify(e));
+								}
+							});
+						}
+						
+						// 选择服务 
+						function selectService() {
+							if (bss.length <= 0) {
+								plus.nativeUI.toast('未获取到有效蓝牙服务!');
+								return;
+							}
+							var bts = [];
+							for (var i in bss) {
+								bts.push({
+									title: bss[i].uuid
+								});
+							}
+							plus.nativeUI.actionSheet({
+								title: "选择服务",
+								cancel: "取消",
+								buttons: bts
+							}, function(e) {
+								if (e.index > 0) {
+									document.getElementById('service').value = serviceId = bss[e.index - 1].uuid;
+									outLine('选择了服务: "' + serviceId + '"');
+								}
+							});
+						}
+						
+						// 获取服务的特征值 
+						function getCharacteristics() {
+							if (!deviceId) {
+								plus.nativeUI.toast('未选择设备!');
+								return;
+							}
+							if (!bconnect) {
+								plus.nativeUI.toast('未连接蓝牙设备!');
+								return;
+							}
+							if (!serviceId) {
+								plus.nativeUI.toast('未选择服务!');
+								return;
+							}
+							resetDevices(true, true);
+							outSet('获取蓝牙设备指定服务的特征值:');
+							plus.bluetooth.getBLEDeviceCharacteristics({
+								deviceId: deviceId,
+								serviceId: serviceId,
+								success: function(e) {
+									var characteristics = e.characteristics;
+									outLine('获取特征值成功! ' + characteristics.length);
+									if (characteristics.length > 0) {
+										for (var i in characteristics) {
+											var characteristic = characteristics[i];
+											outLine(JSON.stringify(characteristic));
+											if (characteristic.properties) {
+												if (characteristic.properties.read) {
+													bscs.push(characteristics[i]);
+												}
+												if (characteristic.properties.write) {
+													bscws.push(characteristics[i]);
+													if (characteristic.properties.notify || characteristic.properties.indicate) {
+														plus.bluetooth.notifyBLECharacteristicValueChange({ //监听数据变化
+															deviceId: deviceId,
+															serviceId: serviceId,
+															characteristicId: characteristic.uuid,
+															success: function(e) {
+																outLine('notifyBLECharacteristicValueChange ' + characteristic.uuid + ' success.');
+															},
+															fail: function(e) {
+																outLine('notifyBLECharacteristicValueChange ' + characteristic.uuid + ' failed! ' + JSON.stringify(e));
+															}
+														});
+													}
+												}
+											}
+										}
+										if (bscs.length > 0) { // 默认选择最后特征值
+											document.getElementById('characteristic').value = characteristicId = bscs[bscs.length - 1].uuid;
+										}
+										if (bscws.length > 0) { // 默认选择最后一个可写特征值
+											document.getElementById('wcharacteristic').value = wcharacteristicId = bscws[bscws.length - 1].uuid;
+										}
+									} else {
+										outLine('获取特征值列表为空?');
+									}
+								},
+								fail: function(e) {
+									outLine('获取特征值失败! ' + JSON.stringify(e));
+								}
+							});
+						}
+						
+						// 选择特征值(读取) 
+						function selectCharacteristic() {
+							if (bscs.length <= 0) {
+								plus.nativeUI.toast('未获取到有效可读特征值!');
+								return;
+							}
+							var bts = [];
+							for (var i in bscs) {
+								bts.push({
+									title: bscs[i].uuid
+								});
+							}
+							plus.nativeUI.actionSheet({
+								title: '选择特征值',
+								cancel: '取消',
+								buttons: bts
+							}, function(e) {
+								if (e.index > 0) {
+									document.getElementById('characteristic').value = characteristicId = bscs[e.index - 1].uuid;
+									outLine('选择了特征值: "' + characteristicId + '"');
+								}
+							});
+						}
+						
+						// 读取特征值数据 
+						function readValue(deviceId,bconnect,serviceId,characteristicId) {
+							if (!deviceId) {
+								plus.nativeUI.toast('未选择设备!');
+								return;
+							}
+							if (!bconnect) {
+								plus.nativeUI.toast('未连接蓝牙设备!');
+								return;
+							}
+							if (!serviceId) {
+								plus.nativeUI.toast('未选择服务!');
+								return;
+							}
+							if (!characteristicId) {
+								plus.nativeUI.toast('未选择读取的特征值!');
+								return;
+							}
+							outSet('读取蓝牙设备的特征值数据: ');
+							plus.bluetooth.readBLECharacteristicValue({
+								deviceId: deviceId,
+								serviceId: serviceId,
+								characteristicId: characteristicId,
+								success: function(e) {
+									outLine('读取数据成功!');
+									
+								},
+								fail: function(e) {
+									outLine('读取数据失败! ' + JSON.stringify(e));
+								}
+							});
+						}
+						
+						// 选择特征值(写入) 
+						function selectwCharacteristic() {
+							if (bscws.length <= 0) {
+								plus.nativeUI.toast('未获取到有效可写特征值!');
+								return;
+							}
+							var bts = [];
+							for (var i in bscws) {
+								bts.push({
+									title: bscws[i].uuid
+								});
+							}
+							plus.nativeUI.actionSheet({
+								title: '选择特征值',
+								cancel: '取消',
+								buttons: bts
+							}, function(e) {
+								if (e.index > 0) {
+									document.getElementById('wcharacteristic').value = wcharacteristicId = bscws[e.index - 1].uuid;
+									outLine('选择了特征值: "' + wcharacteristicId + '"');
+								}
+							});
+						}
+						
+						// 写入特征值数据 
+						function writeValue() {
+							if (!deviceId) {
+								plus.nativeUI.toast('未选择设备!');
+								return;
+							}
+							if (!bconnect) {
+								plus.nativeUI.toast('未连接蓝牙设备!');
+								return;
+							}
+							if (!serviceId) {
+								plus.nativeUI.toast('未选择服务!');
+								return;
+							}
+							if (!wcharacteristicId) {
+								plus.nativeUI.toast('未选择写入的特征值!');
+								return;
+							}
+							var value = document.getElementById('writevalue').value;
+							if (!value || value == '') {
+								plus.nativeUI.toast('请输入需要写入的数据');
+								document.getElementById('writevalue').focus();
+								return;
+							}
+							// 转换为ArrayBuffer写入蓝牙
+							str2ArrayBuffer(value, function(buffer) {
+								outSet('写入蓝牙设备的特征值数据: ');
+								plus.bluetooth.writeBLECharacteristicValue({
+									deviceId: deviceId,
+									serviceId: serviceId,
+									characteristicId: wcharacteristicId,
+									value: buffer,
+									success: function(e) {
+										outLine('写入数据成功!');
+									},
+									fail: function(e) {
+										outLine('写入数据失败! ' + JSON.stringify(e));
+									}
+								});
+							});
+						}
+						
+						function str2ArrayBuffer(s, f) {
+							var b = new Blob([s], {
+								type: 'text/plain'
+							});
+							var r = new FileReader();
+							r.readAsArrayBuffer(b);
+							r.onload = function() {
+								if (f) f.call(null, r.result)
+							}
+						}
+						
+						
+						// 断开蓝牙设备
+						function disconnectDevice() {
+							if (!deviceId) {
+								plus.nativeUI.toast('未选择设备!');
+								return;
+							}
+							resetDevices(true);
+							outSet('断开蓝牙设备连接：');
+							plus.bluetooth.closeBLEConnection({
+								deviceId: deviceId,
+								success: function(e) {
+									outLine('断开连接成功!');
+								},
+								fail: function(e) {
+									outLine('断开连接失败! ' + JSON.stringify(e));
+								}
+							});
+						}
+						
+						// 关闭蓝牙
+						function closeBluetooth() {
+							outSet('关闭蓝牙适配器：');
+							resetDevices();
+							plus.bluetooth.closeBluetoothAdapter({
+								success: function(e) {
+									outLine('关闭成功!');
+									bconnect = false;
+								},
+								fail: function(e) {
+									outLine('关闭失败! ' + JSON.stringify(e));
+								}
+							});
+						}
+						
+					// 获取缓存值
+					var personNum = window.sessionStorage.getItem('personNum');
+					var wasteNum = window.sessionStorage.getItem('wasteNum');
+					var userName = window.sessionStorage.getItem('userName');
+					var groupPhone = window.sessionStorage.getItem('groupPhone');
+					var groupErweima =  window.sessionStorage.getItem('groupErweima');
+					var lanya_h = window.sessionStorage.getItem("hclanya");
+					
+					$('#lanya').click(function(){
+						$('#device_link').hide();
+						$('#systemHint').show();
+						openBluetooth(); // 打开蓝牙设备
+						window.sessionStorage.setItem('device_link','wife');
+					});
+					
+					$('#confirmAddBtn').on('click',function(){
+						let thatType = $(this);
+						thatType.parents('#confirmDevice').hide();
+						$('#newEquipments').show().find('.equipments_item .equipments_check').removeClass('equipments_active');
+						// 展示设备列表
+						var deviceName = $('#confirm_name').text();
+						var li = '';
+						li += '<li class="equipments_item clearfix">'
+						li += '<span class="equipments_name">'+ deviceName +'</span><span class="left">左边</span><span class="equipments_function">未绑定</span>'
+						li += '<em class="equipments_check equipments_active"><i class="iconfont"></i></em>'	
+						li += '</li>'
+						li += '<li class="equipments_item clearfix">'
+						li += '<span class="equipments_name">'+ deviceName +'</span><span class="right">右边</span><span class="equipments_function">未绑定</span>'
+						li += '<em class="equipments_check equipments_active"><i class="iconfont"></i></em>'	
+						li += '</li>'	
+						$('#equipmentsList').append(li);
+						
+						// 添加设备后读取蓝牙数据
+						alert( '新加读取的二维码数据' + deviceName + ',' + deviceId + ',' + serviceId + ',' + characteristicId );
+						//connectDevice('FC:F5:C4:16:24:AA'); // 链接蓝牙设备
+						connectDevice(deviceId); // 链接蓝牙设备
+						var n = 0;
+						var timer = null;
+						timer = setInterval(function(){
+							n++;
+							// readValue('FC:F5:C4:16:24:AA',true,'5FAFC201-1FB5-459E-8FCC-C5C9C331914B','5EB5483E-36E1-4688-B7F5-EA07361B26A8');
+							readValue(deviceId,true,serviceId,characteristicId); //动态读取蓝牙设备
+							if(n > 10){
+								clearInterval(timer);
+							}
+						},5000); 
+					});
+					
+					
+				</script> 
+				
+				
+		
+		
+	</body>
+</html>

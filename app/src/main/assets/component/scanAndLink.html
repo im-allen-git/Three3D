@@ -1,0 +1,739 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="HandheldFriendly" content="true" />
+		<meta name="MobileOptimized" content="320" />
+		<title>Hello H5+</title>
+		<script src="../index/js/jquery.min.js"></script>
+		<script type="text/javascript" src="../js/common.js"></script>
+		
+		
+		<!-- 二维码 -->
+		<script type="text/javascript" src="../../js/common.js"></script>
+		
+			<!-- 全局使用 -->	
+			<!-- var deviceName = '';
+			var deviceId = '';
+			var bconnect =  true ; 
+			var serviceId = '';
+			var characteristicId = '';   -->
+		
+		
+				 <script type="text/javascript">
+					
+					var text = '';
+					var img = null;
+					var blist = [];
+				
+					function scaned(t, r, f) {
+						var d = new Date();
+						var h = d.getHours(),
+							m = d.getMinutes(),
+							s = d.getSeconds(),
+							ms = d.getMilliseconds();
+						if (h < 10) {
+							h = '0' + h;
+						}
+						if (m < 10) {
+							m = '0' + m;
+						}
+						if (s < 10) {
+							s = '0' + s;
+						}
+						if (ms < 10) {
+							ms = '00' + ms;
+						} else if (ms < 100) {
+							ms = '0' + ms;
+						}
+						var ts = '[' + h + ':' + m + ':' + s + '.' + ms + ']';
+						var li = null,
+							hl = document.getElementById('history');
+						if (blist.length > 0) {
+							li = document.createElement('li');
+							li.className = 'ditem';
+							hl.insertBefore(li, hl.childNodes[0]);
+						} else {
+							li = document.getElementById('nohistory');
+						}
+						li.id = blist.length;
+						var html = '[' + h + ':' + m + ':' + s + '.' + ms + ']' + '　　' + t + '码<div class="hdata">';
+						html += r;
+						html += '</div>';
+						li.innerHTML = html;
+						text = r ;
+						alert(text);
+						var list = ''
+						outLine(text);
+						// window.sessionStorage.setItem('groupErweima',text);
+						
+						
+						li.setAttribute('onclick', 'selected(id)');
+						blist[blist.length] = {
+							type: t,
+							result: r,
+							file: f
+						};
+						update(t, r, f);
+						
+					}
+				
+					function selected(id) {
+						var h = blist[id];
+						update(h.type, h.result, h.file);
+						if (h.result.indexOf('http://') == 0 || h.result.indexOf('https://') == 0) {
+							plus.nativeUI.confirm(h.result, function(i) {
+								if (i.index == 0) {
+									plus.runtime.openURL(h.result);
+								}
+							}, '', ['打开', '取消']);
+						} else {
+							plus.nativeUI.alert(h.result);
+						}
+					}
+				
+					function update(t, r, f) {
+						outSet('扫描成功：');
+						outLine(t);
+						outLine(r);
+						outLine('\n图片地址：' + f);
+						if (!f || f == 'null') {
+							img.src = '../img/barcode.png';
+						} else {
+							plus.io.resolveLocalFileSystemURL(f, function(entry) {
+								img.src = entry.toLocalURL();
+							});
+							//img.src = 'http://localhost:13131/'+f;
+						}
+					}
+				
+					function onempty() {
+						if (window.plus) {
+							plus.nativeUI.alert('无扫描记录');
+						} else {
+							alert('无扫描记录');
+						}
+					}
+				
+					function cleanHistroy() {
+						if (blist.length > 0) {
+							var hl = document.getElementById('history');
+							hl.innerHTML = '<li id="nohistory" class="ditem" onclick="onempty();">无历史记录	</li>';
+						}
+						plus.io.resolveLocalFileSystemURL('_doc/barcode/', function(entry) {
+							entry.removeRecursively(function() {
+								// Success
+							}, function(e) {
+								//alert( "failed"+e.message );
+							});
+						});
+					}
+					// 打开二维码扫描界面 
+					function openBarcode() {
+						createWithoutTitle('../plus/barcode_scan.html', {
+							titleNView: {
+								type: 'float',
+								backgroundColor: 'rgba(215,75,40,0.3)',
+								titleText: '扫一扫',
+								titleColor: '#FFFFFF',
+								autoBackButton: true,
+								buttons: [{
+									fontSrc: '_www/helloh5.ttf',
+									text: '\ue302',
+									fontSize: '18px',
+									onclick: 'javascript:scanPicture()'
+								}]
+							}
+						});
+					}
+					// 打开自定义扫描界面 
+					function openBarcodeCustom() {
+						createWithoutTitle('../plusbarcode_custom.html', {
+							
+							
+							titleNView: {
+								type: 'float',
+								backgroundColor: 'rgba(215,75,40,0.3)',
+								titleText: '扫一扫',
+								titleColor: '#FFFFFF',
+								autoBackButton: true,
+								buttons: [{
+									fontSrc: '_www/helloh5.ttf',
+									text: '\ue401',
+									fontSize: '18px',
+									onclick: 'javascript:switchFlash()'
+								}]
+							}
+						});
+					} 
+					
+					
+					
+				
+		 
+			/* 蓝牙*/
+		 
+		 
+			var bds = []; // 可连接设备列表
+			var deviceId = null,
+				bconnect = false;
+			var bss = []; // 连接设备服务列表
+			var serviceId = null;
+			var bscs = []; // 连接设备服务对应的特征值列表
+			var characteristicId = null;
+			var bscws = []; // 可写特征值列表
+			var wcharacteristicId = null;
+			// 重设数据 
+			function resetDevices(d, s) {
+				d || (bds = [], deviceId = null, document.getElementById('deivce').value = '');
+				s || (bss = [], serviceId = null, document.getElementById('service').value = '');
+				bscs = [], bscws = [], characteristicId = null, wcharacteristicId = null, document.getElementById('characteristic')
+					.value = '', document.getElementById('wcharacteristic').value = '';
+			}
+
+			// 页面初始化操作 
+			document.addEventListener('plusready', function(e) {
+				openBluetooth();  <!-- 初始化；打开蓝牙-->
+				connectDevice('A4:CF:12:8D:66:AE'); <!-- 自动连接蓝牙 -->
+				
+				// 监听蓝牙适配器状态变化
+				plus.bluetooth.onBluetoothAdapterStateChange(function(e) {
+					outLine('onBluetoothAdapterStateChange: ' + JSON.stringify(e));
+				});
+				//  监听搜索到新设备 
+				plus.bluetooth.onBluetoothDeviceFound(function(e) {
+					var devices = e.devices;
+					outLine('onBluetoothDeviceFound: ' + devices.length);
+					for (var i in devices) {
+						outLine(JSON.stringify(devices[i]));
+						var device = devices[i];
+						if (device.deviceId /*&&device.name&&device.name.length>0&&device.name!='null'*/ ) {
+							bds.push(device);
+						}
+					}
+					if (!bconnect && bds.length > 0) { // 默认选择最后一个
+						var n = bds[bds.length - 1].name;
+						if (!n || n.length <= 0) {
+							n = bds[bds.length - 1].deviceId;
+						}
+						document.getElementById('deivce').value = n;
+						deviceId = bds[bds.length - 1].deviceId;
+					}
+				});
+				//  监听低功耗蓝牙设备连接状态变化 
+				plus.bluetooth.onBLEConnectionStateChange(function(e) {
+					outLine('onBLEConnectionStateChange: ' + JSON.stringify(e));
+					if (deviceId == e.deviceId) { // 更新连接状态
+						bconnect = e.connected;
+					}
+				});
+				
+				readValue('A4:CF:12:8D:66:AE',true,'5FAFC201-1FB5-459E-8FCC-C5C9C331914B','5EB5483E-36E1-4688-B7F5-EA07361B26A8'); /* 获取数值*/
+				
+				// 监听低功耗蓝牙设备的特征值变化 
+				plus.bluetooth.onBLECharacteristicValueChange(function(e) {
+					var value1 = buffer2hex(e.value); // 调用  arrayBuffer 数据类型转16进制方法，把数据转成 16进制的
+					// outLine('value(hex) = ' + value);
+					var v2 = value1.replace(/0x3/g,''); // 去掉所有的 '0x3', '0x' 是转16进制时候，自己添加的，3是16进制的标识，所有字符串前面都有个 3 。
+					// outLine('接收的数据是 == ' + v2);
+					var value = v2.replace(/ /g,'') ; // 去掉所有的 空格，空格是自己转 16进制的时候自己添加的 ; 这时候得到的数据是真实的数字
+					 outLine('接收的最终数据 =='+ value); 
+					 $('#yalan').val(value);
+					 window.sessionStorage.setItem('lanya' , value);
+					 var lanya_h = window.sessionStorage.getItem("lanya");
+					 $('#huancun').val(lanya_h)
+					 
+					 
+					 
+					if (characteristicId == e.characteristicId) {
+						// 更新到页面显示
+						document.getElementById('readvalue').value = value;
+					} else if (wcharacteristicId == e.characteristicId) {
+						plus.nativeUI.toast(value);
+					}
+				});
+			}, false);
+
+			function buffer2hex(value) {
+				var t = '';
+				if (value) {
+					var v = new Uint8Array(value);
+					for (var i in v) {
+						t += '0x' + v[i].toString(16) + ' ';
+					}
+				} else {
+					t = '无效值';
+				}
+				return t;
+			}
+
+			// 打开蓝牙 
+			 function openBluetooth() {
+				outSet('打开蓝牙适配器：');
+				plus.bluetooth.openBluetoothAdapter({
+					success: function(e) {
+						outLine('打开成功!');
+					},
+					fail: function(e) {
+						outLine('打开失败! ' + JSON.stringify(e));
+					}
+				});
+			} 
+
+			// 开始搜索蓝牙设备 
+			/* function startDiscovery() {
+				outSet('开始搜索蓝牙设备：');
+				resetDevices();
+				plus.bluetooth.startBluetoothDevicesDiscovery({
+					success: function(e) {
+						outLine('开始搜索成功!' + JSON.stringify(e));
+					},
+					fail: function(e) {
+						outLine('开始搜索失败! ' + JSON.stringify(e));
+					}
+				});
+			} */
+
+			// 停止搜索蓝牙设备 
+			/* function stopDiscovery() {
+				outSet('停止搜索蓝牙设备：');
+				plus.bluetooth.stopBluetoothDevicesDiscovery({
+					success: function(e) {
+						outLine('停止搜索成功!');
+					},
+					fail: function(e) {
+						outLine('停止搜索失败! ' + JSON.stringify(e));
+					}
+				});
+			} */
+
+			// 选择蓝牙设备 
+			function selectDevice() {
+				if (bds.length <= 0) {
+					plus.nativeUI.toast('未搜索到有效蓝牙设备!');
+					return;
+				}
+				var bts = [];
+				for (var i in bds) {
+					var t = bds[i].name;
+					if (!t || t.length <= 0) {
+						t = bds[i].deviceId;
+					}
+					bts.push({
+						title: t
+					});
+				}
+				plus.nativeUI.actionSheet({
+					title: "选择蓝牙设备",
+					cancel: "取消",
+					buttons: bts
+				}, function(e) {
+					if (e.index > 0) {
+						document.getElementById('deivce').value = bds[e.index - 1].name;
+						deviceId = bds[e.index - 1].deviceId;
+						outLine('选择了"' + bds[e.index - 1].name + '"');
+						alert('设备名是： ' +  bds[e.index - 1].name);
+						
+						
+						
+					}
+				});
+			}
+
+			// 连接蓝牙设备 
+			function connectDevice(deviceId) {
+				if (!deviceId) {
+					plus.nativeUI.toast('未选择设备!');
+					return;
+				}
+				outSet('连接设备: ' + deviceId);
+				plus.bluetooth.createBLEConnection({
+					deviceId: deviceId,
+					success: function(e) {
+						outLine('连接成功!');
+					},
+					fail: function(e) {
+						outLine('连接失败! ' + JSON.stringify(e));
+					}
+				});
+			}
+
+			// 获取设备服务 
+			function getServices(deviceId,bconnect) {
+				if (!deviceId) {
+					plus.nativeUI.toast('未选择设备!');
+					return;
+				}
+				 if (!bconnect) {
+					plus.nativeUI.toast('未连接蓝牙设备!');
+					return;
+				} 
+				resetDevices(true);
+				outSet('获取蓝牙设备服务:');
+				plus.bluetooth.getBLEDeviceServices({
+					deviceId: deviceId,
+					success: function(e) {
+						var services = e.services;
+						outLine('获取服务成功! ' + services.length);
+						if (services.length > 0) {
+							for (var i in services) {
+								bss.push(services[i]);
+								outLine(JSON.stringify(services[i]));
+							}
+							if (bss.length > 0) { // 默认选择最后一个服务
+								document.getElementById('service').value = serviceId = bss[bss.length - 1].uuid;
+								
+							}
+						} else {
+							outLine('获取服务列表为空?');
+						}
+					},
+					fail: function(e) {
+						outLine('获取服务失败! ' + JSON.stringify(e));
+					}
+				});
+			}
+
+			// 选择服务 
+			function selectService(serviceId) {
+				if (bss.length <= 0) {
+					plus.nativeUI.toast('未获取到有效蓝牙服务!');
+					return;
+				}
+				var bts = [];
+				for (var i in bss) {
+					bts.push({
+						title: bss[i].uuid
+					});
+				}
+				plus.nativeUI.actionSheet({
+					title: "选择服务",
+					cancel: "取消",
+					buttons: bts
+				}, function(e) {
+					if (e.index > 0) {
+						document.getElementById('service').value = serviceId = bss[e.index - 1].uuid;
+						outLine('选择了服务serviceId: "' + serviceId + '"');
+						alert('选择了设备服务serviceId : "' + serviceId );
+					}
+				});
+			}
+
+			// 获取服务的特征值 
+			function getCharacteristics() {
+				if (!deviceId) {
+					plus.nativeUI.toast('未选择设备!');
+					return;
+				}
+				if (!bconnect) {
+					plus.nativeUI.toast('未连接蓝牙设备!');
+					return;
+				}
+				if (!serviceId) {
+					plus.nativeUI.toast('未选择服务!');
+					return;
+				}
+				resetDevices(true, true);
+				outSet('获取蓝牙设备指定服务的特征值:');
+				plus.bluetooth.getBLEDeviceCharacteristics({
+					deviceId: deviceId,
+					serviceId: serviceId,
+					success: function(e) {
+						var characteristics = e.characteristics;
+						outLine('获取特征值成功! ' + characteristics.length);
+						if (characteristics.length > 0) {
+							for (var i in characteristics) {
+								var characteristic = characteristics[i];
+								outLine(JSON.stringify(characteristic));
+								if (characteristic.properties) {
+									if (characteristic.properties.read) {
+										bscs.push(characteristics[i]);
+									}
+									if (characteristic.properties.write) {
+										bscws.push(characteristics[i]);
+										if (characteristic.properties.notify || characteristic.properties.indicate) {
+											plus.bluetooth.notifyBLECharacteristicValueChange({ //监听数据变化
+												deviceId: deviceId,
+												serviceId: serviceId,
+												characteristicId: characteristic.uuid,
+												success: function(e) {
+													outLine('notifyBLECharacteristicValueChange ' + characteristic.uuid + ' success.');
+													outLine('选中的服务特征值是characteristic.uuid： ' + characteristic.uuid );
+												},
+												fail: function(e) {
+													outLine('notifyBLECharacteristicValueChange ' + characteristic.uuid + ' failed! ' + JSON.stringify(e));
+												}
+											});
+										}
+									}
+								}
+							}
+							if (bscs.length > 0) { // 默认选择最后特征值
+								document.getElementById('characteristic').value = characteristicId = bscs[bscs.length - 1].uuid;
+							}
+							if (bscws.length > 0) { // 默认选择最后一个可写特征值
+								document.getElementById('wcharacteristic').value = wcharacteristicId = bscws[bscws.length - 1].uuid;
+							}
+						} else {
+							outLine('获取特征值列表为空?');
+						}
+					},
+					fail: function(e) {
+						outLine('获取特征值失败! ' + JSON.stringify(e));
+					}
+				});
+			}
+
+			// 选择特征值(读取) 
+			function selectCharacteristic() {
+				if (bscs.length <= 0) {
+					plus.nativeUI.toast('未获取到有效可读特征值!');
+					return;
+				}
+				var bts = [];
+				for (var i in bscs) {
+					bts.push({
+						title: bscs[i].uuid
+					});
+				}
+				plus.nativeUI.actionSheet({
+					title: '选择特征值',
+					cancel: '取消',
+					buttons: bts
+				}, function(e) {
+					if (e.index > 0) {
+						document.getElementById('characteristic').value = characteristicId = bscs[e.index - 1].uuid;
+						outLine('选择了特征值: "' + characteristicId + '"');
+					}
+				});
+			}
+
+			// 读取特征值数据 
+			function readValue(deviceId,bconnect,serviceId,characteristicId) {
+				if (!deviceId) {
+					plus.nativeUI.toast('未选择设备!');
+					return;
+				}
+				if (!bconnect) {
+					plus.nativeUI.toast('未连接蓝牙设备!');
+					return;
+				}
+				if (!serviceId) {
+					plus.nativeUI.toast('未选择服务!');
+					return;
+				}
+				if (!characteristicId) {
+					plus.nativeUI.toast('未选择读取的特征值!');
+					return;
+				}
+				outSet('读取蓝牙设备的特征值数据: ');
+				plus.bluetooth.readBLECharacteristicValue({
+					deviceId: deviceId,
+					serviceId: serviceId,
+					characteristicId: characteristicId,
+					success: function(e) {
+						outLine('读取数据成功!');
+						// alert(deviceName,deviceId,serviceId,characteristicId);
+					},
+					fail: function(e) {
+						outLine('读取数据失败! ' + JSON.stringify(e));
+					}
+				});
+			}
+
+			// 选择特征值(写入) 
+			/* function selectwCharacteristic() {
+				if (bscws.length <= 0) {
+					plus.nativeUI.toast('未获取到有效可写特征值!');
+					return;
+				}
+				var bts = [];
+				for (var i in bscws) {
+					bts.push({
+						title: bscws[i].uuid
+					});
+				}
+				plus.nativeUI.actionSheet({
+					title: '选择特征值',
+					cancel: '取消',
+					buttons: bts
+				}, function(e) {
+					if (e.index > 0) {
+						document.getElementById('wcharacteristic').value = wcharacteristicId = bscws[e.index - 1].uuid;
+						outLine('选择了特征值: "' + wcharacteristicId + '"');
+					}
+				});
+			} */
+
+			// 写入特征值数据 
+			/* function writeValue() {
+				if (!deviceId) {
+					plus.nativeUI.toast('未选择设备!');
+					return;
+				}
+				if (!bconnect) {
+					plus.nativeUI.toast('未连接蓝牙设备!');
+					return;
+				}
+				if (!serviceId) {
+					plus.nativeUI.toast('未选择服务!');
+					return;
+				}
+				if (!wcharacteristicId) {
+					plus.nativeUI.toast('未选择写入的特征值!');
+					return;
+				}
+				var value = document.getElementById('writevalue').value;
+				if (!value || value == '') {
+					plus.nativeUI.toast('请输入需要写入的数据');
+					document.getElementById('writevalue').focus();
+					return;
+				}
+				// 转换为ArrayBuffer写入蓝牙
+				str2ArrayBuffer(value, function(buffer) {
+					outSet('写入蓝牙设备的特征值数据: ');
+					plus.bluetooth.writeBLECharacteristicValue({
+						deviceId: deviceId,
+						serviceId: serviceId,
+						characteristicId: wcharacteristicId,
+						value: buffer,
+						success: function(e) {
+							outLine('写入数据成功!');
+						},
+						fail: function(e) {
+							outLine('写入数据失败! ' + JSON.stringify(e));
+						}
+					});
+				});
+			} */
+
+			/* function str2ArrayBuffer(s, f) {
+				var b = new Blob([s], {
+					type: 'text/plain'
+				});
+				var r = new FileReader();
+				r.readAsArrayBuffer(b);
+				r.onload = function() {
+					if (f) f.call(null, r.result)
+				}
+			} */
+
+
+			// 断开蓝牙设备
+			/* function disconnectDevice() {
+				if (!deviceId) {
+					plus.nativeUI.toast('未选择设备!');
+					return;
+				}
+				resetDevices(true);
+				outSet('断开蓝牙设备连接：');
+				plus.bluetooth.closeBLEConnection({
+					deviceId: deviceId,
+					success: function(e) {
+						outLine('断开连接成功!');
+					},
+					fail: function(e) {
+						outLine('断开连接失败! ' + JSON.stringify(e));
+					}
+				});
+			} */
+
+			// 关闭蓝牙
+			/* function closeBluetooth() {
+				outSet('关闭蓝牙适配器：');
+				resetDevices();
+				plus.bluetooth.closeBluetoothAdapter({
+					success: function(e) {
+						outLine('关闭成功!');
+						bconnect = false;
+					},
+					fail: function(e) {
+						outLine('关闭失败! ' + JSON.stringify(e));
+					}
+				});
+			} */
+			
+			
+			
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+	</head>
+	<body>
+		
+		<div class="erweima_wrap" style="border:1px solid blue;margin-top:20px;margin-bottom:20px;">
+			<div class="wrap_value" style="text-align: left;">
+				<div>二维码获取的蓝牙设备名name：<input type="text" id="name"></div>
+				<div>二维码获取的蓝牙设备连接状态deviceId：<input type="text" id="deviceId"></div>
+				<div>二维码获取的蓝牙设备服务serviceId：<input type="text" id="serviceId"></div>
+				<div>二维码获取的蓝牙设备服务特征值uuid：<input type="text" id="uuid"></div>
+				<div>二维码获取的蓝牙设备服务特征值数据：<input type="text" id="device_serve"></div>
+			</div>
+			
+			<!--  扫描二维码  -->
+			<div class="sm">
+				<button class="btn btn-default sm" onclick="openBarcode()"> 扫码添加</button>
+				<!-- <div class="button" onclick="openBarcode()">扫一扫</div> -->
+				<ul id="history" class="dlist" style="text-align:left;display: none;">
+					<li id="nohistory" class="ditem" onclick="onempty()">无历史记录 </li>
+				</ul>
+			</div>
+			
+		</div>
+		
+		
+		
+		<div class="lanya_wrap" style="border:1px solid red;overflow:hidden;margin-top:50px;" >
+				<div class="wrap_value" style="text-align: left;">
+					<div> <a href="../index/index.html">返回到首页1 </a> </div>
+				
+					<div>最终获取的蓝牙数值：<input type="text" id="yalan"></div>
+					
+					<div>最终获取的缓存蓝牙数值：<input type="text" id="huancun"></div>
+				</div>
+			
+			
+				<!-- <div class="button" onclick="openBluetooth()">初始化蓝牙模块 1 </div> -->
+				<!-- <div class="button" onclick="startDiscovery()">开始搜索蓝牙设备</div>
+				<div class="button" onclick="stopDiscovery()">停止搜索蓝牙设备</div>
+				设备：<input id="deivce" type="text" disabled="disabled"></input> -->
+				<!-- <a href="#" onclick="selectDevice()">选择设备</a> -->
+				<!-- <div class="button" onclick="connectDevice()">连接蓝牙设备</div> -->
+				<!-- <div class="button" onclick="connectDevice('A4:CF:12:8D:66:AE')">连接蓝牙设备</div> -->
+				
+				<!-- <div class="button" onclick="getServices()">获取设备服务</div> -->
+				<!-- <div class="button" onclick="getServices('5FAFC201-1FB5-459E-8FCC-C5C9C331914B',true)">获取设备服务</div>
+				
+				服务：<input id="service" type="text" disabled="disabled"></input>
+				<a href="#" onclick="selectService('5FAFC201-1FB5-459E-8FCC-C5C9C331914B',true)">选择服务</a> -->
+				
+				<!-- <div class="button" onclick="getCharacteristics()">获取服务的特征值</div>
+				读取特征值：<input id="characteristic" type="text" disabled="disabled"></input>
+				<a href="#" onclick="selectCharacteristic()">选择</a> -->
+				<!-- <div class="button" onclick="readValue()">读取特征值数据</div> -->
+				
+				<!-- <div class="button" onclick="readValue(deviceId,连接,serviceId,characteristicId)">读取特征值数据</div> -->
+				
+				
+				 <!-- <div class="button" onclick="readValue('A4:CF:12:8D:66:AE',true,'5FAFC201-1FB5-459E-8FCC-C5C9C331914B','5EB5483E-36E1-4688-B7F5-EA07361B26A8')">添加设备</div> -->
+				
+				读取数据：<input id="readvalue" type="text" disabled="disabled" style="width:60%"></input>
+				
+				<hr />
+				<br />
+				<!-- 写入特征值：<input id="wcharacteristic" type="text" disabled="disabled"></input>
+				<a href="#" onclick="selectwCharacteristic()">选择</a>
+				<div class="button" onclick="writeValue()">写入特征值数据</div>
+				写入数据：<input id="writevalue" type="text" style="width:60%;-webkit-user-select:text" value="test"></input>
+				<div class="button" onclick="disconnectDevice()">断开蓝牙设备</div>
+				<div class="button" onclick="closeBluetooth()">关闭蓝牙模块</div>-->
+				<div id="outpos" />
+					<div id="output">
+						Bluetooth用于管理蓝牙设备，搜索附近蓝牙设备、连接实现数据通信等。
+					</div>
+				</div> 
+		</div>
+	</body>
+</html>
+
+

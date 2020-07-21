@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<!-- <meta name="misapplication-tap-highlight" content="no" />
+		<meta name="HandheldFriendly" content="true" />
+		<meta name="MobileOptimized" content="320" /> -->
+		<title>详细数据</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<!-- 分享css -->
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="css/main.css">
+		<script type="text/javascript">(function() {var currClientWidth, fontValue, originWidth;originWidth = 750;__resize();window.addEventListener('resize', __resize, false);function __resize() {currClientWidth = document.documentElement.clientWidth || document.body.clientWidth;if(currClientWidth > 768) {currClientWidth = 768;}if(currClientWidth < 320) {currClientWidth = 320;}fontValue = (currClientWidth / originWidth * 100).toFixed(2);document.getElementsByTagName("html")[0].style.fontSize = fontValue + 'px';}})();</script>
+		<link rel="stylesheet" href="css/swiper.min.css">
+		<!-- <link rel="stylesheet" href="css/swiper.min.css"> -->
+		<link rel="stylesheet" href="css/detail.css">
+		<!-- 日期选择插件 -->
+		<link rel="stylesheet" href="../mui/css/mui.min.css">
+		<!-- <link rel="stylesheet" type="text/css" href="../mui/css/app.css" /> -->
+		<link rel="stylesheet" type="text/css" href="../mui/css/mui.picker.min.css" />
+		<style>
+			.top_wrap{width:100%;height:1rem;background-color:rgba(0,0,0,.2);}
+		</style>
+	</head>
+	<body>
+		<div class="top_wrap"></div>
+		<div class="detail_main">
+			<div class="back clearfix">
+				<i class="iconfont" onClick="javascript:history.back(-1);">&#xe7ec;</i>
+				<a  onclick="shareWeb_weixin()"><i class="iconfont">&#xe7e7;</i></a>
+				<div class="weixin_share" style="display: none;">
+					<!-- 微信分享 -->
+					<div >
+						<p class="heading">分享网页：</p>
+						
+						<table style="width:100%;">
+							<tbody>
+								<tr>
+									<td style="width:20%;text-align:right;font-size:12px;">网页地址</td>
+									<td style="width:65%">
+										<input id="web_href_weixin" class="share_input" type="url" 
+										value="http://custompartsfactory.com/" placeholder="请输入要分享的网页地址" />
+									</td>
+								</tr>
+								<tr>
+									<td style="width:20%;text-align:right;font-size:12px;">网页标题</td>
+									<td style="width:65%">
+										<input id="web_title_weixin" class="share_input" type="url" value="分享标题" placeholder="请输入要分享的网页地址" />
+									</td>
+								</tr>
+								<tr>
+									<td style="width:20%;text-align:right;font-size:12px;">网页描述</td>
+									<td style="width:65%">
+										<input id="web_content_weixin" class="share_input" type="url" value="分享描述" placeholder="请输入要分享的网页描述" />
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<p class="des">分享网页需要设置缩略图，否则可能会分享失败。</p>
+					</div>
+					<!-- <div class="button" onclick="shareWeb_weixin()" id="weixin">分享网页微信1</div> -->
+					<hr color="#EEE" /><br /><br />
+					<div id="outpos">
+						<div id="output">
+							微信分享支持分享文本、图片、网页、音乐（网络地址）、视频（网络地址）、小程序等。
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="dateil_chart">
+				<ul class="detail_type" id="detailType" item-index="0">
+					<li class="detail_item detail_active"></li>
+					<li class="detail_item" style="display: none;"></li>
+				</ul>
+				<div class="type_correspond_detail" id="typeCorrespondDetail">
+					<div class="type_item type_item1">
+						<div class="date_chart">
+							<!-- <ol class="chart_top_list">
+								<li class="chart_top_item chart_top_sctive">日</li>
+								<li class="chart_top_item">周</li>
+								<li class="chart_top_item">月</li>
+								<li class="chart_top_item">年</li>
+							</ol> -->
+							<!-- 如果需要分页器 -->
+							<div class="swiper-pagination swiper-pagination1"></div>
+							<div class="swiper-container date_chart_box">
+								<div class="date_chart_list swiper-wrapper">
+									<div class="swiper-slide date_chart_item date_chart_day date_chart_active">
+										<p class="date_chart_txt">2020年6月8日</p>
+										<h3 class="date_chart_num">当日累计摄入 <strong>5</strong> <i class="shi_unit">克</i></h3>
+										<p class="date_still_bad">提示：离指导量还有 <span>1</span> <i class="shi_unit">克</i></p>
+										<i class="iconfont date_left">&#xe7ec;</i>
+										<i class="iconfont date_right date_no_click">&#xe7eb;</i>
+									</div>
+									<div class="swiper-slide date_chart_item date_chart_week">
+										<p class="date_chart_txt">2020年6月第1周</p>
+										<h3 class="date_chart_num">当周累计摄入 <strong>100</strong> <i class="shi_unit">克</i></h3>
+										<p class="date_still_bad">提示：离指导量还有 <span>10</span> <i class="shi_unit">克</i></p>
+										<i class="iconfont date_left">&#xe7ec;</i>
+										<i class="iconfont date_right date_no_click">&#xe7eb;</i>
+									</div>
+									<div class="swiper-slide date_chart_item date_chart_month">
+										<p class="date_chart_txt">2020年6月</p>
+										<h3 class="date_chart_num">当月累计摄入 <strong>580</strong> <i class="shi_unit">克</i></h3>
+										<p class="date_still_bad">提示：离指导量还有 <span>100</span> <i class="shi_unit">克</i></p>
+										<i class="iconfont date_left">&#xe7ec;</i>
+										<i class="iconfont date_right date_no_click">&#xe7eb;</i>
+									</div>
+									<div class="swiper-slide date_chart_item date_chart_year">
+										<p class="date_chart_txt">2020年</p>
+										<h3 class="date_chart_num">当年累计摄入 <strong>1010</strong> <i class="shi_unit">克</i></h3>
+										<p class="date_still_bad">提示：离指导量还有 <span>1200</span> <i class="shi_unit">克</i></p>
+										<i class="iconfont date_left">&#xe7ec;</i>
+										<i class="iconfont date_right date_no_click">&#xe7eb;</i>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="number_chart">
+							<div class="number_top">
+								<ol class="number_top_list">
+									<li class="number_top_item"><i class="number_top_icon1"></i>手动输入</li>
+									<li class="number_top_item"><i class="number_top_icon2"></i>设备数据</li>
+								</ol>
+								<span class="number_top_unit">(单位：<i class="shi_unit">克</i>)</span>
+							</div>
+							<ul class="number_chart_list">
+								<li class="number_chart_item number_chart_active">
+									<div class="day_chart" id="dayChart"></div>
+								</li>
+							</ul>
+						</div>
+
+						<ul class="meal_data">
+							<li class="meal_item">
+								<span class="meal_text"><em class="meal_num">第一餐 </em><em class="meal_time"> (06:10-06:40) </em> 人均摄入 <em class="meal_weight"> <i class="shi_num">1</i> <i class="shi_unit">克</i></em></span>
+								<span class="meal_operating_icon">
+									<i class="iconfont meal_edit" edit-number='1'>&#xe7e2;</i>
+									<i class="iconfont meal_close">&#xe7c3;</i>
+								</span>
+							</li>
+							<li class="meal_item">
+								<span class="meal_text"><em class="meal_num">第二餐 </em><em class="meal_time"> (11:10-11:40) </em> 人均摄入 <em class="meal_weight"> <i class="shi_num">2</i> <i class="shi_unit">克</i></em></span>
+								<span class="meal_operating_icon">
+									<i class="iconfont meal_edit" edit-number='2'>&#xe7e2;</i>
+									<i class="iconfont meal_close">&#xe7c3;</i>
+								</span>
+							</li>
+							<li class="meal_item">
+								<span class="meal_text"><em class="meal_num">第三餐 </em><em class="meal_time"> (20:10-20:40) </em> 人均摄入 <em class="meal_weight"> <i class="shi_num">3</i> <i class="shi_unit">克</i></em></span>
+								<span class="meal_operating_icon">
+									<i class="iconfont meal_edit" edit-number='3'>&#xe7e2;</i>
+									<i class="iconfont meal_close">&#xe7c3;</i>
+								</span>
+							</li>
+						</ul>
+					</div>
+					<div class="type_item type_item2 ingest_exceed">
+						<div class="date_chart">
+							<!-- 如果需要分页器 -->
+							<div class="swiper-pagination swiper-pagination2"></div>
+							<div class="swiper-container date_chart_box1">
+								<ul class="date_chart_list swiper-wrapper">
+									<li class="swiper-slide date_chart_item date_chart_day date_chart_active">
+										<p class="date_chart_txt">2020年6月8日</p>
+										<h3 class="date_chart_num">当日累计摄入 <strong>7</strong> <i class="shi_unit">克</i></h3>
+										<p class="date_still_bad date_still_red">提示：已超过指导摄入量 <span>1</span> <i class="shi_unit">克</i></p>
+										<i class="iconfont date_left">&#xe7ec;</i>
+										<i class="iconfont date_right date_no_click">&#xe7eb;</i>
+									</li>
+									<li class="swiper-slide date_chart_item date_chart_week">
+										<p class="date_chart_txt">2020年6月第1周</p>
+										<h3 class="date_chart_num">当周累计摄入 <strong>125</strong> <i class="shi_unit">克</i></h3>
+										<p class="date_still_bad">提示：已超过指导摄入量 <span>10</span> <i class="shi_unit">克</i></p>
+										<i class="iconfont date_left">&#xe7ec;</i>
+										<i class="iconfont date_right date_no_click">&#xe7eb;</i>
+									</li>
+									<li class="swiper-slide date_chart_item date_chart_month">
+										<p class="date_chart_txt">2020年6月</p>
+										<h3 class="date_chart_num">当月累计摄入 <strong>600</strong> <i class="shi_unit">克</i></h3>
+										<p class="date_still_bad">提示：已超过指导摄入量 <span>100</span> <i class="shi_unit">克</i></p>
+										<i class="iconfont date_left">&#xe7ec;</i>
+										<i class="iconfont date_right date_no_click">&#xe7eb;</i>
+									</li>
+									<li class="swiper-slide date_chart_item date_chart_year">
+										<p class="date_chart_txt">2020年</p>
+										<h3 class="date_chart_num">当年累计摄入 <strong>1300</strong> <i class="shi_unit">克</i></h3>
+										<p class="date_still_bad">提示：已超过指导摄入量 <span>1200</span> <i class="shi_unit">克</i></p>
+										<i class="iconfont date_left">&#xe7ec;</i>
+										<i class="iconfont date_right date_no_click">&#xe7eb;</i>
+									</li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="number_chart">
+							<div class="number_top">
+								<ol class="number_top_list">
+									<li class="number_top_item"><i class="number_top_icon1"></i>手动输入</li>
+									<li class="number_top_item"><i class="number_top_icon2"></i>设备数据</li>
+								</ol>
+								<span class="number_top_unit">(单位：<i class="shi_unit">克</i>)</span>
+							</div>
+							<ul class="number_chart_list">
+								<li class="number_chart_item number_chart_active">
+									<div class="day_chart" id="dayChart2"></div>
+								</li>
+							</ul>
+						</div>
+
+						<ul class="meal_data">
+							<li class="meal_item">
+								<span class="meal_text"><em class="meal_num">第一餐 </em><em class="meal_time"> (06:10-06:40) </em> 人均摄入 <em class="meal_weight"> <i class="shi_num">3.5</i> <i class="shi_unit">克</i></em></span>
+								<span class="meal_operating_icon">
+									<i class="iconfont meal_edit" edit-number='1'>&#xe7e2;</i>
+									<i class="iconfont meal_close">&#xe7c3;</i>
+								</span>
+							</li>
+							<li class="meal_item">
+								<span class="meal_text"><em class="meal_num">第二餐 </em><em class="meal_time"> (12:10-12:40) </em> 人均摄入 <em class="meal_weight"> <i class="shi_num">3</i> <i class="shi_unit">克</i></em></span>
+								<span class="meal_operating_icon">
+									<i class="iconfont meal_edit" edit-number='2'>&#xe7e2;</i>
+									<i class="iconfont meal_close">&#xe7c3;</i>
+								</span>
+							</li>
+							<li class="meal_item">
+								<span class="meal_text"><em class="meal_num">第三餐 </em><em class="meal_time"> (18:10-18:40) </em> 人均摄入 <em class="meal_weight"> <i class="shi_num">2.9</i> <i class="shi_unit">克</i></em></span>
+								<span class="meal_operating_icon">
+									<i class="iconfont meal_edit" edit-number='3'>&#xe7e2;</i>
+									<i class="iconfont meal_close">&#xe7c3;</i>
+								</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="foot">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-xs-6 foot_item1" id="footItem1">
+							<a><i class="iconfont">&#xe7b9;</i>手动输入</a>
+						</div>
+						<div class="col-xs-6 foot_item2" id="footItem2">
+							<a><i class="iconfont">&#xe7e5;</i>编辑项目</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- meal_data就餐数据列表编辑icon点击弹窗 -->
+		<div class="device_box" id="editItem">
+			<div class="device_bg" id="editBg"></div>
+			<div class="device_pop text-left">
+				<span class="device_close iconfont" id="editClose">&#xe7fd;</span>
+				<h1 class="device_operating_title">第一餐</h1>
+				<p class="dining_time">06:10-06:40</p>
+				<div class="add_dev_main">
+					<div class="add_dev_one">
+						<div class="add_dev_input">
+							<div class="dev_input_item">
+								<span class="input_txt">进餐人数</span>
+								<ol class="edit_type" id="editType">
+									<li class="edit_item edit_active">1</li>
+									<li class="edit_item">2</li>
+									<li class="edit_item">3</li>
+									<li class="edit_item">4</li>
+									<li class="edit_item">5</li>
+									<li class="edit_item">6</li>
+									<li class="edit_item">7</li>
+									<li class="edit_item">8</li>
+								</ol>
+							</div>
+							<div class="dev_input_item dev_input_item2">
+								<label>浪费比率</label>
+								<div class="mui-input-row mui-input-range clearfix waste_chart">
+									<input type="range" class="single-slider" id='inline-range' value="5" min="0" max="100" step="1">
+									<span class="bg_span"></span>
+									<span id='inline-range-val' class="progress_tip">5</span>
+								</div>
+								
+								<!-- <div class="waste_chart">
+									<input type="hidden" class="single-slider" value="0" />
+									<span class="progress_tip">0</span>
+									<div class="progress_bar"><i class="progress_circle"></i><span class="progress_tip">1</span></div>
+									<ul class="ratio_interval" id="ratioInterval">
+										<li class="interval_item"></li>
+										<li class="interval_item"></li>
+										<li class="interval_item"></li>
+										<li class="interval_item"></li>
+										<li class="interval_item"></li>
+										<li class="interval_item"></li>
+										<li class="interval_item"></li>
+										<li class="interval_item"></li>
+									</ul>
+								</div> -->
+							</div>
+
+							<div class="dev_input_item dev_input_item3 clearfix">
+								<!-- <div class="weighing_list">
+									<span class="input_txt">第一次称重</span>
+									<div class="increase_decrease">
+										<span class="recommend_decrease"></span>
+										<input class="recommend_bun" type="text" value="20">
+										<span class="recommend_increase iconfont">&#xe630;</span>
+										<b class="recommend_font">克</b>
+									</div>
+									<i class="recommend_close iconfont">&#xe7c3;</i>
+								</div>
+								<div class="weighing_list">
+									<span class="input_txt">第二次称重</span>
+									<div class="increase_decrease">
+										<span class="recommend_decrease"></span>
+										<input class="recommend_bun" type="text" value="15">
+										<span class="recommend_increase iconfont">&#xe630;</span>
+										<b class="recommend_font">克</b>
+									</div>
+									<i class="recommend_close iconfont">&#xe7c3;</i>
+								</div>
+								<div class="weighing_list">
+									<span class="input_txt">第三次称重</span>
+									<div class="increase_decrease">
+										<span class="recommend_decrease"></span>
+										<input class="recommend_bun" type="text" value="15">
+										<span class="recommend_increase iconfont">&#xe630;</span>
+										<b class="recommend_font">克</b>
+									</div>
+									<i class="recommend_close iconfont">&#xe7c3;</i>
+								</div>
+								<div class="weighing_list">
+									<span class="input_txt">第四次称重</span>
+									<div class="increase_decrease">
+										<span class="recommend_decrease"></span>
+										<input class="recommend_bun" type="text" value="15">
+										<span class="recommend_increase iconfont">&#xe630;</span>
+										<b class="recommend_font">克</b>
+									</div>
+									<i class="recommend_close iconfont">&#xe7c3;</i>
+								</div> -->
+							</div>
+						</div>
+						<div class="device_bottom clearfix">
+							<a class="device_previous"id="devicePrevious5">取消</a>
+							<a class="device_device" id="addDeviceNext5">确认</a>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<!-- meal_data就餐数据列表编辑icon点击 end -->
+		
+		<!-- 手动输入弹窗 -->
+		<div class="manual_box" id="manualInput">
+			<div class="manual_main">
+				<div class="back text-left clearfix">
+					<i class="iconfont" id="manualClose">&#xe7ec;</i>
+					<span>手动输入</span>
+				</div>
+				<ul class="manual_list">
+					<li class="manual_item">
+						<span class="manual_txt">日期</span>
+						<div class="manual_date">
+							<span class="manual_font" id="manualDay">
+								<em>2020/6/8</em><i class="iconfont">&#xe7eb;</i>
+							</span>
+						</div>
+					</li>
+					<li class="manual_item">
+						<span class="manual_txt">时间</span>
+						<div class="manual_date">
+							<span class="manual_font" id="manualTime">
+								<em>17:00</em><i class="iconfont">&#xe7eb;</i>
+							</span>
+						</div>
+					</li>
+					<li class="manual_item">
+						<span class="manual_txt">摄入量</span>
+						<div class="manual_date">
+							<span class="manual_font" id="manualIntake">
+								<em><i class="shi_num">0</i><i class="shi_unit">克</i></em><i class="iconfont">&#xe7eb;</i>
+							</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<a class="manual_btn" id="manualConfirm">确认</a>
+		</div>
+		<!-- 手动输入弹窗 end -->
+
+		<!-- 编辑项目弹窗 -->
+		<div class="device_box" id="addDevice">
+			<div class="device_bg" id="addDeviceBg"></div>
+			<div class="device_pop text-left">
+				<span id="addDeviceClose" class="device_close iconfont">&#xe7fd;</span>
+				<h1 class="device_operating_title">添加设备</h1>
+				<div class="add_dev_main">
+					<div class="add_dev_one">
+						<div class="add_dev_input">
+							<div class="dev_input_item">
+								<span class="input_txt">项目名称</span>
+								<ol class="add_type1" id="addType1">
+									<li class="type1_active">盐</li>
+									<li>糖</li>
+									<li>味精</li>
+									<li>油</li>
+									<li>酱油</li>
+									<li class="type1_customize">+自定义</li>
+								</ol>
+							</div>
+							<div class="dev_input_item add_input_unit">
+								<span class="input_txt">称重单位</span>
+								<ol class="add_type2" id="addType2">
+									<li class="type2_active"><i class="shi_unit">克</i></li>
+									<li>毫升</li>
+								</ol>
+							</div>
+							<div class="dev_input_item">
+								<span class="input_txt">推荐指标</span>
+								<div class="increase_decrease">
+									<span class="recommend_decrease"></span>
+									<input class="recommend_bun" type="text" value="2">
+									<span class="recommend_increase iconfont">&#xe630;</span>
+									<b class="recommend_font">天</b>
+								</div>
+							</div>
+						</div>
+						<div class="device_bottom clearfix">
+							<a class="device_previous" id="devicePrevious1">取消</a>
+							<a class="device_next" id="addDeviceNext1">下一步</a>
+						</div>
+					</div>
+					<div class="add_dev_two">
+						<ul class="add_list">
+							<li class="add_item clearfix">
+								<span class="add_name">项目名称</span>
+								<span class="add_txt add_txt1">盐</span>
+							</li>
+							<li class="add_item clearfix">
+								<span class="add_name">称重单位</span>
+								<span class="add_txt add_txt2"><i class="shi_unit">克</i></span>
+							</li>
+							<li class="add_item clearfix">
+								<span class="add_name">推荐指标</span>
+								<span class="add_txt add_txt3">5g/天</span>
+							</li>
+							<li class="add_item clearfix">
+								<span class="add_name">绑定设备</span>
+								<span class="add_txt add_txt4">Smart Balance 1234</span>
+							</li>
+						</ul>
+						<div class="device_bottom clearfix">
+							<a class="device_previous" id="devicePrevious2">上一步</a>
+							<a class="device_next" id="addDeviceNext2">完成</a>
+						</div>
+					</div>
+					
+				</div>
+				
+			</div>
+			<!-- 自定义项目弹窗 -->
+			<div class="customize_project" id="customizeProject">
+				<div class="customize_bg" id="customizeBg"></div>
+				<div class="customize_pop text-left">
+					<span id="customizeClose" class="customize_close iconfont">&#xe7fd;</span>
+					<h1 class="device_operating_title">自定义项目名</h1>
+					<div class="customize_main">
+						<input type="text" class="customize_name" id="customizeName" autocomplete="off">
+						<i class="iconfont" id="customizeIcon">&#xe844;</i>
+						<a class="customize_confirm" id="customizeConfirm">确认</a>
+					</div>
+					
+				</div>
+			</div>
+			<!-- 自定义项目弹窗 end -->
+		</div>
+		<!-- 编辑项目弹窗 end -->
+
+		<!-- 添加新设备列表弹窗 -->
+		<div class="device_box" id="newEquipments">
+			<div class="device_bg" id="newEquipmentsBg"></div>
+			<div class="device_pop text-left">
+				<span id="newEquipmentsClose" class="device_close iconfont">&#xe7fd;</span>
+				<div class="equipments_main">
+					<h1 class="device_operating_title">设备列表</h1>
+					<div class="equipments_center">
+						<ul class="equipments_list" id="equipmentsList">
+							<li class="equipments_item clearfix">
+								<span class="equipments_name">Smart Balance 1234</span><span class="equipments_function">未绑定</span>
+								<em class="equipments_check"><i class="iconfont"></i></em>
+							</li>
+							<li class="equipments_item clearfix">
+								<span class="equipments_name">Smart Balance 1234111</span><span class="equipments_function">未绑定</span>
+								<em class="equipments_check equipments_active"><i class="iconfont"></i></em>
+							</li>
+						</ul>
+						<a class="equipments_new_btn">+ 添加新设备</a>
+					</div>
+					<div class="device_bottom clearfix">
+						<a class="device_previous" id="devicePrevious4">上一步</a>
+						<a class="device_next" id="addDeviceNext4">下一步</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 添加新设备列表弹窗 end -->
+
+		<!-- 删除确认弹窗 -->
+		<div class="device_box" id="confirmDelete">
+			<div class="device_bg" id="confirmBg"></div>
+			<div class="device_pop text-left">
+				<span class="device_close iconfont" id="confirmClose">&#xe7fd;</span>
+				<h1 class="system_operating_title">系统提示</h1>
+				<div class="system_main">
+					<p>确认删除此数据？</p>
+				</div>
+				<div class="system_bottom clearfix">
+					<a class="system_cancel_btn" id="devicePrevious3">取消</a>
+					<a class="system_sure_btn" id="addDeviceNext3">确认</a>
+				</div>
+			</div>
+		</div>
+		<!-- 删除确认弹窗 end -->
+		<script src="js/jquery.min.js"></script>
+		<!-- <script src="../component/js/com.js"></script> -->
+		<!-- <script src="https://cdn.staticfile.org/Swiper/5.4.5/js/swiper.min.js"></script> -->
+		<script src="js/swiper.min.js"></script>
+		<!-- <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script> -->
+		<script src="js/echarts.min.js"></script>
+		<script src="js/detail.js"></script>
+		<!-- 日期选择插件 -->
+		<script src="../mui/js/mui.min.js"></script>
+		<script src="../mui/js/mui.picker.min.js"></script>
+		<script src="js/jquery.range-min.js"></script>
+		<!-- 分享开始 -->
+		<script type="text/javascript" src="../js/common.js"></script>
+		<!-- 微信分享 -->
+		<script type="text/javascript" class="weixin_js">
+			var shares = null;
+			var sweixin = null;
+			var buttons = [{
+					title: '我的好友',
+					extra: {
+						scene: 'WXSceneSession'
+					}
+				},
+				{
+					title: '朋友圈',
+					extra: {
+						scene: 'WXSceneTimeline'
+					}
+				},
+				{
+					title: '我的收藏',
+					extra: {
+						scene: 'WXSceneFavorite'
+					}
+				}
+			];
+			// H5 plus事件处理
+			function plusReady() {
+				updateSerivces();
+			}
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			}
+			/**
+			 * 更新分享服务
+			 */
+			function updateSerivces() {
+				plus.share.getServices(function(s) {
+					shares = {};
+					for (var i in s) {
+						var t = s[i];
+						shares[t.id] = t;
+					}
+					sweixin = shares['weixin'];
+				}, function(e) {
+					outSet('获取分享服务列表失败：' + e.message);
+				});
+			}
+		
+		
+			// 分享网页
+			function shareWeb_weixin() {
+				var msg = {
+					type: 'web',
+					thumbs: ['_www/logo.png']
+				};
+				if (!web_href_weixin.value) {
+					plus.nativeUI.alert('请输入分享网页的链接地址!');
+					web_href_weixin.focus();
+					return;
+				}
+				msg.href = web_href_weixin.value;
+				if (!web_title_weixin.value) {
+					plus.nativeUI.alert('请输入分享网页的标题!');
+					web_title_weixin.focus();
+					return;
+				}
+				msg.title = web_title_weixin.value;
+				if (!web_content_weixin.value) {
+					plus.nativeUI.alert('请输入分享网页的描述!');
+					web_content_weixin.focus();
+					return;
+				}
+				msg.content = web_content_weixin.value;
+				sweixin ? plus.nativeUI.actionSheet({
+					title: '分享网页到微信',
+					cancel: '取消',
+					buttons: buttons
+				}, function(e) {
+					(e.index > 0) && share(sweixin, msg, buttons[e.index - 1]);
+				}) : plus.nativeUI.alert('当前环境不支持微信分享操作!');
+			}
+		
+		
+			// 分享
+			function share(srv, msg, button) {
+				outSet('分享操作：');
+				if (!srv) {
+					outLine('无效的分享服务！');
+					return;
+				}
+				button && (msg.extra = button.extra);
+				// 发送分享
+				if (srv.authenticated) {
+					outLine('---已授权---');
+					doShare(srv, msg);
+				} else {
+					outLine('---未授权---');
+					srv.authorize(function() {
+						doShare(srv, msg);
+					}, function(e) {
+						outLine('认证授权失败：' + JSON.stringify(e));
+					});
+				}
+			}
+			// 发送分享
+			function doShare(srv, msg) {
+				outLine(JSON.stringify(msg));
+				srv.send(msg, function() {
+					outLine('分享到"' + srv.description + '"成功！');
+				}, function(e) {
+					outLine('分享到"' + srv.description + '"失败: ' + JSON.stringify(e));
+				});
+			}
+			// 解除授权
+			function cancelAuth() {
+				outSet('解除授权：');
+				if (sweixin) {
+					if (sweixin.authenticated) {
+						outLine('取消"' + sweixin.description + '"');
+					}
+					sweixin.forbid();
+				} else {
+					outLine('当前环境不支持微信分享操作!');
+				}
+			}
+		</script>
+
+	</body>
+</html>

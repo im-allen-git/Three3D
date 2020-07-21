@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+		<!-- <meta name="misapplication-tap-highlight" content="no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/> -->
+		<title>登录</title>
+		<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+		<link href="../muiLogin/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/login.css">
+		<style>
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			
+			.mui-input-group label {
+				width: 22%;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 78%;
+			}
+			
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			
+			.mui-btn {
+				padding: 10px;
+			}
+			
+			.link-area {
+				display: block;
+				margin-top: 25px;
+				text-align: center;
+			}
+			
+			.spliter {
+				color: #bbb;
+				padding: 0px 8px;
+			}
+			
+			.oauth-area {
+				/* position: absolute;
+				bottom: 20px;
+				left: 0px; */
+				text-align: center;
+				width: 100%;
+				padding: 0px;
+				margin: 0px;
+			}
+			
+			.oauth-area .oauth-btn {
+				display: inline-block;
+				width: 50px;
+				height: 50px;
+				background-size: 30px 30px;
+				background-position: center center;
+				background-repeat: no-repeat;
+				margin: 0px 20px;
+				/*-webkit-filter: grayscale(100%); */
+				/* border: solid 1px #ddd;
+				border-radius: 25px; */
+			}
+			
+			.oauth-area .oauth-btn:active {
+				/* border: solid 1px #aaa; */
+			}
+			
+			.oauth-area .oauth-btn.disabled {
+				/* background-color: #ddd; */
+			}
+			.top_wrap{width:100%;height:1rem;background-color:rgba(0,0,0,.2);}
+		</style>
+	</head>
+	<body>
+		<div class="top_wrap"></div>
+		<div class="log_main text-center">
+			<div class="log_logo">
+				<img class="img-responsive center-block" src="img/index/shi_l3.png" alt="welcome">
+				<p>食安知</p>
+			</div>
+			<div class="log_resiger">
+				<h1 class="log_phone">159****5486</h1>
+				<a class="log_phone_btn" href="javascript:void(0);">本机号码一键登录</a>
+			</div>
+			<div class="worth_mentioning">
+				<div class="mui-content-padded oauth-area">
+				
+				</div>
+				<!-- <a class="mentioning_item mentioning_item1" href="javascript:void(0);"><span class="iconfont">&#xe882;</span></a>
+				<a class="mentioning_item mentioning_item2" href="javascript:void(0);"><span class="iconfont">&#xe883;</span></a>
+				<a class="mentioning_item mentioning_item3" href="javascript:void(0);"><span class="iconfont">&#xe884;</span></a> -->
+			</div>
+			<div class="log_protocol" id="logProtocol">
+				<label class="protocol_label"><em class="protocol_check protocol_active"><i class="iconfont">&#xe7fc;</i></em>勾选即表示您已同意</label>
+				<span> <a href="javascript:void(0)">《用户协议》</a> 和<a href="javascript:void(0)">《隐私政策》</a></span>
+				<!-- <p class="protocol_tip" style="color: #fd2d00;font-size: 0.24rem;line-height: 0.24rem;margin-top: 0.1rem;">Please read the user registration agreement and check the agreement</p> -->
+			</div>
+			
+		</div>
+		<script src="js/jquery.min.js"></script>
+		<script src="../muiLogin/js/mui.min.js"></script>
+		<script src="../muiLogin/js/mui.enterfocus.js"></script>
+		<script src="../muiLogin/js/app.js"></script>
+		<script src="../component/js/com.js"></script>
+		<script>
+			(function($, doc) {
+				 
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary");
+					var settings = app.getSettings();
+					var state = app.getState();
+					var mainPage = plus.webview.getWebviewById("main");
+					var main_loaded_flag = false;
+					if(!mainPage){
+						mainPage = $.preload({
+							"id": 'main',
+							 
+							// "url": '../muiLogin/main.html'
+							/* "url": '../index/index.html' */
+							
+							
+						});
+						
+					}else{
+						main_loaded_flag = true;
+					}
+					
+					mainPage.addEventListener("loaded",function () {
+						main_loaded_flag = true;
+					});
+					var toMain = function() {
+						//使用定时器的原因：
+						//可能执行太快，main页面loaded事件尚未触发就执行自定义事件，此时必然会失败
+						var id = setInterval(function () {
+							if(main_loaded_flag){
+								clearInterval(id);
+								$.fire(mainPage, 'show', null);
+								mainPage.show("pop-in");
+							}
+						},20);
+					};
+					//检查 "登录状态/锁屏状态" 开始
+					if (settings.autoLogin && state.token && settings.gestures) {
+						$.openWindow({
+							url: '../muiLogin/unlock.html',
+							id: 'unlock',
+							show: {
+								aniShow: 'pop-in'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					} else if (settings.autoLogin && state.token) {
+						toMain();
+					} else {
+						app.setState(null);
+						//第三方登录
+						var authBtns = ['weixin', 'sinaweibo', 'qq']; //配置业务支持的第三方登录
+						var auths = {};
+						var oauthArea = doc.querySelector('.oauth-area');
+						plus.oauth.getServices(function(services) {
+							for (var i in services) {
+								var service = services[i];
+								auths[service.id] = service;
+								if (~authBtns.indexOf(service.id)) {
+									var isInstalled = app.isInstalled(service.id);
+									var btn = document.createElement('div');
+									//如果微信未安装，则为不启用状态
+									btn.setAttribute('class', 'oauth-btn' + (!isInstalled && service.id === 'weixin' ? (' disabled') : ''));
+									btn.authId = service.id;
+									btn.style.backgroundImage = 'url("../muiLogin/images/' + service.id + '.png")'
+									oauthArea.appendChild(btn);
+								}
+							}
+							$(oauthArea).on('tap', '.oauth-btn', function() {
+								if (this.classList.contains('disabled')) {
+									plus.nativeUI.toast('您尚未安装微信客户端');
+									return;
+								}
+								var auth = auths[this.authId];
+								var waiting = plus.nativeUI.showWaiting();
+								auth.login(function() {
+									waiting.close();
+									/* plus.nativeUI.toast("登录认证成功"); */
+									auth.getUserInfo(function() {
+										var name = auth.userInfo.nickname || auth.userInfo.name;
+										/* plus.nativeUI.toast("登录成功,"+name+"! 第一次使用请先设置"); */																				
+										 window.sessionStorage.setItem('userName',name);	 
+										 /* alert('缓存名' + window.sessionStorage.getItem("userName"));  */
+										window.open('../index/index.html');
+										app.createState(name, function() {
+											toMain();
+										});
+									}, function(e) {
+										plus.nativeUI.toast("获取用户信息失败：" + e.message);
+									});
+								}, function(e) {
+									waiting.close();
+									plus.nativeUI.toast("登录认证失败：" + e.message);
+								});
+							});
+						}, function(e) {
+							// oauthArea.style.display = 'none';
+							oauthArea.style.display = 'block';
+							plus.nativeUI.toast("获取登录认证失败：" + e.message);
+						});
+					}
+					// close splash
+					setTimeout(function() {
+						//关闭 splash
+						plus.navigator.closeSplashscreen();
+					}, 600);
+					
+					//
+					window.addEventListener('resize', function() {
+						oauthArea.style.display = document.body.clientHeight > 400 ? 'block' : 'none';
+						// oauthArea.style.display = 'block';
+					}, false);
+					//
+					var backButtonPress = 0;
+					$.back = function(event) {
+						backButtonPress++;
+						if (backButtonPress > 1) {
+							plus.runtime.quit();
+						} else {
+							plus.nativeUI.toast('再按一次退出应用');
+						}
+						setTimeout(function() {
+							backButtonPress = 0;
+						}, 1000);
+						return false;
+					};
+				});
+			}(mui, document));
+
+
+			$(function(){
+				$('.log_phone_btn').on('click',function(){
+					if(!$(this).hasClass('log_embar_btn')){
+						window.location.href = 'index.html';
+					}
+					/* let protocolCheck = $('#logProtocol').find('.protocol_check');
+					if(protocolCheck.hasClass('protocol_active')){
+						$(this).removeClass('log_embar_btn');
+					}else{
+						$(this).addClass('log_embar_btn');
+					} */
+				});
+				$('#logProtocol').on('click','.protocol_label',function(){
+					let protocolCheck = $(this).find('.protocol_check');
+					protocolCheck.toggleClass('protocol_active');
+					if(protocolCheck.hasClass('protocol_active')){
+						$('.log_phone_btn').removeClass('log_embar_btn');
+					}else{
+						$('.log_phone_btn').addClass('log_embar_btn');
+					}
+				});
+				
+				
+			})
+		</script>
+	</body>
+</html>

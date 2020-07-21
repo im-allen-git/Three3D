@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>report</title>
+		<link href="../../index/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://at.alicdn.com/t/font_1881137_fqwptv0pmzf.css" />
+		<link rel="stylesheet" href="../css/com.css">
+		<!-- 日期选择插件 -->
+		<link rel="stylesheet" href="../../mui/css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../../mui/css/app.css" />
+		<link rel="stylesheet" type="text/css" href="../../mui/css/mui.picker.min.css" />
+
+
+		<style>
+			body{background-color:#f5f5f5;}
+	
+			.row3 .icon-erweima{font-size:0.5rem;}
+			.row3 .icon-right{position: relative;top:-5px;}
+			/* .myerweim{position: relative;top:-8px;} */
+			.name_tc .s1{font-size:0.3rem;} 
+						.name_tc .i1{font-size:0.3rem;}
+						.name_tc .i2{position: absolute;top:0.3rem;right:0.3rem;color:#fff;width:0.4rem;height:0.4rem;background-color:#c7cad7;border-radius: 50%;text-align: center;}
+						.name_tc input{background-color:#f1f2f6;line-height: 1rem;border-radius: 4px;height:1rem;margin-bottom:0.3rem;}
+						.sex_tc .sex{display:inline-block;border:1px solid #15b346;border-radius: 0.3rem;width:1rem;height:0.6rem;line-height: 0.6rem;color:#15b346;background-color:#fff;text-align: center;margin-right:0.3rem;font-size:0.23rem;}
+						.sex_tc .sex.active{color:#fff;background-color:#15b346;box-shadow:0px 4px 20px 0px rgba(21,179,70,0.4);}
+						.sex_tc  .span_wrap{margin:0.6rem 0;}
+						.sex_sure{width:1.6rem;height:0.8rem;line-height: 0.6rem;border-radius: 0.4rem;font-size: 0.3rem;}
+						.sex_cancel{font-size: 0.3rem;position: relative;top:8px;}
+			/* 日期插件 */
+			.row2 span{border:0 none;line-height: 21px;display: inline-block;width:auto;padding:0;}
+			.person{overflow-y: hidden;}
+			.row2 .height_unit ,.row2 .weight_unit{display: none;}
+			.row2 .iconfont, .row3 .iconfont{margin-left:0.3rem;}
+			.person .mt50{margin-top:1rem;}
+			.wrap{position: relative;}
+			.person .add_set{color:#b3b3b3;width: 100%;text-align: right;position: relative;z-index: 10;padding-right:0.6rem;background-color:transparent;}
+			.row2 .wrap .iconfont{position: absolute;z-index: 0;right:0;top:0;}
+			.row2 .sex_wrap .iconfont,.row2 .name_wrap .iconfont{position: relative;}
+			.name_tc,.sex_tc,.erweim_tc{padding-top:0.8rem;top:1rem;}
+		</style>
+	</head>
+	<body>
+		<div class="top_wrap"></div>
+		<div class="person">
+			<div class="tc_wrap"></div>
+			<div class="container bgfff pb60">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="top mt80">
+							<a href="../my.html" class="add_back">
+								<i class="iconfont icon-left c0"></i>
+							<span> 个人资料 </span>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="row row2 mt50">
+					<div class="col-xs-3">
+						<span> 昵称 </span>
+					</div>
+					<div class="col-xs-9 text-right">
+						<div class="wrap name_wrap">
+							<span class="name_text"> 用户名 </span>
+							<i class="iconfont icon-right"></i>
+						</div>
+						<div class="tc name_tc">
+							<div class="tc_top clearfix ">
+								<span class="pull-left s1"><b>修改昵称</b></span>
+								<i class="pull-right iconfont icon-close i1 close"></i>
+							</div>
+							<div class="line"></div>
+							<div class="input_wrap position_relative">
+								<input type="text" class="form-control name_val">
+								<i class="iconfont icon-close i2 del"></i>
+							</div>
+							<div class="clearfix">
+								<span class="pull-left  cancel">取消</span>
+								<span class="pull-right  btn-success sure">确认</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row row2 mt50">
+					<div class="col-xs-3">
+						<span> 性别 </span>
+					</div>
+					<div class="col-xs-9 text-right">
+						<div class="wrap sex_wrap">
+							<span class="sex_text"> 男 </span>
+							<i class="iconfont icon-right"></i>
+						</div>
+						<div class="tc sex_tc">
+							<div class="tc_top clearfix ">
+								<span class="pull-left s1"><b>修改性别</b></span>
+								<i class="pull-right iconfont icon-close i1 close"></i>
+							</div>
+							<div class="line"></div>
+							<div class="span_wrap position_relative text-left">
+								<span class="sex active">男</span>
+								<span class="sex">女</span>
+							</div>
+							<div class="clearfix">
+								<span class="pull-left cancel sex_cancel border_0">取消</span>
+								<span class="pull-right   btn-success sure sex_sure">确认</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row row2 mt50">
+					<div class="col-xs-3">
+						<span> 出生日期 </span>
+					</div>
+					<div class="col-xs-9 text-right">
+						<div class="wrap date_wrap">
+							<!-- <em class="replace">未设置</em> -->
+							<span id='demo4' data-options='{"type":"date","beginYear":1949,"endYear":3016}' class="btn mui-btn mui-btn-block add_set">未设置</span>
+							<i class="iconfont icon-right"></i>
+
+						</div>
+
+					</div>
+				</div>
+
+				<div class="row row2 mt50">
+					<div class="col-xs-3">
+						<span> 身高 </span>
+					</div>
+					<div class="col-xs-9 text-right">
+						<!-- <em class="replace">未设置</em> -->
+						<div class="wrap">
+							<span id='height' class="mui-btn mui-btn-block add_set" type='button'>未设置</span>
+							<!-- <span class="height_unit">cm</span> -->
+							<i class="iconfont icon-right"></i>
+						</div>	
+					</div>
+				</div>
+
+				<div class="row row2 mt50">
+					<div class="col-xs-3">
+						<span> 体重 </span>
+					</div>
+					<div class="col-xs-9 text-right">
+						<!-- <em class="replace">未设置</em> -->
+						<div class="wrap">
+							<span id='weight' class="mui-btn mui-btn-block add_set" type='button'>未设置</span> 
+							<!-- <span class="weight_unit">kg</span> -->
+							<i class="iconfont icon-right"></i>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="container bgfff mt20 pb60">
+				<div class="row row3 mt60">
+					<div class="col-xs-6">
+						<span> 我的二维码 </span>
+					</div>
+					<div class="col-xs-6 text-right myerweim">
+						<div class="wrap erweima_wrap">
+							<i class="iconfont icon-erweima"></i>
+							<i class="iconfont icon-right"></i>
+						</div>
+						<div class="tc erweim_tc">
+							<div class="tc_top clearfix ">
+								<span class="pull-left s1"><b>我的二维码</b></span>
+								<i class="pull-right iconfont icon-close i1 close"></i>
+							</div>
+							<div class="line"></div>
+							<!-- <img src="../img/erweim.jpg" alt="" class="img-responsive" style="margin:0 auto"> -->
+							<div id="qrcode" class="text-center"></div>  
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+		
+	</body>
+</html>
+<script src="../../index/js/jquery.min.js"></script>
+
+<!-- 日期选择插件 -->
+<script src="../../mui/js/mui.min.js"></script>
+<script src="../../mui/js/mui.picker.min.js"></script>
+<!-- 日期插件 -->
+<script src="../js/datepicker.js"></script>
+<!-- 身高自定义 js -->
+<script src="../js/height.js"></script>
+<!-- 自定义 体重 js  -->
+<script src="../js/weight.js"></script>
+<!-- 系统生成二维码 -->
+<!-- <script src="https://cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script> -->
+<script src="../js/jquery.qrcode.min.js"></script>
+<script src="../js/com.js"></script>
+<script>
+	var username = window.sessionStorage.getItem("userName");
+	if(username && username != ''){
+		$('.name_text').text(username);
+		$('.name_val').val(username);
+	};
+	var sex = window.sessionStorage.getItem("sex");
+	if(sex && sex != ''){
+		$('.sex_text').text(sex);
+		$('.sex_tc .sex ').each(function(){
+			if($(this).text() == sex){
+				$(this).addClass('active').siblings('span').removeClass('active');
+			}
+		})
+		
+	};
+	var birth_date = window.sessionStorage.getItem("birth_date");
+	if(birth_date && birth_date != ''){
+		$('#demo4').text(birth_date).css('color','#333');
+	};
+	var height =  window.sessionStorage.getItem("height");
+	if(height && height != ''){
+		$('#height').text(height).css('color','#333');
+	};
+	var weight =  window.sessionStorage.getItem("weight");
+	if(weight && weight != ''){
+		$('#weight').text(weight).css('color','#333');
+	};
+	
+	
+</script>

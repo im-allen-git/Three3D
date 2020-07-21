@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+		<link href="../index/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://at.alicdn.com/t/font_1881137_fqwptv0pmzf.css" />
+		<link rel="stylesheet" href="css/com.css" />
+		<style>
+			.row2 i,
+			.row3 i {
+				font-size: 0.45rem;
+			}
+			.top {text-align: left;font-size: 0.5rem;}
+			.top i {font-size: 0.6rem;}
+			.row2 {background-color: #0fbb86;color: #fff;display: block;margin: 0 0 10px 0;border-radius: 10px;}
+			.row2 .report {line-height: 2.5rem;text-align: right;}
+			.row3 .report {line-height: 1.6rem;text-align: right;}
+			.row3 {margin: 0 0 10px 0;}
+			.row3 a {color: #fff;padding: 0;background-color: #007678;border-radius: 10px;}
+			.share,
+			.person {width: 48%;}
+			p {font-size: 0.3rem;}
+			.row2 .iconfont , .row3 .iconfont{color:#fff;}
+			.row .icon-right{font-size:0.3rem;}
+			.riqi_p{margin-top:0.6rem;}
+			.group_p,.person_p{margin-top:0.05rem;}
+			.top{margin:0.8rem 0;}
+			.row3 .share{background-color:#00967d;}
+			a:focus, a:hover{color:#fff;}
+			.my .top0{top:0;}
+			.sign_out{margin-left:10px;font-size:0.3rem;display: none;}
+			.top_wrap{width:100%;height:1rem;background-color:rgba(0,0,0,.2);}
+		</style>
+	</head>
+
+	<body>
+		<div class="top_wrap"></div>
+		<div class="my">
+			<div class="container">
+				<div class="row top">
+					<div class="col-xs-10 pl0">
+						<!-- <b>用户名</b> -->
+						<b class="username"></b>
+						<!-- <a href="../index/login.html"><span class="sign_out">退出登录</span></a> -->
+					</div>
+					<a class="col-xs-2 text-right pr0 top0" href="person/set.html">
+						<i class="iconfont  icon-setting c0"></i>
+					</a>
+				</div>
+				<a class="row row2" href="person/report_list.html">
+
+					<div class="col-xs-8 pr0">
+
+						<i class="iconfont icon-riqi"></i>
+
+						<p class="riqi_p"> 周/月/年报 </p>
+					</div>
+					<div class="col-xs-4 report">
+						<i class="iconfont icon-right"></i>
+					</div>
+				</a>
+				<div class="row row3">
+					<a class="col-xs-5 share" href="person/share.html">
+						<div class="col-xs-8 pr0">
+							<i class="iconfont icon-team"></i>
+							<p class="group_p"> 群组共享 </p>
+						</div>
+						<div class="col-xs-4 report">
+							<i class="iconfont icon-right"></i>
+						</div>
+					</a>
+					<a class="col-xs-5 person pull-right" href="person/person.html">
+						<div class="col-xs-8 pr0">
+							<i class="iconfont icon-user"></i>
+							<p class="person_p"> 个人资料 </p>
+						</div>
+						<div class="col-xs-4 report">
+							<i class="iconfont icon-right"></i>
+						</div>
+					</a>
+				</div>
+				
+				<div class="row" style="display:none;">
+					<div class="col-xs-12">
+						<a href="../copyindex.html">H5+控件模板</a>
+					</div>
+					<div class="col-xs-12">
+						<a href="../mui/index.html">MUI控件</a>
+					</div>
+					<div class="col-xs-12">
+						<a href="../index/login.html">本地登录</a>
+					</div>
+					<div class="col-xs-12">
+						<a href="login.html">mui 登录</a>
+					</div>
+					<div class="col-xs-12">
+						<a href="person/barcode.html">扫描二维码</a>
+					</div> 
+					
+					 <!-- <div class="col-xs-12">
+						<a href="person/download.html">分享下载app 页面</a>
+					</div>
+					 <div class="col-xs-12">
+						<a href="person/share_last.html">h5+分享功能</a>
+					</div>
+					<div class="col-xs-12">
+						<a href="person/share3.html">share3分享功能</a>
+					</div>
+					<div class="col-xs-12">
+						<a href="person/share4.html">share4分享功能</a>
+					</div> -->
+					<div class="col-xs-12">
+						<a href="lanya.html">标准蓝牙获取</a>
+					</div>
+					<div class="col-xs-12">
+						<a href="lanya_fix.html">固定蓝牙获取</a>
+					</div>
+					<div class="col-xs-12">
+						<a href="scanAndLink.html">扫描二维码并获取连接状态</a>
+					</div>
+				</div>
+			</div>
+			<div class="foot">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-xs-4 col">
+							<a href="../index/index.html"><i class="iconfont icon-home"></i>首页</a>
+						</div>
+						<div class="col-xs-4 col">
+							<a href="../index/device.html"><i class="iconfont icon-api"></i>设备</a>
+						</div>
+						<div class="col-xs-4 col foot_active">
+							<a href="../component/my.html" ><i class="iconfont icon-setting-fill"></i>我的</a>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script> -->
+<script src="../index/js/jquery.min.js"></script>
+<script src="js/com.js"></script>
+<script>
+	var username = window.sessionStorage.getItem("userName");
+	if(username && username != ''){
+		$('.username').text(username);
+		$('.sign_out').show();
+	};
+	// 退出登录
+	$('.sign_out').click(function(){
+		window.sessionStorage.removeItem("userName");
+		$('.username,.name_text').text('');
+		$('.name_val').val('');
+		//window.open('../index/login.html');
+	});
+	
+	
+	var time = Math.round(new Date() / 1000);
+	console.log(time);
+	
+</script>
