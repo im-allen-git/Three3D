@@ -113,6 +113,9 @@ function getLocalAppSTL(){
             if(stlList[i].flag == 1) { // 0未上传 1上传
                 stlListHTML += '<i style="font-style:normal;color:red;font-size:.1rem;position: absolute; left: 1rem; top: .1rem;">已存入SD卡</i>';
             }
+            else if(stlList[i].exeTimeStr == "00:00:00"){
+                stlListHTML += '<i style="font-style:normal;color:red;font-size:.1rem;position: absolute; left: 1rem; top: .1rem;">文件生成中，请稍等</i>';
+            }
             stlListHTML += '</div>';
             stlListHTML += '</div></div>';
             stlListHTML += '<div class="swiper-slide delete_slide" onclick="deleteThisModule(this,\''+stlList[i].realStlName+'\')"><div class="delete">删除</div></div>';
@@ -130,7 +133,6 @@ function getLocalAppSTL(){
 	else{
 		stlListHTML+='<div class="no_module">您还没有创建模型哦<br><span onclick=" goPage(4) ">点击这里创建模型</span></div>'
 	}
-	console.log(stlListHTML)
 	$(".mine_content").html(stlListHTML)
 	var swiper1 = new Swiper('#appStlSwiper', {
         slidesPerView: 'auto',

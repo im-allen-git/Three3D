@@ -121,6 +121,11 @@ public class WebHost {
                     this.currentFileName = tempFileAllPath;
 
                     StlGcode stlGcode = new StlGcode();
+                    stlGcode.setSize("0 K");
+                    stlGcode.setHeight("0");
+                    stlGcode.setLength("0");
+                    stlGcode.setWidth("0");
+                    stlGcode.setMaterial("0 MM");
                     stlGcode.setRealStlName(tempFileAllPath);
                     stlGcode.setSourceStlName(fileName);
                     stlGcode.setSourceZipStlName(tempFileAllPath + ".zip");
