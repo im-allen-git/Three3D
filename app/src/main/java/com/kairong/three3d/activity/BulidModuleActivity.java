@@ -18,12 +18,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.fastjson.JSONObject;
 import com.kairong.three3d.R;
+import com.kairong.three3d.config.HtmlConfig;
 import com.kairong.three3d.pojo.StlGcode;
-import com.kairong.three3d.util.HtmlUtil;
 import com.kairong.three3d.util.IOUtil;
 import com.kairong.three3d.util.OkHttpUtil;
 import com.kairong.three3d.util.PermissionCheckUtil;
-import com.kairong.three3d.util.StlUtil;
+import com.kairong.three3d.util.PoolExecutorUtil;
+import com.kairong.three3d.util.StlDealUtil;
 import com.kairong.three3d.util.WebHost;
 import com.kairong.three3d.util.WebViewClientUtil;
 import com.kairong.three3d.util.ZipFileUtil;
@@ -97,7 +98,7 @@ public class BulidModuleActivity extends AppCompatActivity {
         // 获取到传递参数
         WEB_URL = intent.getStringExtra("url");
         if (WEB_URL == null || WEB_URL.length() == 0) {
-            WEB_URL = HtmlUtil.BULID_MODULE_URL;
+            WEB_URL = HtmlConfig.BULID_MODULE_URL;
         }
         webView.loadUrl(WEB_URL);
 
@@ -106,9 +107,9 @@ public class BulidModuleActivity extends AppCompatActivity {
 
     private void dealStl() {
         // 保存成功后，自动执行上传文件命令
-        StlGcode stlGcode = StlUtil.stlMap.get(webHost.getCurrentFileName());
+        StlGcode stlGcode = StlDealUtil.stlMap.get(webHost.getCurrentFileName());
         if (stlGcode != null && stlGcode.getRealStlName() != null) {
-            OkHttpUtil.getThreadPoolExecutor().execute(() -> {
+            PoolExecutorUtil.getThreadPoolExecutor().execute(() -> {
                 boolean isSu = false;
                 int count = 0;
                 while (!isSu && count < 4) {
@@ -255,7 +256,7 @@ public class BulidModuleActivity extends AppCompatActivity {
 
                         IOUtil.getGoceInfo(stlGcode);
                         // 保存到数据库
-                        StlUtil.updateModuleDataBase(context, stlGcode.getRealStlName());
+                        StlDealUtil.updateModuleDataBase(context, stlGcode.getRealStlName());
                         System.out.println("..." + unGcodeZipPath + ",解压成功...");
                     } else {
                         System.err.println("!!!" + unGcodeZipPath + ",解压失败!!!");

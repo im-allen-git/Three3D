@@ -29,7 +29,8 @@ import com.kairong.esptouch.util.ByteUtil;
 import com.kairong.esptouch.util.TouchNetUtil;
 import com.kairong.three3d.R;
 import com.kairong.three3d.activity.Esp8266Activity;
-import com.kairong.three3d.util.StlUtil;
+import com.kairong.three3d.config.PrinterConfig;
+import com.kairong.three3d.util.StlDealUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -55,10 +56,10 @@ public class EspTouchActivity extends EspTouchActivityAbs {
                 case 1:
                     String ESP_8266_URL = msg.obj.toString();
                     if (ESP_8266_URL != null && ESP_8266_URL.length() > 0) {
-                        if(StlUtil.ESP_8266_URL == null || StlUtil.ESP_8266_URL.length() == 0){
-                            StlUtil.savePrinterUrl(context, ESP_8266_URL);
-                        } else{
-                            StlUtil.updatePrinterUrl(context, ESP_8266_URL);
+                        if (PrinterConfig.ESP_8266_URL == null || PrinterConfig.ESP_8266_URL.length() == 0) {
+                            StlDealUtil.savePrinterUrl(context, ESP_8266_URL);
+                        } else {
+                            StlDealUtil.updatePrinterUrl(context, ESP_8266_URL);
                         }
                         Intent it = new Intent(context.getApplicationContext(), Esp8266Activity.class);
                         context.startActivity(it);

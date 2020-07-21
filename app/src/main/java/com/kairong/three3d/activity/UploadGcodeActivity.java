@@ -14,7 +14,7 @@ import android.webkit.WebView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kairong.three3d.R;
-import com.kairong.three3d.util.HtmlUtil;
+import com.kairong.three3d.config.HtmlConfig;
 import com.kairong.three3d.util.WebHost;
 import com.kairong.three3d.util.WebViewClientUtil;
 
@@ -22,7 +22,7 @@ import java.util.Objects;
 
 public class UploadGcodeActivity extends AppCompatActivity {
 
-    private String WEB_URL = HtmlUtil.UPLOAD_GCODE_HTML;
+    private String WEB_URL = HtmlConfig.UPLOAD_GCODE_HTML;
     private WebHost webHost;
     WebView webView;
     private Context context;

@@ -1,4 +1,4 @@
-package com.kairong.three3d.util;
+package com.kairong.three3d.pojo;
 
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;

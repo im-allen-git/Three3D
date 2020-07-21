@@ -3,6 +3,7 @@ package com.kairong.three3d.util;
 import android.os.Environment;
 import android.util.Log;
 
+import com.kairong.three3d.config.PrinterConfig;
 import com.kairong.three3d.pojo.StlGcode;
 
 import java.io.BufferedReader;
@@ -134,9 +135,9 @@ public class IOUtil {
 
             if (gcodeMap.get("fill_density") > 0 && gcodeMap.get("perimeter_speed") > 0) {
                 double exeTime = Math.ceil(gcodeMap.get("filament_used") / gcodeMap.get("perimeter_speed")
-                        * gcodeMap.get("fill_density") * StlUtil.MINUTE_TIME
+                        * gcodeMap.get("fill_density") * PrinterConfig.MINUTE_TIME
                 );
-                long tempTime = (long) exeTime * 10  + 180 * StlUtil.SECOND_TIME;
+                long tempTime = (long) exeTime * 10 + 180 * PrinterConfig.SECOND_TIME;
                 stlGcode.setExeTime(tempTime);
                 stlGcode.setExeTimeStr(IOUtil.getTimeStr(tempTime));
             }
@@ -144,6 +145,20 @@ public class IOUtil {
 
     }
 
+
+    public static int getFileSize(File file) {
+        InputStream instream = null;
+        int fileS = 0;
+        try {
+            instream = new FileInputStream(file);
+            fileS = instream.available();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeAll(instream, null, null);
+        }
+        return fileS;
+    }
 
     /**
      * 获取文件大小
@@ -294,7 +309,7 @@ public class IOUtil {
         long secondTime = 0;
         StringBuffer timeBf = new StringBuffer();
 
-        hourTime = count / StlUtil.HOUR_TIME;
+        hourTime = count / PrinterConfig.HOUR_TIME;
         if (hourTime > 0) {
             if (hourTime < 10) {
                 timeBf.append("0" + hourTime + ":");
@@ -305,7 +320,7 @@ public class IOUtil {
             timeBf.append("00:");
         }
 
-        minuteTime = (count - hourTime * StlUtil.HOUR_TIME) / StlUtil.MINUTE_TIME;
+        minuteTime = (count - hourTime * PrinterConfig.HOUR_TIME) / PrinterConfig.MINUTE_TIME;
         if (minuteTime > 0) {
             if (minuteTime < 10) {
                 timeBf.append("0" + minuteTime + ":");
@@ -316,7 +331,7 @@ public class IOUtil {
             timeBf.append("00:");
         }
 
-        secondTime = (count - hourTime * StlUtil.HOUR_TIME - minuteTime * StlUtil.MINUTE_TIME) / StlUtil.SECOND_TIME;
+        secondTime = (count - hourTime * PrinterConfig.HOUR_TIME - minuteTime * PrinterConfig.MINUTE_TIME) / PrinterConfig.SECOND_TIME;
         if (secondTime > 0) {
             if (secondTime < 10) {
                 timeBf.append("0" + secondTime);

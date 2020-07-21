@@ -33,10 +33,11 @@ import com.kairong.esptouch.IEsptouchTask;
 import com.kairong.esptouch.util.ByteUtil;
 import com.kairong.esptouch.util.TouchNetUtil;
 import com.kairong.three3d.R;
+import com.kairong.three3d.config.PrinterConfig;
 import com.kairong.three3d.touchv1.EspTouchActivityAbs;
 import com.kairong.three3d.touchv1.EspTouchApp;
 import com.kairong.three3d.util.PermissionCheckUtil;
-import com.kairong.three3d.util.StlUtil;
+import com.kairong.three3d.util.StlDealUtil;
 import com.kairong.three3d.util.WebViewClientUtil;
 
 import java.lang.ref.WeakReference;
@@ -79,10 +80,9 @@ public class WifiPassActivity extends EspTouchActivityAbs {
         mViewModel.confirmBtn = findViewById(R.id.confirmBtn);
         mViewModel.confirmBtn.setOnClickListener(v -> {
             String tempPass = mViewModel.apPasswordEdit.getText().toString();
-            if(tempPass != null && tempPass.length()>0){
+            if (tempPass != null && tempPass.length() > 0) {
                 executeEsptouch();
-            }
-            else{
+            } else {
                 new AlertDialog.Builder(this)
                         .setTitle("提示")
                         .setMessage("请您输入密码!")
@@ -122,12 +122,12 @@ public class WifiPassActivity extends EspTouchActivityAbs {
                 case 1:
                     String ESP_8266_URL = msg.obj.toString();
                     if (ESP_8266_URL != null && ESP_8266_URL.length() > 0) {
-                        if (StlUtil.ESP_8266_URL == null || StlUtil.ESP_8266_URL.length() == 0) {
-                            StlUtil.savePrinterUrl(context, ESP_8266_URL);
+                        if (PrinterConfig.ESP_8266_URL == null || PrinterConfig.ESP_8266_URL.length() == 0) {
+                            StlDealUtil.savePrinterUrl(context, ESP_8266_URL);
                         } else {
-                            StlUtil.updatePrinterUrl(context, ESP_8266_URL);
+                            StlDealUtil.updatePrinterUrl(context, ESP_8266_URL);
                         }
-                        if (StlUtil.printer_gcode != null && StlUtil.printer_gcode.length() > 0) {
+                        if (PrinterConfig.printer_gcode != null && PrinterConfig.printer_gcode.length() > 0) {
                             Intent it = new Intent(context.getApplicationContext(), PrinterStartActivity.class);
                             context.startActivity(it);
                         } else {

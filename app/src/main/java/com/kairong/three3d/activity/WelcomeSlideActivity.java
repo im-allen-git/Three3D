@@ -14,7 +14,7 @@ import android.webkit.WebView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kairong.three3d.R;
-import com.kairong.three3d.util.HtmlUtil;
+import com.kairong.three3d.config.HtmlConfig;
 import com.kairong.three3d.util.WebHost;
 import com.kairong.three3d.util.WebViewClientUtil;
 
@@ -60,10 +60,11 @@ public class WelcomeSlideActivity extends AppCompatActivity {
         // 获取到传递参数
         WEB_URL = intent.getStringExtra("url");
         if (WEB_URL == null || WEB_URL.length() == 0) {
-            WEB_URL = HtmlUtil.WELCOME_SLIDE_HTML;
+            WEB_URL = HtmlConfig.WELCOME_SLIDE_HTML;
         }
         webView.loadUrl(WEB_URL);
     }
+
     @SuppressLint("HandlerLeak")
     private Handler mainHandler = new Handler() {
         @Override

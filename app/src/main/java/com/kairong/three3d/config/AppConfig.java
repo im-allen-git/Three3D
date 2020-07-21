@@ -1,4 +1,4 @@
-package com.kairong.three3d.data;
+package com.kairong.three3d.config;
 
 public class AppConfig {
 

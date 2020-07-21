@@ -4,6 +4,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.TextView;
 
+import com.kairong.three3d.pojo.HttpsTrustManager;
+import com.kairong.three3d.pojo.ProgressRequestBody;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,8 +14,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
@@ -25,35 +26,19 @@ import okhttp3.Response;
 
 public class OkHttpUtil {
 
+    private static final int CONNECT_TIMEOUT = 900;
+
     // 上传stl生成gcode路径
     public static final String FILE_UPLOAD_URL = "https://192.168.1.67:448/file/uploadFileAndGenGcode";
     public static final String FILE_DOWN_URL = "https://192.168.1.67:448/file/downloadFile?fileName=";
-
-    //创建基本线程池
-    private static ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(5, 7, 20, TimeUnit.SECONDS,
-            new LinkedBlockingQueue<>(50));
 
 
     private static volatile OkHttpClient client = new OkHttpClient.Builder()
             .sslSocketFactory(HttpsTrustManager.createSSLSocketFactory(), new HttpsTrustManager())
             .hostnameVerifier(new HttpsTrustManager.TrustAllHostnameVerifier())
-            .readTimeout(600, TimeUnit.SECONDS)
-            .writeTimeout(600, TimeUnit.SECONDS)
-            .connectTimeout(1200, TimeUnit.SECONDS).build();
-
-
-    public static ThreadPoolExecutor getThreadPoolExecutor() {
-        if (threadPoolExecutor == null) {
-            initThreadPoolExecutor();
-        }
-        return threadPoolExecutor;
-    }
-
-
-    private static void initThreadPoolExecutor() {
-        threadPoolExecutor = new ThreadPoolExecutor(5, 7, 20, TimeUnit.SECONDS,
-                new LinkedBlockingQueue<>(50));
-    }
+            .readTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+            .connectTimeout(CONNECT_TIMEOUT * 2, TimeUnit.SECONDS).build();
 
 
     public static Request getRequestByBody(File file, Map<String, String> commandLineMap, String url) {
@@ -132,9 +117,9 @@ public class OkHttpUtil {
                         .build();
                 return chain.proceed(targetRequest);
             }
-        }).readTimeout(900, TimeUnit.SECONDS)
-                .writeTimeout(900, TimeUnit.SECONDS)
-                .connectTimeout(1800, TimeUnit.SECONDS).build();
+        }).readTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                .connectTimeout(CONNECT_TIMEOUT * 2, TimeUnit.SECONDS).build();
         return client;
     }
 
@@ -143,9 +128,9 @@ public class OkHttpUtil {
         client = new OkHttpClient.Builder()
                 .sslSocketFactory(HttpsTrustManager.createSSLSocketFactory(), new HttpsTrustManager())
                 .hostnameVerifier(new HttpsTrustManager.TrustAllHostnameVerifier())
-                .readTimeout(900, TimeUnit.SECONDS)
-                .writeTimeout(900, TimeUnit.SECONDS)
-                .connectTimeout(1800, TimeUnit.SECONDS).build();
+                .readTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                .connectTimeout(CONNECT_TIMEOUT * 2, TimeUnit.SECONDS).build();
     }
 
     public static void sendMessage(int what, String msg, Handler mainHandler) {

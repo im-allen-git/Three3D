@@ -22,7 +22,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.kairong.three3d.R;
-import com.kairong.three3d.util.StlUtil;
+import com.kairong.three3d.config.PrinterConfig;
 import com.kairong.three3d.util.WebHost;
 
 import java.io.File;
@@ -85,7 +85,7 @@ public class Esp8266Activity extends AppCompatActivity {
         if (esp8266url == null || esp8266url.length() == 0) {
             esp8266url = "http://10.0.0.113/";
         }*/
-        mWebView.loadUrl(StlUtil.ESP_8266_URL);
+        mWebView.loadUrl(PrinterConfig.ESP_8266_URL);
 
     }
 

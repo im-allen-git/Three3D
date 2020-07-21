@@ -5,10 +5,15 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
+
+import com.kairong.three3d.config.PrinterConfig;
 import com.kairong.three3d.data.ThreeDbHelper;
 import com.kairong.three3d.data.ThreeEntry;
 import com.kairong.three3d.data.ThreePrinterEntry;
+import com.kairong.three3d.pojo.PrinterGcodeInfo;
 import com.kairong.three3d.pojo.StlGcode;
 
 import java.text.SimpleDateFormat;
@@ -18,10 +23,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StlUtil {
+/**
+ * stl和gcodeg工具类
+ */
+public class StlDealUtil {
 
-
-    public static volatile String ESP_8266_URL = null;
 
     /**
      * 原始保存的stl数据
@@ -37,18 +43,6 @@ public class StlUtil {
      * APP自带gcode集合
      */
     private static List<StlGcode> localStlList = new ArrayList<>();
-
-
-    /**
-     * 即将打印的gcode
-     */
-
-    public static volatile String printer_gcode;
-
-
-    public static final long HOUR_TIME = 60 * 60 * 1000;
-    public static final long MINUTE_TIME = 60 * 1000;
-    public static final long SECOND_TIME = 1000;
 
 
     /**
@@ -247,7 +241,7 @@ public class StlUtil {
         ContentValues values = new ContentValues();
         values.put(ThreePrinterEntry.COLUMN_WIFI_URL, url);
         long newRowId = db.insert(ThreePrinterEntry.TABLE_NAME, null, values);
-        ESP_8266_URL = url;
+        PrinterConfig.ESP_8266_URL = url;
         db.close();
         return newRowId;
     }
@@ -262,9 +256,9 @@ public class StlUtil {
         if (cursor.moveToNext()) {
             int id = cursor.getInt(idIndex);
             String url = cursor.getString(urlIndex);
-            ESP_8266_URL = url;
+            PrinterConfig.ESP_8266_URL = url;
         } else {
-            ESP_8266_URL = null;
+            PrinterConfig.ESP_8266_URL = null;
         }
         db.close();
     }
@@ -276,9 +270,9 @@ public class StlUtil {
             ContentValues values = new ContentValues();
             values.put(ThreePrinterEntry.COLUMN_WIFI_URL, url);
             String whereClause = ThreePrinterEntry.COLUMN_WIFI_URL + " = ?";
-            String[] whereArgs = new String[]{ESP_8266_URL};
+            String[] whereArgs = new String[]{PrinterConfig.ESP_8266_URL};
             db.update(ThreePrinterEntry.TABLE_NAME, values, whereClause, whereArgs);
-            ESP_8266_URL = url;
+            PrinterConfig.ESP_8266_URL = url;
         }
         db.close();
     }
@@ -295,7 +289,7 @@ public class StlUtil {
                     "file:///android_asset/models/stl/localModules/hello_kitty.gco", "",
                     "file:///android_asset/models/stl/localModules/hello_kitty.png",
                     "X:74.01", "Y:51.22", "Z:100.93", "18.20M", "7318cm",
-                    1025 * StlUtil.MINUTE_TIME, IOUtil.getTimeStr(1025 * StlUtil.MINUTE_TIME), 1);
+                    1025 * PrinterConfig.MINUTE_TIME, IOUtil.getTimeStr(1025 * PrinterConfig.MINUTE_TIME), 1);
             localStlList.add(kitty);
             localMapStl.put(kitty.getLocalGcodeName().split("/localModules/")[1], kitty);
 
@@ -305,7 +299,7 @@ public class StlUtil {
                     "file:///android_asset/models/stl/localModules/chamaeleo_t.gco", "",
                     "file:///android_asset/models/stl/localModules/chamaeleo_t.png",
                     "X:92.89", "Y:93.08", "Z:25.98", "5.33M", "780cm",
-                    110 * StlUtil.MINUTE_TIME, IOUtil.getTimeStr(110 * StlUtil.MINUTE_TIME), 1);
+                    110 * PrinterConfig.MINUTE_TIME, IOUtil.getTimeStr(110 * PrinterConfig.MINUTE_TIME), 1);
             localStlList.add(chamaeleo_t);
             localMapStl.put(chamaeleo_t.getLocalGcodeName().split("/localModules/")[1], chamaeleo_t);
 
@@ -315,7 +309,7 @@ public class StlUtil {
                     "file:///android_asset/models/stl/localModules/hand_ok.gco", "",
                     "file:///android_asset/models/stl/localModules/hand_ok.png",
                     "X:42.78", "Y:57.72", "Z:110.44", "16.40M", "2168cm",
-                    304 * StlUtil.MINUTE_TIME, IOUtil.getTimeStr(304 * StlUtil.MINUTE_TIME), 1);
+                    304 * PrinterConfig.MINUTE_TIME, IOUtil.getTimeStr(304 * PrinterConfig.MINUTE_TIME), 1);
             localStlList.add(hand_ok);
             localMapStl.put(hand_ok.getLocalGcodeName().split("/localModules/")[1], hand_ok);
 
@@ -325,7 +319,7 @@ public class StlUtil {
                     "file:///android_asset/models/stl/localModules/jet_pack_bunny.gco", "",
                     "file:///android_asset/models/stl/localModules/jet_pack_bunny.png",
                     "X:130.43", "Y:92.01", "Z:131.28", "48.20M", "2168cm",
-                    304 * StlUtil.MINUTE_TIME, IOUtil.getTimeStr(304 * StlUtil.MINUTE_TIME), 1);
+                    304 * PrinterConfig.MINUTE_TIME, IOUtil.getTimeStr(304 * PrinterConfig.MINUTE_TIME), 1);
             localStlList.add(jet_pack_bunny);
             localMapStl.put(jet_pack_bunny.getLocalGcodeName().split("/localModules/")[1], jet_pack_bunny);
 
@@ -335,7 +329,7 @@ public class StlUtil {
                     "file:///android_asset/models/stl/localModules/god_of_wealth.gco", "",
                     "file:///android_asset/models/stl/localModules/god_of_wealth.png",
                     "X:62.85", "Y:57.72", "Z:64.23", "23.40M", "1945cm",
-                    273 * StlUtil.MINUTE_TIME, IOUtil.getTimeStr(273 * StlUtil.MINUTE_TIME), 1);
+                    273 * PrinterConfig.MINUTE_TIME, IOUtil.getTimeStr(273 * PrinterConfig.MINUTE_TIME), 1);
             localStlList.add(god_of_wealth);
             localMapStl.put(god_of_wealth.getLocalGcodeName().split("/localModules/")[1], god_of_wealth);
         }
@@ -345,6 +339,7 @@ public class StlUtil {
 
     /**
      * 获取打印命令
+     *
      * @param gcodeName
      * @return
      */
@@ -356,13 +351,49 @@ public class StlUtil {
         } else {
             tempGcodeNameStr = gcodeName;
         }
-        return ESP_8266_URL + "command_silent?commandText=M23%20/" + tempGcodeNameStr.toUpperCase() + "%0AM24&PAGEID=0";
+        return PrinterConfig.ESP_8266_URL + "command_silent?commandText=M23%20/" + tempGcodeNameStr.toUpperCase() + "%0AM24&PAGEID=0";
     }
 
 
-    public static String getPostFileUrl(){
+    public static String getPostFileUrl() {
         // http://10.0.0.34/upload_serial
-        return ESP_8266_URL + "upload_serial";
+        return PrinterConfig.ESP_8266_URL + "upload_serial";
+    }
+
+
+    /**
+     * 设置打印机上传数据
+     */
+    public static synchronized void setPrinterUploadInfo(StlGcode stlGcode, int isUpload, int printType) {
+        Map<String, StlGcode> map = new HashMap<>();
+        for (PrinterGcodeInfo e : PrinterConfig.printerList) {
+            map.put(e.getStlGcode().getShortGcode(), e.getStlGcode());
+        }
+        if (!map.containsKey(stlGcode.getShortGcode())) {
+            PrinterGcodeInfo printerGcodeInfo = new PrinterGcodeInfo();
+
+            printerGcodeInfo.setStlGcode(stlGcode);
+            printerGcodeInfo.setBegin_time(System.currentTimeMillis());
+            printerGcodeInfo.setIs_upload(isUpload);
+            printerGcodeInfo.setPrinter_type(printType);
+
+            PrinterConfig.printerList.add(printerGcodeInfo);
+
+            if (PrinterConfig.currPrinterGcodeInfo == null) {
+                PrinterConfig.currPrinterGcodeInfo = printerGcodeInfo;
+            }
+            if (isUpload > 0) {
+                PrinterConfig.printer_count++;
+            } else {
+                PrinterConfig.upload_count++;
+            }
+        }
+        map.clear();
+    }
+
+
+    public static synchronized void deletePrinterInfo(StlGcode stlGcode) {
+
     }
 
 }

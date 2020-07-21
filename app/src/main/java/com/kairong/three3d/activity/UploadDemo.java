@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kairong.three3d.R;
-import com.kairong.three3d.util.HtmlUtil;
+import com.kairong.three3d.config.HtmlConfig;
 
 import java.util.Objects;
 
@@ -35,7 +35,7 @@ public class UploadDemo extends AppCompatActivity {
 
         mWebView = findViewById(R.id.upload_demo);
         initWebView();
-        mWebView.loadUrl(HtmlUtil.UPLOAD_DEMO_HTML);
+        mWebView.loadUrl(HtmlConfig.UPLOAD_DEMO_HTML);
     }
 
     private void initWebView() {

@@ -14,7 +14,7 @@ import android.webkit.WebView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kairong.three3d.R;
-import com.kairong.three3d.util.HtmlUtil;
+import com.kairong.three3d.config.HtmlConfig;
 import com.kairong.three3d.util.WebHost;
 import com.kairong.three3d.util.WebViewClientUtil;
 
@@ -57,7 +57,7 @@ public class ShoppingActivity extends AppCompatActivity {
         webView.setWebViewClient(WebViewClientUtil.getMyWebViewClient());
         webView.setWebChromeClient(WebViewClientUtil.getGoogleClient());
 
-        webView.loadUrl(HtmlUtil.SERVER_SHOP_HTML);
+        webView.loadUrl(HtmlConfig.SERVER_SHOP_HTML);
 
     }
 

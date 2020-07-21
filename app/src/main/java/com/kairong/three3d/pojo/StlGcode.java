@@ -1,5 +1,7 @@
 package com.kairong.three3d.pojo;
 
+import android.text.TextUtils;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,5 +49,13 @@ public class StlGcode {
 
     // 是否上传打印机 0未上传 1上传
     private int flag;
+
+
+    public String getShortGcode() {
+        if (TextUtils.isEmpty(localGcodeName)) {
+            return null;
+        }
+        return localGcodeName.substring(localGcodeName.lastIndexOf("/") + 1);
+    }
 
 }

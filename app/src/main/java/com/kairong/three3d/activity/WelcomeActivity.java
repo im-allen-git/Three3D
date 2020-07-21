@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.kairong.three3d.IndexHtmlActivity;
 import com.kairong.three3d.R;
 import com.kairong.three3d.util.CacheUtil;
-import com.kairong.three3d.util.HtmlUtil;
+import com.kairong.three3d.config.HtmlConfig;
 
 import java.util.Objects;
 
@@ -36,7 +36,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 try {
                     Thread.sleep(2000);
 
-                    String firstCome = CacheUtil.getSettingNote(context, HtmlUtil.FLAG_JSON, HtmlUtil.WELCOME_FLAG);
+                    String firstCome = CacheUtil.getSettingNote(context, HtmlConfig.FLAG_JSON, HtmlConfig.WELCOME_FLAG);
                     if (firstCome != null && firstCome.length() > 0) {
                         Intent it = new Intent(context, IndexHtmlActivity.class);
                         //Intent it = new Intent(context, LoginActivity.class);

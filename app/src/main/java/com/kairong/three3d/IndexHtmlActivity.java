@@ -16,9 +16,9 @@ import android.webkit.WebView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.kairong.three3d.util.HtmlUtil;
+import com.kairong.three3d.config.HtmlConfig;
 import com.kairong.three3d.util.PermissionCheckUtil;
-import com.kairong.three3d.util.StlUtil;
+import com.kairong.three3d.util.StlDealUtil;
 import com.kairong.three3d.util.WebHost;
 import com.kairong.three3d.util.WebViewClientUtil;
 
@@ -49,7 +49,7 @@ public class IndexHtmlActivity extends AppCompatActivity {
         context = this;
 
         // 读取wifi信息
-        StlUtil.getPrinterUrl(context);
+        StlDealUtil.getPrinterUrl(context);
 
         // 拿到webView组件
         WebView webView = findViewById(R.id.index);
@@ -74,10 +74,10 @@ public class IndexHtmlActivity extends AppCompatActivity {
         // 获取到传递参数
         WEB_URL = intent.getStringExtra("url");
         if (WEB_URL == null || WEB_URL.length() == 0) {
-            WEB_URL = HtmlUtil.INDEX_HTML;
+            WEB_URL = HtmlConfig.INDEX_HTML;
         }
         webView.loadUrl(WEB_URL);
-        StlUtil.getModuleDataBase(this);
+        StlDealUtil.getModuleDataBase(this);
     }
 
 

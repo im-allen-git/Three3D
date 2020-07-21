@@ -24,6 +24,8 @@ import com.kairong.three3d.activity.PrinterActivity;
 import com.kairong.three3d.activity.PrinterStartActivity;
 import com.kairong.three3d.activity.ShoppingActivity;
 import com.kairong.three3d.activity.UploadGcodeActivity;
+import com.kairong.three3d.config.HtmlConfig;
+import com.kairong.three3d.config.PrinterConfig;
 import com.kairong.three3d.pojo.StlGcode;
 import com.kairong.three3d.touchv1.EspTouchActivity;
 
@@ -96,7 +98,7 @@ public class WebHost {
         String realFileName = fileAllPath + endSuffix;
         File file = new File(realFileName);
         Message msg = new Message();
-        if (StlUtil.stlMap.containsKey(fileName) || (file.exists() && !file.isDirectory())) {
+        if (StlDealUtil.stlMap.containsKey(fileName) || (file.exists() && !file.isDirectory())) {
             System.err.println("已经存在此文件");
             msg.what = 10;
             msg.obj = fileName + ",已经存在此文件";
@@ -121,13 +123,13 @@ public class WebHost {
                     stlGcode.setRealStlName(tempFileAllPath);
                     stlGcode.setSourceStlName(fileName);
                     stlGcode.setSourceZipStlName(tempFileAllPath + ".zip");
-                    stlGcode.setCreateTime(StlUtil.getFormatTime(new Date()));
+                    stlGcode.setCreateTime(StlDealUtil.getFormatTime(new Date()));
                     stlGcode.setLocalImg(currentImg);
-                    StlUtil.stlMap.put(tempFileAllPath, stlGcode);
+                    StlDealUtil.stlMap.put(tempFileAllPath, stlGcode);
                     isSu = true;
 
                     stlGcode.setExeTimeStr("00:00:00");
-                    StlUtil.saveModuleDataBase(context, stlGcode);
+                    StlDealUtil.saveModuleDataBase(context, stlGcode);
 
                     msg.what = 1;
                     msg.obj = fileName;
@@ -181,12 +183,12 @@ public class WebHost {
         if ("1".equalsIgnoreCase(code)) {
             // 我的模型
             Intent it = new Intent(this.context.getApplicationContext(), MyAccountActivity.class);
-            it.putExtra("url", HtmlUtil.MYMODULE_HTML);
+            it.putExtra("url", HtmlConfig.MYMODULE_HTML);
             this.context.startActivity(it);
         } else if ("2".equalsIgnoreCase(code)) {
             // 购物商城
             Intent it = new Intent(this.context.getApplicationContext(), ShoppingActivity.class);
-            it.putExtra("url", HtmlUtil.SHOP_HTML);
+            it.putExtra("url", HtmlConfig.SHOP_HTML);
             this.context.startActivity(it);
         } else if ("3".equalsIgnoreCase(code)) {
             // 模型库首页
@@ -211,11 +213,11 @@ public class WebHost {
 
 
         } else if ("61".equalsIgnoreCase(code)) {
-            // StlUtil.ESP_8266_URL = "http://10.0.0.34/";
+            // PrinterConfig.ESP_8266_URL = "http://10.0.0.34/";
             // 3d打印机
-            if (StlUtil.ESP_8266_URL != null && StlUtil.ESP_8266_URL.length() > 0) {
+            if (PrinterConfig.ESP_8266_URL != null && PrinterConfig.ESP_8266_URL.length() > 0) {
                 Intent it = new Intent(this.context.getApplicationContext(), Esp8266Activity.class);
-                it.putExtra("esp8266url", StlUtil.ESP_8266_URL);
+                it.putExtra("esp8266url", PrinterConfig.ESP_8266_URL);
                 this.context.startActivity(it);
             } else {
                 Intent it = new Intent(this.context.getApplicationContext(), EspTouchActivity.class);
@@ -253,7 +255,7 @@ public class WebHost {
     @JavascriptInterface
     public String getStlList() {
         stlGcodeList.clear();
-        for (Map.Entry<String, StlGcode> fileEntry : StlUtil.stlDataBaseMap.entrySet()) {
+        for (Map.Entry<String, StlGcode> fileEntry : StlDealUtil.stlDataBaseMap.entrySet()) {
             stlGcodeList.add(fileEntry.getValue());
         }
         stlGcodeList.sort(Comparator.comparing(StlGcode::getCreateTime).reversed());
@@ -263,11 +265,11 @@ public class WebHost {
 
     @JavascriptInterface
     public boolean deleteStl(String fileName) {
-        if (StlUtil.stlDataBaseMap.containsKey(fileName)) {
-            StlGcode stlGcode = StlUtil.stlDataBaseMap.get(fileName);
-            if (StlUtil.stlDataBaseMap.containsKey(fileName)) {
-                StlUtil.deleteModuleDataBase(context, fileName);
-                StlUtil.stlDataBaseMap.remove(fileName);
+        if (StlDealUtil.stlDataBaseMap.containsKey(fileName)) {
+            StlGcode stlGcode = StlDealUtil.stlDataBaseMap.get(fileName);
+            if (StlDealUtil.stlDataBaseMap.containsKey(fileName)) {
+                StlDealUtil.deleteModuleDataBase(context, fileName);
+                StlDealUtil.stlDataBaseMap.remove(fileName);
             }
 
             File tempFile;
@@ -294,7 +296,7 @@ public class WebHost {
             tempFile = new File(fileName);
             tempFile.deleteOnExit();
 
-            StlUtil.stlMap.remove(fileName);
+            StlDealUtil.stlMap.remove(fileName);
             return true;
         }
         return false;
@@ -329,7 +331,7 @@ public class WebHost {
 
     @JavascriptInterface
     public String getLocalStl() {
-        List<StlGcode> localStlList = StlUtil.getLocalStl();
+        List<StlGcode> localStlList = StlDealUtil.getLocalStl();
         return localStlList.size() == 0 ? null : JSONObject.toJSONString(localStlList);
     }
 
@@ -349,14 +351,13 @@ public class WebHost {
 
     @JavascriptInterface
     public boolean printerGcode(String gcodeName, int flag) {
-        //StlUtil.ESP_8266_URL = "http://10.0.0.34/";
+        //PrinterConfig.ESP_8266_URL = "http://10.0.0.34/";
         // flag  0  原始APP的gcode   1 自己创建的模型
-        if (StlUtil.ESP_8266_URL == null || StlUtil.ESP_8266_URL.length() == 0) {
+        if (PrinterConfig.ESP_8266_URL == null || PrinterConfig.ESP_8266_URL.length() == 0) {
             Intent it = new Intent(this.context.getApplicationContext(), PrinterActivity.class);
-            StlUtil.printer_gcode = gcodeName;
+            PrinterConfig.printer_gcode = gcodeName;
             this.context.startActivity(it);
         } else {
-            StlUtil.printer_gcode = null;
             Intent it = new Intent(this.context.getApplicationContext(), PrinterStartActivity.class);
             it.putExtra("gcodeName", gcodeName);
             it.putExtra("flag", String.valueOf(flag));
@@ -368,7 +369,7 @@ public class WebHost {
 
     @JavascriptInterface
     public boolean getFlagByJson(String fileName) {
-        String firstCome = CacheUtil.getSettingNote(this.context, HtmlUtil.FLAG_JSON, fileName);
+        String firstCome = CacheUtil.getSettingNote(this.context, HtmlConfig.FLAG_JSON, fileName);
         return firstCome != null && firstCome.length() > 0;
     }
 
@@ -377,7 +378,7 @@ public class WebHost {
     public void saveFlagByJson(String fileName) {
         Map<String, String> map = new HashMap<>();
         map.put(fileName, "1");
-        CacheUtil.saveSettingNote(this.context, HtmlUtil.FLAG_JSON, map);
+        CacheUtil.saveSettingNote(this.context, HtmlConfig.FLAG_JSON, map);
     }
 
 

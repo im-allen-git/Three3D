@@ -1,5 +1,8 @@
-package com.kairong.three3d.alipay;
+package com.kairong.three3d.config;
 
+/**
+ * 支付宝相关参数
+ */
 public class AliPayConfig {
 
 

@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -18,8 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.alipay.sdk.app.AuthTask;
 import com.kairong.three3d.R;
-import com.kairong.three3d.alipay.AliPayConfig;
 import com.kairong.three3d.alipay.AuthResult;
+import com.kairong.three3d.config.AliPayConfig;
 import com.kairong.three3d.util.PermissionCheckUtil;
 
 import java.util.Map;

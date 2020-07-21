@@ -15,7 +15,7 @@ import android.webkit.WebView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kairong.three3d.R;
-import com.kairong.three3d.util.HtmlUtil;
+import com.kairong.three3d.config.HtmlConfig;
 import com.kairong.three3d.util.WebHost;
 import com.kairong.three3d.util.WebViewClientUtil;
 
@@ -62,7 +62,7 @@ public class MyAccountActivity extends AppCompatActivity {
         // 获取到传递参数
         WEB_URL = intent.getStringExtra("url");
         if (WEB_URL == null || WEB_URL.length() == 0) {
-            WEB_URL = HtmlUtil.MYMODULE_HTML;
+            WEB_URL = HtmlConfig.MYMODULE_HTML;
         }
         webView.loadUrl(WEB_URL);
     }
