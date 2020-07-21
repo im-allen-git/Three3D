@@ -36,6 +36,7 @@ async function loadhouseSTL(thisSTL, obj) {
     if (currentBuildType == 0) {
         return
     } else {
+        currentObj = '';
         stlGeoFlag = 4;//0 geo; 1 stl 2, localStl 4, minecraft
         showInput(1);
         $(".mine_craft_active").removeClass("mine_craft_active");
@@ -46,7 +47,7 @@ async function loadhouseSTL(thisSTL, obj) {
         currentModule = 0; //编辑模式，各种基础模型
         shootedFlag = false;
         var file;
-        currentObj='';
+        var loader = new THREE.STLLoader();
         switch (thisSTL) {
             case 0:
                 // 正方形
@@ -57,7 +58,6 @@ async function loadhouseSTL(thisSTL, obj) {
                 // 窗户
                 currentMineCraftType = 1;
                 file = '../models/stl/ascii/3dPrinting/window.stl';
-                var loader = new THREE.STLLoader();
                 await loader.load( file, function ( geometry ) {
                     currentObj = geometry;
                 } );
@@ -66,7 +66,6 @@ async function loadhouseSTL(thisSTL, obj) {
                 // 门
                 currentMineCraftType = 2;
                 file = '../models/stl/ascii/3dPrinting/door.stl';
-                var loader = new THREE.STLLoader();
                 await loader.load( file, function ( geometry ) {
                     currentObj = geometry;
                 } );
@@ -77,6 +76,7 @@ async function loadhouseSTL(thisSTL, obj) {
                 currentObj = new THREE.BoxBufferGeometry(SHAPE_SIZE, SHAPE_SIZE, SHAPE_SIZE);
                 break;
         }
+        changeMouseHelper(currentColorFlag);
     }
 
 }
@@ -129,10 +129,8 @@ function onDocumentMouseDownMineCraft(event) {
                 voxel.position.copy(intersect.point).add(intersect.face.normal);
                 voxel.position.divideScalar(SHAPE_SIZE).floor().multiplyScalar(SHAPE_SIZE).addScalar(SHAPE_SIZE / 2);
                 voxel.name = "shapes";
-                if (currentMineCraftType == 1) {
-                    // voxel.rotation.set(0, 0, -Math.PI / 4);
-                }
                 if (voxel.position.x>45 || voxel.position.x<-45 || voxel.position.z>45 || voxel.position.z<-45 || voxel.position.y<5 || voxel.position.y>95) {
+                    console.log('not in workspace')
                     return
                 }
                 scene.add(voxel);
