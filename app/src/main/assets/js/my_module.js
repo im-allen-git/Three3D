@@ -13,6 +13,7 @@ var moduleName; //模型名称
 var exeTimeStr; //打印时间
 $( function () {
 	getLocalAppSTL();
+	getSDsTL();
 } );
 function goPage(type) {//type 1,我的模型 2 商城 3 模型库首页 4 创建模型 5 返回上一页
 	if(type==1) {
@@ -100,7 +101,7 @@ function getLocalAppSTL(){
 	if(data && data !=null && data.length>5) {
 		var stlList = eval('('+data+')');
 		for (var i in stlList) {
-			stlListHTML += '<div class="each_module"><div class="each_module_wrapper clearfix swiper-container"><div class="swiper-wrapper">';
+			stlListHTML += '<div class="each_module"><div class="each_module_wrapper clearfix swiper-container"><div id="appStlSwiper" class="swiper-wrapper">';
             stlListHTML += '<div class="swiper-slide">';
             stlListHTML += '<div class="col-xs-3"><img src="'+stlList[i].localImg+'" alt=""></div>';
             stlListHTML += '<div class="col-xs-9">';
@@ -126,7 +127,47 @@ function getLocalAppSTL(){
 		stlListHTML+='<div class="no_module">您还没有创建模型哦<br><span onclick=" goPage(4) ">点击这里创建模型</span></div>'
 	}
 	$(".mine_content").html(stlListHTML)
-	var swiper = new Swiper('.swiper-container', {
+	var swiper = new Swiper('#appStlSwiper', {
+        slidesPerView: 'auto',
+        spaceBetween: 0,
+        freeMode: false,
+        freeModeSticky : true,
+        resistance:true,
+    });
+}
+function getSDsTL(){
+	var data = js.getSdList() || null;
+	var stlListHTML = '';
+	if(data && data !=null && data.length>5) {
+		var stlList = eval('('+data+')');
+		for (var i in stlList) {
+			stlListHTML += '<div class="each_module"><div class="each_module_wrapper clearfix swiper-container"><div id="sdStlSwiper"  class="swiper-wrapper">';
+            stlListHTML += '<div class="swiper-slide">';
+            stlListHTML += '<div class="col-xs-3"><img src="'+stlList[i].localImg+'" alt=""></div>';
+            stlListHTML += '<div class="col-xs-9">';
+            var name  =stlList[i].sourceStlName.split(".stl")[0];
+            stlListHTML += '<div class="module_name">'+name+'</div>';
+            stlListHTML += '<div class="module_time"><div class="info">创建时间: <span class="this_createTime">'+stlList[i].createTime+'</span></div></div>';
+            stlListHTML += '<div class="module_size"><div class="info">打印尺寸(mm): <span class="this_createTime">'+stlList[i].length+" "+stlList[i].width+" "+stlList[i].height+'</span></div></div>';
+            stlListHTML += '<div class="img_wrapper showHide first_child"><img src="../img/3dPrinting/btn_print.png" alt="" onclick="thisParamInfo(0,this)"></div>';
+            stlListHTML += '</div></div>';
+            stlListHTML += '<div class="swiper-slide delete_slide" onclick="deleteThisModule(this,\''+stlList[i].realStlName+'\')"><div class="delete">删除</div></div>';
+            stlListHTML += '</div>';
+            stlListHTML += '<input type="hidden" class="X" value="'+stlList[i].length+'">'
+            stlListHTML += '<input type="hidden" class="Y" value="'+stlList[i].width+'">'
+            stlListHTML += '<input type="hidden" class="Z" value="'+stlList[i].height+'">'
+            stlListHTML += '<input type="hidden" class="material" value="'+stlList[i].material+'">'
+            stlListHTML += '<input type="hidden" class="size" value="'+stlList[i].size+'">'
+            stlListHTML += '<input type="hidden" class="exeTimeStr" value="'+stlList[i].exeTimeStr+'">'
+            stlListHTML += '<input type="hidden" class="moduleName" value="'+stlList[i].realStlName+'">'
+            stlListHTML += '</div></div>';
+		}
+	}
+	else{
+		stlListHTML+='<div class="no_module">您还没有本地模型哦</div>'
+	}
+	$(".local_content").html(stlListHTML)
+	var swiper = new Swiper('#sdStlSwiper', {
         slidesPerView: 'auto',
         spaceBetween: 0,
         freeMode: false,
