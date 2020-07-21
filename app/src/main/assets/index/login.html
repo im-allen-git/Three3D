@@ -261,7 +261,10 @@
 			$(function(){
 				$('.log_phone_btn').on('click',function(){
 					if(!$(this).hasClass('log_embar_btn')){
-						window.location.href = 'index.html';
+						//window.location.href = 'index.html';
+
+						var flag = js.registerOrLogin('xiaoming','1574122');
+						console.log(flag)
 					}
 					/* let protocolCheck = $('#logProtocol').find('.protocol_check');
 					if(protocolCheck.hasClass('protocol_active')){
