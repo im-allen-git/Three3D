@@ -568,7 +568,7 @@ public class WebHost {
 
     @JavascriptInterface
     // 用户数据修改
-    public boolean updateUserInfo(String userId,String nickName,String sex,String birthday,String height,String weight) {
+    public boolean updateUserInfo(String userId,String nickName,String sex,String birthday,String height,String weight,String wasteRate,String number) {
 
         boolean isSu = false;
 
@@ -579,6 +579,10 @@ public class WebHost {
         userPojo.setBirthday(birthday);
         userPojo.setHeight(height);
         userPojo.setWeight(weight);
+        userPojo.setWeight(weight);
+        userPojo.setWasteRate(wasteRate);
+        userPojo.setNumber(number);
+
 
 
         isSu = true;

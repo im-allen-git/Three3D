@@ -253,8 +253,8 @@ public class StlUtil {
             values.put(UserEntry.COLUMN_BIRTHDAY, userPojo.getBirthday());
             values.put(UserEntry.COLUMN_HEIGHT, userPojo.getHeight());
             values.put(UserEntry.COLUMN_WEIGHT, userPojo.getWeight());
-//            values.put(UserEntry.COLUMN_WASTE_RATE, userPojo.getWasteRate());
-//            values.put(UserEntry.COLUMN_NUMBER, userPojo.getNumber());
+            values.put(UserEntry.COLUMN_WASTE_RATE, userPojo.getWasteRate());
+            values.put(UserEntry.COLUMN_NUMBER, userPojo.getNumber());
             String whereClause = UserEntry.COLUMN_USER_ID + " = ?";
             String[] whereArgs = new String[]{String.valueOf(userPojo.getUserId())};
             db.update(UserEntry.TABLE_NAME, values, whereClause, whereArgs);
