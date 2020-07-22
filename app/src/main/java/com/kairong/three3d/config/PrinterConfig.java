@@ -16,6 +16,12 @@ public class PrinterConfig {
      */
     public static volatile String ESP_8266_URL = null;
 
+    /**
+     * 打印机WIFI连接套接口
+     */
+    public static volatile String ESP_WEB_SOCKET = null;
+
+
 
     /**
      * 小时的微秒换算

@@ -23,6 +23,7 @@ import com.kairong.three3d.R;
 import com.kairong.three3d.config.PrinterConfig;
 import com.kairong.three3d.touchv1.NetUtils;
 import com.kairong.three3d.util.IOUtil;
+import com.kairong.three3d.util.StlDealUtil;
 import com.kairong.three3d.util.WebViewClientUtil;
 
 import java.util.Objects;
@@ -50,25 +51,26 @@ public class PrinterActivity extends AppCompatActivity {
         });
         // 输入密码页面
         ImageButton connectWifiBtn = findViewById(R.id.imageButtonPrint);
-        ImageButton gotoIndex = findViewById(R.id.gotoIndex);
+        ImageButton resetWifi = findViewById(R.id.resetWifi);
         TextView connected_wifi = findViewById(R.id.connected_wifi);
         // PrinterConfig.ESP_8266_URL = "http://10.0.0.34/";
         if (PrinterConfig.ESP_8266_URL != null && PrinterConfig.ESP_8266_URL.length() > 0) {
             connected_wifi.setText(R.string.printer_statue_conn);
             connected_wifi.setTextColor(Color.GREEN);
-            gotoIndex.setVisibility(View.VISIBLE);
+            resetWifi.setVisibility(View.VISIBLE);
             connectWifiBtn.setVisibility(View.GONE);
-            gotoIndex.setOnClickListener(v -> {
-                Intent it = new Intent(this.context.getApplicationContext(), Esp8266Activity.class);
-                this.context.startActivity(it);
+            resetWifi.setOnClickListener(v -> {
+                StlDealUtil.resetEsp8266Url();
+                resetWifi.setVisibility(View.GONE);
+                connectWifiBtn.setVisibility(View.VISIBLE);
             });
         } else {
             connected_wifi.setText(R.string.printer_statue_uncon);
             connected_wifi.setTextColor(Color.RED);
-            gotoIndex.setVisibility(View.GONE);
+            resetWifi.setVisibility(View.GONE);
             connectWifiBtn.setVisibility(View.VISIBLE);
             connectWifiBtn.setOnClickListener(v -> {
-                Intent it = new Intent(context.getApplicationContext(), WifiPassActivity.class);
+                Intent it = new Intent(context.getApplicationContext(), WifiPassHtmlActivity.class);
                 startActivity(it);
                 if(PrinterConfig.ESP_8266_URL!=null){
                     finish();

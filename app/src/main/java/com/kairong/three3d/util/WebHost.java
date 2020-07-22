@@ -16,7 +16,10 @@ import android.webkit.WebView;
 import androidx.annotation.RequiresApi;
 
 import com.alibaba.fastjson.JSONObject;
+import com.kairong.esptouch.util.ByteUtil;
+import com.kairong.esptouch.util.TouchNetUtil;
 import com.kairong.three3d.IndexHtmlActivity;
+import com.kairong.three3d.R;
 import com.kairong.three3d.activity.BulidModuleActivity;
 import com.kairong.three3d.activity.Esp8266Activity;
 import com.kairong.three3d.activity.MyAccountActivity;
@@ -25,8 +28,10 @@ import com.kairong.three3d.activity.PrinterFirstActivity;
 import com.kairong.three3d.activity.PrinterStartActivity;
 import com.kairong.three3d.activity.ShoppingActivity;
 import com.kairong.three3d.activity.UploadGcodeActivity;
+import com.kairong.three3d.activity.WifiPassHtmlActivity;
 import com.kairong.three3d.config.HtmlConfig;
 import com.kairong.three3d.config.PrinterConfig;
+import com.kairong.three3d.config.WifiConfig;
 import com.kairong.three3d.pojo.StlGcode;
 import com.kairong.three3d.touchv1.EspTouchActivity;
 
@@ -401,6 +406,19 @@ public class WebHost {
         }
     }
 
+    @JavascriptInterface
+    public boolean sendWifiPass(String wifipass) {
+        if (wifipass != null && wifipass.length() > 0) {
+            Message message = new Message();
+            message.what = 67;
+            message.obj = wifipass;
+            this.myHandler.sendMessage(message);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     /**
      * 调用js方法上传文件

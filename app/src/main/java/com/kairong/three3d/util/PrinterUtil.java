@@ -90,7 +90,7 @@ public class PrinterUtil {
 
         InputStream is = null;
         try {
-            System.err.println(tempStlGcode.getLocalImg());
+            System.err.println("============"+tempStlGcode);
             if (tempStlGcode.getLocalFlag() > 0) {
                 // InputStream abpath = getClass().getResourceAsStream("/assets/文件名");
                 is = context.getAssets().open(tempStlGcode.getLocalImg().replace("file:///android_asset/", ""));

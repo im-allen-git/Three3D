@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.kairong.three3d.R;
 import com.kairong.three3d.config.PrinterConfig;
+import com.kairong.three3d.pojo.ClientWebSocketListener;
 import com.kairong.three3d.pojo.StlGcode;
 import com.kairong.three3d.util.CacheUtil;
 import com.kairong.three3d.util.DialogUtil;
@@ -53,6 +54,7 @@ public class PrinterStartActivity extends AppCompatActivity {
 
     private Context context;
 
+    private OkHttpClient mOkHttpClient;
 
     @SuppressLint("HandlerLeak")
     private Handler mainHandler = new Handler() {
@@ -182,8 +184,19 @@ public class PrinterStartActivity extends AppCompatActivity {
         });
     }
 
+    private void getWebSocket() {
+        mOkHttpClient = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(PrinterConfig.ESP_8266_URL.replace("http:", "ws:"))
+                .build();
+        ClientWebSocketListener listener = new ClientWebSocketListener();
+        mOkHttpClient.newWebSocket(request, listener);
+        mOkHttpClient.dispatcher().executorService().shutdown();
+    }
+
 
     private void printAnimation() {
+
         if (!CacheUtil.sdMap.containsKey(PrinterUtil.tempStlGcode.getShortGcode().toUpperCase())
                 && PrinterUtil.tempStlGcode.getFlag() == 0) {
             new Thread() {

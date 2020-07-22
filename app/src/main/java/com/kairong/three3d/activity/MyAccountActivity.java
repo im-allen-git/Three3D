@@ -80,28 +80,9 @@ public class MyAccountActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 5:
-                    actionKey(KeyEvent.KEYCODE_BACK);
+                    WebViewClientUtil.actionKey(KeyEvent.KEYCODE_BACK);
                     break;
             }
         }
     };
-
-    /**
-     * 模拟键盘事件方法
-     *
-     * @param keyCode
-     */
-    public void actionKey(final int keyCode) {
-        new Thread() {
-            public void run() {
-                try {
-                    Instrumentation inst = new Instrumentation();
-                    inst.sendKeyDownUpSync(keyCode);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
-
 }

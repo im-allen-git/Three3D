@@ -19,3 +19,6 @@ body{background: #f8f9fb;}
 input#wifiPass { font-size: .2rem;color: #426A8D; height: .5rem; line-height: .5rem; float: left; width: 90%; }
 .wifi_info .iconfont { position: absolute; right: 0; width: 10%; font-size: .2rem; }
 #passwordShow{display: none;}
+.wifi_pass_validate {display:none; color: red; position: absolute; font-size: .15rem; }
+.connect_btn_wrapper { width: 2rem; height: .8rem; margin: auto; position: relative; margin-top: .3rem; }
+.connect_btn_wrapper img{position: absolute;top: 0;bottom: 0;left: 0;right: 0;margin: auto;max-width: 100%;max-height: 100%;}

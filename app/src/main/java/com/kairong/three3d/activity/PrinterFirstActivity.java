@@ -96,7 +96,7 @@ public class PrinterFirstActivity extends AppCompatActivity {
             gotoIndex.setVisibility(View.GONE);
             connectWifiBtn.setVisibility(View.VISIBLE);
             connectWifiBtn.setOnClickListener(v -> {
-                Intent it = new Intent(context.getApplicationContext(), WifiPassActivity.class);
+                Intent it = new Intent(context.getApplicationContext(), WifiPassHtmlActivity.class);
                 startActivity(it);
                 if(PrinterConfig.ESP_8266_URL!=null){
                     finish();

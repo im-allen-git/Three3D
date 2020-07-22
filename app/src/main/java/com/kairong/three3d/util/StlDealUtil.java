@@ -5,9 +5,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 
 import com.kairong.three3d.config.PrinterConfig;
 import com.kairong.three3d.data.ThreeDbHelper;
@@ -241,7 +238,7 @@ public class StlDealUtil {
         ContentValues values = new ContentValues();
         values.put(ThreePrinterEntry.COLUMN_WIFI_URL, url);
         long newRowId = db.insert(ThreePrinterEntry.TABLE_NAME, null, values);
-        PrinterConfig.ESP_8266_URL = url;
+        setEsp8266Url(url);
         db.close();
         return newRowId;
     }
@@ -256,9 +253,9 @@ public class StlDealUtil {
         if (cursor.moveToNext()) {
             int id = cursor.getInt(idIndex);
             String url = cursor.getString(urlIndex);
-            PrinterConfig.ESP_8266_URL = url;
+            setEsp8266Url(url);
         } else {
-            PrinterConfig.ESP_8266_URL = null;
+            setEsp8266Url(null);
         }
         db.close();
     }
@@ -272,7 +269,7 @@ public class StlDealUtil {
             String whereClause = ThreePrinterEntry.COLUMN_WIFI_URL + " = ?";
             String[] whereArgs = new String[]{PrinterConfig.ESP_8266_URL};
             db.update(ThreePrinterEntry.TABLE_NAME, values, whereClause, whereArgs);
-            PrinterConfig.ESP_8266_URL = url;
+            setEsp8266Url(url);
         }
         db.close();
     }
@@ -372,4 +369,24 @@ public class StlDealUtil {
 
     }
 
+
+    private static synchronized void setEsp8266Url(String url) {
+        if (url == null || url.length() == 0) {
+            PrinterConfig.ESP_8266_URL = null;
+            PrinterConfig.ESP_WEB_SOCKET = null;
+        } else {
+            PrinterConfig.ESP_8266_URL = url;
+            String ws = url.replace("http", "ws");
+            if (ws.endsWith("/")) {
+                PrinterConfig.ESP_WEB_SOCKET = ws.substring(0, ws.length() - 1) + ":81/";
+            } else {
+                PrinterConfig.ESP_WEB_SOCKET = ws + ":81/";
+            }
+        }
+    }
+    public static synchronized void resetEsp8266Url() {
+        PrinterConfig.ESP_8266_URL = null;
+        PrinterConfig.ESP_WEB_SOCKET = null;
+
+    }
 }

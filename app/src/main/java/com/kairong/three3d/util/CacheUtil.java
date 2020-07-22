@@ -72,6 +72,7 @@ public class CacheUtil {
                                 continue;
                             }
                             childList = rsList[i].trim().split(" ");
+                            System.err.println("rsList[i] : " + rsList[i]);
                             StlGcode stlGcode = new StlGcode();
                             stlGcode.setLocalGcodeName(childList[0]);
                             int fileS = Integer.parseInt(childList[1].trim());
