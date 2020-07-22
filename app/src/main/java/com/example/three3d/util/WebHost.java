@@ -558,9 +558,9 @@ public class WebHost {
     public List<Map<String, Object>>  getUserInfoDataList(String userId) {
 
         // 取得session信息
-        String userIdSe = CacheUtil.getSettingNote(context, HtmlUtil.USER_JSON, "userId");
+//        String userIdSe = CacheUtil.getSettingNote(context, HtmlUtil.USER_JSON, "userId");
         // 查询用户信息数据
-        List<Map<String, Object>>   userInfoList = StlUtil.getUserInfoData(context, userIdSe);
+        List<Map<String, Object>>   userInfoList = StlUtil.getUserInfoData(context, userId);
 
         return userInfoList;
     }
@@ -568,7 +568,7 @@ public class WebHost {
 
     @JavascriptInterface
     // 用户数据修改
-    public boolean updateUserInfo(String userId,String nickName,String sex,String birthday,String height,String weight) {
+    public boolean updateUserInfo(String userId,String nickName,String sex,String birthday,String height,String weight,String wasteRate,String number) {
 
         boolean isSu = false;
 
@@ -579,6 +579,9 @@ public class WebHost {
         userPojo.setBirthday(birthday);
         userPojo.setHeight(height);
         userPojo.setWeight(weight);
+        userPojo.setWasteRate(wasteRate);
+        userPojo.setNumber(number);
+
 
 
         isSu = true;
