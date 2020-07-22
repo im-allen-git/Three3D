@@ -222,6 +222,7 @@ public class StlUtil {
         SQLiteDatabase db = getDbByContext(context);
 
         ContentValues values = new ContentValues();
+//        values.put(UserEntry.COLUMN_USER_ID, userPojo.getUserId());
         values.put(UserEntry.COLUMN_NICK_NAME, userPojo.getNickName());
         values.put(UserEntry.COLUMN_MOBILE, userPojo.getMobile());
         values.put(UserEntry.COLUMN_CREATE_TIME, StlUtil.getFormatTime(new Date()));

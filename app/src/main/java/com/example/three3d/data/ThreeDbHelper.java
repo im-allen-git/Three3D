@@ -38,7 +38,6 @@ public class ThreeDbHelper extends SQLiteOpenHelper {
         // user Create a String that contains the SQL statement to create the pets table
         String SQL_CREATE_USER_TABLE = "CREATE TABLE " + UserEntry.TABLE_NAME + " ("
                 + UserEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + UserEntry.COLUMN_USER_ID + " TEXT , "
                 + UserEntry.COLUMN_PASSWORD + " TEXT , "
                 + UserEntry.COLUMN_NICK_NAME + " TEXT , "
                 + UserEntry.COLUMN_MOBILE + " TEXT , "

@@ -523,9 +523,9 @@ public class WebHost {
             userPojo.setMobile(mobile);
 
             // 保存注册用户数据
-            StlUtil.saveUserDataBase(context, userPojo);
-            //获取最新插入数据的自增长主键ID
-            userId = StlUtil.getLastInsertRowid(context);
+            userId = (int)StlUtil.saveUserDataBase(context, userPojo);
+//            获取最新插入数据的自增长主键ID
+//            userId = StlUtil.getLastInsertRowid(context);
         }
 
         Map<String, String> stlMap = new HashMap<>();
