@@ -313,7 +313,7 @@ function hideModule( obj ) {
 			var houstIndex = 0;
 			var listhouseSTL = res.data.house;
 			for (var i in listhouseSTL) {
-				houstHtml += '<div class="module mine_craft_'+houstIndex+ ' '+  listhouseSTL[i].title + '" onclick="loadhouseSTL('+houstIndex+',this)">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
+				houstHtml += '<div class="module mine_craft_'+houstIndex+ ' '+  listhouseSTL[i].title + '" onclick="changeMineCraftStl('+houstIndex+',this)">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
 				houstHtml += '<input class="this_code" type="hidden" value="' + houstIndex + '">';
 				houstHtml += '<input class="this_module" type="hidden" value="4">';
 				houstHtml += '<div class="sprint sprint_' + listhouseSTL[i].title + '"></div>';
@@ -391,7 +391,7 @@ function listModule( type ) {
 			var mineCraftIndex = 0;
 			var listhouseSTL = [{"name": "砖头", "title": "wall","id": "00","url": "../img/3dPrinting/sprint_cube.png" },{"name": "窗户","title": "window","id": "01","url": "../img/3dPrinting/sprint_window.png"},{"name": "门","title": "door","id": "02","url": "../img/3dPrinting/sprint_door.png"} ];
 			for (var i in listhouseSTL) {
-				mineCraftHtml += '<div class="module mine_craft_'+mineCraftIndex+ ' '+  listhouseSTL[i].title + '" onclick="loadhouseSTL('+mineCraftIndex+',this)">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
+				mineCraftHtml += '<div class="module mine_craft_'+mineCraftIndex+ ' '+  listhouseSTL[i].title + '" onclick="changeMineCraftStl('+mineCraftIndex+',this)">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
 				mineCraftHtml += '<input class="this_code" type="hidden" value="' + mineCraftIndex + '">';
 				mineCraftHtml += '<input class="this_module" type="hidden" value="4">';
 				mineCraftHtml += '<div class="sprint sprint_' + listhouseSTL[i].title + '"></div>';
