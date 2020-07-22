@@ -120,6 +120,15 @@ window.onload = function(){
 }
 
 $(function(){
+    let userId = js.getUserId('userId');
+    console.log(userId);
+    if(userId){
+        let userInfo = js.getUserInfoDataList(userId);
+         console.log(userInfo[0]);
+    }
+
+
+
 	let personNum = storageObject.sessionGetItem('personNum');
 	let wasteNum = storageObject.sessionGetItem('wasteNum');
 	let userName = storageObject.sessionGetItem('userName');
@@ -345,7 +354,7 @@ $(function(){
 
 
 	/* 添加设备弹窗相关方法 */
-	$('#addType1').on('click','li',function(){
+	$('#addType1 li').click(function(){
 		let thatType = $(this);
 		if(thatType.hasClass('type1_customize')){
 			$('#customizeProject').show();
@@ -354,13 +363,13 @@ $(function(){
 		}
 		
 	})
-	$('#addType2').on('click','li',function(){
+	$('#addType2 li').click(function(){
 		let thatType = $(this);
 		thatType.addClass('type2_active').siblings().removeClass('type2_active');
 	})
 	
 	/* 点击减按钮 */
-	$('.recommend_decrease').on('click',function(){
+	$('.recommend_decrease').click(function(){
 		let thatPlus = $(this);
 		let inputVal = parseInt(thatPlus.siblings('.recommend_bun').val());
 		if(inputVal === 0){
@@ -371,7 +380,7 @@ $(function(){
 	})
 	
 	/* 点击加按钮 */
-	$('.recommend_increase').on('click',function(){
+	$('.recommend_increase').click(function(){
 		let thatPlus = $(this);
 		let inputVal = parseInt(thatPlus.siblings('.recommend_bun').val());
 		if(inputVal > 9998){
@@ -472,7 +481,7 @@ $(function(){
 		isRange : false //是否为选取方位
 	});
 
-	$('#mealsList').on('click','.meals_item',function(){
+	$('#mealsList .meals_item').click(function(){
 		let _that = $(this);
 		/* let index = _that.index()+1;
 		let intervalWidth = index * ($('.waste_chart').width()/8); */
@@ -482,7 +491,7 @@ $(function(){
 		$('.progress_tip').text(index).css('left',intervalWidth-5); */
 	})
 
-	$('#hintMainBottom').on('click',function(){ //设置了基础设置后保存到本地session里
+	$('#hintMainBottom').click(function(){ //设置了基础设置后保存到本地session里
 		let _that = $(this);
 		let systemMealsNum = _that.parents('.device_pop').find('.meals_active').text(); //人数
 		let systemWasteRatio = _that.parents('.device_pop').find('#singleSlider').val(); //浪费比率

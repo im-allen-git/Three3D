@@ -263,8 +263,13 @@
 					if(!$(this).hasClass('log_embar_btn')){
 						//window.location.href = 'index.html';
 
-						var flag = js.registerOrLogin('xiaoming','1574122');
-						console.log(flag)
+						let loginFlag = js.registerOrLogin('xiaoming','18721095060');
+						if(loginFlag){
+							alert('登录成功');
+							window.location.href = 'index.html';
+						}else{
+							alert('登录失败了');
+						}
 					}
 					/* let protocolCheck = $('#logProtocol').find('.protocol_check');
 					if(protocolCheck.hasClass('protocol_active')){

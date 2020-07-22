@@ -25,6 +25,12 @@ android {
         targetCompatibility = 1.8
     }
 
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+
 }
 
 dependencies {
@@ -44,4 +50,10 @@ dependencies {
     implementation 'org.projectlombok:lombok:1.18.8'
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
     implementation project(':esptouch')
+
+    implementation(name: 'quicklogin_libary-external-release', ext: 'aar') // aar包具体名称请以官网下载下来为准
+    implementation(name: 'CMCCSSOSDK-WY-release', ext: 'aar')
+    implementation(name: 'Ui-factory_oauth_mobile_3.9.1.5', ext: 'aar')
+    implementation(name: 'CTAccount_sdk_api_v3.7.0_all', ext: 'aar')
+    implementation 'com.google.code.gson:gson:2.8.5'    // 配置对gson的依赖
 }
