@@ -579,7 +579,6 @@ public class WebHost {
         userPojo.setBirthday(birthday);
         userPojo.setHeight(height);
         userPojo.setWeight(weight);
-        userPojo.setWeight(weight);
         userPojo.setWasteRate(wasteRate);
         userPojo.setNumber(number);
 
