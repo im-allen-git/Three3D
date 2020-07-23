@@ -8,17 +8,16 @@ import android.graphics.Color;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.kairong.three3d.IndexHtmlActivity;
 import com.kairong.three3d.R;
 import com.kairong.three3d.config.PrinterConfig;
 import com.kairong.three3d.touchv1.NetUtils;
@@ -50,6 +49,12 @@ public class PrinterActivity extends AppCompatActivity {
             WebViewClientUtil.actionKey(KeyEvent.KEYCODE_BACK);
         });
         // 输入密码页面
+
+
+        LinearLayout connectWrapper = (LinearLayout) findViewById(R.id.connectWrapper);
+        LinearLayout resetWrapper = (LinearLayout) findViewById(R.id.resetWrapper);
+
+
         ImageButton connectWifiBtn = findViewById(R.id.imageButtonPrint);
         ImageButton resetWifi = findViewById(R.id.resetWifi);
         TextView connected_wifi = findViewById(R.id.connected_wifi);
@@ -57,22 +62,24 @@ public class PrinterActivity extends AppCompatActivity {
         if (PrinterConfig.ESP_8266_URL != null && PrinterConfig.ESP_8266_URL.length() > 0) {
             connected_wifi.setText(R.string.printer_statue_conn);
             connected_wifi.setTextColor(Color.GREEN);
-            resetWifi.setVisibility(View.VISIBLE);
-            connectWifiBtn.setVisibility(View.GONE);
+            connectWrapper.setVisibility(View.GONE);
+            resetWrapper.setVisibility(View.VISIBLE);
             resetWifi.setOnClickListener(v -> {
-                StlDealUtil.resetEsp8266Url();
-                resetWifi.setVisibility(View.GONE);
-                connectWifiBtn.setVisibility(View.VISIBLE);
+//                StlDealUtil.resetEsp8266Url();
+                StlDealUtil.updatePrinterUrl(context, null);
+                finish();
+                Intent intent = new Intent(this, PrinterActivity.class);
+                startActivity(intent);
             });
         } else {
             connected_wifi.setText(R.string.printer_statue_uncon);
             connected_wifi.setTextColor(Color.RED);
-            resetWifi.setVisibility(View.GONE);
-            connectWifiBtn.setVisibility(View.VISIBLE);
+            resetWrapper.setVisibility(View.GONE);
+            connectWrapper.setVisibility(View.VISIBLE);
             connectWifiBtn.setOnClickListener(v -> {
                 Intent it = new Intent(context.getApplicationContext(), WifiPassHtmlActivity.class);
                 startActivity(it);
-                if(PrinterConfig.ESP_8266_URL!=null){
+                if (PrinterConfig.ESP_8266_URL != null) {
                     finish();
                 }
             });
@@ -81,6 +88,10 @@ public class PrinterActivity extends AppCompatActivity {
         checkWifi();
         TextView wifi_name = findViewById(R.id.apSsidText);
     }
+
+
+
+
 
     private void checkWifi() {
         WifiInfo wifiInfo = mWifiManager.getConnectionInfo();

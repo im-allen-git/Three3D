@@ -112,6 +112,7 @@
             android:id="@+id/connectWrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="visible"
             android:orientation="vertical">
 
             <ImageButton
@@ -126,20 +127,6 @@
                 android:fontFamily="@font/webfont"
                 android:scaleType="fitCenter"
                 android:src="@drawable/btn_connect" />
-
-            <ImageButton
-                android:id="@+id/resetWifi"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="20dp"
-                android:layout_weight="1"
-                android:background="#00FFFFFF"
-                android:contentDescription="@string/pintthismodule"
-                android:fontFamily="@font/webfont"
-                android:scaleType="fitCenter"
-                android:src="@drawable/btn_connect"
-                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/connect_req1"
@@ -187,7 +174,63 @@
 
 
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/resetWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical"
+            >
 
+            <ImageButton
+                android:id="@+id/resetWifi"
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:contentDescription="@string/pintthismodule"
+                android:fontFamily="@font/webfont"
+                android:scaleType="fitCenter"
+                android:src="@drawable/reset_btn"
+                />
+
+            <TextView
+                android:id="@+id/resetNote1"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="#00FFFFFF"
+                android:fontFamily="@font/webfont"
+                android:paddingLeft="30dp"
+                android:text="如需重新连接，需要重置打印机的WiFi"
+                android:textColor="#426A8D"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/resetNote2"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="#00FFFFFF"
+                android:fontFamily="@font/webfont"
+                android:paddingLeft="30dp"
+                android:text="1. 点击重置"
+                android:textColor="#426A8D"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/resetNote3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineHeight="30dp"
+                android:background="#00FFFFFF"
+                android:fontFamily="@font/webfont"
+                android:paddingLeft="30dp"
+                android:text="2. 需要点击打印机上的WiFi重置按钮后，再点击连接按钮"
+                android:textColor="#426A8D"
+                android:textSize="15sp" />
+
+
+
+        </LinearLayout>
 
     </LinearLayout>
 

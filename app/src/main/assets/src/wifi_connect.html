@@ -49,10 +49,6 @@
         </div>
     </div>
 </div>
-<div id="loading_data">
-    <img src="../img/loading.gif" alt="">
-    <div class="checking">正在连接中...</div>
-</div>
 </body>
 <script src='../js/jquery.min.js'></script>
 <script>
@@ -102,7 +98,6 @@
       var wifipass = $("#wifiPass").val();
       clearValidate();
       if(wifipass){
-        $("#loading_data").show();
         var wifipassResult = js.sendWifiPass(wifipass);
       }
       else{
@@ -119,11 +114,11 @@
     }
     function checkPass(flag,msg){ //0：失败 1：成功
         if(flag == 1){
-            $("#loading_data").hide();
-            $("#loading_data .checking").text("正在连接中...");
+<!--            $("#loading_data").hide();-->
+<!--            $("#loading_data .checking").text("正在连接中...");-->
         }
         else if(flag==0){
-            $("#loading_data .checking").text("连接失败，请检查密码！");
+<!--            $("#loading_data .checking").text("连接失败，请检查密码！");-->
         }
         else if(flag==3){
 

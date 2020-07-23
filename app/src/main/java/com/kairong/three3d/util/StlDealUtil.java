@@ -235,12 +235,30 @@ public class StlDealUtil {
      */
     public static long savePrinterUrl(Context context, String url) {
         SQLiteDatabase db = getDbByContext(context);
+
+        Cursor cursor = db.query(ThreePrinterEntry.TABLE_NAME, null, null, null, null, null, null);
+        int idIndex = cursor.getColumnIndex(ThreePrinterEntry._ID);
+
+        long id = 0;
+        if (cursor.moveToNext()) {
+            id = cursor.getInt(idIndex);
+        }
+
         ContentValues values = new ContentValues();
-        values.put(ThreePrinterEntry.COLUMN_WIFI_URL, url);
-        long newRowId = db.insert(ThreePrinterEntry.TABLE_NAME, null, values);
-        setEsp8266Url(url);
+        if (id == 0) {
+            values.put(ThreePrinterEntry.COLUMN_WIFI_URL, url);
+            id = db.insert(ThreePrinterEntry.TABLE_NAME, null, values);
+            setEsp8266Url(url);
+        } else {
+            values.put(ThreePrinterEntry.COLUMN_WIFI_URL, url);
+            String whereClause = ThreePrinterEntry._ID + " = ?";
+            String[] whereArgs = new String[]{String.valueOf(id)};
+            db.update(ThreePrinterEntry.TABLE_NAME, values, whereClause, whereArgs);
+            setEsp8266Url(url);
+        }
         db.close();
-        return newRowId;
+        return id;
+
     }
 
 
@@ -263,14 +281,15 @@ public class StlDealUtil {
 
     public static void updatePrinterUrl(Context context, String url) {
         SQLiteDatabase db = getDbByContext(context);
-        if (url != null && url.length() > 0) {
-            ContentValues values = new ContentValues();
-            values.put(ThreePrinterEntry.COLUMN_WIFI_URL, url);
-            String whereClause = ThreePrinterEntry.COLUMN_WIFI_URL + " = ?";
-            String[] whereArgs = new String[]{PrinterConfig.ESP_8266_URL};
-            db.update(ThreePrinterEntry.TABLE_NAME, values, whereClause, whereArgs);
-            setEsp8266Url(url);
+        if (url == null || url.length() == 0) {
+            url = "";
         }
+        ContentValues values = new ContentValues();
+        values.put(ThreePrinterEntry.COLUMN_WIFI_URL, url);
+        String whereClause = ThreePrinterEntry.COLUMN_WIFI_URL + " = ?";
+        String[] whereArgs = new String[]{PrinterConfig.ESP_8266_URL};
+        db.update(ThreePrinterEntry.TABLE_NAME, values, whereClause, whereArgs);
+        setEsp8266Url(url);
         db.close();
     }
 
@@ -384,6 +403,7 @@ public class StlDealUtil {
             }
         }
     }
+
     public static synchronized void resetEsp8266Url() {
         PrinterConfig.ESP_8266_URL = null;
         PrinterConfig.ESP_WEB_SOCKET = null;

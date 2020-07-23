@@ -317,7 +317,8 @@ public class WifiPassHtmlActivity extends EspTouchActivityAbs {
             if (context != null) {
                 IEsptouchResult result = values[0];
                 Log.i(TAG, "EspTouchResult: " + result);
-                String text = result.getBssid() + " is connected to the wifi";
+//                String text = result.getBssid() + " is connected to the wifi";
+                String text = "已连接到WiFi: "+ WifiConfig.ssid;
                 Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
             }
         }
