@@ -702,14 +702,14 @@ public class WebHost {
 
     @JavascriptInterface
     // 保存称重信息数据 手动输入
-    public boolean weighingdataAdd(String userId,String uuId,  String item, String type, String weight
+    public boolean weighingdataAdd(String userId,String mac,  String item, String type, String weight
             , String createTime) {
 
         boolean isSu = false;
 
         WeighingdataPojo weighingdataPojo = new WeighingdataPojo();
         weighingdataPojo.setUserId(userId);
-        weighingdataPojo.setUserId(uuId);
+        weighingdataPojo.setMac(mac);
         weighingdataPojo.setItem(item);
         weighingdataPojo.setType(type);
         weighingdataPojo.setWeight(weight);

@@ -13,8 +13,8 @@ public class WeighingdataPojo {
 
     // 用户id
     private String userId;
-    // uuid
-    private String uuid;
+    // mac
+    private String mac;
     // 类别（盐，油）
     private String item;
     // 类型 (手动输入，设备数据)

@@ -29,5 +29,9 @@ public class EquipmentPojo {
     private String createTime;
     // 更新时间
     private String updateTime;
+    // ip地址
+    private String ipAddress;
+    // 1：蓝牙，2：wifi
+    private String onlineType;
 
 }

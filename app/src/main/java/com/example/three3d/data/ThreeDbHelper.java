@@ -73,7 +73,9 @@ public class ThreeDbHelper extends SQLiteOpenHelper {
                 + EquipmentEntry.COLUMN_UNIT + " TEXT , "
                 + EquipmentEntry.COLUMN_TARGET + " TEXT , "
                 + EquipmentEntry.COLUMN_CREATE_TIME + " TEXT , "
-                + EquipmentEntry.COLUMN_UPDATE_TIME + " TEXT);";
+                + EquipmentEntry.COLUMN_UPDATE_TIME + " TEXT , "
+                + EquipmentEntry.COLUMN_IP_ADDRESS + " TEXT , "
+                + EquipmentEntry.COLUMN_ONLINE_TYPE + " TEXT);";
         // Equipment Execute the SQL statement
         db.execSQL(SQL_CREATE_EQUIPMENT_TABLE);
 
@@ -81,7 +83,7 @@ public class ThreeDbHelper extends SQLiteOpenHelper {
         String SQL_CREATE_WEIGHING_DATA_TABLE = "CREATE TABLE " + WeighingdataEntry.TABLE_NAME + " ("
                 + WeighingdataEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + WeighingdataEntry.COLUMN_USER_ID + " TEXT , "
-                + WeighingdataEntry.COLUMN_UUID + " TEXT , "
+                + WeighingdataEntry.COLUMN_MAC + " TEXT , "
                 + WeighingdataEntry.COLUMN_ITEM + " TEXT , "
                 + WeighingdataEntry.COLUMN_TYPE + " TEXT , "
                 + WeighingdataEntry.COLUMN_WEIGHT + " TEXT , "

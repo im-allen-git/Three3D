@@ -15,7 +15,7 @@ public final class WeighingdataEntry implements BaseColumns {
     // 用户id
     public final static String COLUMN_USER_ID ="user_id";
     // 关联用户
-    public final static String COLUMN_UUID ="uuid";
+    public final static String COLUMN_MAC ="mac";
     //类别（盐，油）
     public final static String COLUMN_ITEM ="item";
     // 类型 (手动输入，设备数据)

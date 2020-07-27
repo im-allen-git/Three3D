@@ -373,7 +373,7 @@ public class StlUtil {
         ContentValues values = new ContentValues();
         values.put(WeighingdataEntry._ID, weighingdataPojo.getId());
         values.put(WeighingdataEntry.COLUMN_USER_ID, weighingdataPojo.getUserId());
-        values.put(WeighingdataEntry.COLUMN_UUID, weighingdataPojo.getUuid());
+        values.put(WeighingdataEntry.COLUMN_MAC, weighingdataPojo.getMac());
         values.put(WeighingdataEntry.COLUMN_ITEM, weighingdataPojo.getItem());
         values.put(WeighingdataEntry.COLUMN_TYPE, weighingdataPojo.getType());
         values.put(WeighingdataEntry.COLUMN_WEIGHT, weighingdataPojo.getWeight());
@@ -593,6 +593,8 @@ public class StlUtil {
             stlMap.put("target", cursor.getString(cursor.getColumnIndex(EquipmentEntry.COLUMN_TARGET)));
             stlMap.put("createTime", cursor.getString(cursor.getColumnIndex(EquipmentEntry.COLUMN_CREATE_TIME)));
             stlMap.put("updateTime", cursor.getString(cursor.getColumnIndex(EquipmentEntry.COLUMN_UPDATE_TIME)));
+            stlMap.put("ipAddress", cursor.getString(cursor.getColumnIndex(EquipmentEntry.COLUMN_IP_ADDRESS)));
+            stlMap.put("onlineType", cursor.getString(cursor.getColumnIndex(EquipmentEntry.COLUMN_ONLINE_TYPE)));
 
             data_list.add(stlMap);
         }
@@ -617,7 +619,7 @@ public class StlUtil {
             Map<String, Object> stlMap = new HashMap<>();
             stlMap.put("id", cursor.getString(cursor.getColumnIndex(WeighingdataEntry._ID)));
             stlMap.put("userId", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_USER_ID)));
-            stlMap.put("uuid", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_UUID)));
+            stlMap.put("mac", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_MAC)));
             stlMap.put("item", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_ITEM)));
             stlMap.put("type", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_TYPE)));
             stlMap.put("weight", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_WEIGHT)));

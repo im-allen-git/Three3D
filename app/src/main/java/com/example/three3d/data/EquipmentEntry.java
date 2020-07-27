@@ -30,5 +30,9 @@ public final class EquipmentEntry implements BaseColumns {
     public final static String COLUMN_CREATE_TIME ="create_time";
     // 更新时间
     public final static String COLUMN_UPDATE_TIME ="update_time";
+    // ip地址
+    public final static String COLUMN_IP_ADDRESS ="ip_address";
+    // 1：蓝牙，2：wifi
+    public final static String COLUMN_ONLINE_TYPE ="online_type";
 
 }
