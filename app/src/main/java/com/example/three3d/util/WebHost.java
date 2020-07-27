@@ -557,8 +557,6 @@ public class WebHost {
     // 查询用户信息数据
     public List<Map<String, Object>>  getUserInfoDataList(String userId) {
 
-        // 取得session信息
-//        String userIdSe = CacheUtil.getSettingNote(context, HtmlUtil.USER_JSON, "userId");
         // 查询用户信息数据
         List<Map<String, Object>>   userInfoList = StlUtil.getUserInfoData(context, userId);
 
@@ -635,7 +633,7 @@ public class WebHost {
     @JavascriptInterface
     // 保存设备信息数据
     public boolean equipmentAdd(String mac,String uuId, String name, String userId, String item, String unit
-            , String target) {
+            , String target,String ipAddress,String onlineType) {
 
         boolean isSu = false;
 
@@ -647,6 +645,8 @@ public class WebHost {
         equipmentPojo.setItem(item);
         equipmentPojo.setUnit(unit);
         equipmentPojo.setTarget(target);
+        equipmentPojo.setIpAddress(ipAddress);
+        equipmentPojo.setOnlineType(onlineType);
 
         isSu = true;
 

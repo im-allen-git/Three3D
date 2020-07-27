@@ -17,5 +17,10 @@ public class BindingUserPojo {
     private String bindingUserid;
     // 创建时间
     private String createTime;
+    // 用来标识记录的状态 0本地新增,-1标记删除,1本地更新
+    private String status;
+    // anchor_time ： 记录服务端同步过来的时间戳
+    private String anchor_time;
+
 
 }

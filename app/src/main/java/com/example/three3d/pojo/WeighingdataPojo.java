@@ -30,9 +30,13 @@ public class WeighingdataPojo {
     // 更新时间
     private String modifyTime;
     // 删除状态
-    private String status;
+    private String delStatus;
     // 重量集合数据（id:weight）
     private String weightStr;
     // id集合数据（id:id）
     private String idAllStr;
+    // 用来标识记录的状态 0本地新增,-1标记删除,1本地更新
+    private String status;
+    // anchor_time ： 记录服务端同步过来的时间戳
+    private String anchor_time;
 }

@@ -31,5 +31,9 @@ public final class WeighingdataEntry implements BaseColumns {
     // 更新时间
     public final static String COLUMN_MODIFY_TIME ="modify_time";
     // 删除状态
+    public final static String COLUMN_DEL_STATUS ="del_status";
+    // 用来标识记录的状态 0本地新增,-1标记删除,1本地更新
     public final static String COLUMN_STATUS ="status";
+    //anchor_time ： 记录服务端同步过来的时间戳
+    public final static String COLUMN_ANCHOR_TIME ="anchor_time";
 }

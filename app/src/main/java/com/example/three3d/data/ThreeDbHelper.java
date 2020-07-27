@@ -38,7 +38,6 @@ public class ThreeDbHelper extends SQLiteOpenHelper {
         // user Create a String that contains the SQL statement to create the pets table
         String SQL_CREATE_USER_TABLE = "CREATE TABLE " + UserEntry.TABLE_NAME + " ("
                 + UserEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + UserEntry.COLUMN_PASSWORD + " TEXT , "
                 + UserEntry.COLUMN_NICK_NAME + " TEXT , "
                 + UserEntry.COLUMN_MOBILE + " TEXT , "
                 + UserEntry.COLUMN_SEX + " TEXT , "
@@ -47,7 +46,9 @@ public class ThreeDbHelper extends SQLiteOpenHelper {
                 + UserEntry.COLUMN_WEIGHT + " TEXT , "
                 + UserEntry.COLUMN_WASTE_RATE + " TEXT , "
                 + UserEntry.COLUMN_NUMBER + " TEXT , "
-                + UserEntry.COLUMN_CREATE_TIME + " TEXT);";
+                + UserEntry.COLUMN_CREATE_TIME + " TEXT , "
+                + UserEntry.COLUMN_STATUS + " TEXT , "
+                + UserEntry.COLUMN_ANCHOR_TIME + " TEXT);";
         // user Execute the SQL statement
         db.execSQL(SQL_CREATE_USER_TABLE);
 
@@ -59,13 +60,16 @@ public class ThreeDbHelper extends SQLiteOpenHelper {
                 + BindingUserEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + BindingUserEntry.COLUMN_USER_ID + " TEXT , "
                 + BindingUserEntry.COLUMN_BINDING_USERID + " TEXT , "
-                + BindingUserEntry.COLUMN_CREATE_TIME + " TEXT);";
+                + BindingUserEntry.COLUMN_CREATE_TIME + " TEXT ,"
+                + BindingUserEntry.COLUMN_STATUS + " TEXT , "
+                + BindingUserEntry.COLUMN_ANCHOR_TIME + " TEXT);";
         // binding_user Execute the SQL statement
         db.execSQL(SQL_CREATE_BINDINGUSER_TABLE);
 
         // Equipment Create a String that contains the SQL statement to create the pets table
         String SQL_CREATE_EQUIPMENT_TABLE = "CREATE TABLE " + EquipmentEntry.TABLE_NAME + " ("
                 + EquipmentEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + EquipmentEntry.COLUMN_MAC + " TEXT , "
                 + EquipmentEntry.COLUMN_UUID + " TEXT , "
                 + EquipmentEntry.COLUMN_NAME + " TEXT , "
                 + EquipmentEntry.COLUMN_USER_ID + " TEXT , "
@@ -75,7 +79,9 @@ public class ThreeDbHelper extends SQLiteOpenHelper {
                 + EquipmentEntry.COLUMN_CREATE_TIME + " TEXT , "
                 + EquipmentEntry.COLUMN_UPDATE_TIME + " TEXT , "
                 + EquipmentEntry.COLUMN_IP_ADDRESS + " TEXT , "
-                + EquipmentEntry.COLUMN_ONLINE_TYPE + " TEXT);";
+                + EquipmentEntry.COLUMN_ONLINE_TYPE + " TEXT ,"
+                + EquipmentEntry.COLUMN_STATUS + " TEXT , "
+                + EquipmentEntry.COLUMN_ANCHOR_TIME + " TEXT);";
         // Equipment Execute the SQL statement
         db.execSQL(SQL_CREATE_EQUIPMENT_TABLE);
 
@@ -87,7 +93,13 @@ public class ThreeDbHelper extends SQLiteOpenHelper {
                 + WeighingdataEntry.COLUMN_ITEM + " TEXT , "
                 + WeighingdataEntry.COLUMN_TYPE + " TEXT , "
                 + WeighingdataEntry.COLUMN_WEIGHT + " TEXT , "
-                + WeighingdataEntry.COLUMN_CREATE_TIME + " TEXT);";
+                + WeighingdataEntry.COLUMN_CREATE_TIME + " TEXT ,"
+                + WeighingdataEntry.COLUMN_WASTE_RATE + " TEXT , "
+                + WeighingdataEntry.COLUMN_NUMBER + " TEXT , "
+                + WeighingdataEntry.COLUMN_MODIFY_TIME + " TEXT , "
+                + WeighingdataEntry.COLUMN_DEL_STATUS + " TEXT ,"
+                + WeighingdataEntry.COLUMN_STATUS + " TEXT , "
+                + WeighingdataEntry.COLUMN_ANCHOR_TIME + " TEXT);";
         // weighing_data Execute the SQL statement
         db.execSQL(SQL_CREATE_WEIGHING_DATA_TABLE);
 

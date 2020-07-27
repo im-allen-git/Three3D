@@ -33,5 +33,9 @@ public class EquipmentPojo {
     private String ipAddress;
     // 1：蓝牙，2：wifi
     private String onlineType;
+    // 用来标识记录的状态 0本地新增,-1标记删除,1本地更新
+    private String status;
+    // anchor_time ： 记录服务端同步过来的时间戳
+    private String anchor_time;
 
 }

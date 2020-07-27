@@ -17,5 +17,9 @@ public final class BindingUserEntry implements BaseColumns {
     public final static String COLUMN_BINDING_USERID ="binding_userid";
     // 创建时间
     public final static String COLUMN_CREATE_TIME ="create_time";
+    // 用来标识记录的状态 0本地新增,-1标记删除,1本地更新
+    public final static String COLUMN_STATUS ="status";
+    //anchor_time ： 记录服务端同步过来的时间戳
+    public final static String COLUMN_ANCHOR_TIME ="anchor_time";
 
 }

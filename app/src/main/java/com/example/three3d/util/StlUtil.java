@@ -226,6 +226,8 @@ public class StlUtil {
         values.put(UserEntry.COLUMN_NICK_NAME, userPojo.getNickName());
         values.put(UserEntry.COLUMN_MOBILE, userPojo.getMobile());
         values.put(UserEntry.COLUMN_CREATE_TIME, StlUtil.getFormatTime(new Date()));
+        values.put(UserEntry.COLUMN_STATUS, "0");
+        values.put(UserEntry.COLUMN_ANCHOR_TIME, "0");
 
 
         long newRowId = db.insert(UserEntry.TABLE_NAME, null, values);
@@ -255,6 +257,7 @@ public class StlUtil {
             values.put(UserEntry.COLUMN_WEIGHT, userPojo.getWeight());
             values.put(UserEntry.COLUMN_WASTE_RATE, userPojo.getWasteRate());
             values.put(UserEntry.COLUMN_NUMBER, userPojo.getNumber());
+            values.put(UserEntry.COLUMN_STATUS, "1");
             String whereClause = UserEntry.COLUMN_USER_ID + " = ?";
             String[] whereArgs = new String[]{String.valueOf(userPojo.getUserId())};
             db.update(UserEntry.TABLE_NAME, values, whereClause, whereArgs);
@@ -275,6 +278,8 @@ public class StlUtil {
         ContentValues values = new ContentValues();
         values.put(BindingUserEntry.COLUMN_USER_ID, bindingUserPojo.getUserId());
         values.put(BindingUserEntry.COLUMN_BINDING_USERID, bindingUserPojo.getBindingUserid());
+        values.put(BindingUserEntry.COLUMN_STATUS, "0");
+        values.put(BindingUserEntry.COLUMN_ANCHOR_TIME, "0");
 
         long newRowId = db.insert(BindingUserEntry.TABLE_NAME, null, values);
 
@@ -310,11 +315,15 @@ public class StlUtil {
         ContentValues values = new ContentValues();
         values.put(EquipmentEntry.COLUMN_MAC, equipmentPojo.getMac());
         values.put(EquipmentEntry.COLUMN_UUID, equipmentPojo.getUuId());
-        values.put(EquipmentEntry.COLUMN_USER_ID, equipmentPojo.getName());
+        values.put(EquipmentEntry.COLUMN_NAME, equipmentPojo.getName());
         values.put(EquipmentEntry.COLUMN_USER_ID, equipmentPojo.getUserId());
-        values.put(EquipmentEntry.COLUMN_USER_ID, equipmentPojo.getItem());
-        values.put(EquipmentEntry.COLUMN_USER_ID, equipmentPojo.getUnit());
-        values.put(EquipmentEntry.COLUMN_USER_ID, equipmentPojo.getTarget());
+        values.put(EquipmentEntry.COLUMN_ITEM, equipmentPojo.getItem());
+        values.put(EquipmentEntry.COLUMN_UNIT, equipmentPojo.getUnit());
+        values.put(EquipmentEntry.COLUMN_TARGET, equipmentPojo.getTarget());
+        values.put(EquipmentEntry.COLUMN_IP_ADDRESS, equipmentPojo.getIpAddress());
+        values.put(EquipmentEntry.COLUMN_ONLINE_TYPE, equipmentPojo.getOnlineType());
+        values.put(EquipmentEntry.COLUMN_STATUS, "0");
+        values.put(EquipmentEntry.COLUMN_ANCHOR_TIME, "0");
 
         long newRowId = db.insert(EquipmentEntry.TABLE_NAME, null, values);
 
@@ -350,6 +359,7 @@ public class StlUtil {
         values.put(EquipmentEntry.COLUMN_ITEM, equipmentPojo.getItem());
         values.put(EquipmentEntry.COLUMN_UNIT, equipmentPojo.getUnit());
         values.put(EquipmentEntry.COLUMN_TARGET, equipmentPojo.getTarget());
+        values.put(EquipmentEntry.COLUMN_STATUS, "1");
 
         String whereClause = EquipmentEntry.COLUMN_UUID + " = ? and " +EquipmentEntry.COLUMN_USER_ID +" = ? and "+EquipmentEntry.COLUMN_ITEM+" = ? ";
         String[] whereArgs = new String[]{String.valueOf(equipmentPojo.getUuId()),String.valueOf(equipmentPojo.getUserId())
@@ -382,6 +392,8 @@ public class StlUtil {
         values.put(WeighingdataEntry.COLUMN_NUMBER, "1");
         values.put(WeighingdataEntry.COLUMN_STATUS, "1");
         values.put(WeighingdataEntry.COLUMN_MODIFY_TIME, StlUtil.getFormatTime(new Date()));
+        values.put(WeighingdataEntry.COLUMN_STATUS, "0");
+        values.put(WeighingdataEntry.COLUMN_ANCHOR_TIME, "0");
 
         long newRowId = db.insert(WeighingdataEntry.TABLE_NAME, null, values);
 
@@ -410,6 +422,7 @@ public class StlUtil {
             values.put(WeighingdataEntry.COLUMN_WASTE_RATE, weighingdataPojo.getWasteRate());
             values.put(WeighingdataEntry.COLUMN_WEIGHT, String.valueOf(ws.split(":")[1]));
             values.put(WeighingdataEntry.COLUMN_MODIFY_TIME, StlUtil.getFormatTime(new Date()));
+            values.put(WeighingdataEntry.COLUMN_STATUS, "1");
 
             String whereClause = WeighingdataEntry._ID + " = ? ";
             String[] whereArgs = new String[]{String.valueOf(ws.split(":")[0])};
@@ -430,7 +443,9 @@ public class StlUtil {
         SQLiteDatabase db = getDbByContext(context);
 
         ContentValues values = new ContentValues();
-        values.put(WeighingdataEntry.COLUMN_STATUS, "2");
+        values.put(WeighingdataEntry.COLUMN_DEL_STATUS, "2");
+        values.put(WeighingdataEntry.COLUMN_STATUS, "-1");
+
 
         String whereClause = WeighingdataEntry._ID + " = ? ";
         String[] whereArgs = new String[]{String.valueOf(weighingdataPojo.getId())};
@@ -455,6 +470,7 @@ public class StlUtil {
 
             ContentValues values = new ContentValues();
             values.put(WeighingdataEntry.COLUMN_STATUS, "2");
+            values.put(WeighingdataEntry.COLUMN_STATUS, "-1");
 
             String whereClause = WeighingdataEntry._ID + " = ? ";
             String[] whereArgs = new String[]{String.valueOf(idS)};
@@ -482,7 +498,7 @@ public class StlUtil {
             Map<String, Object> stlMap = new HashMap<>();
             stlMap.put("userId", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_USER_ID)));
             stlMap.put("nickName", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_NICK_NAME)));
-            stlMap.put("password", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_PASSWORD)));
+//            stlMap.put("password", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_PASSWORD)));
             stlMap.put("mobile", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_MOBILE)));
             stlMap.put("sex", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_SEX)));
             stlMap.put("birthday", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_BIRTHDAY)));
@@ -602,7 +618,7 @@ public class StlUtil {
     }
 
     /**
-     * 获取设备数据
+     * 获取称重数据
      *
      * @param context
      * userID
@@ -627,7 +643,7 @@ public class StlUtil {
             stlMap.put("wasteRate", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_WASTE_RATE)));
             stlMap.put("number", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_NUMBER)));
             stlMap.put("modifyTime", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_MODIFY_TIME)));
-            stlMap.put("status", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_STATUS)));
+            stlMap.put("delStatus", cursor.getString(cursor.getColumnIndex(WeighingdataEntry.COLUMN_DEL_STATUS)));
 
             data_list.add(stlMap);
         }

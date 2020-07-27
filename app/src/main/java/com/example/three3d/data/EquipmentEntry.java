@@ -34,5 +34,9 @@ public final class EquipmentEntry implements BaseColumns {
     public final static String COLUMN_IP_ADDRESS ="ip_address";
     // 1：蓝牙，2：wifi
     public final static String COLUMN_ONLINE_TYPE ="online_type";
+    // 用来标识记录的状态 0本地新增,-1标记删除,1本地更新
+    public final static String COLUMN_STATUS ="status";
+    //anchor_time ： 记录服务端同步过来的时间戳
+    public final static String COLUMN_ANCHOR_TIME ="anchor_time";
 
 }
