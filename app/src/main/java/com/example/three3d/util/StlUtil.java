@@ -294,10 +294,10 @@ public class StlUtil {
      * @param userId
      * @return
      */
-    public static void deleteBindingUserDataBase(Context context, String userId) {
+    public static void deleteBindingUserDataBase(Context context, String userId,String bingId) {
         SQLiteDatabase db = getDbByContext(context);
-        String whereClause = BindingUserEntry.COLUMN_USER_ID + " = ?";
-        String[] whereArgs = {userId};
+        String whereClause = BindingUserEntry.COLUMN_USER_ID + " = ?  and "+BindingUserEntry.COLUMN_BINDING_USERID+" = ? ";
+        String[] whereArgs = {userId,bingId};
         db.delete(BindingUserEntry.TABLE_NAME, whereClause, whereArgs);
     }
 
@@ -649,5 +649,44 @@ public class StlUtil {
         }
         return data_list;
     }
+
+
+
+    /**
+     * 获取用户数据 数据同步
+     *
+     * @param context
+     * userID
+     */
+    public static List<UserPojo>  getUserListSync(Context context,String userId) {
+
+        List<UserPojo> userList = new ArrayList<UserPojo>();
+        SQLiteDatabase db = getDbByContext(context);
+        String[] whereArgs = new String[]{userId};
+        String whereClause = UserEntry.COLUMN_USER_ID + " = ? ";
+        Cursor cursor = db.query(UserEntry.TABLE_NAME, null, whereClause, whereArgs, null, null, null);
+
+        while (cursor.moveToNext()) {
+
+            Map<String, Object> stlMap = new HashMap<>();
+            UserPojo userPojo = new UserPojo();
+            userPojo.setUserId(cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_USER_ID)));
+            userPojo.setNickName(cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_NICK_NAME)));
+            userPojo.setMobile(cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_MOBILE)));
+            userPojo.setSex(cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_SEX)));
+            userPojo.setBirthday(cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_BIRTHDAY)));
+            userPojo.setHeight(cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_HEIGHT)));
+            userPojo.setWeight(cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_WEIGHT)));
+            userPojo.setWasteRate(cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_WASTE_RATE)));
+            userPojo.setNumber(cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_NUMBER)));
+            userPojo.setCreateTime(cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_CREATE_TIME)));
+            userPojo.setStatus(cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_STATUS)));
+            userPojo.setAnchor_time(cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_ANCHOR_TIME)));
+
+            userList.add(userPojo);
+        }
+        return userList;
+    }
+
 
 }

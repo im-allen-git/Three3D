@@ -17,9 +17,11 @@ import android.webkit.WebViewClient;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.three3d.R;
+import com.example.three3d.pojo.UserPojo;
 import com.example.three3d.util.HtmlUtil;
 import com.example.three3d.util.WebHost;
 
+import java.util.List;
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
@@ -66,6 +68,9 @@ public class LoginActivity extends AppCompatActivity {
             WEB_URL = HtmlUtil.MYMODULE_HTML;
         }
         webView.loadUrl(WEB_URL);
+
+
+        dataSync(String.valueOf(webHost.getUserId("userId")));
     }
 
     public class MyWebViewClient extends WebViewClient {
@@ -102,21 +107,23 @@ public class LoginActivity extends AppCompatActivity {
     };
 
     /**
-     * 模拟键盘事件方法
+     * 客户端数据与服务器同步
      *
-     * @param keyCode
+     * @param userId
      */
-    public void actionKey(final int keyCode) {
-        new Thread() {
-            public void run() {
-                try {
-                    Instrumentation inst = new Instrumentation();
-                    inst.sendKeyDownUpSync(keyCode);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
+    public void dataSync(String userId) {
+
+        List<UserPojo> userListSync =  webHost.getUserListSync(userId);
+
     }
 
+    // 请求服务器处理
+    private void dataProgress(String url, List<UserPojo> userListSync) {
+
+
+    }
+
+    public void actionKey(final int keyCode) {
+
+    }
 }

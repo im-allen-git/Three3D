@@ -611,10 +611,10 @@ public class WebHost {
 
     @JavascriptInterface
     // 删除群组共享用户数据
-    public boolean bindingUserDel(String Userid) {
+    public boolean bindingUserDel(String userId,String bingId) {
         boolean isSu = false;
         // 删除群组共享用户数据
-        StlUtil.deleteBindingUserDataBase(context, Userid);
+        StlUtil.deleteBindingUserDataBase(context, userId, bingId);
         isSu = true;
 
         return isSu;
@@ -790,5 +790,15 @@ public class WebHost {
     }
 
 
+
+    // 数据同步
+    // 查询用户信息数据
+    public List<UserPojo>   getUserListSync(String userId) {
+
+        // 查询用户信息数据
+        List<UserPojo>  userListSync = StlUtil.getUserListSync(context,userId);
+
+        return userListSync;
+    }
 
 }
