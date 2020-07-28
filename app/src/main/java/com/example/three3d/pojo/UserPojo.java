@@ -1,5 +1,7 @@
 package com.example.three3d.pojo;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserPojo {
+public class UserPojo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private int id;
 

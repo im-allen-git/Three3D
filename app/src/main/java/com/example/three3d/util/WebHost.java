@@ -12,6 +12,7 @@ import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.three3d.IndexHtmlActivity;
 import com.example.three3d.activity.BulidModuleActivity;
@@ -555,12 +556,12 @@ public class WebHost {
 
     @JavascriptInterface
     // 查询用户信息数据
-    public List<Map<String, Object>>  getUserInfoDataList(String userId) {
+    public String  getUserInfoDataList(String userId) {
 
         // 查询用户信息数据
         List<Map<String, Object>>   userInfoList = StlUtil.getUserInfoData(context, userId);
 
-        return userInfoList;
+        return JSON.toJSONString(userInfoList);
     }
 
 
