@@ -573,7 +573,7 @@ public class StlUtil {
 
             Map<String, Object> stlMap = new HashMap<>();
             stlMap.put("userId", cursor.getString(cursor.getColumnIndex(BindingUserEntry.COLUMN_USER_ID)));
-            stlMap.put("userId", cursor.getString(cursor.getColumnIndex(BindingUserEntry.COLUMN_BINDING_USERID)));
+            stlMap.put("bindingUserid", cursor.getString(cursor.getColumnIndex(BindingUserEntry.COLUMN_BINDING_USERID)));
             stlMap.put("createTime", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_CREATE_TIME)));
 
             data_list.add(stlMap);
