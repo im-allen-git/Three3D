@@ -77,10 +77,11 @@ public class PersonDateActivity extends AppCompatActivity {
 
         context = this;
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);// 隐藏状态栏
-        Objects.requireNonNull(getSupportActionBar()).hide();// 隐藏标题栏
-        //设置Activity横屏显示
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);// 隐藏状态栏
+         Objects.requireNonNull(getSupportActionBar()).hide();// 隐藏标题栏
+
+        //设置Activity竖屏显示
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         // 拿到webView组件
         WebView webView = findViewById(R.id.index);

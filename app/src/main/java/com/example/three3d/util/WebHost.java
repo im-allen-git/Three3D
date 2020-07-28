@@ -18,6 +18,7 @@ import com.example.three3d.IndexHtmlActivity;
 import com.example.three3d.activity.BulidModuleActivity;
 import com.example.three3d.activity.Esp8266Activity;
 import com.example.three3d.activity.MyAccountActivity;
+import com.example.three3d.activity.PersonDateActivity;
 import com.example.three3d.activity.PrinterActivity;
 import com.example.three3d.activity.PrinterStartActivity;
 import com.example.three3d.activity.ShoppingActivity;
@@ -182,59 +183,13 @@ public class WebHost {
     public void changeActive(String code) {
         if ("1".equalsIgnoreCase(code)) {
             // 我的模型
-            Intent it = new Intent(this.context.getApplicationContext(), MyAccountActivity.class);
+            Intent it = new Intent(this.context.getApplicationContext(), IndexHtmlActivity.class);
             it.putExtra("url", HtmlUtil.MYMODULE_HTML);
             this.context.startActivity(it);
         } else if ("2".equalsIgnoreCase(code)) {
-            // 购物商城
-            Intent it = new Intent(this.context.getApplicationContext(), ShoppingActivity.class);
-            it.putExtra("url", HtmlUtil.SHOP_HTML);
-            this.context.startActivity(it);
-        } else if ("3".equalsIgnoreCase(code)) {
-            // 模型库首页
-            Intent it = new Intent(this.context.getApplicationContext(), IndexHtmlActivity.class);
-            // it.putExtra("url", HtmlUtil.SHOP_HTML);
-            this.context.startActivity(it);
-        } else if ("4".equalsIgnoreCase(code)) {
-            // 创建模型
-            Intent it = new Intent(this.context.getApplicationContext(), BulidModuleActivity.class);
-            // it.putExtra("url", HtmlUtil.SHOP_HTML);
-            this.context.startActivity(it);
-        } else if ("5".equalsIgnoreCase(code)) {
-            Message message = new Message();
-            message.what = 5;
-            message.obj = "back";
-            myHandler.sendMessage(message);
-        } else if ("6".equalsIgnoreCase(code)) {
-            // 3d打印机
-
-            Intent it = new Intent(this.context.getApplicationContext(), PrinterActivity.class);
-            this.context.startActivity(it);
-
-
-        } else if ("61".equalsIgnoreCase(code)) {
-            // 3d打印机
-            if (StlUtil.ESP_8266_URL != null && StlUtil.ESP_8266_URL.length() > 0) {
-                Intent it = new Intent(this.context.getApplicationContext(), Esp8266Activity.class);
-                it.putExtra("esp8266url", StlUtil.ESP_8266_URL);
-                this.context.startActivity(it);
-            } else {
-                Intent it = new Intent(this.context.getApplicationContext(), EspTouchActivity.class);
-                this.context.startActivity(it);
-            }
-
-
-            // 测试文件上传
-            /*Intent it = new Intent(this.context.getApplicationContext(), UploadDemo.class);
-            this.context.startActivity(it);*/
-
-        } else if ("7".equalsIgnoreCase(code)) {
-            // 3d打印机 状态页 status
-            Intent it = new Intent(this.context.getApplicationContext(), PrinterStartActivity.class);
-            this.context.startActivity(it);
-        } else if ("8".equalsIgnoreCase(code)) {
-            // 上传gcode文件给打印机sd卡
-            Intent it = new Intent(this.context.getApplicationContext(), UploadGcodeActivity.class);
+            // 個人資料部分
+            Intent it = new Intent(this.context.getApplicationContext(), PersonDateActivity.class);
+            it.putExtra("url", HtmlUtil.PERSON_DATE);
             this.context.startActivity(it);
         }
     }
