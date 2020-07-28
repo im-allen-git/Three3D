@@ -623,12 +623,12 @@ public class WebHost {
 
     @JavascriptInterface
     // 查询绑定用户信息数据
-    public List<Map<String, Object>>  getBindingUserList(String userId) {
+    public String  getBindingUserList(String userId) {
 
         // 查询用户信息数据
         List<Map<String, Object>>   bindingUserList = StlUtil.getBindingUserList(context, userId);
 
-        return bindingUserList;
+        return JSON.toJSONString(bindingUserList);
     }
 
     @JavascriptInterface
@@ -691,12 +691,12 @@ public class WebHost {
 
     @JavascriptInterface
     // 查询设备信息数据
-    public List<Map<String, Object>>  getEquipmentDataList(String userId) {
+    public String  getEquipmentDataList(String userId) {
 
         // 查询设备信息数据
         List<Map<String, Object>>   equipmentDataList = StlUtil.getEquipmentData(context, userId);
 
-        return equipmentDataList;
+        return JSON.toJSONString(equipmentDataList);
     }
 
 
@@ -781,12 +781,12 @@ public class WebHost {
 
     @JavascriptInterface
     // 查询称重信息数据
-    public List<Map<String, Object>>  getWeightingDataList(String userId) {
+    public String  getWeightingDataList(String userId) {
 
         // 查询称重信息数据
         List<Map<String, Object>>   weightingDataList = StlUtil.getWeightingData(context, userId);
 
-        return weightingDataList;
+        return JSON.toJSONString(weightingDataList);
     }
 
 
