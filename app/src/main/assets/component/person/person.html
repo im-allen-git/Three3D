@@ -50,7 +50,7 @@
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="top mt80">
-							<a href="../my.html" class="add_back">
+							<a href="../my.html" class="add_back" id="person_data">
 								<i class="iconfont icon-left c0"></i>
 							<span> 个人资料 </span>
 							</a>
@@ -199,34 +199,5 @@
 <!-- <script src="https://cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script> -->
 <script src="../js/jquery.qrcode.min.js"></script>
 <script src="../js/com.js"></script>
-<script>
-	var username = window.sessionStorage.getItem("userName");
-	if(username && username != ''){
-		$('.name_text').text(username);
-		$('.name_val').val(username);
-	};
-	var sex = window.sessionStorage.getItem("sex");
-	if(sex && sex != ''){
-		$('.sex_text').text(sex);
-		$('.sex_tc .sex ').each(function(){
-			if($(this).text() == sex){
-				$(this).addClass('active').siblings('span').removeClass('active');
-			}
-		})
-		
-	};
-	var birth_date = window.sessionStorage.getItem("birth_date");
-	if(birth_date && birth_date != ''){
-		$('#demo4').text(birth_date).css('color','#333');
-	};
-	var height =  window.sessionStorage.getItem("height");
-	if(height && height != ''){
-		$('#height').text(height).css('color','#333');
-	};
-	var weight =  window.sessionStorage.getItem("weight");
-	if(weight && weight != ''){
-		$('#weight').text(weight).css('color','#333');
-	};
-	
-	
-</script>
+<script src="../js/person.js"></script>
+
