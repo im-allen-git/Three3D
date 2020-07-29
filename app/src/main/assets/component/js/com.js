@@ -30,7 +30,7 @@ $(function() {
 		var name_val = $('.name_val').val().trim();
 		$('.name_text').text(name_val);
 		$('.name_tc').hide();
-		window.sessionStorage.setItem('userName',name_val);
+		// window.sessionStorage.setItem('userName',name_val);
 	});
 	// 清空修改的昵称
 	$('.name_tc .del').click(function(){
@@ -47,7 +47,7 @@ $(function() {
 		var sex_text = $('.sex_tc .sex.active').text().trim();
 		$('.sex_text').text(sex_text);
 		$('.sex_tc').hide();
-		window.sessionStorage.setItem('sex',sex_text);
+		// window.sessionStorage.setItem('sex',sex_text);
 	});
 	
 	// 进餐人数赋值
@@ -55,7 +55,7 @@ $(function() {
 		var num_val = $('.paramater .num_val').val().trim();
 		$('.paramater .diner_num,.set .diner_num').text(num_val);
 		$('.num_tc').hide();
-		window.sessionStorage.setItem('personNum',num_val);
+		// window.sessionStorage.setItem('personNum',num_val);
 		
 	});
 	// 浪费比例赋值
