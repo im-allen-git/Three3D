@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
@@ -16,13 +17,24 @@ import android.webkit.WebViewClient;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.example.three3d.R;
 import com.example.three3d.pojo.UserPojo;
 import com.example.three3d.util.HtmlUtil;
+import com.example.three3d.util.OkHttpUtil;
 import com.example.three3d.util.WebHost;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+
+import okhttp3.Call;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -70,7 +82,8 @@ public class LoginActivity extends AppCompatActivity {
         webView.loadUrl(WEB_URL);
 
 
-        dataSync(String.valueOf(webHost.getUserId("userId")));
+        //数据同步
+//        dataSync(String.valueOf(webHost.getUserId("userId")));
     }
 
     public class MyWebViewClient extends WebViewClient {
@@ -107,6 +120,24 @@ public class LoginActivity extends AppCompatActivity {
     };
 
     /**
+     * 模拟键盘事件方法
+     *
+     * @param keyCode
+     */
+    public void actionKey(final int keyCode) {
+        new Thread() {
+            public void run() {
+                try {
+                    Instrumentation inst = new Instrumentation();
+                    inst.sendKeyDownUpSync(keyCode);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    /**
      * 客户端数据与服务器同步
      *
      * @param userId
@@ -114,16 +145,49 @@ public class LoginActivity extends AppCompatActivity {
     public void dataSync(String userId) {
 
         List<UserPojo> userListSync =  webHost.getUserListSync(userId);
+        dataProgress(OkHttpUtil.USER_URL,userListSync);
 
     }
 
     // 请求服务器处理
     private void dataProgress(String url, List<UserPojo> userListSync) {
 
+        try {
+            OkHttpClient client = new OkHttpClient();
+            RequestBody body = new FormBody.Builder()
+                    .add("userListSync", JSON.toJSONString(userListSync)).build();
+
+            final Request request = new Request.Builder()
+                    .url(url)
+                    .post(body).build();
+
+            //发送响应
+            Call call = client.newCall(request);
+            // 同步
+            Response response = call.execute();
+            if (response.isSuccessful()) {
+                dataSyncResult(response.body().toString());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("execute dataProgress[ " + url + "] error:" + e.getMessage());
+            Log.e("dataProgress", "error:", e);
+        }
 
     }
 
-    public void actionKey(final int keyCode) {
+    /**
+     * 客户端数据与服务器同步返回结果操作
+     *
+     * @param resultStr
+     */
+    public void dataSyncResult(String resultStr) {
+
+        JSONArray.parseArray(resultStr,UserPojo.class);
+//        List<UserPojo> userListSync =  webHost.getUserListSync(userId);
+//        dataProgress(OkHttpUtil.USER_URL,userListSync);
 
     }
+
 }

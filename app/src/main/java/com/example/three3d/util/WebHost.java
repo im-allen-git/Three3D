@@ -546,21 +546,24 @@ public class WebHost {
         return isSu;
     }
 
+
     @JavascriptInterface
     // 保存群组共享用户数据
-    public boolean bindingUserAdd(String Userid, String bindingId) {
+    public boolean bindingUserAdd(String userId, String bindingId) {
 
         boolean isSu = false;
 
-        BindingUserPojo bindingUserPojo = new BindingUserPojo();
-        bindingUserPojo.setUserId(Userid);
-        bindingUserPojo.setBindingUserid(bindingId);
-
-        isSu = true;
-
-        // 保存群组共享用户数据
-        StlUtil.saveBindingUserDataBase(context, bindingUserPojo);
-
+        // 检查绑定用户是否存在
+        if(StlUtil.checkbingIdExist(context,userId,bindingId)==0){
+            BindingUserPojo bindingUserPojo = new BindingUserPojo();
+            bindingUserPojo.setUserId(userId);
+            bindingUserPojo.setBindingUserid(bindingId);
+            // 保存群组共享用户数据
+            StlUtil.saveBindingUserDataBase(context, bindingUserPojo);
+            isSu = true;
+        }else{
+            isSu = false;
+        }
         return isSu;
     }
 

@@ -535,6 +535,27 @@ public class StlUtil {
         return userId;
     }
 
+
+    /**
+     * 检查绑定用户是否存在
+     *
+     * @param context
+     * userID
+     */
+    public static int  checkbingIdExist(Context context,String userId,String bingId) {
+        int count = 0;
+        SQLiteDatabase db = getDbByContext(context);
+        String[] whereArgs = new String[]{userId,bingId};
+        String whereClause = BindingUserEntry.COLUMN_USER_ID + " = ? and " + BindingUserEntry.COLUMN_BINDING_USERID +" = ?";
+        Cursor cursor = db.query(BindingUserEntry.TABLE_NAME, null, whereClause, whereArgs, null, null, null);
+
+        while (cursor.moveToNext()) {
+            count=1;
+        }
+        return count;
+    }
+
+
     /**
      * 获取最新插入数据的自增长主键ID
      *
