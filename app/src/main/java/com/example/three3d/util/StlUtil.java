@@ -368,9 +368,15 @@ public class StlUtil {
         SQLiteDatabase db = getDbByContext(context);
 
         ContentValues values = new ContentValues();
-        values.put(EquipmentEntry.COLUMN_ITEM, equipmentPojo.getItem());
-        values.put(EquipmentEntry.COLUMN_UNIT, equipmentPojo.getUnit());
-        values.put(EquipmentEntry.COLUMN_TARGET, equipmentPojo.getTarget());
+        if( !"".equals(equipmentPojo.getItem()) && equipmentPojo.getItem() !=null ){
+            values.put(EquipmentEntry.COLUMN_ITEM, equipmentPojo.getItem());
+        }
+        if( !"".equals(equipmentPojo.getUnit()) && equipmentPojo.getUnit() !=null ){
+            values.put(EquipmentEntry.COLUMN_UNIT, equipmentPojo.getUnit());
+        }
+        if( !"".equals(equipmentPojo.getTarget()) && equipmentPojo.getTarget() !=null ){
+            values.put(EquipmentEntry.COLUMN_TARGET, equipmentPojo.getTarget());
+        }
         values.put(EquipmentEntry.COLUMN_STATUS, "1");
 
         String whereClause = EquipmentEntry.COLUMN_UUID + " = ? and " +EquipmentEntry.COLUMN_USER_ID +" = ? and "+EquipmentEntry.COLUMN_ITEM+" = ? ";
@@ -383,7 +389,7 @@ public class StlUtil {
 
 
     /**
-     * 保存设备数据
+     * 保存称重数据
      *
      * @param context
      * @param weighingdataPojo
@@ -422,25 +428,36 @@ public class StlUtil {
     public static void updateWeighingData(Context context, WeighingdataPojo weighingdataPojo) {
         SQLiteDatabase db = getDbByContext(context);
 
-        // "1:10;2:20;3:30"
-        String[] weightArry =  weighingdataPojo.getWeightStr().split(";");
-        //String数组转List
-        List<String> weightList= Arrays.asList(weightArry);
-        for(String ws:weightList){
+        if( !"".equals(weighingdataPojo.getWeightStr()) && weighingdataPojo.getWeightStr() !=null ){
+            // "1:10;2:20;3:30"
+            String[] weightArry =  weighingdataPojo.getWeightStr().split(";");
+            //String数组转List
+            List<String> weightList= Arrays.asList(weightArry);
+            for(String ws:weightList){
 
-            ContentValues values = new ContentValues();
-            values.put(WeighingdataEntry.COLUMN_TYPE, weighingdataPojo.getType());
-            values.put(WeighingdataEntry.COLUMN_NUMBER, weighingdataPojo.getNumber());
-            values.put(WeighingdataEntry.COLUMN_WASTE_RATE, weighingdataPojo.getWasteRate());
-            values.put(WeighingdataEntry.COLUMN_WEIGHT, String.valueOf(ws.split(":")[1]));
-            values.put(WeighingdataEntry.COLUMN_MODIFY_TIME, StlUtil.getFormatTime(new Date()));
-            values.put(WeighingdataEntry.COLUMN_STATUS, "1");
+                ContentValues values = new ContentValues();
+                if( !"".equals(weighingdataPojo.getType()) && weighingdataPojo.getType() !=null ){
+                    values.put(WeighingdataEntry.COLUMN_TYPE, weighingdataPojo.getType());
+                }
+                if( !"".equals(weighingdataPojo.getNumber()) && weighingdataPojo.getNumber() !=null ){
+                    values.put(WeighingdataEntry.COLUMN_NUMBER, weighingdataPojo.getNumber());
+                }
+                if( !"".equals(weighingdataPojo.getWasteRate()) && weighingdataPojo.getWasteRate() !=null ){
+                    values.put(WeighingdataEntry.COLUMN_WASTE_RATE, weighingdataPojo.getWasteRate());
+                }
 
-            String whereClause = WeighingdataEntry._ID + " = ? ";
-            String[] whereArgs = new String[]{String.valueOf(ws.split(":")[0])};
-            db.update(WeighingdataEntry.TABLE_NAME, values, whereClause, whereArgs);
+                if( !"".equals(ws.split(":")[1]) && ws.split(":")[1] !=null ){
+                    values.put(WeighingdataEntry.COLUMN_WEIGHT, String.valueOf(ws.split(":")[1]));
+                }
+
+                values.put(WeighingdataEntry.COLUMN_MODIFY_TIME, StlUtil.getFormatTime(new Date()));
+                values.put(WeighingdataEntry.COLUMN_STATUS, "1");
+
+                String whereClause = WeighingdataEntry._ID + " = ? ";
+                String[] whereArgs = new String[]{String.valueOf(ws.split(":")[0])};
+                db.update(WeighingdataEntry.TABLE_NAME, values, whereClause, whereArgs);
+            }
         }
-
 
     }
 
@@ -457,7 +474,6 @@ public class StlUtil {
         ContentValues values = new ContentValues();
         values.put(WeighingdataEntry.COLUMN_DEL_STATUS, "2");
         values.put(WeighingdataEntry.COLUMN_STATUS, "-1");
-
 
         String whereClause = WeighingdataEntry._ID + " = ? ";
         String[] whereArgs = new String[]{String.valueOf(weighingdataPojo.getId())};
@@ -510,7 +526,6 @@ public class StlUtil {
             Map<String, Object> stlMap = new HashMap<>();
             stlMap.put("userId", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_USER_ID)));
             stlMap.put("nickName", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_NICK_NAME)));
-//            stlMap.put("password", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_PASSWORD)));
             stlMap.put("mobile", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_MOBILE)));
             stlMap.put("sex", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_SEX)));
             stlMap.put("birthday", cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_BIRTHDAY)));
@@ -578,6 +593,7 @@ public class StlUtil {
 
         SQLiteDatabase db = getDbByContext(context);
 
+        // Cursor cursor = db.rawQuery("select * from personwhere name like ?and age=?", new String[]{"%iteedu%", "4"});
         String sql = "select last_insert_rowid() from " + UserEntry.TABLE_NAME ;
         Cursor cursor = db.rawQuery(sql, null);
         int userId = -1;
@@ -585,6 +601,30 @@ public class StlUtil {
             userId = cursor.getInt(0);
         }
         return userId;
+
+    }
+
+
+    /**
+     * 获取用户设备状态：蓝牙 wifi
+     *
+     * @param context
+     * userID
+     */
+    public static String  getEquipmentOnlineType(Context context,String userId) {
+
+        SQLiteDatabase db = getDbByContext(context);
+
+        String onlineType = "";
+        String sql = "select "+EquipmentEntry.COLUMN_ONLINE_TYPE+" from " + EquipmentEntry.TABLE_NAME + " where " +EquipmentEntry.COLUMN_USER_ID + " = ? limit 1 ";
+
+//         Cursor cursor = db.rawQuery("select * from "+UserEntry.TABLE_NAME+" where name like ?and age=?", new String[]{"%iteedu%", "4"});
+        Cursor cursor = db.rawQuery(sql, new String[]{userId});
+
+        if(cursor.moveToFirst()){
+            onlineType = String.valueOf(cursor.getInt(0));
+        }
+        return onlineType;
 
     }
 
