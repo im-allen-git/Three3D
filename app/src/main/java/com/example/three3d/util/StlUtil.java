@@ -248,15 +248,27 @@ public class StlUtil {
 
             ContentValues values = new ContentValues();
 
-            values.put(UserEntry.COLUMN_NICK_NAME, userPojo.getNickName());
-//            values.put(UserEntry.COLUMN_PASSWORD, userPojo.getPassword());
-//            values.put(UserEntry.COLUMN_MOBILE, userPojo.getMobile());
-            values.put(UserEntry.COLUMN_SEX, userPojo.getSex());
-            values.put(UserEntry.COLUMN_BIRTHDAY, userPojo.getBirthday());
-            values.put(UserEntry.COLUMN_HEIGHT, userPojo.getHeight());
-            values.put(UserEntry.COLUMN_WEIGHT, userPojo.getWeight());
-            values.put(UserEntry.COLUMN_WASTE_RATE, userPojo.getWasteRate());
-            values.put(UserEntry.COLUMN_NUMBER, userPojo.getNumber());
+            if( !"".equals(userPojo.getNickName()) && userPojo.getNickName() !=null ){
+                values.put(UserEntry.COLUMN_NICK_NAME, userPojo.getNickName());
+            }
+            if(!"".equals(userPojo.getSex()) && userPojo.getSex() !=null){
+                values.put(UserEntry.COLUMN_SEX, userPojo.getSex());
+            }
+            if(!"".equals(userPojo.getBirthday()) && userPojo.getBirthday() !=null){
+                values.put(UserEntry.COLUMN_BIRTHDAY, userPojo.getBirthday());
+            }
+            if(!"".equals(userPojo.getHeight()) && userPojo.getHeight() !=null){
+                values.put(UserEntry.COLUMN_HEIGHT, userPojo.getHeight());
+            }
+            if(!"".equals(userPojo.getWeight()) && userPojo.getWeight() !=null){
+                values.put(UserEntry.COLUMN_WEIGHT, userPojo.getWeight());
+            }
+            if(!"".equals(userPojo.getWasteRate()) && userPojo.getWasteRate() !=null){
+                values.put(UserEntry.COLUMN_WASTE_RATE, userPojo.getWasteRate());
+            }
+            if(!"".equals(userPojo.getNumber()) && userPojo.getNumber() !=null){
+                values.put(UserEntry.COLUMN_NUMBER, userPojo.getNumber());
+            }
             values.put(UserEntry.COLUMN_STATUS, "1");
             String whereClause = UserEntry.COLUMN_USER_ID + " = ?";
             String[] whereArgs = new String[]{String.valueOf(userPojo.getUserId())};
