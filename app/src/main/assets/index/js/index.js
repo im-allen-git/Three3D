@@ -510,6 +510,15 @@ $(function(){
 		let systemWasteRatio = _that.parents('.device_pop').find('#singleSlider').val(); //浪费比率
 		storageObject.sessionSetItem('personNum',systemMealsNum);
 		storageObject.sessionSetItem('wasteNum',systemWasteRatio);
+
+		// 调用 更新用户信息接口
+		// 进入个人资料部分，获取useId
+        var useId = js.getUserId('userId');
+        // 查询用户信息, 存放用户信息
+        var userInfoList = js.getUserInfoDataList(useId);
+        var a = userInfoList.substring(1,userInfoList.length-1);
+        var userInfoObj = JSON.parse(a);// 用户信息对象
+		js.updateUserInfo(userId,userInfoObj.nickName,'','','','',systemWasteRatio,systemMealsNum);
 		$('#systemHint').hide();
 	})
 	/* 系统提示弹窗相关方法 end */

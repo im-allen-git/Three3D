@@ -24,6 +24,10 @@ public class OkHttpUtil {
     public static final String FILE_UPLOAD_URL = "https://192.168.1.67:448/file/uploadFileAndGenGcode";
     public static final String FILE_DOWN_URL = "https://192.168.1.67:448/file/downloadFile?fileName=";
 
+    // 数据同步服务器连接
+    public static final String USER_URL = "https://192.168.1.55:8080/user/userDataSync";
+
+
     //创建基本线程池
     private static ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(5, 7, 20, TimeUnit.SECONDS,
             new LinkedBlockingQueue<>(50));

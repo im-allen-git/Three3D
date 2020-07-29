@@ -38,7 +38,7 @@
 	</head>
 
 	<body>
-		<div class="top_wrap"></div>
+		<!--<div class="top_wrap"></div>-->
 		<div class="my">
 			<div class="container">
 				<div class="row top">
@@ -84,7 +84,7 @@
 					</a>
 				</div>
 				
-				<div class="row" style="display:none;">
+				<div class="row" style="display:block;">
 					<div class="col-xs-12">
 						<a href="../copyindex.html">H5+控件模板</a>
 					</div>
@@ -147,21 +147,16 @@
 <script src="../index/js/jquery.min.js"></script>
 <script src="js/com.js"></script>
 <script>
-	var username = window.sessionStorage.getItem("userName");
-	if(username && username != ''){
-		$('.username').text(username);
-		$('.sign_out').show();
-	};
-	// 退出登录
-	$('.sign_out').click(function(){
-		window.sessionStorage.removeItem("userName");
-		$('.username,.name_text').text('');
-		$('.name_val').val('');
-		//window.open('../index/login.html');
-	});
-	
-	
-	var time = Math.round(new Date() / 1000);
-	console.log(time);
+	// 后台交互部分
+    // 进入个人资料部分，获取useId
+    var useId = js.getUserId('userId');
+    // 查询用户信息, 存放用户信息
+    var userInfoList = js.getUserInfoDataList(useId);
+    var a = userInfoList.substring(1,userInfoList.length-1);
+    var userInfoObj = JSON.parse(a);// 用户信息对象
+    console.log('userInfoObj == ' + userInfoList);
+    if(userInfoObj.nickName){
+        $('.username').text(userInfoObj.nickName);
+    };
 	
 </script>

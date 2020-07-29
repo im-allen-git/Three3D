@@ -82,12 +82,12 @@
 							</div>
 							<div class="line"></div>
 							<div class="input_wrap position_relative">
-								<input type="text" class="form-control phone_val">
+								<input type="text" class="form-control phone_val" id="phone_val">
 								<i class="iconfont icon-close i2 del phone_del"></i>
 							</div>
 							<div class="clearfix">
 								<button class="pull-left btn btn-default cancel">取消</button>
-								<button class="pull-right btn btn-success sure">确认</button>
+								<button class="pull-right btn btn-success sure" id="group_phone_data">确认</button>
 							</div>
 						</div>
 
@@ -110,6 +110,7 @@
 <!-- <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script> -->
 <script src="../../index/js/jquery.min.js"></script>
 <script src="../js/com.js"></script>
+<script src="../js/share.js"></script>
 <!-- 扫描代码 -->
 <script type="text/javascript" src="../../js/common.js"></script>
 
@@ -118,42 +119,7 @@
 			var text = '';
 			var img = null;
 			var blist = [];
-			
-			// 首次进入,刷新群组列表开始
-			
-			var groupPhone = window.sessionStorage.getItem("groupPhone");
-			if(groupPhone&&groupPhone.length>0){
-				var g = groupPhone.replace(/&/g,',');
-				var s = g.substring(0,g.length);
-				group_arr = s.split(',');
-				console.log(group_arr);
-			}
-			
-			if(group_arr.length > 0){
-				$('.no_group').hide();
-				var list = ''
-				for(var i = 0;i<group_arr.length;i++){
-					if(group_arr[i] && group_arr[i] != ''){
-						list += '<div class="list clearfix">'
-						list +=	'<div class="col-xs-10">'
-						list +=		'<span class="group_name" id="add_name"> '+ group_arr[i] +' </span>'
-						list +=		'<span class="state"> 已连接 </span>'
-						list +=	'</div>'
-						list +=	'<div class="col-xs-2 text-right">'
-						list +=		'<i class="iconfont icon-delete del_list" onclick="del_list(this)"></i>'
-						list +=	'</div>'
-						list +='</div>';
-					}
-				}
-				$('.group_list').append(list).show();
-			}else{
-				$('.no_group').show();
-				 $('.group_list ').hide();
-			} 
-			
-			/* 首次进入结束 */
-			
-			
+
 		
 			function scaned(t, r, f) {
 				var d = new Date();
@@ -330,70 +296,8 @@
 					}
 				});
 			} 
-			
-			
-			// 手机号码添加群组成员
-			$('.phone_tc .sure').click(function(){
-				var phone_val = $('.phone_val').val().trim();
-				var groupPhone = window.sessionStorage.getItem("groupPhone");
-				if(groupPhone&&groupPhone.length>0){
-					var g = groupPhone.replace(/&/g,',');
-					var s = g.substring(0,g.length);
-					var group_arr = s.split(',');
-					
-					
-					// 
-					// 添加群组 设置缓存
-					// window.sessionStorage.setItem('groupPhone',s); 
-				}else{
-					group_arr = [];
-					// phone_str += phone_val + '&';
-				}
-				
-				   console.log(group_arr);
-					group_arr.push(phone_val);
-					var phone_str = group_arr.join('&');
-				
-				
-				// 添加群组 设置缓存
-				window.sessionStorage.setItem('groupPhone',phone_str);
-				var list = ''
-				// $('#add_name').text(text);
-				list += '<div class="list clearfix">'
-				list +=	'<div class="col-xs-10">'
-				list +=		'<span class="group_name" id="add_name"> '+ phone_val +' </span>'
-				list +=		'<span class="state"> 已连接 </span>'
-				list +=	'</div>'
-				list +=	'<div class="col-xs-2 text-right">'
-				list +=		'<i class="iconfont icon-delete del_list" onclick="del_list(this)"></i>'
-				list +=	'</div>'
-				list +='</div>';
-				$('.group_list').append(list).show();	
-				$('.no_group').hide();
-				$('.phone_tc').hide();
-			});
-			
-			// 删除群组成员
-			function del_list(obj){
-				$(obj).closest('.list').remove();
-				var li_name = $(obj).closest('.list').find('#add_name').text().trim();
-				var groupPhone = window.sessionStorage.getItem("groupPhone");
-				if(groupPhone&&groupPhone.length>0){
-					var g = groupPhone.replace(/&/g,',');
-					var s = g.substring(0,g.length);
-					group_arr = s.split(',');
-					console.log(group_arr);
-					group_arr.splice($.inArray(li_name,group_arr),1);  // 删除数组中元素值
-										
-					console.log(group_arr); 
-					 var s = group_arr.join('&');
-					// 添加群组 设置缓存
-					window.sessionStorage.setItem('groupPhone',s); 
-				}
-			};
-			$('.phone_del').click(function(){
-				$('.phone_val').val('');
-			});
+
+
 			
 			
 			

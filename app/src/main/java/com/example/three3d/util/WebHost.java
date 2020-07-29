@@ -18,6 +18,7 @@ import com.example.three3d.IndexHtmlActivity;
 import com.example.three3d.activity.BulidModuleActivity;
 import com.example.three3d.activity.Esp8266Activity;
 import com.example.three3d.activity.MyAccountActivity;
+import com.example.three3d.activity.PersonDateActivity;
 import com.example.three3d.activity.PrinterActivity;
 import com.example.three3d.activity.PrinterStartActivity;
 import com.example.three3d.activity.ShoppingActivity;
@@ -182,59 +183,13 @@ public class WebHost {
     public void changeActive(String code) {
         if ("1".equalsIgnoreCase(code)) {
             // 我的模型
-            Intent it = new Intent(this.context.getApplicationContext(), MyAccountActivity.class);
+            Intent it = new Intent(this.context.getApplicationContext(), IndexHtmlActivity.class);
             it.putExtra("url", HtmlUtil.MYMODULE_HTML);
             this.context.startActivity(it);
         } else if ("2".equalsIgnoreCase(code)) {
-            // 购物商城
-            Intent it = new Intent(this.context.getApplicationContext(), ShoppingActivity.class);
-            it.putExtra("url", HtmlUtil.SHOP_HTML);
-            this.context.startActivity(it);
-        } else if ("3".equalsIgnoreCase(code)) {
-            // 模型库首页
-            Intent it = new Intent(this.context.getApplicationContext(), IndexHtmlActivity.class);
-            // it.putExtra("url", HtmlUtil.SHOP_HTML);
-            this.context.startActivity(it);
-        } else if ("4".equalsIgnoreCase(code)) {
-            // 创建模型
-            Intent it = new Intent(this.context.getApplicationContext(), BulidModuleActivity.class);
-            // it.putExtra("url", HtmlUtil.SHOP_HTML);
-            this.context.startActivity(it);
-        } else if ("5".equalsIgnoreCase(code)) {
-            Message message = new Message();
-            message.what = 5;
-            message.obj = "back";
-            myHandler.sendMessage(message);
-        } else if ("6".equalsIgnoreCase(code)) {
-            // 3d打印机
-
-            Intent it = new Intent(this.context.getApplicationContext(), PrinterActivity.class);
-            this.context.startActivity(it);
-
-
-        } else if ("61".equalsIgnoreCase(code)) {
-            // 3d打印机
-            if (StlUtil.ESP_8266_URL != null && StlUtil.ESP_8266_URL.length() > 0) {
-                Intent it = new Intent(this.context.getApplicationContext(), Esp8266Activity.class);
-                it.putExtra("esp8266url", StlUtil.ESP_8266_URL);
-                this.context.startActivity(it);
-            } else {
-                Intent it = new Intent(this.context.getApplicationContext(), EspTouchActivity.class);
-                this.context.startActivity(it);
-            }
-
-
-            // 测试文件上传
-            /*Intent it = new Intent(this.context.getApplicationContext(), UploadDemo.class);
-            this.context.startActivity(it);*/
-
-        } else if ("7".equalsIgnoreCase(code)) {
-            // 3d打印机 状态页 status
-            Intent it = new Intent(this.context.getApplicationContext(), PrinterStartActivity.class);
-            this.context.startActivity(it);
-        } else if ("8".equalsIgnoreCase(code)) {
-            // 上传gcode文件给打印机sd卡
-            Intent it = new Intent(this.context.getApplicationContext(), UploadGcodeActivity.class);
+            // 個人資料部分
+            Intent it = new Intent(this.context.getApplicationContext(), PersonDateActivity.class);
+            it.putExtra("url", HtmlUtil.PERSON_DATE);
             this.context.startActivity(it);
         }
     }
@@ -591,30 +546,33 @@ public class WebHost {
         return isSu;
     }
 
+
     @JavascriptInterface
     // 保存群组共享用户数据
-    public boolean bindingUserAdd(String Userid, String bindingId) {
+    public boolean bindingUserAdd(String userId, String bindingId) {
 
         boolean isSu = false;
 
-        BindingUserPojo bindingUserPojo = new BindingUserPojo();
-        bindingUserPojo.setUserId(Userid);
-        bindingUserPojo.setBindingUserid(bindingId);
-
-        isSu = true;
-
-        // 保存群组共享用户数据
-        StlUtil.saveBindingUserDataBase(context, bindingUserPojo);
-
+        // 检查绑定用户是否存在
+        if(StlUtil.checkbingIdExist(context,userId,bindingId)==0){
+            BindingUserPojo bindingUserPojo = new BindingUserPojo();
+            bindingUserPojo.setUserId(userId);
+            bindingUserPojo.setBindingUserid(bindingId);
+            // 保存群组共享用户数据
+            StlUtil.saveBindingUserDataBase(context, bindingUserPojo);
+            isSu = true;
+        }else{
+            isSu = false;
+        }
         return isSu;
     }
 
     @JavascriptInterface
     // 删除群组共享用户数据
-    public boolean bindingUserDel(String Userid) {
+    public boolean bindingUserDel(String userId,String bingId) {
         boolean isSu = false;
         // 删除群组共享用户数据
-        StlUtil.deleteBindingUserDataBase(context, Userid);
+        StlUtil.deleteBindingUserDataBase(context, userId, bingId);
         isSu = true;
 
         return isSu;
@@ -623,12 +581,12 @@ public class WebHost {
 
     @JavascriptInterface
     // 查询绑定用户信息数据
-    public List<Map<String, Object>>  getBindingUserList(String userId) {
+    public String  getBindingUserList(String userId) {
 
         // 查询用户信息数据
         List<Map<String, Object>>   bindingUserList = StlUtil.getBindingUserList(context, userId);
 
-        return bindingUserList;
+        return JSON.toJSONString(bindingUserList);
     }
 
     @JavascriptInterface
@@ -691,12 +649,12 @@ public class WebHost {
 
     @JavascriptInterface
     // 查询设备信息数据
-    public List<Map<String, Object>>  getEquipmentDataList(String userId) {
+    public String  getEquipmentDataList(String userId) {
 
         // 查询设备信息数据
         List<Map<String, Object>>   equipmentDataList = StlUtil.getEquipmentData(context, userId);
 
-        return equipmentDataList;
+        return JSON.toJSONString(equipmentDataList);
     }
 
 
@@ -781,14 +739,24 @@ public class WebHost {
 
     @JavascriptInterface
     // 查询称重信息数据
-    public List<Map<String, Object>>  getWeightingDataList(String userId) {
+    public String  getWeightingDataList(String userId) {
 
         // 查询称重信息数据
         List<Map<String, Object>>   weightingDataList = StlUtil.getWeightingData(context, userId);
 
-        return weightingDataList;
+        return JSON.toJSONString(weightingDataList);
     }
 
 
+
+    // 数据同步
+    // 查询用户信息数据
+    public List<UserPojo>   getUserListSync(String userId) {
+
+        // 查询用户信息数据
+        List<UserPojo>  userListSync = StlUtil.getUserListSync(context,userId);
+
+        return userListSync;
+    }
 
 }

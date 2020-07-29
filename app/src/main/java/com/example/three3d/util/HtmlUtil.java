@@ -9,8 +9,15 @@ public class HtmlUtil {
     public static final String MYMODULE_HTML = "file:///android_asset/src/my_module.html";
     public static final String SHOP_HTML = "file:///android_asset/src/shopping.html";
     public static final String UPLOAD_GCODE_HTML = "file:///android_asset/src/upload_gcode.html";
-    public static final String INDEX_HTML = "file:///android_asset/index/login.html";
     public static final String UPLOAD_DEMO_HTML = "file:///android_asset/src/upload_demo.html ";
+
+
+    public static final String INDEX_HTML = "file:///android_asset/index/login.html";
+    public static final String PERSON_DATE = "file:///android_asset/component/my.html";
+
+
+
+
 
     /**
      * 缓存各种标识名称的文件名
