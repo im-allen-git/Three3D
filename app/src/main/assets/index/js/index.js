@@ -123,25 +123,38 @@ $(function(){
     let userId = js.getUserId('userId');
     console.log(userId);
     if(userId){
-        let userInfo = js.getUserInfoDataList(userId);
-         console.log(userInfo[0]);
+        let userInfo22 = js.getUserInfoDataList(userId);
+        console.log(userInfo22);
+        userInfo22 = JSON.parse(userInfo22);
+        console.log(userInfo22[0]);
+        console.log(userInfo22[0].createTime);
+        console.log(userInfo22[0].nickName);
+        console.log(userInfo22[0].mobile);
+        console.log(userInfo22[0].userId);
+        var userName = userInfo22[0].nickName;  //用户名
+        var userMobile = userInfo22[0].mobile;  //用户电话
+
     }
 
 
 
-	let personNum = storageObject.sessionGetItem('personNum');
-	let wasteNum = storageObject.sessionGetItem('wasteNum');
-	let userName = storageObject.sessionGetItem('userName');
-	let groupPhone = storageObject.sessionGetItem('groupPhone');
-	/* userName = 'wuhong'; */
-	if(!personNum){  //session参数不存在,表示第一次进入app,显示系统设置提示弹窗
-		// $('#systemHint').show();
-		/* $('.ingest_href').removeAttr('href'); */ //第一次进入app时.不能点击查看详情数据
-	}
+	let personNum = storageObject.sessionGetItem('personNum');  //人数
+	let wasteNum = storageObject.sessionGetItem('wasteNum'); //浪费比率
+	let deviceLink = storageObject.sessionGetItem('device_link'); //系统连接方式
+	let groupPhone = storageObject.sessionGetItem('groupPhone');//群组共享账号信息groupPhone
 	var switchTop = $('.switch_top');
-	if(userName){
-		switchTop.find('#myname').text(userName).end().siblings('.switch_users').children('li').eq(0).text(userName);
+    if(userName){
+        switchTop.find('#myname').text(userName).end().siblings('.switch_users').children('li').eq(0).text(userName);
+    }
+	if(!deviceLink){  //session参数不存在,表示第一次进入app,显示系统连接方式弹窗
+         $('#device_link').show();
+    }else{
+        $('#device_link').hide();
+    }
+	if(!personNum){  //session参数不存在,表示第一次进入app,显示系统设置提示弹窗
+		$('#systemHint').show();
 	}
+
 	if(groupPhone){ //没有群组共享账号信息groupPhone的session值,就不显示下拉箭头
 		switchTop.children('.iconfont').show();
 		if(groupPhone.indexOf('&') > -1){ //群组共享账号信息有多个的情况
@@ -505,7 +518,7 @@ $(function(){
 	$('#wife').click(function(){
 		$('#device_link').hide();
 		$('#wife_link').show();
-		window.sessionStorage.setItem('device_link','wife');
+		storageObject.sessionSetItem('device_link','wife');
 	});
 	$('.password_del').click(function(){
 		$('.password_val').val('');
