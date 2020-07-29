@@ -44,4 +44,29 @@ $(function(){
 		});
 		
 	}
+
+    //  进入设置页面，查询个人信息数据，就餐人数和浪费比例
+    // 进入个人资料部分，获取useId
+   var useId = js.getUserId('userId');
+   // 查询用户信息, 存放用户信息
+   var userInfoList = js.getUserInfoDataList(useId);
+   var a = userInfoList.substring(1,userInfoList.length-1);
+   var userInfoObj = JSON.parse(a); // 用户信息对象
+    if(userInfoObj.wasteRate){
+        $('.waste_num,.waste,#inline-range-val').text(userInfoObj.wasteRate);
+        $('.bg_span').css('width', userInfoObj.wasteRate + '%') ;
+        $('input[type="range"]').val(userInfoObj.wasteRate);
+    }
+    if(userInfoObj.number){
+        $('.diner_num').text(userInfoObj.number);
+        $('.num_val').val(userInfoObj.number);
+    }
+
+    // 修改用户信息（重新设置，就餐人数和浪费比例）
+    $('#paramater_back').click(function(){
+        var number = $('#dinner_num').text();
+        var wasteRate = $('#waste_num').text();
+        js.updateUserInfo(useId,userInfoObj.nickName,'','','','',wasteRate,number);
+    })
+
 })
