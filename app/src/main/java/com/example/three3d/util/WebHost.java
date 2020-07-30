@@ -647,6 +647,41 @@ public class WebHost {
         return isSu;
     }
 
+
+
+    @JavascriptInterface
+    // 获取用户设备状态：蓝牙 wifi
+    public String  getEquipmentOnlineType(String userId) {
+
+        String onlineType="";
+
+        // 获取用户设备状态：蓝牙 wifi
+        onlineType = StlUtil.getEquipmentOnlineType(context, userId);
+
+        return onlineType;
+    }
+
+
+    @JavascriptInterface
+    // 设备信息修改蓝牙wifi状态
+    public boolean updateEquipmentOnlineType(String userId,String onlineType) {
+
+        boolean isSu = false;
+
+        EquipmentPojo equipmentPojo = new EquipmentPojo();
+        equipmentPojo.setUserId(userId);
+        equipmentPojo.setOnlineType(onlineType);
+
+        isSu = true;
+
+        // 设备信息更新
+        StlUtil.updateEquipmentOnlineType(context, equipmentPojo);
+
+        return isSu;
+    }
+
+
+
     @JavascriptInterface
     // 查询设备信息数据
     public String  getEquipmentDataList(String userId) {

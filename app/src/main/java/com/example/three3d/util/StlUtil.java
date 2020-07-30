@@ -387,6 +387,28 @@ public class StlUtil {
 
     }
 
+    /**
+     * 设备信息修改蓝牙wifi状态
+     *
+     * @param context
+     * @param
+     */
+    public static void updateEquipmentOnlineType(Context context, EquipmentPojo equipmentPojo) {
+        SQLiteDatabase db = getDbByContext(context);
+
+        ContentValues values = new ContentValues();
+        if( !"".equals(equipmentPojo.getOnlineType()) && equipmentPojo.getOnlineType() !=null ){
+            values.put(EquipmentEntry.COLUMN_ONLINE_TYPE, equipmentPojo.getOnlineType());
+        }
+        values.put(EquipmentEntry.COLUMN_STATUS, "1");
+
+        String whereClause = EquipmentEntry.COLUMN_USER_ID +" = ? ";
+        String[] whereArgs = new String[]{String.valueOf(equipmentPojo.getUserId())};
+        db.update(EquipmentEntry.TABLE_NAME, values, whereClause, whereArgs);
+
+    }
+
+
 
     /**
      * 保存称重数据
