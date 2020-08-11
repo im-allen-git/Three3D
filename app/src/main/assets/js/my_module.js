@@ -141,7 +141,8 @@ function getLocalAppSTL(){
                 stlListHTML += '<i style="font-style:normal;color:red;font-size:.1rem;position: absolute; left: 1rem; top: .1rem;">已存入SD卡</i>';
             }
             else if(stlList[i].exeTimeStr == "00:00:00"){
-                stlListHTML += '<i style="font-style:normal;color:red;font-size:.1rem;position: absolute; left: 1rem; top: .1rem;">文件生成中，请稍等</i>';
+                stlListHTML += '<i style="font-style:normal;color:red;font-size:.1rem;position: absolute; left: 1rem; top: ' +
+                    '.1rem;">文件生成中，请稍等</i>';
             }
             stlListHTML += '</div>';
             stlListHTML += '</div></div>';
