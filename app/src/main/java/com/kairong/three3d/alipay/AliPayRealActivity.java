@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.alipay.sdk.app.PayTask;
 import com.kairong.three3d.R;
+import com.kairong.three3d.config.AliPayConfig;
 import com.kairong.three3d.config.HtmlConfig;
 import com.kairong.three3d.util.WebHost;
 import com.kairong.three3d.util.WebViewClientUtil;
@@ -32,32 +33,21 @@ public class AliPayRealActivity extends AppCompatActivity {
     private String WEB_URL;
 
 
-    // 授权成功
-    public static final int AUTH_SUC_CODE = 99;
-    // 授权失败
-    public static final int AUTH_ERR_CODE = 44;
-
-    // 支付成功
-    public static final int PAY_SUC_CODE = 1688;
-    // 支付失败
-    public static final int PAY_ERR_CODE = 1644;
-
-
     @SuppressLint("HandlerLeak")
     @SuppressWarnings("unchecked")
     private Handler mainHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case AUTH_SUC_CODE:
+                case AliPayConfig.AUTH_SUC_CODE:
                     // 调用服务器后，通知执行支付操作
                     payForAliPay(msg.obj.toString());
                     break;
-                case AUTH_ERR_CODE:
+                case AliPayConfig.AUTH_ERR_CODE:
                     // 授权失败操作
                     showAlert(context, getString(R.string.auth_failed));
                     break;
-                case PAY_SUC_CODE: {
+                case AliPayConfig.PAY_SUC_CODE: {
                     // 支付成功回调操作
                     PayResult payResult = new PayResult((Map<String, String>) msg.obj);
                     /**
@@ -75,7 +65,7 @@ public class AliPayRealActivity extends AppCompatActivity {
                     }
                 }
                 break;
-                case PAY_ERR_CODE: {
+                case AliPayConfig.PAY_ERR_CODE: {
                     // 授权失败操作
                     AuthResult authResult = new AuthResult((Map<String, String>) msg.obj, true);
                     String resultStatus = authResult.getResultStatus();
@@ -149,7 +139,7 @@ public class AliPayRealActivity extends AppCompatActivity {
                 Map<String, String> result = alipay.payV2(orderInfo, true);
                 Log.i("msp", result.toString());
                 Message msg = new Message();
-                msg.what = AUTH_SUC_CODE;
+                msg.what = AliPayConfig.AUTH_SUC_CODE;
                 msg.obj = result;
                 mainHandler.sendMessage(msg);
             }

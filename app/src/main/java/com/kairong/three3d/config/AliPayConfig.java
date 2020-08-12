@@ -6,6 +6,17 @@ package com.kairong.three3d.config;
 public class AliPayConfig {
 
 
+    // 授权成功
+    public static final int AUTH_SUC_CODE = 99;
+    // 授权失败
+    public static final int AUTH_ERR_CODE = 44;
+
+    // 支付成功
+    public static final int PAY_SUC_CODE = 1688;
+    // 支付失败
+    public static final int PAY_ERR_CODE = 1644;
+
+
     public static final String API_NAME = "com.alipay.account.auth";
     public static final String APP_ID = "2021001180691205";
     public static final String APP_NAME = "MagicBoxKR";

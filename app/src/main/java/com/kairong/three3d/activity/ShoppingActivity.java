@@ -1,11 +1,15 @@
 package com.kairong.three3d.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Instrumentation;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
@@ -13,11 +17,16 @@ import android.webkit.WebView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.alipay.sdk.app.PayTask;
 import com.kairong.three3d.R;
+import com.kairong.three3d.alipay.AuthResult;
+import com.kairong.three3d.alipay.PayResult;
+import com.kairong.three3d.config.AliPayConfig;
 import com.kairong.three3d.config.HtmlConfig;
 import com.kairong.three3d.util.WebHost;
 import com.kairong.three3d.util.WebViewClientUtil;
 
+import java.util.Map;
 import java.util.Objects;
 
 public class ShoppingActivity extends AppCompatActivity {
@@ -25,6 +34,66 @@ public class ShoppingActivity extends AppCompatActivity {
     private String WEB_URL;
     private WebHost webHost;
     WebView webView;
+    private Context context;
+
+    @SuppressLint("HandlerLeak")
+    @SuppressWarnings("unchecked")
+    private Handler mainHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 5:
+                    WebViewClientUtil.actionKey(KeyEvent.KEYCODE_BACK);
+                    break;
+                case AliPayConfig.AUTH_SUC_CODE:
+                    // 调用服务器后，通知执行支付操作
+                    payForAliPay(msg.obj.toString());
+                    break;
+                case AliPayConfig.AUTH_ERR_CODE:
+                    // 授权失败操作
+                    showAlert(context, getString(R.string.auth_failed));
+                    break;
+                case AliPayConfig.PAY_SUC_CODE: {
+                    // 支付成功回调操作
+                    PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                    /**
+                     * 对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                     */
+                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+                    String resultStatus = payResult.getResultStatus();
+                    // 判断resultStatus 为9000则代表支付成功
+                    if (TextUtils.equals(resultStatus, "9000")) {
+                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                        showAlert(context, getString(R.string.pay_success) + payResult);
+                    } else {
+                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                        showAlert(context, getString(R.string.pay_failed) + payResult);
+                    }
+                }
+                break;
+                case AliPayConfig.PAY_ERR_CODE: {
+                    // 授权失败操作
+                    AuthResult authResult = new AuthResult((Map<String, String>) msg.obj, true);
+                    String resultStatus = authResult.getResultStatus();
+
+                    // 判断resultStatus 为“9000”且result_code
+                    // 为“200”则代表授权成功，具体状态码代表含义可参考授权接口文档
+                    if (TextUtils.equals(resultStatus, "9000") && TextUtils.equals(authResult.getResultCode(), "200")) {
+                        // 获取alipay_open_id，调支付时作为参数extern_token 的value
+                        // 传入，则支付账户为该授权账户
+                        showAlert(context, getString(R.string.auth_success) + authResult);
+                    } else {
+                        // 其他状态值则为授权失败
+                        showAlert(context, getString(R.string.auth_failed) + authResult);
+                    }
+                }
+                break;
+                default:
+                    break;
+            }
+        }
+    };
+
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -33,6 +102,7 @@ public class ShoppingActivity extends AppCompatActivity {
 
         setContentView(R.layout.shopping);
 
+        context = this;
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);// 隐藏状态栏
         Objects.requireNonNull(getSupportActionBar()).hide();// 隐藏标题栏
         //设置Activity竖屏显示
@@ -68,16 +138,37 @@ public class ShoppingActivity extends AppCompatActivity {
         webView.loadUrl(WEB_URL);
     }
 
-    @SuppressLint("HandlerLeak")
-    private Handler mainHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 5:
-                    WebViewClientUtil.actionKey(KeyEvent.KEYCODE_BACK);
-                    break;
+    private void payForAliPay(String orderInfo) {
+
+        final Runnable payRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                PayTask alipay = new PayTask(ShoppingActivity.this);
+                Map<String, String> result = alipay.payV2(orderInfo, true);
+                Log.i("msp", result.toString());
+                Message msg = new Message();
+                msg.what = AliPayConfig.AUTH_SUC_CODE;
+                msg.obj = result;
+                mainHandler.sendMessage(msg);
             }
-        }
-    };
+        };
+        // 必须异步调用
+        Thread payThread = new Thread(payRunnable);
+        payThread.start();
+    }
+
+    private static void showAlert(Context ctx, String info) {
+        showAlert(ctx, info, null);
+    }
+
+    @SuppressLint("NewApi")
+    private static void showAlert(Context ctx, String info, DialogInterface.OnDismissListener onDismiss) {
+        new AlertDialog.Builder(ctx)
+                .setMessage(info)
+                .setPositiveButton(R.string.confirm, null)
+                .setOnDismissListener(onDismiss)
+                .show();
+    }
 
 }

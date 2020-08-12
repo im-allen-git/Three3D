@@ -25,7 +25,7 @@ import com.kairong.three3d.activity.PrinterFirstActivity;
 import com.kairong.three3d.activity.PrinterStartActivity;
 import com.kairong.three3d.activity.ShoppingActivity;
 import com.kairong.three3d.activity.UploadGcodeActivity;
-import com.kairong.three3d.alipay.AliPayRealActivity;
+import com.kairong.three3d.config.AliPayConfig;
 import com.kairong.three3d.config.HtmlConfig;
 import com.kairong.three3d.config.PrinterConfig;
 import com.kairong.three3d.pojo.StlGcode;
@@ -201,7 +201,7 @@ public class WebHost {
         } else if ("2".equalsIgnoreCase(code)) {
             // 购物商城
             Intent it = new Intent(this.context.getApplicationContext(), ShoppingActivity.class);
-            it.putExtra("url", HtmlConfig.SHOP_HTML);
+            it.putExtra("url", HtmlConfig.SERVER_SHOP_HTML);
             this.context.startActivity(it);
         } else if ("3".equalsIgnoreCase(code)) {
             // 模型库首页
@@ -580,12 +580,12 @@ public class WebHost {
         // 调用成功后，继续执行支付订单信息
         if (isSu) {
             Message message = new Message();
-            message.what = AliPayRealActivity.AUTH_SUC_CODE;
+            message.what = AliPayConfig.AUTH_SUC_CODE;
             message.obj = orderInfo;
             myHandler.sendMessage(message);
         } else {
             Message message = new Message();
-            message.what = AliPayRealActivity.AUTH_ERR_CODE;
+            message.what = AliPayConfig.AUTH_ERR_CODE;
             myHandler.sendMessage(message);
         }
         return isSu;
