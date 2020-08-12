@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, minimum-scale=1, maximum-scale=1, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=11,chrome=1">
+    <link type="text/css" rel="stylesheet" href="../css/font/iconfont.css">
+    <link type="text/css" rel="stylesheet" href="../css/common.css">
+    <style>
+        body {
+        }
+
+        body {
+            font-size: .17rem;
+            background: #3788e8; /* Old browsers */
+            background: -moz-linear-gradient(top, #3788e8 0%, #1cbff1 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, #3788e8 0%, #1cbff1 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, #3788e8 0%, #1cbff1 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3788e8', endColorstr='#1cbff1', GradientType=0); /* IE6-9 */
+        }
+
+        .logo_wrapper {
+            margin-top: 1rem
+        }
+
+        .img_wrapper {
+            position: relative;
+            width: 100%;
+            height: 1rem;
+        }
+
+        .logo_text .img_wrapper {
+            width: 34%;
+            margin: auto;
+            height: 0.2rem;
+        }
+
+        .img_wrapper img {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .info_text {
+            color: #CFECFF;
+            font-size: .15rem;
+            line-height: .28rem;
+        }
+
+        .login_btns .img_wrapper {
+            width: .5rem;
+            margin: auto
+        }
+
+        .login_btns .wechat_btn .img_wrapper {
+            margin-right: .3rem
+        }
+
+        .login_btns .alipay_btn .img_wrapper {
+            margin-left: .3rem
+        }
+
+    </style>
+</head>
+<body>
+<div class="main_wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 text-center logo_wrapper">
+                <div class="img_wrapper">
+                    <img src="../img/magic_box_icon.png" alt="">
+                </div>
+            </div>
+            <div class="col-xs-12 text-center logo_text">
+                <div class="img_wrapper">
+                    <img src="../img/magic_box_text.png" alt="">
+                </div>
+                <div class="info_text">开启儿童智慧第一步</div>
+            </div>
+        </div>
+        <div class="row login_btns">
+            <div class="col-xs-6  wechat_btn">
+                <div class="img_wrapper">
+                    <img src="../img/wechat_launcher.png" alt="">
+                </div>
+            </div>
+            <div class="col-xs-6  alipay_btn">
+                <div class="img_wrapper">
+                    <img src="../img/alipay_launcher.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="loading_data"><img src="../img/loading.gif" alt=""></div>
+</body>
+<script src='../js/jquery.min.js'></script>
+<script>
+    // https://www.cnblogs.com/v-weiwang/p/5732423.html
+    const appid = "wxd83f1f75c115031c";
+    const redirect_uri = "http://inhouse.moovi-tech.com/login.html";
+    const url = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
+
+    function wechatLogin() {
+        window.location.href = 'https://open.weixin.qq.com/connect/qrconnect?' +
+            'appid=*******&redirect_uri=http%3a%2f%2fwww.xxxxxx.com%2f' + window.location.pathname.substr(1) + '&response_type=code&scope=snsapi_login&state=3d6be0a4035d839573b04816624a415e#wechat_redirect';
+    }
+    // 微信会将页面跳转至login.html?code=CODE&state=STATE，我们需要将code的值取下来。
+    var code = getUrlParam('code');
+    var state = getUrlParam('state');
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg); //匹配目标参数
+        if (r!=null) return unescape(r[2]); return null; //返回参数值
+    }
+
+</script>
+</html>
