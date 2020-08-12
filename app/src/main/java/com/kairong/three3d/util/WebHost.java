@@ -16,10 +16,7 @@ import android.webkit.WebView;
 import androidx.annotation.RequiresApi;
 
 import com.alibaba.fastjson.JSONObject;
-import com.kairong.esptouch.util.ByteUtil;
-import com.kairong.esptouch.util.TouchNetUtil;
 import com.kairong.three3d.IndexHtmlActivity;
-import com.kairong.three3d.R;
 import com.kairong.three3d.activity.BulidModuleActivity;
 import com.kairong.three3d.activity.Esp8266Activity;
 import com.kairong.three3d.activity.MyAccountActivity;
@@ -28,10 +25,9 @@ import com.kairong.three3d.activity.PrinterFirstActivity;
 import com.kairong.three3d.activity.PrinterStartActivity;
 import com.kairong.three3d.activity.ShoppingActivity;
 import com.kairong.three3d.activity.UploadGcodeActivity;
-import com.kairong.three3d.activity.WifiPassHtmlActivity;
+import com.kairong.three3d.alipay.AliPayRealActivity;
 import com.kairong.three3d.config.HtmlConfig;
 import com.kairong.three3d.config.PrinterConfig;
-import com.kairong.three3d.config.WifiConfig;
 import com.kairong.three3d.pojo.StlGcode;
 import com.kairong.three3d.touchv1.EspTouchActivity;
 
@@ -49,7 +45,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class WebHost {
+
+    private static final String TAG = WebHost.class.getSimpleName();
 
     List<StlGcode> stlGcodeList = new ArrayList<>();
 
@@ -400,8 +402,7 @@ public class WebHost {
                 CacheUtil.getSdList(1);
             }
             return CacheUtil.sdList.size() == 0 ? null : JSONObject.toJSONString(CacheUtil.sdList);
-        }
-        else{
+        } else {
             return "11";
         }
     }
@@ -414,8 +415,7 @@ public class WebHost {
             message.obj = wifipass;
             this.myHandler.sendMessage(message);
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -544,5 +544,51 @@ public class WebHost {
         webView.setOnLongClickListener(v -> true);
     }
 
+
+    @JavascriptInterface
+    public boolean readToAliPay(String stlId, String stlAmount, String recipient, String phone, String address) {
+        // 获取整合后的orderInfo信息
+        boolean isSu = false;
+        String orderInfo = null;
+        try {
+            OkHttpClient client = OkHttpUtil.getClient();
+            Map<String, String> paramMap = new HashMap<>();
+            paramMap.put("stlId", stlId);
+            paramMap.put("stlAmount", stlAmount);
+            paramMap.put("recipient", recipient);
+            paramMap.put("phone", phone);
+            paramMap.put("address", address);
+
+            Request request = OkHttpUtil.getPostRequest(HtmlConfig.ALI_PAY_ORDER_INFO, paramMap);
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                JSONObject jsonObject = JSONObject.parseObject(response.body().string());
+                if (null != jsonObject && 200 == jsonObject.getIntValue("code")) {
+                    isSu = true;
+                    orderInfo = jsonObject.getString("data");
+                } else {
+                    System.err.println("获取授权失败，请重试!!!");
+                    Log.e(TAG, "获取授权失败，请重试!!!");
+                }
+            } else {
+                System.err.println("获取授权失败--网络");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("获取授权失败");
+        }
+        // 调用成功后，继续执行支付订单信息
+        if (isSu) {
+            Message message = new Message();
+            message.what = AliPayRealActivity.AUTH_SUC_CODE;
+            message.obj = orderInfo;
+            myHandler.sendMessage(message);
+        } else {
+            Message message = new Message();
+            message.what = AliPayRealActivity.AUTH_ERR_CODE;
+            myHandler.sendMessage(message);
+        }
+        return isSu;
+    }
 
 }

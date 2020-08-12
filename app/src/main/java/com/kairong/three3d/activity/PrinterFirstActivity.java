@@ -21,10 +21,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.kairong.three3d.IndexHtmlActivity;
 import com.kairong.three3d.R;
+import com.kairong.three3d.config.HtmlConfig;
 import com.kairong.three3d.config.PrinterConfig;
 import com.kairong.three3d.touchv1.NetUtils;
 import com.kairong.three3d.util.CacheUtil;
-import com.kairong.three3d.util.HtmlUtil;
 import com.kairong.three3d.util.IOUtil;
 import com.kairong.three3d.util.WebViewClientUtil;
 
@@ -62,7 +62,7 @@ public class PrinterFirstActivity extends AppCompatActivity {
             public void run() {
                 try {
                     Thread.sleep(1000);
-                    String firstconnectprinter = CacheUtil.getSettingNote(context, HtmlUtil.FLAG_JSON, HtmlUtil.FIRST_CONNECT_PRINTER);
+                    String firstconnectprinter = CacheUtil.getSettingNote(context, HtmlConfig.FLAG_JSON, HtmlConfig.FIRST_CONNECT_PRINTER);
                     if (firstconnectprinter != null && firstconnectprinter.length() > 0) {
                         ButtonJumpTo.setVisibility(View.GONE);
                         ModuleParamBtn.setVisibility(View.VISIBLE);
