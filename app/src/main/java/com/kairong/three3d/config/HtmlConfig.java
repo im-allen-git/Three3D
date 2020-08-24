@@ -5,7 +5,7 @@ public class HtmlConfig {
 //    public static final String MYMODULE_HTML = "http://192.168.1.163:8080/examples/src/my_module.html";
 //    public static final String SHOP_HTML = "http://192.168.1.163:8080/examples/src/shopping.html";
 
-    public static final String ALI_PAY_ORDER_INFO = "https://192.168.1.67:448/aliPay/getOrderInfo";
+
 
 
     public static final String SERVER_SHOP_HTML = "https://192.168.1.67:448/shopping.html";
@@ -44,4 +44,10 @@ public class HtmlConfig {
      * 第一次连接打印机
      */
     public static final String FIRST_CONNECT_PRINTER = "first_concent_printer";
+
+
+    /**
+     * 下单支付的地址
+     */
+    public static final String ADDRESS_JSON = "address_json";
 }

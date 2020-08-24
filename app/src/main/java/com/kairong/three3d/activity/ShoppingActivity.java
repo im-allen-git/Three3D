@@ -14,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,8 +24,13 @@ import com.kairong.three3d.alipay.AuthResult;
 import com.kairong.three3d.alipay.PayResult;
 import com.kairong.three3d.config.AliPayConfig;
 import com.kairong.three3d.config.HtmlConfig;
+import com.kairong.three3d.config.WXConfig;
 import com.kairong.three3d.util.WebHost;
 import com.kairong.three3d.util.WebViewClientUtil;
+import com.tencent.mm.opensdk.constants.Build;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.Map;
 import java.util.Objects;
@@ -35,6 +41,8 @@ public class ShoppingActivity extends AppCompatActivity {
     private WebHost webHost;
     WebView webView;
     private Context context;
+
+    private IWXAPI iwxapi;
 
     @SuppressLint("HandlerLeak")
     @SuppressWarnings("unchecked")
@@ -88,6 +96,32 @@ public class ShoppingActivity extends AppCompatActivity {
                     }
                 }
                 break;
+                case WXConfig.AUTH_SUC_CODE: {
+                    int wxSdkVersion = iwxapi.getWXAppSupportAPI();
+                    if (wxSdkVersion >= Build.OFFLINE_PAY_SDK_INT) {
+                        // 将该app注册到微信
+                        iwxapi.registerApp(WXConfig.APP_ID);
+                        // iwxapi.sendReq(new JumpToOfflinePay.Req());
+//                        Intent it = new Intent(context.getApplicationContext(), WXPayEntryActivity.class);
+//                        context.startActivity(it);
+
+
+                        PayReq req = new PayReq();
+                        req.appId = "appid";
+                        // req.partnerId = param.optString("partnerid");
+                        req.partnerId = "partnerid";
+                        req.prepayId = "prepayid";
+                        req.packageValue = "package";
+                        req.nonceStr = "noncestr";
+                        req.timeStamp = "timestamp";
+                        req.sign = "sign";
+
+                        iwxapi.sendReq(req);
+                    } else {
+                        Toast.makeText(ShoppingActivity.this, "not supported", Toast.LENGTH_LONG).show();
+                    }
+                }
+                break;
                 default:
                     break;
             }
@@ -129,8 +163,8 @@ public class ShoppingActivity extends AppCompatActivity {
 
         webView.loadUrl(HtmlConfig.SERVER_SHOP_HTML);
 
+        iwxapi = WXAPIFactory.createWXAPI(context, null, false);
     }
-
 
     @Override
     protected void onResume() {

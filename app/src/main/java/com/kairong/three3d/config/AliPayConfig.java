@@ -6,6 +6,9 @@ package com.kairong.three3d.config;
 public class AliPayConfig {
 
 
+    public static final String ALI_PAY_ORDER_INFO = "https://192.168.1.67:448/aliPay/getOrderInfo";
+    public static final String ALI_PAY_AUTH_INFO = "https://192.168.1.67:448/aliPay/getAuthInfo";
+
     // 授权成功
     public static final int AUTH_SUC_CODE = 99;
     // 授权失败

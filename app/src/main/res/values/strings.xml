@@ -26,7 +26,7 @@
     <string name="_3d_printer">3D打印机</string>
     <string name="_btn_print">打印</string>
     <string name="pintthismodule">pintThisModule</string>
-<!--    <string name="inputPass">WiFi Network Connection</string>-->
+    <!--    <string name="inputPass">WiFi Network Connection</string>-->
     <string name="inputPass">WiFi连接</string>
     <string name="wifiName">WiFi名称</string>
     <string name="wifiPass">WiFi密码</string>
@@ -107,5 +107,8 @@
     <string name="pay_failed">Payment failed:</string>
     <string name="auth_success">Authentication success:</string>
     <string name="confirm">Confirm:</string>
+    <string name="app_tip">提示</string>
+    <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
+    <string name="pay_result_tip">这个界面用于显示第三方app通过微信支付的结果</string>
 
 </resources>
