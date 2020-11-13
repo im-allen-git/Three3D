@@ -16,22 +16,20 @@ import android.webkit.WebView;
 import androidx.annotation.RequiresApi;
 
 import com.alibaba.fastjson.JSONObject;
-import com.kairong.esptouch.util.ByteUtil;
-import com.kairong.esptouch.util.TouchNetUtil;
 import com.kairong.three3d.IndexHtmlActivity;
-import com.kairong.three3d.R;
 import com.kairong.three3d.activity.BulidModuleActivity;
 import com.kairong.three3d.activity.Esp8266Activity;
+import com.kairong.three3d.activity.LoginActivity;
 import com.kairong.three3d.activity.MyAccountActivity;
 import com.kairong.three3d.activity.PrinterActivity;
 import com.kairong.three3d.activity.PrinterFirstActivity;
 import com.kairong.three3d.activity.PrinterStartActivity;
 import com.kairong.three3d.activity.ShoppingActivity;
 import com.kairong.three3d.activity.UploadGcodeActivity;
-import com.kairong.three3d.activity.WifiPassHtmlActivity;
+import com.kairong.three3d.config.AliPayConfig;
 import com.kairong.three3d.config.HtmlConfig;
 import com.kairong.three3d.config.PrinterConfig;
-import com.kairong.three3d.config.WifiConfig;
+import com.kairong.three3d.config.WXConfig;
 import com.kairong.three3d.pojo.StlGcode;
 import com.kairong.three3d.touchv1.EspTouchActivity;
 
@@ -49,7 +47,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class WebHost {
+
+    private static final String TAG = WebHost.class.getSimpleName();
 
     List<StlGcode> stlGcodeList = new ArrayList<>();
 
@@ -199,7 +203,7 @@ public class WebHost {
         } else if ("2".equalsIgnoreCase(code)) {
             // 购物商城
             Intent it = new Intent(this.context.getApplicationContext(), ShoppingActivity.class);
-            it.putExtra("url", HtmlConfig.SHOP_HTML);
+            it.putExtra("url", HtmlConfig.SERVER_SHOP_HTML);
             this.context.startActivity(it);
         } else if ("3".equalsIgnoreCase(code)) {
             // 模型库首页
@@ -254,8 +258,8 @@ public class WebHost {
     @JavascriptInterface
     public void welcomeToIndex() {
         // 模型库首页
-        Intent it = new Intent(this.context.getApplicationContext(), PrinterFirstActivity.class);
-        // Intent it = new Intent(this.context.getApplicationContext(), LoginActivity.class);
+        // Intent it = new Intent(this.context.getApplicationContext(), PrinterFirstActivity.class);
+        Intent it = new Intent(this.context.getApplicationContext(), LoginActivity.class);
         this.context.startActivity(it);
         Message message = new Message();
         message.what = 1;
@@ -400,8 +404,7 @@ public class WebHost {
                 CacheUtil.getSdList(1);
             }
             return CacheUtil.sdList.size() == 0 ? null : JSONObject.toJSONString(CacheUtil.sdList);
-        }
-        else{
+        } else {
             return "11";
         }
     }
@@ -414,8 +417,7 @@ public class WebHost {
             message.obj = wifipass;
             this.myHandler.sendMessage(message);
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -544,5 +546,120 @@ public class WebHost {
         webView.setOnLongClickListener(v -> true);
     }
 
+    @JavascriptInterface
+    public String getAddress() {
+        String recipient = CacheUtil.getSettingNote(context, HtmlConfig.ADDRESS_JSON, "recipient");
+        String phone = CacheUtil.getSettingNote(context, HtmlConfig.ADDRESS_JSON, "phone");
+        String address = CacheUtil.getSettingNote(context, HtmlConfig.ADDRESS_JSON, "address");
+        Map<String, String> adrMap = new HashMap<>();
+        adrMap.put("recipient", recipient);
+        adrMap.put("phone", phone);
+        adrMap.put("address", address);
+        return JSONObject.toJSONString(adrMap);
+    }
+
+
+    @JavascriptInterface
+    public boolean readToPay(String stlId, String stlAmount, String recipient, String phone,
+                             String address, String type, String saveFlag) {
+        // type 1 alipay 2 wechatpay
+        // saveFlag 0不保存 1保存
+        // 获取整合后的orderInfo信息
+        boolean isSu = false;
+
+        if ("1".equals(saveFlag)) {
+            Map<String, String> adrMap = new HashMap<>();
+            adrMap.put("recipient", recipient);
+            adrMap.put("phone", phone);
+            adrMap.put("address", address);
+            CacheUtil.saveSettingNote(context, HtmlConfig.ADDRESS_JSON, adrMap);
+
+            adrMap.clear();
+        }
+        if ("1".equals(type)) {
+            String orderInfo = null;
+            try {
+                OkHttpClient client = OkHttpUtil.getClient();
+                Map<String, String> paramMap = new HashMap<>();
+                paramMap.put("stlId", stlId);
+                paramMap.put("stlAmount", stlAmount);
+                paramMap.put("recipient", recipient);
+                paramMap.put("phone", phone);
+                paramMap.put("address", address);
+
+                Request request = OkHttpUtil.getPostRequest(AliPayConfig.ALI_PAY_ORDER_INFO, paramMap);
+                Response response = client.newCall(request).execute();
+                if (response.isSuccessful()) {
+                    JSONObject jsonObject = JSONObject.parseObject(response.body().string());
+                    if (null != jsonObject && 200 == jsonObject.getIntValue("code")) {
+                        isSu = true;
+                        orderInfo = jsonObject.getString("data");
+                    } else {
+                        System.err.println("获取授权失败，请重试!!!");
+                        Log.e(TAG, "获取授权失败，请重试!!!");
+                    }
+                } else {
+                    System.err.println("获取授权失败--网络");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.err.println("获取授权失败");
+            }
+            // 调用成功后，继续执行支付订单信息
+            if (isSu) {
+                Message message = new Message();
+                message.what = AliPayConfig.AUTH_SUC_CODE;
+                message.obj = orderInfo;
+                myHandler.sendMessage(message);
+            } else {
+                Message message = new Message();
+                message.what = AliPayConfig.AUTH_ERR_CODE;
+                myHandler.sendMessage(message);
+            }
+        } else if ("2".equals(type)) {
+            String orderInfo = null;
+            try {
+                OkHttpClient client = OkHttpUtil.getClient();
+                Map<String, String> paramMap = new HashMap<>();
+                paramMap.put("stlId", stlId);
+                paramMap.put("stlAmount", stlAmount);
+                paramMap.put("recipient", recipient);
+                paramMap.put("phone", phone);
+                paramMap.put("address", address);
+
+                Request request = OkHttpUtil.getPostRequest(WXConfig.WX_PAY_ORDER_INFO, paramMap);
+                Response response = client.newCall(request).execute();
+                if (response.isSuccessful()) {
+                    JSONObject jsonObject = JSONObject.parseObject(response.body().string());
+                    if (null != jsonObject && 200 == jsonObject.getIntValue("code")) {
+                        isSu = true;
+                        orderInfo = jsonObject.getString("data");
+                    } else {
+                        System.err.println("获取授权失败，请重试!!!");
+                        Log.e(TAG, "获取授权失败，请重试!!!");
+                    }
+                } else {
+                    System.err.println("获取授权失败--网络");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.err.println("获取授权失败");
+            }
+            // 调用成功后，继续执行支付订单信息
+            if (isSu) {
+                Message message = new Message();
+                message.what = WXConfig.AUTH_SUC_CODE;
+                message.obj = orderInfo;
+                myHandler.sendMessage(message);
+            } else {
+                Message message = new Message();
+                message.what = WXConfig.AUTH_ERR_CODE;
+                myHandler.sendMessage(message);
+            }
+        }
+
+
+        return isSu;
+    }
 
 }

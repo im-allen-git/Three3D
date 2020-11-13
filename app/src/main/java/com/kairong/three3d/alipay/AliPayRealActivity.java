@@ -1,48 +1,37 @@
-package com.kairong.three3d.activity;
+package com.kairong.three3d.alipay;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alipay.sdk.app.PayTask;
 import com.kairong.three3d.R;
-import com.kairong.three3d.alipay.AuthResult;
-import com.kairong.three3d.alipay.PayResult;
 import com.kairong.three3d.config.AliPayConfig;
 import com.kairong.three3d.config.HtmlConfig;
-import com.kairong.three3d.config.WXConfig;
 import com.kairong.three3d.util.WebHost;
 import com.kairong.three3d.util.WebViewClientUtil;
-import com.tencent.mm.opensdk.constants.Build;
-import com.tencent.mm.opensdk.modelpay.PayReq;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.Map;
 import java.util.Objects;
 
-public class ShoppingActivity extends AppCompatActivity {
-
-    private String WEB_URL;
+public class AliPayRealActivity extends AppCompatActivity {
     private WebHost webHost;
-    WebView webView;
     private Context context;
+    private String WEB_URL;
 
-    private IWXAPI iwxapi;
 
     @SuppressLint("HandlerLeak")
     @SuppressWarnings("unchecked")
@@ -50,9 +39,6 @@ public class ShoppingActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case 5:
-                    WebViewClientUtil.actionKey(KeyEvent.KEYCODE_BACK);
-                    break;
                 case AliPayConfig.AUTH_SUC_CODE:
                     // 调用服务器后，通知执行支付操作
                     payForAliPay(msg.obj.toString());
@@ -96,81 +82,52 @@ public class ShoppingActivity extends AppCompatActivity {
                     }
                 }
                 break;
-                case WXConfig.AUTH_SUC_CODE: {
-                    int wxSdkVersion = iwxapi.getWXAppSupportAPI();
-                    if (wxSdkVersion >= Build.OFFLINE_PAY_SDK_INT) {
-                        // 将该app注册到微信
-                        iwxapi.registerApp(WXConfig.APP_ID);
-                        // iwxapi.sendReq(new JumpToOfflinePay.Req());
-//                        Intent it = new Intent(context.getApplicationContext(), WXPayEntryActivity.class);
-//                        context.startActivity(it);
-
-
-                        PayReq req = new PayReq();
-                        req.appId = "appid";
-                        // req.partnerId = param.optString("partnerid");
-                        req.partnerId = "partnerid";
-                        req.prepayId = "prepayid";
-                        req.packageValue = "package";
-                        req.nonceStr = "noncestr";
-                        req.timeStamp = "timestamp";
-                        req.sign = "sign";
-
-                        iwxapi.sendReq(req);
-                    } else {
-                        Toast.makeText(ShoppingActivity.this, "not supported", Toast.LENGTH_LONG).show();
-                    }
-                }
-                break;
                 default:
                     break;
             }
         }
     };
 
-
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.shopping);
 
-        context = this;
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);// 隐藏状态栏
         Objects.requireNonNull(getSupportActionBar()).hide();// 隐藏标题栏
         //设置Activity竖屏显示
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-
         // 拿到webView组件
-        webView = findViewById(R.id.shopping_view);
-
+        WebView webView = findViewById(R.id.children);
         // 拿到webView的设置对象
         WebSettings settings = webView.getSettings();
         // settings.setAppCacheEnabled(true); // 开启缓存
         settings.setJavaScriptEnabled(true); // 开启javascript支持
-
+        settings.setAllowUniversalAccessFromFileURLs(true);
+        settings.setAllowFileAccess(true);
+        settings.setAllowFileAccessFromFileURLs(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
 
         webHost = new WebHost(this, mainHandler);
         //JS映射
         webView.addJavascriptInterface(webHost, "js");
-        WebHost.disableLongClick(webView);
+
         // 复写WebViewClient类的shouldOverrideUrlLoading方法
         webView.setWebViewClient(WebViewClientUtil.getMyWebViewClient());
         webView.setWebChromeClient(WebViewClientUtil.getGoogleClient());
 
-        webView.loadUrl(HtmlConfig.SERVER_SHOP_HTML);
+        WebHost.disableLongClick(webView);
 
-        iwxapi = WXAPIFactory.createWXAPI(context, null, false);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+        Intent intent = getIntent();
+        WEB_URL = intent.getStringExtra("url");
+        if (WEB_URL == null || WEB_URL.length() == 0) {
+            WEB_URL = HtmlConfig.SERVER_SHOP_HTML;
+        }
         webView.loadUrl(WEB_URL);
     }
+
 
     private void payForAliPay(String orderInfo) {
 
@@ -178,7 +135,7 @@ public class ShoppingActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                PayTask alipay = new PayTask(ShoppingActivity.this);
+                PayTask alipay = new PayTask(AliPayRealActivity.this);
                 Map<String, String> result = alipay.payV2(orderInfo, true);
                 Log.i("msp", result.toString());
                 Message msg = new Message();

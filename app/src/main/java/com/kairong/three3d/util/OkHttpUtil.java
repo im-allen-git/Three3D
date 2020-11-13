@@ -1,5 +1,6 @@
 package com.kairong.three3d.util;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.FormBody;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -27,6 +29,8 @@ import okhttp3.Response;
 public class OkHttpUtil {
 
     private static final int CONNECT_TIMEOUT = 900;
+
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     // 上传stl生成gcode路径
     public static final String FILE_UPLOAD_URL = "https://192.168.1.67:448/file/uploadFileAndGenGcode";
@@ -67,6 +71,19 @@ public class OkHttpUtil {
                 .get().url(url).build();
     }
 
+
+    @SuppressLint("NewApi")
+    public static Request getPostRequest(String url, Map<String, String> paramMap) {
+
+        FormBody.Builder bodyBuilder = new FormBody.Builder();
+        if (paramMap != null && paramMap.size() > 0) {
+            paramMap.forEach((k, v) -> bodyBuilder.add(k, v));
+        }
+        return new Request.Builder()
+                .url(url)
+                .post(bodyBuilder.build())
+                .build();
+    }
 
     public static void writeToFile(Response response, File gcodeFile) {
         InputStream inputStream = null;
