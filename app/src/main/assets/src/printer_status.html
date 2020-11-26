@@ -22,14 +22,113 @@
 			<img src="../img/3dPrinting/module_example.png" alt="">
 		</div>
 		<div class="processing" id="processingTime">0%</div>
-		<div class="stop_btn" id="stopPrinter">取消打印</div>
+		<div class="stop_btn" id="pausePrinter" onclick="pausePrint()">暂停</div>
+		<div class="stop_btn" id="stopPrinter" onclick="canclePrint()">取消打印</div>
 		<div class="left_time">剩余: <i id="leftTime">00:00:00</i></div>
 	</div>
 </div>
+
+<div class="module_param_bg" onclick="hideDialog()"></div>
+<div class="module_param">
+	<div class="param_top_title">提示</div>
+	<div class="each_param clearfix" id="note_content"></div>
+	<div class="btns_wrapper clearfix">
+		<div class="btns_inner">
+		<div class="btns btn_cancel" onclick="hideDialog()">取消</div>
+		</div>
+		<div class="btns_inner">
+		<div class="btns btn_confirm" onclick="confirmCancel()">确定</div>
+		</div>
+	</div>
+	<img src="../img/3dPrinting/btn_close.png" class="imgBtn param_close" onclick="hideDialog()">
+</div>
 </body>
+<script src='../js/jquery.min.js'></script>
 <script>
 	function goBack(){
 		js.changeActive( "5" );//1,我的模型 2 商城 3 模型库首页 4 创建模型 5 返回上一页
+	}
+
+	var endTime,startTime,nowTime;
+	function getPrintTime(startTimeFromServer,endTimeFromServer){
+		startTime = Number(startTimeFromServer);
+		endTime = Number(endTimeFromServer);
+		countdown();
+	}
+	// 10秒倒计时
+	var countDownTimeout;
+	function countdown() {
+		var totalTime = endTime - startTime;
+		nowTime = new Date().getTime();
+		if(nowTime < endTime){//还在打印
+			var leftTime = endTime-nowTime
+			var percentage = 100-((leftTime/totalTime)*100).toFixed(2);
+			$("#processingTime").text(percentage+"%");
+			var minLeftTime = leftTime/1000;
+			var h = Math.floor((minLeftTime/3600))
+			h = (h < 10 ? '0' + h : h);
+			var m = Math.floor((minLeftTime - 60*60*h)/60)
+			m = (m < 10 ? '0' + m : m);
+			var s = Math.floor(minLeftTime - 60*60*h - 60*m)
+			s = (s < 10 ? '0' + s : s);
+			// console.log("h: " +h +" m: "+m+" s: "+s);
+			$("#leftTime").text(h+":"+m+":"+s);
+			countDownTimeout = setTimeout("countdown()",1000);
+		}
+		else { // 结束
+			$("#processingTime").text("100%");
+			$("#leftTime").text("00:00:00");
+			clearCountDown()
+		}
+	}
+	function clearCountDown(){
+		clearTimeout(countDownTimeout);
+	}
+	var pauseOrCancelFlag=0; //0" 取消， 1 暂停
+	var pauseOrStart=false; //0" 取消， 1 暂停
+	function canclePrint(){
+		pauseOrCancelFlag=0;
+		openDialog(0)
+	}
+	function pausePrint(){
+		pauseOrCancelFlag=1;
+		openDialog(1)
+	}
+	function openDialog(type){//type: 0- 取消打印   1 暂停
+		$(".module_param,.module_param_bg").show();
+		var textNote='';
+		if(type == 0){
+			textNote = "是否要取消打印？"
+		}
+		else if(type == 1){
+			if(pauseOrStart){
+				textNote = "是否要开始打印？"
+			}
+			else{
+				textNote = "是否要暂停打印？"
+			}
+		}
+		$("#note_content").text(textNote);
+	}
+	function hideDialog(){
+		$(".module_param,.module_param_bg").hide();
+	}
+	function confirmCancel(){
+		if(pauseOrCancelFlag==0){
+
+		}
+		else 	if(pauseOrCancelFlag==1){
+			if(pauseOrStart){
+				pauseOrStart=false;
+				$("#pausePrinter").text("暂停");
+			}
+			else{
+				pauseOrStart=true;
+				$("#pausePrinter").text("开始");
+			}
+		}
+		//后台接口
+		hideDialog();
 	}
 </script>
 </html>

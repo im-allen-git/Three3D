@@ -1466,35 +1466,14 @@ function cleanSelectedObject( obj ) {
 // 导出相关
 function exportMoudle( type ) { //type 0: ASCII 1: GLTF
 	if (objects.length > 1) {
-		scene.remove( transformControl );
-		scene.remove( mouseHelper );
-		clearCache( gridHelper );
-		scene.remove( gridHelper );
-		clearCache( gradGroundMesh );
-		scene.remove( gradGroundMesh );
-		clearCache( gradGroundMesh1 );
-		scene.remove( gradGroundMesh1 );
-		clearCache( plane );
-		scene.remove( plane );
-		outlinePass.selectedObjects = [];
-		camera.position.set( 83, 71, 124); //45°
-		camera.lookAt( 0, 0, 0 );
-		directionalLight.position.set( -10, 1, -20 ).normalize();
-		//threejs Y-up, 别的事Z-up,所以到处之前要旋转
-        scene.rotation.set( Math.PI / 2, 0, 0 );
-        scene.updateMatrixWorld();
-        //end
-		animate();
+         transformControl.detach();
 		var nameStr = $( "#save_name" ).val();
 		var successFlag;
 		if (nameStr) {
 			saveFlag = true;
 			if (type === 0) {
-				exporter = new THREE.STLExporter(); //导出工具  exporter tool
-				var result = exporter.parse( scene );
-				var date = Date.parse( new Date() );
 				// saveString( result, nameStr + '.stl' );
-                saveAsImage(nameStr,result );
+                saveAsImage(nameStr );
 				// successFlag = true;
 			} else {
 				var input = scene;
@@ -1553,7 +1532,7 @@ function saveString( text, filename ) {
 
 }
 
-function saveAsImage(nameStr,result) {
+function saveAsImage(nameStr) {
 	var imgData;
     	var strDownloadMime = "image/octet-stream";
     	try {
@@ -1578,7 +1557,28 @@ function saveAsImage(nameStr,result) {
                 cxt2.putImageData(dataImg,0,0,0,0,canvas2.height, canvas2.width)
                 // 把整个临时图片容器转成 base64字符
                 var img2 = canvas2.toDataURL("image/png");
-
+                scene.remove( transformControl );
+                scene.remove( mouseHelper );
+                clearCache( gridHelper );
+                scene.remove( gridHelper );
+                clearCache( gradGroundMesh );
+                scene.remove( gradGroundMesh );
+                clearCache( gradGroundMesh1 );
+                scene.remove( gradGroundMesh1 );
+                clearCache( plane );
+                scene.remove( plane );
+                outlinePass.selectedObjects = [];
+                camera.position.set( 83, 71, 124); //45°
+                camera.lookAt( 0, 0, 0 );
+                directionalLight.position.set( -10, 1, -20 ).normalize();
+                //threejs Y-up, 别的事Z-up,所以到处之前要旋转
+                scene.rotation.set( Math.PI / 2, 0, 0 );
+                scene.updateMatrixWorld();
+                //end
+                animate();
+                exporter = new THREE.STLExporter(); //导出工具  exporter tool
+                var result = exporter.parse( scene );
+                var date = Date.parse( new Date() );
                 var successFlag = js.saveStl( result, nameStr + '.stl', img2.split(",")[1]);
                 if(successFlag){
                     afterSTLImg();
