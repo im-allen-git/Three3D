@@ -114,6 +114,9 @@ public class PrinterStartActivity extends AppCompatActivity {
         if (CacheUtil.sdList.size() == 0) {
             CacheUtil.getSdListThread(1);
         }
+        PrinterConfig.upload_count = 0;
+        PrinterConfig.printer_count = 0;
+
 
         // 判断传递的参数并且放入队列
         if (PrinterConfig.upload_count > 0 || PrinterConfig.printer_count > 0 || PrinterUtil.beforePrinter(this)) {
@@ -199,12 +202,13 @@ public class PrinterStartActivity extends AppCompatActivity {
 
         if (!CacheUtil.sdMap.containsKey(PrinterUtil.tempStlGcode.getShortGcode().toUpperCase())
                 && PrinterUtil.tempStlGcode.getFlag() == 0) {
-            new Thread() {
+            postTo3dPrinter(PrinterUtil.tempStlGcode);
+            /*new Thread() {
                 @Override
                 public void run() {
                     postTo3dPrinter(PrinterUtil.tempStlGcode);
                 }
-            }.start();
+            }.start();*/
         } else {
             new Thread() {
                 @Override
@@ -248,6 +252,7 @@ public class PrinterStartActivity extends AppCompatActivity {
                                         OkHttpUtil.sendMessage(130, "上传成功", mainHandler);
                                         CacheUtil.getSdListThread(1);
                                     } else {
+                                        PrinterConfig.is_background = 0;
                                         OkHttpUtil.sendMessage(140, "上传失败", mainHandler);
                                     }
                                 }
@@ -255,6 +260,7 @@ public class PrinterStartActivity extends AppCompatActivity {
                                 @Override
                                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
                                     PrinterUtil.isRun = false;
+                                    PrinterConfig.is_background = 0;
                                     System.err.println(e.getMessage());
                                     if (Objects.requireNonNull(e.getMessage()).contains("timeout")) {
                                         OkHttpUtil.sendMessage(140, "超时", mainHandler);
@@ -283,6 +289,7 @@ public class PrinterStartActivity extends AppCompatActivity {
                         }*/
                             // System.err.println("postTo3dPrinter,rs:" + response.body().string());
                         } catch (Exception e) {
+                            PrinterConfig.is_background = 0;
                             PrinterUtil.isRun = false;
                             e.printStackTrace();
                             Log.e(TAG, "postTo3dPrinter,error:", e);
@@ -290,9 +297,11 @@ public class PrinterStartActivity extends AppCompatActivity {
                         }
                     }
                 } else {
+                    PrinterConfig.is_background = 0;
                     OkHttpUtil.sendMessage(140, "获取文件失败", mainHandler);
                 }
             } else {
+                PrinterConfig.is_background = 0;
                 OkHttpUtil.sendMessage(140, "获取打印机连接失败", mainHandler);
             }
         }

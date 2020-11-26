@@ -102,7 +102,7 @@ public class WebHost {
             return isSu;
         }
 
-        // setPath();
+        setPath();
         String endSuffix = fileName.substring(fileName.lastIndexOf("."));
 
         String realFileName = fileAllPath + endSuffix;
@@ -258,8 +258,8 @@ public class WebHost {
     @JavascriptInterface
     public void welcomeToIndex() {
         // 模型库首页
-        // Intent it = new Intent(this.context.getApplicationContext(), PrinterFirstActivity.class);
-        Intent it = new Intent(this.context.getApplicationContext(), LoginActivity.class);
+        Intent it = new Intent(this.context.getApplicationContext(), PrinterFirstActivity.class);
+        // Intent it = new Intent(this.context.getApplicationContext(), LoginActivity.class);
         this.context.startActivity(it);
         Message message = new Message();
         message.what = 1;

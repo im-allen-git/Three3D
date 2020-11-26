@@ -97,7 +97,7 @@
                 android:textStyle="bold"
                 android:gravity="center_vertical|center"/>
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/imageButtonPause"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
@@ -109,7 +109,7 @@
                 android:textColor="#FFFFFF"
                 android:textSize="17sp"
                 android:layout_gravity="center_horizontal"
-                android:gravity="center_vertical|center" />
+                android:gravity="center_vertical|center" />-->
             <Button
                 android:id="@+id/retryBtn"
                 android:layout_width="100dp"

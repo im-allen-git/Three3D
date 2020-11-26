@@ -33,8 +33,8 @@ public class OkHttpUtil {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     // 上传stl生成gcode路径
-    public static final String FILE_UPLOAD_URL = "https://192.168.1.67:448/file/uploadFileAndGenGcode";
-    public static final String FILE_DOWN_URL = "https://192.168.1.67:448/file/downloadFile?fileName=";
+    public static final String FILE_UPLOAD_URL = "https://192.168.1.67:443/file/uploadFileAndGenGcodeAndrioid";
+    public static final String FILE_DOWN_URL = "https://192.168.1.67:443/file/downloadFileAndroid?fileName=";
 
 
     private static volatile OkHttpClient client = new OkHttpClient.Builder()
