@@ -93,12 +93,14 @@ public class PrinterUtil {
             System.err.println("============"+tempStlGcode);
             if (tempStlGcode.getLocalFlag() > 0) {
                 // InputStream abpath = getClass().getResourceAsStream("/assets/文件名");
+                System.err.println("localImg:" + tempStlGcode.getLocalImg().replace("file:///android_asset/", ""));
                 is = context.getAssets().open(tempStlGcode.getLocalImg().replace("file:///android_asset/", ""));
             } else {
                 is = new FileInputStream(tempStlGcode.getLocalImg());
+                System.err.println("localImg:" + tempStlGcode.getLocalImg());
             }
             Bitmap bitmap = BitmapFactory.decodeStream(is);
-            imageView.setImageBitmap(bitmap);
+            // imageView.setImageBitmap(bitmap);
             printingItem.setImageBitmap(bitmap);
         } catch (IOException e) {
             e.printStackTrace();
@@ -175,7 +177,7 @@ public class PrinterUtil {
 
     public static void printNow(String gcodeName, StlGcode stlGcode, Handler mainHandler) {
         String url = getPrinterCommond(gcodeName);
-
+        PrinterConfig.is_background = 0;
         if (PrinterConfig.is_background == 0) {
             PrinterConfig.currPrinterGcodeInfo.setBegin_time(System.currentTimeMillis());
             PrinterConfig.is_background = 1;
@@ -184,10 +186,9 @@ public class PrinterUtil {
             Request request = OkHttpUtil.getRequest(url);
             System.err.println(url);
             try {
-                setTextShow(stlGcode.getExeTime(), mainHandler);
-
                 Response response = client.newCall(request).execute();
                 if (response.isSuccessful()) {
+                    setTextShow(stlGcode.getExeTime(), mainHandler);
                     String rs = response.body().string();
                     System.err.println(rs);
                     PrinterConfig.printer_count = 0;
@@ -271,6 +272,7 @@ public class PrinterUtil {
      */
     public static String getSDListUrl() {
         // http://10.0.0.34/upload_serial
+        System.err.println("ESP_8266_URL:" + PrinterConfig.ESP_8266_URL);
         return PrinterConfig.ESP_8266_URL + "command?commandText=M20&PAGEID=0";
     }
 

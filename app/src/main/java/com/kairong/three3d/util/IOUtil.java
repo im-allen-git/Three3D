@@ -215,10 +215,10 @@ public class IOUtil {
                     if (gcodeMap.get("Z_M") < tempD) {
                         gcodeMap.put("Z_M", tempD);
                     }
-                    if (gcodeMap.get("Y") == 0) {
-                        gcodeMap.put("Y", tempD);
-                    } else if (gcodeMap.get("Y") > tempD) {
-                        gcodeMap.put("Y", tempD);
+                    if (gcodeMap.get("Z") == 0) {
+                        gcodeMap.put("Z", tempD);
+                    } else if (gcodeMap.get("Z") > tempD) {
+                        gcodeMap.put("Z", tempD);
                     }
                 }
             }
