@@ -455,6 +455,7 @@ function closeSaveSucc(){
 function saveModuleShow( type ) {
 	if (objects.length > 1) {
 		if (type == 0) {
+            $(".active_control").trigger("click")
 			$( "#save_name" ).val( getTimeStr() );
 			$( ".save_name_ok" ).attr( 'onclick', "exportMoudle(0)" );
 			$( ".save_name_module,.save_name_module_bg" ).show();
@@ -465,7 +466,6 @@ function saveModuleShow( type ) {
 		$( ".save_name_module,.save_name_module_bg" ).hide();
 	}
 }
-
 function saveModuleName( obj, type ) {
 	var name = $( obj ).val();
 	if (name.length > 0) {
@@ -1466,7 +1466,7 @@ function cleanSelectedObject( obj ) {
 // 导出相关
 function exportMoudle( type ) { //type 0: ASCII 1: GLTF
 	if (objects.length > 1) {
-         transformControl.detach();
+         $(".active_control").trigger("click")
 		var nameStr = $( "#save_name" ).val();
 		var successFlag;
 		if (nameStr) {
@@ -1494,21 +1494,6 @@ function exportMoudle( type ) { //type 0: ASCII 1: GLTF
 			}
 		}
 
-
-		if (! mobile) {
-			scene.add( mouseHelper );
-		}
-		scene.add( transformControl );
-        transformControl.detach();//隐藏控制控件
-		scene.add( gridHelper );
-		scene.add( gradGroundMesh );
-		scene.add( gradGroundMesh1 );
-		scene.add( plane );
-        //threejs Y-up, 别的事Z-up,所以到处之前要旋转
-        scene.rotation.set( 0, 0, 0 );
-        scene.updateMatrixWorld();
-		directionalLight.position.set( 1, 0.75, 0.5 ).normalize();
-        //end
 	}
 }
 
@@ -1592,6 +1577,22 @@ function saveAsImage(nameStr) {
                     goHomeFlag = false;
                     saveFlag = false;
                 }
+
+
+                if (! mobile) {
+                    scene.add( mouseHelper );
+                }
+                scene.add( transformControl );
+                transformControl.detach();//隐藏控制控件
+                scene.add( gridHelper );
+                scene.add( gradGroundMesh );
+                scene.add( gradGroundMesh1 );
+                scene.add( plane );
+                //threejs Y-up, 别的事Z-up,所以到处之前要旋转
+                scene.rotation.set( 0, 0, 0 );
+                scene.updateMatrixWorld();
+                directionalLight.position.set( 1, 0.75, 0.5 ).normalize();
+                //end
             }
 
     	} catch (e) {
