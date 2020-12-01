@@ -35,6 +35,8 @@ function switchGame(type) { //type  1: 去普通模式 0：去minecraft
     }
     camera.lookAt(0, 0, 0);
     goMineCraftFlag = false;
+    animate();
+    onWindowResize();
 }
 async function loadMineCraftSTL() {
     var stlloader = new THREE.STLLoader();
@@ -86,6 +88,10 @@ function changeMineCraftStl(thisSTL, obj) {
                 // 正方形
                 currentMineCraftType = 0;
                 currentObj = wallStl;
+        }
+        if(canBeDeleted){
+            $(".active_control").removeClass("active_control")；
+             canBeDeleted = false;
         }
     }
 
@@ -219,35 +225,14 @@ function hideMineCraftNote() {
 // 导出相关
 function exportMineCraftMoudle(type) { //type 0: ASCII 1: GLTF
     if (objects.length > 1) {
-        scene.remove(transformControl);
-        scene.remove(mouseHelper);
-        clearCache(gridHelper);
-        scene.remove(gridHelper);
-        clearCache(gradGroundMesh);
-        scene.remove(gradGroundMesh);
-        clearCache(gradGroundMesh1);
-        scene.remove(gradGroundMesh1);
-        clearCache(plane);
-        scene.remove(plane);
-        outlinePass.selectedObjects = [];
-        camera.position.set(83, 71, 124); //45°
-        camera.lookAt(0, 0, 0);
-        directionalLight.position.set(-10, 1, -20).normalize();
-        //threejs Y-up, 别的事Z-up,所以到处之前要旋转
-        scene.rotation.set(Math.PI / 2, 0, 0);
-        scene.updateMatrixWorld();
-        //end
-        animate();
+
         var nameStr = $("#save_minecraft_name").val();
         var successFlag;
         if (nameStr) {
             saveFlag = true;
             if (type === 0) {
-                exporter = new THREE.STLExporter(); //导出工具  exporter tool
-                var result = exporter.parse(scene);
-                var date = Date.parse(new Date());
-                // saveString( result, nameStr + '.stl' );
-                saveAsImage(nameStr, result);
+
+                saveAsImage(nameStr);
                 // successFlag = true;
             } else {
                 var input = scene;
@@ -268,23 +253,9 @@ function exportMineCraftMoudle(type) { //type 0: ASCII 1: GLTF
             }
         }
 
-
-        if (!mobile) {
-            scene.add(mouseHelper);
-        }
-        scene.add(transformControl);
-        transformControl.detach();//隐藏控制控件
-        scene.add(gridHelper);
-        scene.add(gradGroundMesh);
-        scene.add(gradGroundMesh1);
-        scene.add(plane);
-        //threejs Y-up, 别的事Z-up,所以到处之前要旋转
-        scene.rotation.set(0, 0, 0);
-        scene.updateMatrixWorld();
-        directionalLight.position.set(1, 0.75, 0.5).normalize();
         //end
         $(".save_name_minecraft_module,.save_name_module_bg").hide();
-        switchGame(1)
+//        switchGame(1)
     }
 }
 

@@ -450,7 +450,7 @@ function getTimeStr() {
 }
 function closeSaveSucc(){
 	$( ".save_succ,.save_name_module_bg" ).hide();
-	$( ".minecraft_wrapper" ).hide();
+//	$( ".minecraft_wrapper" ).hide();
 }
 function saveModuleShow( type ) {
 	if (objects.length > 1) {
@@ -1553,7 +1553,12 @@ function saveAsImage(nameStr) {
                 clearCache( plane );
                 scene.remove( plane );
                 outlinePass.selectedObjects = [];
-                camera.position.set( 83, 71, 124); //45°
+                if(currentBuildType == 0) { ////0: 普通模式 1：minecraft
+                    camera.position.set(83, 71, 124); //45°
+                }
+                else if(currentBuildType == 1){
+                     camera.position.set(0, 80, 127);
+                }
                 camera.lookAt( 0, 0, 0 );
                 directionalLight.position.set( -10, 1, -20 ).normalize();
                 //threejs Y-up, 别的事Z-up,所以到处之前要旋转
