@@ -33,10 +33,16 @@ function switchGame(type) { //type  1: 去普通模式 0：去minecraft
         changeMineCraftStl(0)
         firstMineCraft();
     }
+    if (objects.length > 1) {
+        $( ".save_stl" ).removeClass( "noActive_save" );
+    } else {
+        $( ".save_stl" ).removeClass( "noActive_save" ).addClass( "noActive_save" );
+    }
     camera.lookAt(0, 0, 0);
     goMineCraftFlag = false;
     animate();
     onWindowResize();
+     $("#loading_data").hide();
 }
 async function loadMineCraftSTL() {
     var stlloader = new THREE.STLLoader();
@@ -89,10 +95,13 @@ function changeMineCraftStl(thisSTL, obj) {
                 currentMineCraftType = 0;
                 currentObj = wallStl;
         }
-        if(canBeDeleted){
-            $(".active_control").removeClass("active_control")；
-             canBeDeleted = false;
+        //切换取消删除功能，取消放大缩小
+        $(".active_control").removeClass("active_control");
+        if (canBeDeleted) {
+            canBeDeleted = false;
         }
+        $( ".zoom_options" ).hide();
+        $( ".color_wrapper" ).hide();
     }
 
 }
@@ -155,7 +164,7 @@ function onDocumentMouseDownMineCraft(event) {
                 createObjForOperation(voxel, 'add');
                 $(".save_stl").removeClass("noActive_save");//
                 $(".undo_control").removeClass("noActive_control");//
-                $(".obj_control_wrapper_minecraft").show();
+                 $(".obj_control,.obj_control_wrapper_minecraft").show();
             }
             render();
         }

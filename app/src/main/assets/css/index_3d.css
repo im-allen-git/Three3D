@@ -10,8 +10,9 @@ body,.container{height: 100%;}
 
 .swiper-container { background-image: url(../img/3dPrinting/module_bg.png); background-size: contain; background-repeat: no-repeat; max-height: 100%; background-position: center;margin: auto; }
 .swiper-wrapper,.swiper-slide{min-height: 3rem;}
-.swiper-button-next,.swiper-button-prev{ transform: rotateZ(90deg); color: #fff; width: calc(var(--swiper-navigation-size)/ 44); z-index: 99; height: 50px; width: 50px; position: static; margin: 0 auto;outline: none;}
-.swiper-button-prev{ margin-top:.3rem;}
+.swiper-button-next,.swiper-button-prev{ transform: rotateZ(90deg); color: #fff; width: calc(var(--swiper-navigation-size)/ 44); z-index: 9; height: 50px; width: 50px; position: relative;top:0; left: 0;right: 0; margin: 0 auto;outline: none;}
+.swiper-button-prev{ top:.3rem;}
+.swiper-button-next {top:-.3rem}
 .swiper-button-next:after, .swiper-button-prev:after{font-size:x-large;}
 .img_wrapper { position: relative; width: 70%; height: inherit; margin: auto; }
 .img_wrapper img{position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto; max-width: 100%; max-height: 100%;}
@@ -35,15 +36,26 @@ body,.container{height: 100%;}
 
 img.imgBtn.param_close { position: absolute; top: -.1rem; right: -.1rem; width: .45rem; }
 
+@media only screen and (min-height: 650px){
+.modules_slides{margin-top: .5rem}
+}
+@media only screen and (max-height: 570px){
+.modules_slides{margin-top: 0rem}
+}
 @media only screen and (max-height: 550px){
-.swiper-button-prev{margin-top:.2rem;}
+.modules_slides{margin-top: 0rem}
+.swiper-button-prev{top:.2rem;}
 }
 
 @media only screen and (max-height: 500px){
-.swiper-button-prev{margin-top:0;}
-.swiper-button-next { margin-top: -.18rem; }
+.swiper-button-prev{top:0;}
+.swiper-button-next { top: -.18rem; }
 }
 @media only screen and (max-height: 460px){
-.swiper-button-prev{margin-top:0;}
-.swiper-button-next { margin-top: -.3rem; }
+.swiper-button-prev{top:0;}
+.swiper-button-next {top: -.3rem; }
+}
+@media only screen and (max-width: 320px){
+    .module_param{width: 3rem}
+    .each_param div.param_detail{max-width: 1.65rem;}
 }

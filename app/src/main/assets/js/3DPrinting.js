@@ -214,7 +214,7 @@ function showMore(){
 	$( "#shapes" ).toggle();
 	$( "#shapes" ).toggleClass( "shapes_close" );
 	$( ".show_more" ).toggleClass( "show_more_close" );
-	$( ".child_wrapper " ).hide();
+	$( "#childWrapper " ).toggle();
 	$( ".obj_control" ).toggleClass( "has_right_menu" );
 	$( ".orientationControls" ).toggleClass( "right_menu_hide" );
 
@@ -226,6 +226,7 @@ function showMore(){
 	onWindowResize(); //canvas floats to right side,in case the show_more close, there were dark side
 }
 function showModule( type ) {//type 0: 标准模型    1:卡通模型 2: lego 模型
+  $(".child_wrapper").hide();
 	if (type == 0) {
 		$( ".normal_wrapper" ).show();
 	} else if (type == 1) {
@@ -459,6 +460,7 @@ function saveModuleShow( type ) {
 			$( "#save_name" ).val( getTimeStr() );
 			$( ".save_name_ok" ).attr( 'onclick', "exportMoudle(0)" );
 			$( ".save_name_module,.save_name_module_bg" ).show();
+			$("#save_name").focus();
 		} else {
 			$( ".save_name_module,.save_name_module_bg" ).hide();
 		}
@@ -1521,6 +1523,7 @@ function saveAsImage(nameStr) {
 	var imgData;
     	var strDownloadMime = "image/octet-stream";
     	try {
+    	    scene.remove( transformControl );
     		var strMime = "image/png";
     		imgData = renderer.domElement.toDataURL( strMime, 1 );
             var canvas1 = document.createElement("canvas")
@@ -1528,21 +1531,22 @@ function saveAsImage(nameStr) {
             var img = new Image();
             img.src = imgData;
             img.onload = function(){
+                $( "#loading_data" ).show();
                 canvas1.width = img.width;
                 canvas1.height = img.height;
                 // 为原图添加图片
                 cxt1.drawImage(img,0,0,img.width,img.height)
-                var canvas2 = document.createElement("canvas");
+                /*var canvas2 = document.createElement("canvas");
                 var cxt2 = canvas2.getContext("2d");
                 canvas2.width = img.height;
                 canvas2.height = img.height;
                 // 根据坐标和宽高 截取图片
                 var dataImg = cxt1.getImageData(img.width*0.15, 0,img.width-10,img.width-10) //画框的坐标宽高
                 // 把截取的cavens图 放入临时容器
-                cxt2.putImageData(dataImg,0,0,0,0,canvas2.height, canvas2.width)
+                cxt2.putImageData(dataImg,0,0,0,0,canvas2.height, canvas2.width)*/
                 // 把整个临时图片容器转成 base64字符
                 var img2 = canvas2.toDataURL("image/png");
-                scene.remove( transformControl );
+
                 scene.remove( mouseHelper );
                 clearCache( gridHelper );
                 scene.remove( gridHelper );
@@ -1656,7 +1660,7 @@ function afterSTLImg(){
 		}
 
     }
-
+    $( "#loading_data" ).hide();
 }
 // 导出相关 end
 function goPage(page){
@@ -2081,9 +2085,11 @@ function shapesController( type ) {//type 0: normal
 		$( ".obj_control" ).css( { width: window.innerWidth - 100 } );
 	}
 	if(currentBuildType == 0){
+	    $( ".has_right_menu" ).show();
 		$( ".obj_control_wrapper" ).show();
 	}
 	else{
+	    $( ".has_right_menu" ).hide();
 		$( ".obj_control_wrapper" ).hide();
 	}
 
