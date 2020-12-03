@@ -1545,7 +1545,7 @@ function saveAsImage(nameStr) {
                 // 把截取的cavens图 放入临时容器
                 cxt2.putImageData(dataImg,0,0,0,0,canvas2.height, canvas2.width)*/
                 // 把整个临时图片容器转成 base64字符
-                var img2 = canvas2.toDataURL("image/png");
+                var img2 = canvas1.toDataURL("image/png");
 
                 scene.remove( mouseHelper );
                 clearCache( gridHelper );

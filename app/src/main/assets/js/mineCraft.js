@@ -48,15 +48,15 @@ async function loadMineCraftSTL() {
     var stlloader = new THREE.STLLoader();
     await stlloader.load('../models/stl/ascii/3dPrinting/wall.stl', function (geometry) {
         wallStl = geometry;
-        console.log(wallStl)
+//        console.log(wallStl)
     });
     await stlloader.load('../models/stl/ascii/3dPrinting/window.stl', function (geometry) {
         windowStl = geometry;
-        console.log(windowStl)
+//        console.log(windowStl)
     });
     await stlloader.load('../models/stl/ascii/3dPrinting/door.stl', function (geometry) {
         doorStl = geometry;
-        console.log(doorStl)
+//        console.log(doorStl)
     });
 }
 function changeMineCraftStl(thisSTL, obj) {
