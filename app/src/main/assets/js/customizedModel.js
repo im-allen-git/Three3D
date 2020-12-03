@@ -417,16 +417,16 @@ async function loadSTL( thisSTL, name ) {
 	var file,fontSize;
 	switch (thisSTL) {
 		case 0:
-			file = '../models/stl/ascii/3dPrinting/ring.stl';
+			file = 'file:///models/stl/ascii/3dPrinting/ring.stl';
 			break;
 		case 1:
-			file = '../models/stl/ascii/3dPrinting/longmao.stl';
+			file = 'file:///models/stl/ascii/3dPrinting/longmao.stl';
 			break;
 		case 2:
-			file = '../models/stl/ascii/3dPrinting/shudi.stl';
+			file = 'file:///models/stl/ascii/3dPrinting/shudi.stl';
 			break;
 		default:
-			file = '../models/stl/ascii/3dPrinting/ring.stl';
+			file = 'file:///models/stl/ascii/3dPrinting/ring.stl';
 	}
 
 	var loader = new THREE.STLLoader();
@@ -454,7 +454,7 @@ async function loadSTL( thisSTL, name ) {
 //main end
 function getFont(){
 	var loader = new THREE.FontLoader();
-	loader.load( '../css/font/other/SimHei_Regular.json', function ( font ) {
+	loader.load( 'file:///android_asset/css/font/other/SimHei_Regular.json', function ( font ) {
 		fontObj = font;
 		console.log("get Font")
 	})

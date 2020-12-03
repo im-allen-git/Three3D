@@ -53,7 +53,7 @@ public class PrinterFirstActivity extends AppCompatActivity {
         });
         Button ButtonJumpTo = findViewById(R.id.ButtonJumpTo);
         ButtonJumpTo.setOnClickListener(v -> {
-            Intent it = new Intent(this.context.getApplicationContext(), IndexHtmlActivity.class);
+            Intent it = new Intent(this.context.getApplicationContext(), CustomizeActivity.class);
             this.context.startActivity(it);
             finish();
         });

@@ -15,6 +15,7 @@ public class HtmlConfig {
 
     public static final String INDEX_HTML = "file:///android_asset/src/index.html";
     public static final String WELCOME_SLIDE_HTML = "file:///android_asset/src/welcome_slide.html";
+    public static final String CUSTOMIZE_HTML = "file:///android_asset/src/customizedModel.html";
     public static final String UPLOAD_GCODE_HTML = "file:///android_asset/src/upload_gcode.html";
     public static final String WIFI_PASS_HTML = "file:///android_asset/src/wifi_connect.html";
 

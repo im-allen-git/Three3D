@@ -18,7 +18,7 @@
 		<div class="top_menu row clearfix">
 			<div class="top_menu_btn col-xs-3 text-center"></div>
 			<div class="top_menu_btn col-xs-6 text-center" id="title">个性定制模型</div>
-			<div class="top_menu_btn col-xs-3 text-right">跳过</div>
+			<div class="top_menu_btn col-xs-3 text-right" onclick="jumpToindex()">跳过</div>
 		</div>
 		<div class="name_wrapper">
 			<input type="text" class="name_inpit" id="modelName" placeholder="请输入您的姓名，最多5个字符" maxlength="5">
@@ -82,6 +82,10 @@
 	function hideLoading(){
 		$("#loading_data").hide();
 	}
+	function jumpToindex(){
+        js.saveFlagByJson("customiz");
+        js.CustomizeToIndex();
+    }
 </script>
 <script type="module">
 	var containerES6 = document.getElementById( 'containerModule' );
@@ -163,19 +167,19 @@
 		var file,fontSize;
 		switch (thisSTL) {
 			case 0:
-				file = '../models/stl/ascii/3dPrinting/ring.stl';
+				file = 'file:///android_asset/models/stl/ascii/3dPrinting/ring.stl';
 				break;
 			case 1:
-				file = '../models/stl/ascii/3dPrinting/longmao.stl';
+				file = 'file:///android_asset/models/stl/ascii/3dPrinting/longmao.stl';
 				break;
 			case 2:
-				file = '../models/stl/ascii/3dPrinting/shudi.stl';
+				file = 'file:///android_asset/models/stl/ascii/3dPrinting/shudi.stl';
 				break;
 			case 3:
-				file = '../models/stl/ascii/3dPrinting/heart.stl';
+				file = 'file:///android_asset/models/stl/ascii/3dPrinting/heart.stl';
 				break;
 			default:
-				file = '../models/stl/ascii/3dPrinting/ring.stl';
+				file = 'file:///android_asset/models/stl/ascii/3dPrinting/ring.stl';
 		}
 
 		var loader = new STLLoader();
@@ -301,7 +305,7 @@
 	}
 	function getFont(){
 		var loader = new THREE.FontLoader();
-		loader.load( '../css/font/other/SimHei_Regular.json', function ( font ) {
+		loader.load( 'file:///android_asset/css/font/other/SimHei_Regular.json', function ( font ) {
 			var fontObj = font;
 			console.log("get Font")
 		})

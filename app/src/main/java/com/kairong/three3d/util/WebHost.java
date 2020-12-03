@@ -266,6 +266,17 @@ public class WebHost {
         this.myHandler.sendMessage(message);
     }
 
+    @JavascriptInterface
+    public void CustomizeToIndex() {
+        // 模型库首页
+        Intent it = new Intent(this.context.getApplicationContext(), IndexHtmlActivity.class);
+        // Intent it = new Intent(this.context.getApplicationContext(), LoginActivity.class);
+        this.context.startActivity(it);
+        Message message = new Message();
+        message.what = 1;
+        this.myHandler.sendMessage(message);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @JavascriptInterface
     public String getStlList() {
