@@ -26,14 +26,15 @@
 			<div class="validate_name" onclick="clearTimeoutFn()">请输入您的姓名</div>
 			<div class="btn_confirm" onclick="checkName()">下一步</div>
 			<div id="es6Next">下一步</div>
+			<div id="loadHeart">LoadHeart</div>
 		</div>
 		<div class="row clearfix modules_slides">
-<!--			<div class="title">请选择定制模型（拥有您的名字）</div>-->
+			<!--			<div class="title">请选择定制模型（拥有您的名字）</div>-->
 			<div class="swiper-container">
 				<div class="swiper-wrapper">
 					<!--<div class="swiper-slide">
 						<div class="img_wrapper">
-							<img src="../img/3dPrinting/ring.png" alt="">
+							<img src="./img/3dPrinting/ring.png" alt="">
 						</div>
 					</div>-->
 					<div class="swiper-slide">
@@ -58,8 +59,8 @@
 				<div class="swiper-button-prev"></div>
 				<div class="swiper-button-next"></div>
 			</div>
-			<div class="confirm_print" onclick="confirmPrint()"></div>
-			<div class="print_note">请选择模型打印</div>
+			<div class="confirm_print" onclick="selectModule()"></div>
+			<div class="print_note">请选择模型打印，<br>模型将保存到我的模型</div>
 		</div>
 	</div>
 	<div id="container"></div>
@@ -69,6 +70,7 @@
 </body>
 
 <script src='../js/jquery.min.js'></script>
+<!--<script src='../js/common.js'></script>-->
 <script src='../js/three.js'></script>
 <script src='../js/loaders/STLLoader.js'></script>
 <script src='../js/exporters/STLExporter.js'></script>
@@ -88,12 +90,19 @@
     }
 </script>
 <script type="module">
+	// 该方法主要是用于 心 模型，内嵌文字
 	var containerES6 = document.getElementById( 'containerModule' );
 	import * as THREE from '../js/three.module.js';
 	import { STLLoader } from '../jsm/loaders/STLLoader.js';
 	import { STLExporter } from '../jsm/exporters/STLExporter.js';
 	import  CSG   from '../js/engraving/CSGMesh.js';
-	init1();
+
+	$("#es6Next").click(function(){
+        init1();
+    })
+	$("#loadHeart").click(function(){
+        afterCheckName();
+    })
 	function init1() {
 		renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true, preserveDrawingBuffer: true} );
 		renderer.setPixelRatio( ( window.devicePixelRatio ) ? window.devicePixelRatio : 1 );
@@ -133,9 +142,7 @@
 
 		containerES6.addEventListener( 'resize', onWindowResize, false );
 		window.addEventListener( 'resize', onWindowResize, false );
-		$("#es6Next").click(function(){
-			afterCheckName();
-		})
+
 		animate1();
 		onWindowResize1();
 	}
@@ -363,7 +370,7 @@
 			loadSTLEngraving(3)
 		}
 		else{
-			hideLoading();
+			confirmPrint();
 		}
 	}
 	function clearObjects1(){

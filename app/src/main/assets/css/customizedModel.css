@@ -102,7 +102,7 @@ input#modelName::-webkit-input-placeholder{color: #ACC5DC; line-height: 25px; fo
 .validate_name {display:none; color: red; position: absolute; top: .77rem; left: 13%; width: 74%; text-align: left; background: #FFF; line-height: .28rem; }
 .name_note{color: #C3E3FF; line-height: 15px; font-size: 12px;text-align: left;width: 80%;margin:auto;padding: .16rem 0}
 .btn_confirm{background: url("../img/3dPrinting/btn_orig.png");background-repeat: no-repeat;background-size: contain;    background-position: center;width: 1.28rem;height: .4rem;margin:.72rem auto auto auto;color: #FFF;line-height: .4rem;font-size: .18rem;}
-#es6Next{display: none}
+#es6Next,#loadHeart{display: none}
 
 
 .modules_slides {display:none; height: 3rem; margin: .60rem 0;position: relative}
@@ -112,7 +112,9 @@ input#modelName::-webkit-input-placeholder{color: #ACC5DC; line-height: 25px; fo
 .swiper-button-prev:after,.swiper-button-next:after{ font-size: x-large;}
 .img_wrapper { position: relative; width: 70%; height: inherit; min-height: 3rem;margin: auto; }
 .img_wrapper img{position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto; max-width: 100%; max-height: 100%;}
-.confirm_print{background: url("../img/3dPrinting/btn_print.png");background-repeat: no-repeat;background-size: contain;    background-position: center;width: 1.15rem; height: .5rem; margin: auto;}
+.confirm_print{background: url("../img/3dPrinting/btn_print.png");background-repeat: no-repeat;background-size: contain;    background-position: center;width: 1.15rem; height: .5rem; margin: auto;text-align: center; line-height: .5rem; color: #FFF;}
 .print_note{font-size: .12rem;color: #C3E3FF;line-height: .15rem;text-align: center}
 
-#loading_data img{left: 45%;}
+#loading_data img{left: 42%;}
+
+#submitStatus{text-align: center;color: #000;position: absolute; top: 38%; width: 100%;font-weight: bold;font-size: .15rem;}
