@@ -259,7 +259,7 @@ public class WebHost {
     @JavascriptInterface
     public void welcomeToIndex() {
         // 模型库首页
-        Intent it = new Intent(this.context.getApplicationContext(), CustomizeActivity.class);
+        Intent it = new Intent(this.context.getApplicationContext(), PrinterFirstActivity.class);
         // Intent it = new Intent(this.context.getApplicationContext(), LoginActivity.class);
         this.context.startActivity(it);
         Message message = new Message();
