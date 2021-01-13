@@ -18,6 +18,7 @@ import androidx.annotation.RequiresApi;
 import com.alibaba.fastjson.JSONObject;
 import com.kairong.three3d.IndexHtmlActivity;
 import com.kairong.three3d.activity.BulidModuleActivity;
+import com.kairong.three3d.activity.CustomizeActivity;
 import com.kairong.three3d.activity.Esp8266Activity;
 import com.kairong.three3d.activity.LoginActivity;
 import com.kairong.three3d.activity.MyAccountActivity;
@@ -258,7 +259,7 @@ public class WebHost {
     @JavascriptInterface
     public void welcomeToIndex() {
         // 模型库首页
-        Intent it = new Intent(this.context.getApplicationContext(), PrinterFirstActivity.class);
+        Intent it = new Intent(this.context.getApplicationContext(), CustomizeActivity.class);
         // Intent it = new Intent(this.context.getApplicationContext(), LoginActivity.class);
         this.context.startActivity(it);
         Message message = new Message();
