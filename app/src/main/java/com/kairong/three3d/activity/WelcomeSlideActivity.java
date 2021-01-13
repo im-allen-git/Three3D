@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.kairong.three3d.R;
 import com.kairong.three3d.config.HtmlConfig;
+import com.kairong.three3d.util.ActivityCollector;
 import com.kairong.three3d.util.WebHost;
 import com.kairong.three3d.util.WebViewClientUtil;
 
@@ -29,14 +30,13 @@ public class WelcomeSlideActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+        ActivityCollector.addActivity(this);
         setContentView(R.layout.welcome_slide);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);// 隐藏状态栏
         Objects.requireNonNull(getSupportActionBar()).hide();// 隐藏标题栏
         //设置Activity竖屏显示
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         context = this;
 
         // 拿到webView组件
@@ -76,4 +76,11 @@ public class WelcomeSlideActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
+    }
+
 }

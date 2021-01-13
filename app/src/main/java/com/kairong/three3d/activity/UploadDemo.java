@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.kairong.three3d.R;
 import com.kairong.three3d.config.HtmlConfig;
+import com.kairong.three3d.util.ActivityCollector;
 
 import java.util.Objects;
 
@@ -29,6 +30,7 @@ public class UploadDemo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upload_demo);
+        ActivityCollector.addActivity(this);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);// 隐藏状态栏
         Objects.requireNonNull(getSupportActionBar()).hide();// 隐藏标题栏
@@ -122,5 +124,11 @@ public class UploadDemo extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
     }
 }

@@ -23,6 +23,7 @@ import com.kairong.three3d.R;
 import com.kairong.three3d.config.PrinterConfig;
 import com.kairong.three3d.pojo.ClientWebSocketListener;
 import com.kairong.three3d.pojo.StlGcode;
+import com.kairong.three3d.util.ActivityCollector;
 import com.kairong.three3d.util.CacheUtil;
 import com.kairong.three3d.util.DialogUtil;
 import com.kairong.three3d.util.OkHttpUtil;
@@ -99,7 +100,7 @@ public class PrinterStartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        ActivityCollector.addActivity(this);
         setContentView(R.layout.printer_status);
         context = this;
 
@@ -308,5 +309,11 @@ public class PrinterStartActivity extends AppCompatActivity {
         return isSu;
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
+    }
 
 }

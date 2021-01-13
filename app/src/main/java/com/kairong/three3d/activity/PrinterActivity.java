@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.kairong.three3d.R;
 import com.kairong.three3d.config.PrinterConfig;
 import com.kairong.three3d.touchv1.NetUtils;
+import com.kairong.three3d.util.ActivityCollector;
 import com.kairong.three3d.util.IOUtil;
 import com.kairong.three3d.util.StlDealUtil;
 import com.kairong.three3d.util.WebViewClientUtil;
@@ -36,6 +37,8 @@ public class PrinterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityCollector.addActivity(this);
+
         context = this;
         setContentView(R.layout.connect_printer);
 
@@ -90,9 +93,6 @@ public class PrinterActivity extends AppCompatActivity {
     }
 
 
-
-
-
     private void checkWifi() {
         WifiInfo wifiInfo = mWifiManager.getConnectionInfo();
         boolean connected = NetUtils.isWifiConnected(mWifiManager);
@@ -101,6 +101,12 @@ public class PrinterActivity extends AppCompatActivity {
         }
         String ssid = NetUtils.getSsidString(wifiInfo);
         IOUtil.WIFI_SSID = ssid;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
     }
 
 }

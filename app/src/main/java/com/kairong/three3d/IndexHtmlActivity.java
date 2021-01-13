@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kairong.three3d.config.HtmlConfig;
+import com.kairong.three3d.util.ActivityCollector;
 import com.kairong.three3d.util.CacheUtil;
 import com.kairong.three3d.util.PermissionCheckUtil;
 import com.kairong.three3d.util.StlDealUtil;
@@ -48,6 +49,7 @@ public class IndexHtmlActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         context = this;
+        ActivityCollector.addActivity(this);
 
         // 读取wifi信息
         StlDealUtil.getPrinterUrl(context);
@@ -101,5 +103,11 @@ public class IndexHtmlActivity extends AppCompatActivity {
         }
     };
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
+    }
 
 }

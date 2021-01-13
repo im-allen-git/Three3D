@@ -22,6 +22,7 @@ import com.kairong.three3d.R;
 import com.kairong.three3d.alipay.AuthResult;
 import com.kairong.three3d.config.AliPayConfig;
 import com.kairong.three3d.config.WXConfig;
+import com.kairong.three3d.util.ActivityCollector;
 import com.kairong.three3d.util.OkHttpUtil;
 import com.kairong.three3d.util.PermissionCheckUtil;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -77,6 +78,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityCollector.addActivity(this);
+
         setContentView(R.layout.login);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);// 隐藏状态栏
@@ -180,5 +183,10 @@ public class LoginActivity extends AppCompatActivity {
         authThread.start();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
+    }
 
 }

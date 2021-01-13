@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat;
 
 import com.kairong.three3d.R;
 import com.kairong.three3d.config.PrinterConfig;
+import com.kairong.three3d.util.ActivityCollector;
 import com.kairong.three3d.util.WebHost;
 
 import java.io.File;
@@ -47,6 +48,7 @@ public class Esp8266Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityCollector.addActivity(this);
 
         setContentView(R.layout.esp8266);
 
@@ -228,4 +230,11 @@ public class Esp8266Activity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_REQ);
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
+    }
+
 }

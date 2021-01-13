@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.kairong.three3d.R;
 import com.kairong.three3d.config.HtmlConfig;
+import com.kairong.three3d.util.ActivityCollector;
 import com.kairong.three3d.util.WebHost;
 import com.kairong.three3d.util.WebViewClientUtil;
 
@@ -31,7 +32,7 @@ public class UploadGcodeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        ActivityCollector.addActivity(this);
         setContentView(R.layout.upload_gcode);
 
         context = this;
@@ -78,5 +79,12 @@ public class UploadGcodeActivity extends AppCompatActivity {
             }
         }
     };
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
+    }
 
 }

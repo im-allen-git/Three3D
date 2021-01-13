@@ -11,12 +11,13 @@ import android.webkit.WebView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kairong.three3d.R;
+import com.kairong.three3d.util.ActivityCollector;
 import com.kairong.three3d.util.PermissionCheckUtil;
 import com.kairong.three3d.util.WebHost;
 
 import java.util.Objects;
 
-public class AuthorizationActivity  extends AppCompatActivity {
+public class AuthorizationActivity extends AppCompatActivity {
     private WebHost webHost;
     private Context context;
     WebView webView;
@@ -36,6 +37,12 @@ public class AuthorizationActivity  extends AppCompatActivity {
         PermissionCheckUtil.checkReadyPhone(this, this);
 
         context = this;
+        ActivityCollector.addActivity(this);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
     }
 }

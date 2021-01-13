@@ -20,6 +20,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.kairong.three3d.R;
 import com.kairong.three3d.config.HtmlConfig;
 import com.kairong.three3d.pojo.StlGcode;
+import com.kairong.three3d.util.ActivityCollector;
 import com.kairong.three3d.util.IOUtil;
 import com.kairong.three3d.util.OkHttpUtil;
 import com.kairong.three3d.util.PermissionCheckUtil;
@@ -68,6 +69,7 @@ public class BulidModuleActivity extends AppCompatActivity {
         setContentView(R.layout.bulid_module);
 
         context = this;
+        ActivityCollector.addActivity(this);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);// 隐藏状态栏
         Objects.requireNonNull(getSupportActionBar()).hide();// 隐藏标题栏
@@ -273,5 +275,10 @@ public class BulidModuleActivity extends AppCompatActivity {
         return isSu;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
+    }
 
 }

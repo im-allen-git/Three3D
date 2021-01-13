@@ -36,6 +36,7 @@ import com.kairong.three3d.R;
 import com.kairong.three3d.config.PrinterConfig;
 import com.kairong.three3d.touchv1.EspTouchActivityAbs;
 import com.kairong.three3d.touchv1.EspTouchApp;
+import com.kairong.three3d.util.ActivityCollector;
 import com.kairong.three3d.util.PermissionCheckUtil;
 import com.kairong.three3d.util.StlDealUtil;
 import com.kairong.three3d.util.WebViewClientUtil;
@@ -62,6 +63,8 @@ public class WifiPassActivity extends EspTouchActivityAbs {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        ActivityCollector.addActivity(this);
+
         setContentView(R.layout.input_wifi_password);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);// 隐藏状态栏
         Objects.requireNonNull(getSupportActionBar()).hide();// 隐藏标题栏
@@ -405,6 +408,13 @@ public class WifiPassActivity extends EspTouchActivityAbs {
             messageView.setText(message);
             confirmBtn.setEnabled(confirmEnable);
         }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
     }
 
 }

@@ -24,6 +24,7 @@ import com.kairong.three3d.R;
 import com.kairong.three3d.config.HtmlConfig;
 import com.kairong.three3d.config.PrinterConfig;
 import com.kairong.three3d.touchv1.NetUtils;
+import com.kairong.three3d.util.ActivityCollector;
 import com.kairong.three3d.util.CacheUtil;
 import com.kairong.three3d.util.IOUtil;
 import com.kairong.three3d.util.WebViewClientUtil;
@@ -40,6 +41,7 @@ public class PrinterFirstActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
+        ActivityCollector.addActivity(this);
         setContentView(R.layout.connect_printer_first);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);// 隐藏状态栏
@@ -80,7 +82,7 @@ public class PrinterFirstActivity extends AppCompatActivity {
         ImageButton connectWifiBtn = findViewById(R.id.imageButtonPrint);
         ImageButton gotoIndex = findViewById(R.id.gotoIndex);
         TextView connected_wifi = findViewById(R.id.connected_wifi);
-       // StlUtil.ESP_8266_URL = "http://10.0.0.34/";
+        // StlUtil.ESP_8266_URL = "http://10.0.0.34/";
         if (PrinterConfig.ESP_8266_URL != null && PrinterConfig.ESP_8266_URL.length() > 0) {
             connected_wifi.setText(R.string.printer_statue_conn);
             connected_wifi.setTextColor(Color.GREEN);
@@ -98,7 +100,7 @@ public class PrinterFirstActivity extends AppCompatActivity {
             connectWifiBtn.setOnClickListener(v -> {
                 Intent it = new Intent(context.getApplicationContext(), WifiPassHtmlActivity.class);
                 startActivity(it);
-                if(PrinterConfig.ESP_8266_URL!=null){
+                if (PrinterConfig.ESP_8266_URL != null) {
                     finish();
                 }
             });
@@ -117,6 +119,7 @@ public class PrinterFirstActivity extends AppCompatActivity {
         String ssid = NetUtils.getSsidString(wifiInfo);
         IOUtil.WIFI_SSID = ssid;
     }
+
     @SuppressLint("HandlerLeak")
     private Handler mainHandler = new Handler() {
         @Override
@@ -131,4 +134,11 @@ public class PrinterFirstActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
+    }
+
 }

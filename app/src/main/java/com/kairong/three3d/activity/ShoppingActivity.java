@@ -25,6 +25,7 @@ import com.kairong.three3d.alipay.PayResult;
 import com.kairong.three3d.config.AliPayConfig;
 import com.kairong.three3d.config.HtmlConfig;
 import com.kairong.three3d.config.WXConfig;
+import com.kairong.three3d.util.ActivityCollector;
 import com.kairong.three3d.util.WebHost;
 import com.kairong.three3d.util.WebViewClientUtil;
 import com.tencent.mm.opensdk.constants.Build;
@@ -135,7 +136,7 @@ public class ShoppingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.shopping);
-
+        ActivityCollector.addActivity(this);
         context = this;
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);// 隐藏状态栏
         Objects.requireNonNull(getSupportActionBar()).hide();// 隐藏标题栏
@@ -203,6 +204,12 @@ public class ShoppingActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.confirm, null)
                 .setOnDismissListener(onDismiss)
                 .show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
     }
 
 }

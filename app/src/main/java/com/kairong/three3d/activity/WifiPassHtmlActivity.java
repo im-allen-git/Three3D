@@ -42,6 +42,7 @@ import com.kairong.three3d.config.PrinterConfig;
 import com.kairong.three3d.config.WifiConfig;
 import com.kairong.three3d.touchv1.EspTouchActivityAbs;
 import com.kairong.three3d.touchv1.EspTouchApp;
+import com.kairong.three3d.util.ActivityCollector;
 import com.kairong.three3d.util.PermissionCheckUtil;
 import com.kairong.three3d.util.StlDealUtil;
 import com.kairong.three3d.util.WebHost;
@@ -80,6 +81,7 @@ public class WifiPassHtmlActivity extends EspTouchActivityAbs {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         context = this;
+        ActivityCollector.addActivity(this);
         // 拿到webView组件
         webView = findViewById(R.id.wifi_pass);
         // 拿到webView的设置对象
@@ -136,7 +138,7 @@ public class WifiPassHtmlActivity extends EspTouchActivityAbs {
                 case 1:
                     String ESP_8266_URL = msg.obj.toString();
                     if (ESP_8266_URL != null && ESP_8266_URL.length() > 0) {
-                        webView.loadUrl("javascript:checkPass(" +1 + ")");
+                        webView.loadUrl("javascript:checkPass(" + 1 + ")");
                         if (PrinterConfig.ESP_8266_URL == null || PrinterConfig.ESP_8266_URL.length() == 0) {
                             StlDealUtil.savePrinterUrl(context, ESP_8266_URL);
                         } else {
@@ -152,9 +154,8 @@ public class WifiPassHtmlActivity extends EspTouchActivityAbs {
                         Intent it = new Intent(context.getApplicationContext(), IndexHtmlActivity.class);
                         context.startActivity(it);
                         finish();
-                    }
-                    else {
-                        webView.loadUrl("javascript:checkPass(" +0 + ")");
+                    } else {
+                        webView.loadUrl("javascript:checkPass(" + 0 + ")");
                     }
                     break;
                 case 66:
@@ -214,16 +215,16 @@ public class WifiPassHtmlActivity extends EspTouchActivityAbs {
 
     private void onWifiChanged() {
         StateResult stateResult = check();
-        if(stateResult.ssid!=null&&stateResult.ssid.length()>0) {
+        if (stateResult.ssid != null && stateResult.ssid.length() > 0) {
             WifiConfig.ssid = stateResult.ssid.getBytes();
             WifiConfig.wifi_name = stateResult.ssid;
         }
-       if(stateResult.bssid!=null&&stateResult.bssid.length()>0) {
-           WifiConfig.bssid = stateResult.bssid;
+        if (stateResult.bssid != null && stateResult.bssid.length() > 0) {
+            WifiConfig.bssid = stateResult.bssid;
         }
         if (stateResult.wifiConnected) {
             if (stateResult.is5G) {
-                webView.loadUrl("javascript:checkPass(" +3 + ",'"+getString(R.string.esptouch1_wifi_5g_message)+"')");
+                webView.loadUrl("javascript:checkPass(" + 3 + ",'" + getString(R.string.esptouch1_wifi_5g_message) + "')");
             }
         } else {
             if (mTask != null) {
@@ -235,7 +236,7 @@ public class WifiPassHtmlActivity extends EspTouchActivityAbs {
                         .show();
             }
         }
-        if(WifiConfig.wifi_name !=null && WifiConfig.wifi_name.length()>0) {
+        if (WifiConfig.wifi_name != null && WifiConfig.wifi_name.length() > 0) {
             webView.loadUrl("javascript:wifiName('" + WifiConfig.wifi_name + "')");
         }
         mViewModel.invalidateAll();
@@ -254,8 +255,8 @@ public class WifiPassHtmlActivity extends EspTouchActivityAbs {
         if (mTask != null) {
             mTask.cancelEsptouch();
         }
-        mTask = new EsptouchAsyncTask4(this, mainHandler,webView);
-        mTask.execute( WifiConfig.ssid, bssid, WifiConfig.password, "1".getBytes(), "1".getBytes());
+        mTask = new EsptouchAsyncTask4(this, mainHandler, webView);
+        mTask.execute(WifiConfig.ssid, bssid, WifiConfig.password, "1".getBytes(), "1".getBytes());
     }
 
     public static class EsptouchAsyncTask4 extends AsyncTask<byte[], IEsptouchResult, List<IEsptouchResult>> {
@@ -268,7 +269,7 @@ public class WifiPassHtmlActivity extends EspTouchActivityAbs {
         private WebView webView;
         private Handler handler;
 
-        public EsptouchAsyncTask4(WifiPassHtmlActivity activity, Handler handler,WebView webView) {
+        public EsptouchAsyncTask4(WifiPassHtmlActivity activity, Handler handler, WebView webView) {
             mActivity = new WeakReference<>(activity);
             this.handler = handler;
             this.webView = webView;
@@ -318,7 +319,7 @@ public class WifiPassHtmlActivity extends EspTouchActivityAbs {
                 IEsptouchResult result = values[0];
                 Log.i(TAG, "EspTouchResult: " + result);
 //                String text = result.getBssid() + " is connected to the wifi";
-                String text = "已连接到WiFi: "+ WifiConfig.ssid;
+                String text = "已连接到WiFi: " + WifiConfig.ssid;
                 Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
             }
         }
@@ -365,7 +366,7 @@ public class WifiPassHtmlActivity extends EspTouchActivityAbs {
             // executing before receiving enough results
 
             if (!firstResult.isSuc()) {
-                webView.loadUrl("javascript:checkPass("+0+")");
+                webView.loadUrl("javascript:checkPass(" + 0 + ")");
                 return;
             }
 
@@ -431,17 +432,23 @@ public class WifiPassHtmlActivity extends EspTouchActivityAbs {
 
         void invalidateAll() {
 
-            if(bssid!=null&&bssid.length()>0) {
+            if (bssid != null && bssid.length() > 0) {
                 WifiConfig.bssid = bssid;
             }
-           if(ssid!=null&&ssid.length()>0) {
-               WifiConfig.ssid = ssid.getBytes();
-               Message wifi_message = new Message();
-               wifi_message.what = 66;
-               wifi_message.obj = ssid;
-               mainHandler.sendMessage(wifi_message);
-           }
+            if (ssid != null && ssid.length() > 0) {
+                WifiConfig.ssid = ssid.getBytes();
+                Message wifi_message = new Message();
+                wifi_message.what = 66;
+                wifi_message.obj = ssid;
+                mainHandler.sendMessage(wifi_message);
+            }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
     }
 
 }
