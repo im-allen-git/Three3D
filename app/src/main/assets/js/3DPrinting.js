@@ -184,17 +184,20 @@ $( function () {
 	);*/
 //input标签 软键盘打开和收起
 	$( "#save_name" ).focus( function () {
-		$( ".save_name_module" ).css( { "top": ".5rem" } );
+	var topMove = getMoveDes().toFixed(1);
+		$( ".save_name_module" ).css( { "top": topMove+'px',"transform":"translate(-50%,"+(-topMove)+"px)" } );
 		$( ".obj_control" ).hide();
 	} );
 	$( "#save_name" ).blur( function () {
-		$( ".save_name_module" ).css( { "top": "50%" } );
+		$( ".save_name_module" ).css( { "top": "50%","transform":"translate(-50%,-50%)"} );
 		$( ".obj_control" ).show();
 	} );
 //以下代码针对安卓收起，关闭软键盘，是不会失去焦点的
 	var winHeight = $( window ).height();   //获取当前页面高度
 	$( window ).resize( function () {
 		var thisHeight = $( this ).height();
+		console.log("window resize height:"+thisHeight)
+		console.log("window height:"+winHeight)
 		if (winHeight - thisHeight > 50) {
 			//当软键盘弹出，在这里面操作
 			$( ".save_name_module" ).css( { "top": ".5rem" } );
@@ -209,6 +212,14 @@ $( function () {
 	init();
 	render();
 } );
+function getMoveDes(){
+    var winHeight = $( window ).height();
+    var inputTop = 100// 33+24+30+10
+    var popwin = 200;
+    var popOfftop = $( ".save_name_module" ).offset().top;
+    var finalTop = -(popwin+popOfftop-winHeight/2);
+    return finalTop
+}
 function showMore(){
 	$( ".zoom_options,.color_wrapper" ).hide();//隐藏子窗口
 	$( "#shapes" ).toggle();
