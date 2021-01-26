@@ -38,6 +38,7 @@ function switchGame(type) { //type  1: 去普通模式 0：去minecraft
     } else {
         $( ".save_stl" ).removeClass( "noActive_save" ).addClass( "noActive_save" );
     }
+    zoomView(100);
     camera.lookAt(0, 0, 0);
     goMineCraftFlag = false;
     animate();
@@ -48,15 +49,12 @@ async function loadMineCraftSTL() {
     var stlloader = new THREE.STLLoader();
     await stlloader.load('../models/stl/ascii/3dPrinting/wall.stl', function (geometry) {
         wallStl = geometry;
-//        console.log(wallStl)
     });
     await stlloader.load('../models/stl/ascii/3dPrinting/window.stl', function (geometry) {
         windowStl = geometry;
-//        console.log(windowStl)
     });
     await stlloader.load('../models/stl/ascii/3dPrinting/door.stl', function (geometry) {
         doorStl = geometry;
-//        console.log(doorStl)
     });
 }
 function changeMineCraftStl(thisSTL, obj) {
@@ -264,14 +262,12 @@ function exportMineCraftMoudle(type) { //type 0: ASCII 1: GLTF
 
         //end
         $(".save_name_minecraft_module,.save_name_module_bg").hide();
-//        switchGame(1)
     }
 }
 
 // Text object end
 function firstMineCraft() {
     var flag = js.getFlagByJson("mine_craft_module");
-//    console.log("build_module:"+flag)
     if (!flag) {
         showModule(0);
         var div1 = document.createElement("div");
