@@ -245,6 +245,10 @@ public class WebHost {
             /*Intent it = new Intent(this.context.getApplicationContext(), UploadDemo.class);
             this.context.startActivity(it);*/
 
+        } else if ("66".equalsIgnoreCase(code)) {
+            // 第一次wifi连接 引导页
+            Intent it = new Intent(this.context.getApplicationContext(), PrinterFirstActivity.class);
+            this.context.startActivity(it);
         } else if ("7".equalsIgnoreCase(code)) {
             // 3d打印机 状态页 status
             Intent it = new Intent(this.context.getApplicationContext(), PrinterStartActivity.class);
@@ -259,7 +263,7 @@ public class WebHost {
     @JavascriptInterface
     public void welcomeToIndex() {
         // 模型库首页
-        Intent it = new Intent(this.context.getApplicationContext(), PrinterFirstActivity.class);
+        Intent it = new Intent(this.context.getApplicationContext(), CustomizeActivity.class);
         // Intent it = new Intent(this.context.getApplicationContext(), LoginActivity.class);
         this.context.startActivity(it);
         Message message = new Message();
