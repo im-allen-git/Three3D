@@ -72,6 +72,10 @@ public class CacheUtil {
                                 continue;
                             }
                             childList = rsList[i].trim().split(" ");
+
+                            if(null == childList || childList.length < 2){
+                                continue;
+                            }
                             System.err.println("rsList[i] : " + rsList[i]);
                             StlGcode stlGcode = new StlGcode();
                             stlGcode.setLocalGcodeName(childList[0]);
