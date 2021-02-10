@@ -304,7 +304,7 @@ function listModule( type ) {
             cartoonHtml += '</div>';
             cartoonIndex ++;
         }
-        cartoonHtml += '<div class="go_shopping" onclick="goShop() ">购买模型<i class="iconfont arrow arrow_right">&#xe6f8;</i></div>';
+//        cartoonHtml += '<div class="go_shopping" onclick="goShop() ">购买模型<i class="iconfont arrow arrow_right">&#xe6f8;</i></div>';
         $( ".cartoon_wrapper" ).html( cartoonHtml );
 
         var mineCraftHtml = '<div class="child_title" onclick="swichToNormalModule(this)"><i class="iconfont arrow">&#xe720;</i>我的世界</div>';
