@@ -24,7 +24,25 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+    signingConfigs {
+        debug {
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+        release {
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
 
+}
+
+android.applicationVariants.all {
+    variant ->
+        variant.outputs.all {
+            // 此处指定生成的apk文件名
+            outputFileName = "magicBox.apk"
+        }
 }
 
 dependencies {
