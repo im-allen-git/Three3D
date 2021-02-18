@@ -299,7 +299,7 @@ public class StlDealUtil {
         if (localStlList == null || localStlList.size() == 0) {
             localMapStl.clear();
             localStlList = new ArrayList<>();
-            StlGcode kitty = new StlGcode(1, "hello_kitty.stl",
+            /*StlGcode kitty = new StlGcode(1, "hello_kitty.stl",
                     "file:///android_asset/models/stl/localModules/hello_kitty.stl", "",
                     "",
                     "file:///android_asset/models/stl/localModules/hello_kitty.gco", "",
@@ -308,7 +308,7 @@ public class StlDealUtil {
                     1025 * PrinterConfig.MINUTE_TIME, IOUtil.getTimeStr(1025 * PrinterConfig.MINUTE_TIME), 1, 1);
             localStlList.add(kitty);
             localMapStl.put(kitty.getLocalGcodeName().split("/localModules/")[1], kitty);
-
+*/
             StlGcode chamaeleo_t = new StlGcode(2, "chamaeleo_t.stl",
                     "file:///android_asset/models/stl/localModules/chamaeleo_t.stl", "",
                     "",
